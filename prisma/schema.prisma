@@ -16,8 +16,8 @@
 generator client {
   // Generates a fully typed TypeScript client.
   // Output lands in /generated/prisma/ (excluded from Git).
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
 }
 
 datasource db {
