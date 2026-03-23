@@ -1,25 +1,85 @@
 {
   "compilerOptions": {
+    /* --- Module system (NestJS 11: native Node.js ESM resolution) ---
+     * "nodenext" means imports behave like real Node.js:
+     * - Respects package.json "exports" field
+     * - Requires file extensions in relative imports within .mts files
+     * - This is the modern standard, replacing "commonjs" from NestJS 10
+     */
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    /* --- Output ---
+     * "ES2023" target: Node 20+ supports everything natively.
+     * Gives us: Array.findLast(), WeakRef, structuredClone, top-level await.
+     * No polyfills needed = smaller dist/ output.
+     */
+    "target": "ES2023",
+    "outDir": "./dist",
+    "sourceMap": true,
     "declaration": true,
     "removeComments": true,
+    "incremental": true,
+    /* --- Decorators (NestJS requirement) ---
+     * NestJS is built on decorators (@Controller, @Injectable, @Get).
+     * These two flags MUST be on or your app won't compile.
+     * "emitDecoratorMetadata" generates runtime type info that
+     * NestJS uses for dependency injection.
+     */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
+    /* --- Strict mode ---
+     * "strict": true enables ALL strict checks with one flag.
+     * The CLI only turned on 3 of them individually.
+     * We want all 10. If your code compiles with strict:true,
+     * it has far fewer runtime surprises.
+     *
+     * The additional flags below are NOT covered by "strict":
+     * - noFallthroughCasesInSwitch: must break/return in each case
+     * - forceConsistentCasingInFileNames: 'User.ts' != 'user.ts'
+     * - noUnusedLocals: error on declared-but-never-used variables
+     * - noUnusedParameters: error on unused function parameters
+     */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true,
-    "strictBindCallApply": true,
-    "noFallthroughCasesInSwitch": true
-  }
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    /* --- Path aliases ---
+     * Without:  import { Something } from '../../../common/filters/something';
+     * With:     import { Something } from '@common/filters/something';
+     *
+     * Cleaner imports, no fragile relative paths that break on refactor.
+     * IMPORTANT: Jest has its own resolver — we mirror these in
+     * package.json > jest > moduleNameMapper so tests work too.
+     */
+    "baseUrl": "./",
+    "paths": {
+      "@common/*": [
+        "src/common/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ]
+    },
+    "skipLibCheck": true
+  },
+  /* "include" tells TSC which files to compile.
+   * "prisma/**" is added so your seed.ts and any prisma
+   * utility files get type-checked too.
+   */
+  "include": [
+    "src/**/*",
+    "prisma/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

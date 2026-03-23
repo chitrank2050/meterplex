@@ -1,0 +1,34 @@
+// =============================================================
+// Meterplex — Prisma Schema
+//
+// This file is the SINGLE SOURCE OF TRUTH for your database.
+// Every table, column, index, and relation is defined here.
+//
+// Workflow:
+//   1. Edit this file
+//   2. Run `pnpm prisma:migrate:dev` → creates a migration SQL file
+//   3. Run `pnpm prisma:generate` → regenerates the typed client
+//
+// The generated client gives you fully typed queries:
+//   const tenant = await prisma.tenant.findUnique({ where: { id } });
+//   // tenant is typed as Tenant | null — no guessing, no `any`
+// =============================================================
+
+generator client {
+  // "prisma-client" generates a TypeScript client with full type safety.
+  // Output goes to /generated/prisma/ (excluded from Git via .gitignore).
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  // PostgreSQL as our primary data store.
+  // url reads DATABASE_URL from .env at runtime.
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================
+// Models will be added here as we build each module.
+// Coming in Phase 1: Tenant, User, Plan, Subscription
+// =============================================================
