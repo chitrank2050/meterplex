@@ -9,26 +9,19 @@
 //   2. Run `pnpm prisma:migrate:dev` → creates a migration SQL file
 //   3. Run `pnpm prisma:generate` → regenerates the typed client
 //
-// The generated client gives you fully typed queries:
-//   const tenant = await prisma.tenant.findUnique({ where: { id } });
-//   // tenant is typed as Tenant | null — no guessing, no `any`
+// NOTE: Database connection URL is configured in prisma.config.ts,
+// NOT here. Prisma 7 moved runtime config out of the schema file.
 // =============================================================
 
 generator client {
-  // "prisma-client" generates a TypeScript client with full type safety.
-  // Output goes to /generated/prisma/ (excluded from Git via .gitignore).
+  // Generates a fully typed TypeScript client.
+  // Output lands in /generated/prisma/ (excluded from Git).
   provider = "prisma-client"
   output   = "../generated/prisma"
 }
 
 datasource db {
-  // PostgreSQL as our primary data store.
-  // url reads DATABASE_URL from .env at runtime.
+  // Only the provider is declared here.
+  // The connection URL is in prisma.config.ts (Prisma 7 requirement).
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
-
-// =============================================================
-// Models will be added here as we build each module.
-// Coming in Phase 1: Tenant, User, Plan, Subscription
-// =============================================================

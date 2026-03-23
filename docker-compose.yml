@@ -1,0 +1,147 @@
+# =============================================================
+# Meterplex — Local Development Infrastructure
+#
+# Runs Postgres, Kafka, and Redis in containers so you don't
+# install anything on your host machine.
+#
+# Usage:
+#   pnpm docker:up        Start all services in background
+#   pnpm docker:down      Stop all services + remove volumes
+#   pnpm docker:logs      Tail logs from all services
+#
+# Credentials here MUST match your .env file exactly.
+# If they don't, the app can't connect.
+# =============================================================
+
+services:
+  # ---------------------------------------------------------
+  # PostgreSQL 17 — Primary data store
+  #
+  # Stores all business data: tenants, plans, subscriptions,
+  # usage records, invoices, audit logs.
+  #
+  # Why Postgres over MySQL:
+  #   - Native UUID type (our primary keys)
+  #   - JSONB columns (flexible metadata storage)
+  #   - Better concurrency (MVCC without table-level locks)
+  #   - Partitioning support (we'll partition usage tables by month)
+  # ---------------------------------------------------------
+  postgres:
+    image: postgres:17-alpine
+    container_name: meterplex-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      # These three vars MUST match DATABASE_URL in .env:
+      # postgresql://POSTGRES_USER:POSTGRES_PASSWORD@localhost:5432/POSTGRES_DB
+      POSTGRES_USER: meterplex
+      POSTGRES_PASSWORD: meterplex_dev
+      POSTGRES_DB: meterplex
+    volumes:
+      # Persist data across container restarts.
+      # Destroyed on `docker compose down -v` (clean slate).
+      - meterplex-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      # pg_isready checks if Postgres accepts connections.
+      # Other services wait for this before starting.
+      test: ["CMD-SHELL", "pg_isready -U meterplex -d meterplex"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------
+  # Redis 7 — Cache + Rate Limiting
+  #
+  # Two jobs:
+  #   1. Cache frequently-read data (plan lookups, entitlements)
+  #   2. Rate limiting via sliding window counters
+  #
+  # Why Redis over in-memory cache:
+  #   - Shared across multiple app instances (when you scale)
+  #   - Survives app restarts
+  #   - Built-in TTL expiration (no manual cleanup)
+  # ---------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: meterplex-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - meterplex-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------
+  # Apache Kafka (via KRaft mode — no Zookeeper needed)
+  #
+  # Handles async event streaming:
+  #   - usage.raw → raw usage events from API
+  #   - usage.validated → validated + enriched events
+  #   - billing.invoice-created → triggers payment processing
+  #   - dead-letter.events → failed events for manual review
+  #
+  # Why Kafka over RabbitMQ:
+  #   - Event replay (reprocess last 7 days of usage if billing logic changes)
+  #   - Consumer groups (multiple services read the same stream independently)
+  #   - Ordering guarantees per partition (critical for usage metering)
+  #
+  # KRaft mode (Kafka 3.7+):
+  #   - Removes Zookeeper dependency entirely
+  #   - One fewer container to manage
+  #   - Faster startup, simpler config
+  # ---------------------------------------------------------
+  kafka:
+    image: apache/kafka:3.9.2
+    container_name: meterplex-kafka
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    environment:
+      # KRaft mode: Kafka manages its own metadata, no Zookeeper.
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+
+      # Two listeners:
+      #   INTERNAL — containers talk to each other (kafka:29092)
+      #   EXTERNAL — your app on the host talks to Kafka (localhost:9092)
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      # Auto-create topics when a producer first writes to them.
+      # Convenient for dev. In production, you'd create topics explicitly.
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+      # Single broker in dev, so replication factor = 1.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+
+      # Cluster ID for KRaft (any unique base64 string).
+      CLUSTER_ID: "meterplex-local-dev-cluster-01"
+    volumes:
+      - meterplex-kafka-data:/var/lib/kafka/data
+    healthcheck:
+      # Check that the Kafka broker is responding to metadata requests.
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+# ---------------------------------------------------------
+# Named volumes — persist data across container restarts.
+# Destroyed only on `docker compose down -v`.
+# ---------------------------------------------------------
+volumes:
+  meterplex-postgres-data:
+  meterplex-redis-data:
+  meterplex-kafka-data:
