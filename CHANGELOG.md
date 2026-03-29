@@ -2,6 +2,29 @@
 
 All notable changes to Meterplex API.
 
+## [0.2.1] - 2026-03-29
+
+### Documentation
+
+- Add phase 0 architecture diagram to documentation
+
+### Features
+
+- Add git-tag and git-release npm scripts
+- Replace Swagger UI with Scalar API reference and update CSP configuration
+
+### Maintenance
+
+- Remove explicit pnpm version specification from CI workflows
+- Update contents permission to write in docs workflow
+- Update docs workflow to include changelog tracking, git configuration, and dependency caching
+- Remove pip cache from docs workflow and delete unused e2e test file
+- Restrict prettier check to src directory in CI workflow
+
+### Refactoring
+
+- Restrict prettier formatting scope to src directory in package.json
+
 ## [0.2.0] - 2026-03-29
 
 ### Bug Fixes
