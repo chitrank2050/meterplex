@@ -53,7 +53,11 @@ Modular monolith — one deployable unit with strict module boundaries. Each dom
 # Prerequisites: Node.js >= 20, pnpm >= 9, Docker
 
 # 1. Clone and install
-git clone <your-repo-url>
+git clone https://github.com/meterplex/meterplex.git
+
+# If want to use ssh instead of https
+git clone git@github.com:chitrank2050/meterplex.git
+
 cd meterplex
 pnpm install
 
