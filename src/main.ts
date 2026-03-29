@@ -20,6 +20,9 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import compression from 'compression';
+
+import { HttpExceptionFilter } from '@common/filters';
+
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
@@ -96,6 +99,12 @@ async function bootstrap(): Promise<void> {
   //    - forbidNonWhitelisted: rejects request if extra properties sent
   //    - transform: auto-converts types (string "5" → number 5)
   // =============================================================
+  // =============================================================
+  // Global Exception Filter — Catches ALL unhandled exceptions
+  //     and returns a consistent JSON error response.
+  //     Without this, unhandled errors leak stack traces to clients.
+  // =============================================================
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

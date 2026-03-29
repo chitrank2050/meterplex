@@ -7,11 +7,13 @@
  *   3. HealthModule — readiness/liveness checks
  *   4. Feature modules — tenants, billing, usage, etc.
  */
-import { Module } from '@nestjs/common';
-import { ConfigModule } from './config/config.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 
+import { ConfigModule } from './config';
+import { PrismaModule } from './prisma';
 import { HealthModule } from './health';
+
+import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
 
 @Module({
   imports: [
@@ -27,4 +29,20 @@ import { HealthModule } from './health';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  /**
+   * configure() is called by NestJS during module initialization.
+   * Middleware runs in the order registered, on every matching route.
+   *
+   * Order matters:
+   *   1. CorrelationIdMiddleware — assigns x-correlation-id
+   *   2. RequestLoggerMiddleware — logs request with that correlation ID
+   *
+   * forRoutes('*') applies to every route in the application.
+   */
+  configure(consumer: MiddlewareConsumer): void {
+    consumer
+      .apply(CorrelationIdMiddleware, RequestLoggerMiddleware)
+      .forRoutes('*');
+  }
+}
