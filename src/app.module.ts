@@ -3,12 +3,13 @@
  *
  * Module registration order matters:
  *   1. ConfigModule — FIRST, validates .env, makes ConfigService global
- *   2. PrismaModule — database access
+ *   2. PrismaModule — database connection, available globally
  *   3. HealthModule — readiness/liveness checks
  *   4. Feature modules — tenants, billing, usage, etc.
  */
 import { Module } from '@nestjs/common';
-import { ConfigModule } from './config/config.module.js';
+import { ConfigModule } from './config/config.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -16,6 +17,9 @@ import { ConfigModule } from './config/config.module.js';
     // ConfigService available globally. If env validation fails,
     // the app crashes here before any other module initializes.
     ConfigModule,
+    // PrismaModule makes PrismaService available for injection
+    // in any service across the entire app without re-importing.
+    PrismaModule,
   ],
   controllers: [],
   providers: [],
