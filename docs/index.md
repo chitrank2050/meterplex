@@ -1,24 +1,43 @@
 # Meterplex Documentation
 
-## Sections
+> Welcome to the Meterplex documentation — a B2B usage metering, entitlements, and billing platform.
 
-### [Architecture](./architecture/overview.md)
-System design, module boundaries, data flow, infrastructure decisions.
+---
 
-### [Development](./development/setup.md)
-Setup guide, daily workflow, conventions, troubleshooting.
+## Quick Links
 
-### [API](./api/overview.md)
-API design decisions, versioning strategy, error response format, authentication.
+| Section | What you'll find |
+|---------|-----------------|
+| [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions. |
+| [Development](development/setup.md) | Setup guide, daily workflow, conventions, troubleshooting. |
+| [API](api/overview.md) | API design decisions, versioning strategy, error response format, authentication. |
+| [Build Phases](phases/phase-0.md) | Detailed log of each development phase — what was built, why, and lessons learned. |
 
-### [Build Phases](./phases/phase-0.md)
-Detailed log of each development phase — what was built, why, and lessons learned.
+---
 
-| Phase | Document | Status |
-|-------|----------|--------|
-| 0 | [Project Setup](./phases/phase-0.md) | ✅ Complete |
-| 1 | Phase 1 — Auth, Tenants, Users | 🔜 Next |
-| 2 | Phase 2 — Entitlements, Usage Tracking | — |
-| 3 | Phase 3 — Billing, Invoices, Payments | — |
-| 4 | Phase 4 — Kafka Event Pipeline | — |
-| 5 | Phase 5 — Observability, Rate Limiting | — |
+## Getting Started
+```bash
+git clone <repo-url>
+cd meterplex
+pnpm install
+cp .env.example .env
+pnpm docker:up
+pnpm prisma:migrate:dev
+pnpm prisma:seed
+pnpm start:dev
+```
+
+App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs`.
+
+---
+
+## Current Status
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| 0 | Project setup, infrastructure, foundations | ✅ Complete |
+| 1 | Auth, tenants, users, plans, subscriptions | 🔜 Next |
+| 2 | Entitlements and usage tracking | — |
+| 3 | Billing, invoices, payments | — |
+| 4 | Kafka event pipeline | — |
+| 5 | Observability, rate limiting | — |

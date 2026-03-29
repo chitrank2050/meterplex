@@ -1,0 +1,45 @@
+# =============================================================
+# Deploy MkDocs to GitHub Pages on push to main.
+#
+# Triggers on:
+#   - Push to main branch (any file in docs/ or mkdocs.yml)
+#   - Manual trigger via Actions tab
+#
+# Uses pip to install mkdocs-material, builds the site,
+# and deploys to the gh-pages branch.
+# =============================================================
+
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install MkDocs Material
+        run: pip install mkdocs-material
+
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
