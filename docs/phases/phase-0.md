@@ -126,6 +126,10 @@ meterplex/
         └── health-check.bru              NEW
 ```
 
+## Phase 0 flow
+
+![alt text](phase-0.png)
+
 ## Interview Talking Points
 
 - "I chose a modular monolith because the domain boundaries weren't validated yet. Premature decomposition creates a distributed monolith — the worst of both worlds."
