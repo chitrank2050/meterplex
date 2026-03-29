@@ -1,20 +1,15 @@
 /**
  * PrismaService — Injectable database client for the entire application.
  *
- * Wraps Prisma's generated client as a NestJS service so it:
- *   1. Participates in NestJS dependency injection
- *   2. Connects to Postgres when the app starts (onModuleInit)
- *   3. Disconnects cleanly when the app shuts down (onModuleDestroy)
+ * Prisma 7 Breaking Changes (vs Prisma 6):
+ *   1. PrismaClient requires a "driver adapter" — no more bare super()
+ *   2. @prisma/adapter-pg connects to Postgres via the pg driver
+ *   3. The connection URL comes from process.env, NOT from schema.prisma
+ *   4. Generated client must use moduleFormat = "cjs" for NestJS
  *
  * Usage in any service:
  *   constructor(private prisma: PrismaService) {}
  *   const tenant = await this.prisma.tenant.findUnique({ where: { id } });
- *
- * Why not use PrismaClient directly?
- *   - PrismaClient doesn't implement NestJS lifecycle hooks
- *   - No way to inject it via constructor without this wrapper
- *   - No graceful shutdown — active queries get killed on SIGTERM
- *   - Can't be mocked in unit tests without an injectable token
  */
 import {
   Injectable,
@@ -22,7 +17,8 @@ import {
   OnModuleDestroy,
   Logger,
 } from '@nestjs/common';
-import { PrismaClient } from '../../generated/prisma/client';
+import { PrismaClient } from '../../generated/prisma/client.js';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 @Injectable()
 export class PrismaService
@@ -31,12 +27,21 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name);
 
+  constructor() {
+    // Prisma 7 requires an explicit driver adapter.
+    // PrismaPg uses the 'pg' driver under the hood to connect to Postgres.
+    // The connectionString reads from the same DATABASE_URL in .env.
+    const adapter = new PrismaPg({
+      connectionString: process.env.DATABASE_URL as string,
+    });
+
+    super({ adapter });
+  }
+
   /**
-   * Called automatically by NestJS after the module is initialized.
-   * Establishes the database connection pool.
-   *
+   * Called by NestJS after module initialization.
+   * Opens the database connection pool.
    * If Postgres is unreachable, this throws and the app fails to start.
-   * That's intentional — an app without a database is useless.
    */
   async onModuleInit(): Promise<void> {
     this.logger.log('Connecting to PostgreSQL...');
@@ -45,11 +50,8 @@ export class PrismaService
   }
 
   /**
-   * Called automatically by NestJS during graceful shutdown (SIGTERM).
-   * Closes all connections in the pool.
-   *
-   * Without this, docker compose down / Kubernetes rolling updates
-   * kill active database connections mid-query.
+   * Called by NestJS during graceful shutdown (SIGTERM).
+   * Closes all connections in the pool cleanly.
    */
   async onModuleDestroy(): Promise<void> {
     this.logger.log('Disconnecting from PostgreSQL...');

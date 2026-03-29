@@ -16,8 +16,12 @@
 generator client {
   // Generates a fully typed TypeScript client.
   // Output lands in /generated/prisma/ (excluded from Git).
-  provider        = "prisma-client"
-  output          = "../generated/prisma"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+
+  // CRITICAL: NestJS compiles to CommonJS. Prisma 7 defaults to ESM.
+  // Without this, you get "exports is not defined in ES module scope".
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -25,3 +29,8 @@ datasource db {
   // The connection URL is in prisma.config.ts (Prisma 7 requirement).
   provider = "postgresql"
 }
+
+// =============================================================
+// Models will be added here as we build each module.
+// Coming in Phase 1: Tenant, User, Plan, Subscription
+// =============================================================
