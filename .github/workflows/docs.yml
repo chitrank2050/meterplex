@@ -21,6 +21,7 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
+      - 'CHANGELOG.md'
   workflow_dispatch:
 
 permissions:
@@ -32,11 +33,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
 
       - name: Install MkDocs Material
         run: pip install mkdocs-material
@@ -46,6 +51,12 @@ jobs:
       # docs/changelog.md is never committed — only exists during CI build.
       - name: Copy changelog to docs
         run: cp CHANGELOG.md docs/changelog.md
+
+      # Configure git so mkdocs gh-deploy can push to gh-pages branch.
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
