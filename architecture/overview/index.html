@@ -479,6 +479,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#phase-1-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Data model
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -755,6 +766,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/phase-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 — Identity and Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -887,6 +926,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#phase-1-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Data model
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1006,6 +1056,9 @@ Client Response</code></p>
 </tbody>
 </table>
 <p>All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).</p>
+<h2 id="phase-1-data-model">Phase 1 — Data model<a class="headerlink" href="#phase-1-data-model" title="Permanent link">&para;</a></h2>
+<p><img alt="Phase 1 ERD" src="../phase-1-erd.png" /></p>
+<p>Four tables: <code>tenants</code> (organizations), <code>users</code> (global accounts), <code>memberships</code> (join table with roles), and <code>api_keys</code> (server-to-server authentication). A user can belong to multiple tenants with different roles via the memberships table.</p>
 
 
 
