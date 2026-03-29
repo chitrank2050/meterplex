@@ -52,7 +52,9 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down -v",
     "docker:logs": "docker compose logs -f",
-    "prepare": "husky"
+    "prepare": "husky",
+    "git-tag": "./scripts/git-tag.sh",
+    "git-release": "./scripts/git-release.sh"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
