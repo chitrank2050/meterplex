@@ -58,15 +58,9 @@
      */
     "baseUrl": "./",
     "paths": {
-      "@common/*": [
-        "src/common/*"
-      ],
-      "@config/*": [
-        "src/config/*"
-      ],
-      "@modules/*": [
-        "src/modules/*"
-      ]
+      "@common/*": ["src/common/*"],
+      "@config/*": ["src/config/*"],
+      "@modules/*": ["src/modules/*"]
     },
     "skipLibCheck": true
   },
@@ -77,10 +71,8 @@
   "include": [
     "src/**/*",
     "prisma/**/*",
-    "prisma.config.ts"
+    "prisma.config.ts",
+    "commitlint.config.js"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
