@@ -33,7 +33,13 @@ async function bootstrap(): Promise<void> {
   //    common attacks: XSS, clickjacking, MIME sniffing, etc.
   //    This MUST run before any route handler sends a response.
   // =============================================================
-  app.use(helmet());
+  app.use(
+    helmet({
+      // Scalar loads JS/CSS from CDN — default CSP blocks it.
+      // Disabled in dev (where Scalar runs), enabled in prod (where it doesn't).
+      contentSecurityPolicy: process.env.NODE_ENV === 'production',
+    }),
+  );
 
   // =============================================================
   // Compression — gzip responses over the wire.
@@ -117,15 +123,16 @@ async function bootstrap(): Promise<void> {
   );
 
   // =============================================================
-  // Swagger / OpenAPI — Auto-generated API documentation.
-  //    Available at /api/docs in development.
+  // API Documentation — Swagger spec + Scalar UI
   //
-  //    Every controller, DTO, and endpoint you build with proper
-  //    decorators (@ApiTags, @ApiOperation, @ApiResponse) will
-  //    automatically appear here. No separate docs to maintain.
+  //    Swagger generates the OpenAPI JSON spec from your decorators.
+  //    Scalar renders it as a modern, interactive docs page.
   //
-  //    Only enabled in development — you don't expose API docs
-  //    in production unless it's a public API.
+  //    /api/docs        → Scalar UI (beautiful, interactive)
+  //    /api/docs-json   → Raw OpenAPI JSON (for Bruno, Postman, SDK generators)
+  //
+  //    Only enabled in non-production. You don't expose internal
+  //    API docs in production unless it's a public API.
   // =============================================================
   if (process.env.NODE_ENV !== 'production') {
     const swaggerConfig = new DocumentBuilder()
@@ -140,7 +147,22 @@ async function bootstrap(): Promise<void> {
       .build();
 
     const document = SwaggerModule.createDocument(app, swaggerConfig);
-    SwaggerModule.setup(`${apiPrefix}/docs`, app, document);
+
+    // Raw OpenAPI JSON — importable by Bruno, Postman, SDK generators.
+    SwaggerModule.setup(`${apiPrefix}/docs-json`, app, document, {
+      jsonDocumentUrl: `${apiPrefix}/docs-json`,
+    });
+
+    // Scalar UI — modern interactive API docs replacing Swagger UI.
+    // Dynamic import avoids CJS/ESM compatibility issues.
+    const { apiReference } = await import('@scalar/nestjs-api-reference');
+    app.use(
+      `/${apiPrefix}/docs`,
+      apiReference({
+        content: document,
+        theme: 'purple',
+      }),
+    );
   }
 
   // =============================================================

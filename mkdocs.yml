@@ -1,8 +1,6 @@
 # =============================================================
 # Meterplex — MkDocs Configuration
 #
-# Local preview:  pip install mkdocs-material && mkdocs serve
-# Manual deploy:  mkdocs gh-deploy --force
 # Auto deploy:    Push to main → GitHub Actions handles it
 # =============================================================
 
