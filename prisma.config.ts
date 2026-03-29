@@ -6,6 +6,7 @@
  *   - Database connection URL (from .env in dev, from real env vars in prod)
  *   - Migration file location
  *   - Schema file location
+ *   - Seed command
  *
  * "dotenv/config" import loads .env automatically so process.env.DATABASE_URL
  * is available. In production, your deployment platform sets real env vars
@@ -18,9 +19,12 @@ export default defineConfig({
   /** Path to the Prisma schema file */
   schema: 'prisma/schema.prisma',
 
-  /** Where Prisma stores migration SQL files */
+  /** Migration settings including seed command */
   migrations: {
     path: 'prisma/migrations',
+
+    // Seed command — runs via `pnpm prisma:seed` or after `prisma migrate reset`.
+    seed: 'npx tsx prisma/seed.ts',
   },
 
   /** Database connection — reads DATABASE_URL from environment */
