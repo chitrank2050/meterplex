@@ -41,5 +41,11 @@ jobs:
       - name: Install MkDocs Material
         run: pip install mkdocs-material
 
+      # Copy CHANGELOG.md into docs/ so MkDocs can include it.
+      # The source of truth stays at the root (where git-cliff writes it).
+      # docs/changelog.md is never committed — only exists during CI build.
+      - name: Copy changelog to docs
+        run: cp CHANGELOG.md docs/changelog.md
+
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
