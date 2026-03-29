@@ -64,6 +64,7 @@ nav:
       - Overview: api/overview.md
   - Build Phases:
       - Phase 0 — Project Setup: phases/phase-0.md
+      - Phase 1 — Identity and Access: phases/phase-1.md
   - Changelog: changelog.md
 
 docs_dir: docs

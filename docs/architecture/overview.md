@@ -89,3 +89,9 @@ Client Response
 | Redis 7 | meterplex-redis | 6379 | Cache and rate limiting |
 
 All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).
+
+## Phase 1 — Data model
+
+![Phase 1 ERD](phase-1-erd.png)
+
+Four tables: `tenants` (organizations), `users` (global accounts), `memberships` (join table with roles), and `api_keys` (server-to-server authentication). A user can belong to multiple tenants with different roles via the memberships table.
