@@ -11,6 +11,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from './config/config.module';
 import { PrismaModule } from './prisma/prisma.module';
 
+import { HealthModule } from './health';
+
 @Module({
   imports: [
     // ConfigModule MUST be first — it validates .env and makes
@@ -20,6 +22,7 @@ import { PrismaModule } from './prisma/prisma.module';
     // PrismaModule makes PrismaService available for injection
     // in any service across the entire app without re-importing.
     PrismaModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],

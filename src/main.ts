@@ -157,9 +157,9 @@ async function bootstrap(): Promise<void> {
   console.log(`
   ┌──────────────────────────────────────────────┐
   │  Meterplex API running                       │
-  │  Local:   http://localhost:${String(port).padEnd(5)}              │
-  │  Docs:    http://localhost:${String(port).padEnd(5)}/api/docs     │
-  │  Health:  http://localhost:${String(port).padEnd(5)}/health       │
+  │  Local:   http://localhost:${String(port).padEnd(4)}              │
+  │  Docs:    http://localhost:${String(port).padEnd(4)}/api/docs     │
+  │  Health:  http://localhost:${String(port).padEnd(4)}/health       │
   │  Mode:    ${String(process.env.NODE_ENV ?? 'development').padEnd(35)}│
   └──────────────────────────────────────────────┘
   `);

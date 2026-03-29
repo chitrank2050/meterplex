@@ -18,7 +18,7 @@
  *   /health/live   → livenessProbe
  *   /health/ready  → readinessProbe
  */
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   HealthCheck,
@@ -28,7 +28,10 @@ import {
 import { PrismaHealthIndicator } from './prisma.health';
 
 @ApiTags('Health')
-@Controller('health')
+@Controller({
+  path: 'health',
+  version: VERSION_NEUTRAL,
+})
 export class HealthController {
   constructor(
     private health: HealthCheckService,
