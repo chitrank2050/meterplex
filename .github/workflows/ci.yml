@@ -1,41 +1,47 @@
-# =============================================================
-# CI Pipeline — Runs on every push and pull request.
-#
-# Jobs:
-#   1. Lint & Format — ESLint + Prettier check (no auto-fix, just verify)
-#   2. Build — TypeScript compilation (catches type errors)
-#   3. Test — Unit tests (commented out until we write tests in Phase 1)
-#
-# If any job fails, the PR gets a red X. No merging broken code.
-# =============================================================
-
 name: CI
 
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - '.vscode/**'
+      - '.env.example'
+      - 'mkdocs.yml'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - '.vscode/**'
+      - '.env.example'
+      - 'mkdocs.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
-  lint:
-    name: Lint & Format
+  build_and_test:
+    name: Build and Verify
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+        uses: actions/checkout@v6
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -43,94 +49,27 @@ jobs:
       - name: Generate Prisma client
         run: pnpm prisma:generate
 
-      # Check formatting — fails if any file isn't formatted.
-      # Developers must run `pnpm format` locally before pushing.
       - name: Check formatting
-        # run: pnpm prettier --check "src/**/*.ts" "test/**/*.ts"
-        run: pnpm prettier --check "src/**/*.ts"
+        run: pnpm prettier --check "**/*.{ts,json,md,yml,yaml}"
 
-      # Lint — fails on any ESLint error.
-      # Warnings are allowed (they don't block CI).
       - name: Lint
         run: pnpm lint
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: lint
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate Prisma client
-        run: pnpm prisma:generate
-
-      # TypeScript compilation — catches type errors that slip past the editor.
-      # If this fails, there's a type error somewhere in the codebase.
       - name: Build
         run: pnpm build
 
-  # ================================================================
-  # Tests — Uncomment when we have tests (Phase 1+)
-  #
-  # test:
-  #   name: Test
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #
-  #   services:
-  #     postgres:
-  #       image: postgres:17-alpine
-  #       env:
-  #         POSTGRES_USER: meterplex
-  #         POSTGRES_PASSWORD: meterplex_dev
-  #         POSTGRES_DB: meterplex_test
-  #       ports:
-  #         - 5432:5432
-  #       options: >-
-  #         --health-cmd="pg_isready -U meterplex"
-  #         --health-interval=5s
-  #         --health-timeout=5s
-  #         --health-retries=5
-  #
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 22
-  #
-  #     - name: Install pnpm
-  #       uses: pnpm/action-setup@v4
-  #
-  #     - name: Install dependencies
-  #       run: pnpm install --frozen-lockfile
-  #
-  #     - name: Generate Prisma client
-  #       run: pnpm prisma:generate
-  #
-  #     - name: Run migrations
-  #       run: pnpm prisma:migrate:deploy
-  #       env:
-  #         DATABASE_URL: postgresql://meterplex:meterplex_dev@localhost:5432/meterplex_test?schema=public
-  #
-  #     - name: Run tests
-  #       run: pnpm test
-  #       env:
-  #         DATABASE_URL: postgresql://meterplex:meterplex_dev@localhost:5432/meterplex_test?schema=public
-  #         NODE_ENV: test
-  # ================================================================
+      # Unit tests (run only if there are spec files)
+      - name: Run tests
+        run: |
+          if [ -d "src" ] && find src -name "*.spec.ts" | grep -q "."; then
+            pnpm test
+          else
+            echo "No unit tests found, skipping."
+          fi
+
+      # E2E tests (uncomment and configure when ready)
+      # - name: Run e2e tests
+      #   run: pnpm test:e2e
+      #   env:
+      #     DATABASE_URL: postgresql://meterplex:meterplex_dev@localhost:5432/meterplex_test?schema=public
+      #     NODE_ENV: test

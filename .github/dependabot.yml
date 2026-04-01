@@ -10,55 +10,33 @@
 
 version: 2
 updates:
-  # Keep GitHub Actions up to date
-  - package-ecosystem: 'github-actions'
-    directory: '/'
-    schedule:
-      interval: 'weekly'
-
-  # --- npm dependencies ---
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'weekly'
       day: 'monday'
-    # Group minor and patch updates to reduce PR spam.
-    # One PR for all non-breaking updates instead of 15 individual ones.
-    groups:
-      nestjs:
-        patterns:
-          - '@nestjs/*'
-        update-types:
-          - 'minor'
-          - 'patch'
-      prisma:
-        patterns:
-          - 'prisma'
-          - '@prisma/*'
-        update-types:
-          - 'minor'
-          - 'patch'
-      dev-dependencies:
-        dependency-type: 'development'
-        update-types:
-          - 'minor'
-          - 'patch'
-
-    # Don't open more than 10 PRs at once — keeps the PR list manageable.
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 3
+    reviewers:
+      - chitrank2050
     labels:
       - 'dependencies'
-    commit-message:
-      prefix: 'build'
-      include: 'scope'
+    groups:
+      patch-and-minor:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
 
-  # --- GitHub Actions ---
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
       day: 'monday'
+    open-pull-requests-limit: 3
     labels:
       - 'ci'
-    commit-message:
-      prefix: 'ci'
+    groups:
+      all-actions:
+        patterns:
+          - '*'
