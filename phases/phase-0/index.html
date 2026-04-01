@@ -1154,53 +1154,54 @@
 <li><strong>Prisma 7 seed config moved to <code>prisma.config.ts</code></strong> — no longer in <code>package.json</code> under <code>"prisma": { "seed": ... }</code></li>
 </ol>
 <h2 id="files-createdmodified">Files Created/Modified<a class="headerlink" href="#files-createdmodified" title="Permanent link">&para;</a></h2>
-<p><code>meterplex/
-├── .editorconfig                          NEW
-├── .env                                   MODIFIED (all app env vars)
-├── .env.example                           MODIFIED (documented template)
-├── .gitignore                             MODIFIED (Prisma generated/, Docker data/)
-├── docker-compose.yml                     NEW
-├── nest-cli.json                          UNCHANGED (from CLI)
-├── package.json                           MODIFIED (scripts, metadata, engines, jest)
-├── prisma/
-│   ├── migrations/
-│   │   └── 20260329_init_tenant/
-│   │       └── migration.sql              NEW (auto-generated)
-│   ├── schema.prisma                      MODIFIED (Tenant model, moduleFormat)
-│   └── seed.ts                            NEW
-├── prisma.config.ts                       MODIFIED (seed command added)
-├── src/
-│   ├── app.module.ts                      MODIFIED (imports Config, Prisma, Health)
-│   ├── common/
-│   │   ├── filters/
-│   │   │   ├── http-exception.filter.ts   NEW
-│   │   │   └── index.ts                   NEW
-│   │   ├── middleware/
-│   │   │   ├── correlation-id.middleware.ts NEW
-│   │   │   ├── request-logger.middleware.ts NEW
-│   │   │   └── index.ts                   NEW
-│   │   └── index.ts                       NEW
-│   ├── config/
-│   │   ├── config.module.ts               NEW
-│   │   ├── env.validation.ts              NEW
-│   │   └── index.ts                       NEW
-│   ├── health/
-│   │   ├── health.controller.ts           NEW
-│   │   ├── health.module.ts               NEW
-│   │   ├── prisma.health.ts               NEW
-│   │   └── index.ts                       NEW
-│   ├── main.ts                            MODIFIED (full production setup)
-│   └── prisma/
-│       ├── prisma.module.ts               NEW
-│       ├── prisma.service.ts              NEW
-│       └── index.ts                       NEW
-├── tsconfig.json                          MODIFIED (strict, paths, include prisma)
-└── bruno/
-    ├── bruno.json                         NEW
-    ├── environments/
-    │   └── local.bru                      NEW
-    └── health/
-        └── health-check.bru              NEW</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>meterplex/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── .editorconfig                          NEW
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── .env                                   MODIFIED (all app env vars)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── .env.example                           MODIFIED (documented template)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── .gitignore                             MODIFIED (Prisma generated/, Docker data/)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>├── docker-compose.yml                     NEW
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├── nest-cli.json                          UNCHANGED (from CLI)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>├── package.json                           MODIFIED (scripts, metadata, engines, jest)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── prisma/
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── migrations/
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   │   └── 20260329_init_tenant/
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   │       └── migration.sql              NEW (auto-generated)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── schema.prisma                      MODIFIED (Tenant model, moduleFormat)
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   └── seed.ts                            NEW
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>├── prisma.config.ts                       MODIFIED (seed command added)
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>├── src/
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│   ├── app.module.ts                      MODIFIED (imports Config, Prisma, Health)
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│   ├── common/
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│   │   ├── filters/
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│   │   │   ├── http-exception.filter.ts   NEW
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│   │   │   └── index.ts                   NEW
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   │   ├── middleware/
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   │   │   ├── correlation-id.middleware.ts NEW
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│   │   │   ├── request-logger.middleware.ts NEW
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│   │   │   └── index.ts                   NEW
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│   │   └── index.ts                       NEW
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│   ├── config/
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│   │   ├── config.module.ts               NEW
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│   │   ├── env.validation.ts              NEW
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>│   │   └── index.ts                       NEW
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>│   ├── health/
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>│   │   ├── health.controller.ts           NEW
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>│   │   ├── health.module.ts               NEW
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>│   │   ├── prisma.health.ts               NEW
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>│   │   └── index.ts                       NEW
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>│   ├── main.ts                            MODIFIED (full production setup)
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>│   └── prisma/
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>│       ├── prisma.module.ts               NEW
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>│       ├── prisma.service.ts              NEW
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>│       └── index.ts                       NEW
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>├── tsconfig.json                          MODIFIED (strict, paths, include prisma)
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>└── bruno/
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    ├── bruno.json                         NEW
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    ├── environments/
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    │   └── local.bru                      NEW
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>    └── health/
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>        └── health-check.bru              NEW
+</code></pre></div>
 <h2 id="phase-0-flow">Phase 0 flow<a class="headerlink" href="#phase-0-flow" title="Permanent link">&para;</a></h2>
 <p><img alt="alt text" src="../phase-0.png" /></p>
 <h2 id="interview-talking-points">Interview Talking Points<a class="headerlink" href="#interview-talking-points" title="Permanent link">&para;</a></h2>
