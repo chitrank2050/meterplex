@@ -31,7 +31,7 @@ services:
     container_name: meterplex-postgres
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       # These three vars MUST match DATABASE_URL in .env:
       # postgresql://POSTGRES_USER:POSTGRES_PASSWORD@localhost:5432/POSTGRES_DB
@@ -45,7 +45,7 @@ services:
     healthcheck:
       # pg_isready checks if Postgres accepts connections.
       # Other services wait for this before starting.
-      test: ["CMD-SHELL", "pg_isready -U meterplex -d meterplex"]
+      test: ['CMD-SHELL', 'pg_isready -U meterplex -d meterplex']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -67,11 +67,11 @@ services:
     container_name: meterplex-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - meterplex-redis-data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -100,7 +100,7 @@ services:
     container_name: meterplex-kafka
     restart: unless-stopped
     ports:
-      - "9092:9092"
+      - '9092:9092'
     environment:
       # KRaft mode: Kafka manages its own metadata, no Zookeeper.
       KAFKA_NODE_ID: 1
@@ -118,7 +118,7 @@ services:
 
       # Auto-create topics when a producer first writes to them.
       # Convenient for dev. In production, you'd create topics explicitly.
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
 
       # Single broker in dev, so replication factor = 1.
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -126,12 +126,16 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
 
       # Cluster ID for KRaft (any unique base64 string).
-      CLUSTER_ID: "meterplex-local-dev-cluster-01"
+      CLUSTER_ID: 'meterplex-local-dev-cluster-01'
     volumes:
       - meterplex-kafka-data:/var/lib/kafka/data
     healthcheck:
       # Check that the Kafka broker is responding to metadata requests.
-      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
+      test:
+        [
+          'CMD-SHELL',
+          '/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1',
+        ]
       interval: 10s
       timeout: 10s
       retries: 5
