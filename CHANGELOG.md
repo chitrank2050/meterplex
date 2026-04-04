@@ -2,6 +2,19 @@
 
 All notable changes to Meterplex API.
 
+## [0.3.2] - 2026-04-04
+
+### Features
+
+- Add custom decorators for CurrentUser, Roles, and TenantId extraction
+- Implement TenantGuard and RolesGuard for multi-tenant RBAC enforcement
+- Add protected endpoint to retrieve authenticated tenant context with guard validation
+- Add guards to tenants and users controllers, RBAC enforcement, tenant-scoped user creation
+
+### Maintenance
+
+- Add Bruno collection with auto-login and environment variables
+
 ## [0.3.1] - 2026-04-04
 
 ### Build
