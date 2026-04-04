@@ -36,5 +36,5 @@ export class UpdateTenantDto {
   })
   @IsOptional()
   @IsObject()
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, any>;
 }

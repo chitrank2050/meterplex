@@ -70,5 +70,5 @@ export class CreateTenantDto {
   })
   @IsOptional()
   @IsObject()
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, any>;
 }

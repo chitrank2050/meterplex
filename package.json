@@ -137,7 +137,9 @@
     "moduleNameMapper": {
       "^@common/(.*)$": "<rootDir>/common/$1",
       "^@config/(.*)$": "<rootDir>/config/$1",
-      "^@modules/(.*)$": "<rootDir>/modules/$1"
+      "^@modules/(.*)$": "<rootDir>/modules/$1",
+      "^@prisma/(.*)$": "<rootDir>/prisma/$1",
+      "^@generated/(.*)$": "<rootDir>/../generated/$1"
     }
   },
   "lint-staged": {
