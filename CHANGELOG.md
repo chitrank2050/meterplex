@@ -2,6 +2,48 @@
 
 All notable changes to Meterplex API.
 
+## [0.3.0] - 2026-04-04
+
+### Bug Fixes
+
+- Patch handlebars transitive dependency (CVE injection via AST)
+- Patch hono transitive dependency (static file access bypass)
+- Patch effect transitive dependency (ALS context leak)
+- Patch @hono/node-server transitive dependency (static path bypass)
+
+### Build
+
+- Bump picomatch in the npm_and_yarn group across 1 directory
+- Bump brace-expansion
+
+### Documentation
+
+- Update project documentation in README.md
+- Add phase 1 ERD and placeholder docs
+
+### Features
+
+- Add User, Membership, and ApiKey models to Prisma schema
+- Add CreateTenantDto and UpdateTenantDto for tenant management validation
+- Implement TenantsService and update DTO metadata types with path aliases
+- Add centralized error message constants for consistent application-wide error handling
+- Add tenants CRUD module with pagination and validation
+- Add bcryptjs dependency and implement user creation and update DTOs
+- Implement UsersModule with CRUD operations and bcrypt password hashing
+- Add JWT authentication support and environment configuration
+- Implement AuthModule with JWT authentication and user registration flow
+- Add PasswordResetToken model and database migration for secure password resets
+
+### Maintenance
+
+- Add project governance, security policy, and contribution templates
+- Rename commit-lint
+- Update pnpm overrides for hono, path-to-regexp, and picomatch
+
+### Refactoring
+
+- Replace hardcoded tenant error messages with centralized constants
+
 ## [0.2.1] - 2026-03-29
 
 ### Documentation
