@@ -2,6 +2,18 @@
 
 All notable changes to Meterplex API.
 
+## [0.3.3] - 2026-04-04
+
+### Documentation
+
+- Add Phase 1 documentation
+- Add summary of completed Phase 1 features to documentation
+
+### Features
+
+- Add API keys module with Stripe-style key generation, hashing, and revocation
+- Update seed script with users, memberships, and API keys across tenants
+
 ## [0.3.2] - 2026-04-04
 
 ### Features
