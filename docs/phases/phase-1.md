@@ -4,6 +4,17 @@
 
 **Status:** ✅ Complete
 
+## TLDR:
+Phase 1 is complete. Here's what you built:
+
+- Multi-tenant user model with RBAC (4 roles)
+- JWT authentication with access + refresh token rotation
+- Password reset and change flows
+- Stripe-style API keys with hash-only storage
+- Tenant isolation proven at every layer (query, guard, API)
+- Seed script with 5 users across 3 tenants with different roles
+- All endpoints properly guarded
+
 ## What was built
 
 ### Data model
