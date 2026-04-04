@@ -17,6 +17,7 @@ import { HealthModule } from './health';
 import { TenantsModule } from '@modules/tenants';
 import { UsersModule } from '@modules/users';
 import { AuthModule } from '@modules/auth';
+import { ApiKeysModule } from '@modules/api-keys';
 
 import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
 
@@ -29,10 +30,13 @@ import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
     // PrismaModule makes PrismaService available for injection
     // in any service across the entire app without re-importing.
     PrismaModule,
+    // HealthModule — readiness/liveness checks
     HealthModule,
+    // Feature modules
     TenantsModule,
     UsersModule,
     AuthModule,
+    ApiKeysModule,
   ],
   controllers: [],
   providers: [],
