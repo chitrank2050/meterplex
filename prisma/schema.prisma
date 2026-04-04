@@ -130,9 +130,10 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   /// Relations
-  memberships   Membership[]
-  apiKeys       ApiKey[]       @relation("ApiKeyCreator")
-  refreshTokens RefreshToken[]
+  memberships         Membership[]
+  apiKeys             ApiKey[]             @relation("ApiKeyCreator")
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
 }
@@ -302,4 +303,48 @@ model RefreshToken {
 
   @@index([userId])
   @@map("refresh_tokens")
+}
+
+// =============================================================
+// PasswordResetToken — Tracks password reset requests.
+//
+// Flow:
+//   1. User requests reset → POST /auth/forgot-password
+//   2. We generate a crypto-random token, store its SHA-256 hash
+//   3. The raw token is returned in the response (in production,
+//      this would be sent via email — for now, returned directly)
+//   4. User submits token + new password → POST /auth/reset-password
+//   5. We hash the submitted token, look up the hash, verify expiry
+//   6. Password is updated, token is marked as used
+//
+// Security:
+//   - Raw token is never stored (only SHA-256 hash)
+//   - Tokens expire after 15 minutes
+//   - Tokens are single-use (is_used flag)
+//   - Rate limiting on the forgot-password endpoint (added later)
+//   - All active refresh tokens are revoked on password change
+// =============================================================
+
+model PasswordResetToken {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The user requesting the reset.
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// SHA-256 hash of the reset token. Never store the raw token.
+  tokenHash String @unique @map("token_hash") @db.VarChar(64)
+
+  /// When this token expires. Default: 15 minutes from creation.
+  expiresAt DateTime @map("expires_at")
+
+  /// Marked true after the token is successfully used.
+  /// Prevents replay attacks (using the same token twice).
+  isUsed Boolean @default(false) @map("is_used")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
