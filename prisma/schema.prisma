@@ -1,7 +1,7 @@
 // =============================================================
 // Meterplex — Prisma Schema
 //
-// This file is the SINGLE SOURCE OF TRUTH for your database.
+// This file is the SINGLE SOURCE OF TRUTH for our database.
 // Every table, column, index, and relation is defined here.
 //
 // Workflow:
@@ -20,7 +20,7 @@ generator client {
   output   = "../generated/prisma"
 
   // CRITICAL: NestJS compiles to CommonJS. Prisma 7 defaults to ESM.
-  // Without this, you get "exports is not defined in ES module scope".
+  // Without this, we get "exports is not defined in ES module scope".
   moduleFormat = "cjs"
 }
 
@@ -29,10 +29,6 @@ datasource db {
   // The connection URL is in prisma.config.ts (Prisma 7 requirement).
   provider = "postgresql"
 }
-
-// =============================================================
-// Models will be added here as we build each module.
-// =============================================================
 
 // =============================================================
 // Tenant — The top-level entity in a multi-tenant SaaS platform.
@@ -62,11 +58,11 @@ enum TenantStatus {
 
 /**
  * Key decisions explained:
- * - @db.Uuid — tells Postgres to use its native uuid type, not varchar(36). Native UUIDs are stored as 16 bytes (half the size), indexed faster, and validated at the database level. If you try to insert "not-a-uuid", Postgres rejects it before your app code sees it.
+ * - @db.Uuid — tells Postgres to use its native uuid type, not varchar(36). Native UUIDs are stored as 16 bytes (half the size), indexed faster, and validated at the database level. If we try to insert "not-a-uuid", Postgres rejects it before our app code sees it.
  * - @db.VarChar(255) — explicit length constraint. Without it, Prisma uses text which has no limit. A tenant name doesn't need 10MB — constrain it at the DB level.
  * - slug with @unique — creates a unique index in Postgres. Two tenants can't have the same slug. The index also makes findUnique({ where: { slug } }) fast — O(log n) instead of full table scan.
  * - Json with @db.JsonB — JSONB, not JSON. JSONB is binary, indexable, and queryable with Postgres operators. JSON is just a text blob. Always use JSONB.
- * - @@map("tenants") — Prisma model is Tenant (PascalCase, TypeScript convention). Database table is tenants (snake_case, SQL convention). @map("created_at") does the same for columns. Your TypeScript code writes tenant.createdAt, the SQL query says created_at. Best of both worlds.
+ * - @@map("tenants") — Prisma model is Tenant (PascalCase, TypeScript convention). Database table is tenants (snake_case, SQL convention). @map("created_at") does the same for columns. Our TypeScript code writes tenant.createdAt, the SQL query says created_at. Best of both worlds.
  */
 /// A tenant represents a customer organization on the platform.
 model Tenant {
@@ -90,8 +86,180 @@ model Tenant {
   /// JSONB in Postgres = indexed, queryable, no schema enforcement.
   metadata Json @default("{}") @db.JsonB
 
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  memberships Membership[]
+  apiKeys     ApiKey[]
+
+  @@map("tenants")
+}
+
+// =============================================================
+// User — Global account, not tenant-scoped.
+//
+// A user has one email and one password across the entire platform.
+// They can belong to multiple tenants via memberships.
+// This is how Slack, Notion, and GitHub work — one login, many orgs.
+//
+// Design decisions:
+//   - Email is globally unique (not per-tenant)
+//   - Password is bcrypt-hashed, never stored in plain text
+//   - is_active allows soft-disabling without deleting
+//   - No tenant_id here — that's on the membership
+// =============================================================
+
+model User {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Login email. Globally unique across all tenants.
+  email String @unique @db.VarChar(255)
+
+  /// Bcrypt hash of the password. Never store plain text.
+  /// The $ prefix in bcrypt hashes identifies the algorithm version.
+  passwordHash String @map("password_hash") @db.VarChar(255)
+
+  /// Display name fields.
+  firstName String @map("first_name") @db.VarChar(100)
+  lastName  String @map("last_name") @db.VarChar(100)
+
+  /// Soft-disable flag. Set to false to block login without deleting data.
+  isActive Boolean @default(true) @map("is_active")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("tenants")
+  /// Relations
+  memberships Membership[]
+  apiKeys     ApiKey[]     @relation("ApiKeyCreator")
+
+  @@map("users")
+}
+
+// =============================================================
+// MembershipRole — The four roles a user can have within a tenant.
+//
+// OWNER:     Full control. Can delete tenant, manage billing, transfer ownership.
+//            Every tenant must have exactly one owner.
+// ADMIN:     Can manage users, settings, API keys. Cannot delete tenant.
+// DEVELOPER: Can use APIs, view usage. Cannot manage users or billing.
+// BILLING:   Can view invoices, manage payment methods. Cannot access APIs.
+//
+// These are fixed roles, not a dynamic RBAC system. Four roles is
+// enough for a billing platform. If we need custom permissions
+// later, add a roles table with a permissions JSONB column.
+// =============================================================
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  DEVELOPER
+  BILLING
+
+  @@map("membership_role")
+}
+
+// =============================================================
+// Membership — Connects a user to a tenant with a role.
+//
+// This is the join table that enables multi-tenant users.
+// User X can be OWNER of Tenant A and DEVELOPER in Tenant B.
+//
+// Composite unique on (user_id, tenant_id) — one membership
+// per user per tenant. A user can't have two roles in the
+// same tenant. If we need that, switch to a roles array.
+// =============================================================
+
+model Membership {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The user who belongs to this tenant.
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// The tenant the user belongs to.
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  /// The user's role within this tenant.
+  role MembershipRole @default(DEVELOPER)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// One membership per user per tenant.
+  @@unique([userId, tenantId])
+  @@map("memberships")
+}
+
+// =============================================================
+// ApiKeyStatus — Lifecycle of an API key.
+//
+// ACTIVE:  Key is valid and can authenticate requests.
+// REVOKED: Key has been manually revoked. Cannot be re-activated.
+// EXPIRED: Key passed its expires_at date. Automatically invalid.
+// =============================================================
+
+enum ApiKeyStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+
+  @@map("api_key_status")
+}
+
+// =============================================================
+// ApiKey — Server-to-server authentication token.
+//
+// How it works (same pattern as Stripe, GitHub, AWS):
+//   1. User creates a key via API → gets the raw key ONCE
+//   2. We store only the SHA-256 hash (like a password)
+//   3. key_prefix stores first 8 chars (e.g., "mp_live_ab...")
+//      so users can identify which key is which in a list
+//   4. On each API request, we hash the provided key and
+//      look up the hash in the database
+//
+// Security:
+//   - Raw key is shown once, never stored or logged
+//   - Hash comparison is constant-time (prevents timing attacks)
+//   - Expiration + revocation support key rotation
+//   - last_used_at tracks active vs stale keys
+// =============================================================
+
+model ApiKey {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The tenant this key authenticates for.
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  /// The user who created this key (audit trail).
+  createdByUserId String @map("created_by_user_id") @db.Uuid
+  createdByUser   User   @relation("ApiKeyCreator", fields: [createdByUserId], references: [id])
+
+  /// First 8 characters of the raw key. For display only.
+  /// Example: "mp_live_a" — enough to identify, not enough to use.
+  keyPrefix String @map("key_prefix") @db.VarChar(20)
+
+  /// SHA-256 hash of the full key. This is what we look up on auth.
+  keyHash String @unique @map("key_hash") @db.VarChar(64)
+
+  /// Human-readable label. "Production key", "CI/CD pipeline", etc.
+  name String @db.VarChar(255)
+
+  /// Current lifecycle status.
+  status ApiKeyStatus @default(ACTIVE)
+
+  /// Optional expiration. Null means no expiration.
+  expiresAt DateTime? @map("expires_at")
+
+  /// Updated on every successful authentication.
+  lastUsedAt DateTime? @map("last_used_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([tenantId])
+  @@map("api_keys")
 }
