@@ -22,6 +22,8 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '@prisma/prisma.service';
 import { Tenant } from '@generated/prisma/client';
+import { ERRORS } from '@common/constants/error-messages';
+
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
 @Injectable()
@@ -46,9 +48,7 @@ export class TenantsService {
     });
 
     if (existing) {
-      throw new ConflictException(
-        `Tenant with slug "${dto.slug}" already exists`,
-      );
+      throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
     }
 
     const tenant = await this.prisma.tenant.create({
@@ -108,7 +108,7 @@ export class TenantsService {
     });
 
     if (!tenant) {
-      throw new NotFoundException(`Tenant with ID "${id}" not found`);
+      throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
     }
 
     return tenant;
@@ -127,7 +127,7 @@ export class TenantsService {
     });
 
     if (!tenant) {
-      throw new NotFoundException(`Tenant with slug "${slug}" not found`);
+      throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_SLUG(slug));
     }
 
     return tenant;
