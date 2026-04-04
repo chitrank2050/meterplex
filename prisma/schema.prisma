@@ -130,8 +130,9 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   /// Relations
-  memberships Membership[]
-  apiKeys     ApiKey[]     @relation("ApiKeyCreator")
+  memberships   Membership[]
+  apiKeys       ApiKey[]       @relation("ApiKeyCreator")
+  refreshTokens RefreshToken[]
 
   @@map("users")
 }
@@ -262,4 +263,43 @@ model ApiKey {
 
   @@index([tenantId])
   @@map("api_keys")
+}
+
+// =============================================================
+// RefreshToken — Tracks issued refresh tokens per user.
+//
+// Why store refresh tokens in the database?
+//   - Enables instant revocation (logout, password change, compromise)
+//   - Supports "revoke all sessions" for security incidents
+//   - Access tokens are stateless (no DB lookup per request)
+//   - Refresh tokens are stateful (DB lookup only on refresh, every 15min)
+//
+// Security:
+//   - Only the SHA-256 hash is stored (like API keys)
+//   - Raw token shown once at login, never stored server-side
+//   - Tokens are scoped to a user agent / device (future: device management)
+//   - Old tokens are cleaned up on login and refresh
+// =============================================================
+
+model RefreshToken {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The user this token belongs to.
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// SHA-256 hash of the refresh token. Never store the raw token.
+  tokenHash String @unique @map("token_hash") @db.VarChar(64)
+
+  /// When this token expires. Checked on every refresh attempt.
+  expiresAt DateTime @map("expires_at")
+
+  /// Tracks if this token has been explicitly revoked (logout).
+  isRevoked Boolean @default(false) @map("is_revoked")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("refresh_tokens")
 }

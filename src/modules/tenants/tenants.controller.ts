@@ -65,7 +65,7 @@ export class TenantsController {
   @ApiResponse({ status: 409, description: 'Slug already exists' })
   @ApiResponse({ status: 400, description: 'Validation failed' })
   async create(@Body() dto: CreateTenantDto) {
-    return this.tenantsService.create(dto);
+    return await this.tenantsService.create(dto);
   }
 
   /**
@@ -80,7 +80,7 @@ export class TenantsController {
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
   @ApiResponse({ status: 200, description: 'Paginated list of tenants' })
   async findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
-    return this.tenantsService.findAll(page ?? 1, limit ?? 20);
+    return await this.tenantsService.findAll(page ?? 1, limit ?? 20);
   }
 
   /**
@@ -96,7 +96,7 @@ export class TenantsController {
   @ApiResponse({ status: 200, description: 'Tenant found' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   async findBySlug(@Param('slug') slug: string) {
-    return this.tenantsService.findBySlug(slug);
+    return await this.tenantsService.findBySlug(slug);
   }
 
   /**
@@ -113,7 +113,7 @@ export class TenantsController {
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   @ApiResponse({ status: 400, description: 'Invalid UUID format' })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.tenantsService.findById(id);
+    return await this.tenantsService.findById(id);
   }
 
   /**
@@ -132,7 +132,7 @@ export class TenantsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTenantDto,
   ) {
-    return this.tenantsService.update(id, dto);
+    return await this.tenantsService.update(id, dto);
   }
 
   /**
@@ -147,6 +147,6 @@ export class TenantsController {
   @ApiResponse({ status: 200, description: 'Tenant cancelled' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   async remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.tenantsService.remove(id);
+    return await this.tenantsService.remove(id);
   }
 }

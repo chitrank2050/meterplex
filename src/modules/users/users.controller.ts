@@ -48,7 +48,7 @@ export class UsersController {
   @ApiResponse({ status: 409, description: 'Email already exists' })
   @ApiResponse({ status: 400, description: 'Validation failed' })
   async create(@Body() dto: CreateUserDto) {
-    return this.usersService.create(dto);
+    return await this.usersService.create(dto);
   }
 
   /**
@@ -62,7 +62,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User found' })
   @ApiResponse({ status: 404, description: 'User not found' })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.usersService.findById(id);
+    return await this.usersService.findById(id);
   }
 
   /**
@@ -80,6 +80,6 @@ export class UsersController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateUserDto,
   ) {
-    return this.usersService.update(id, dto);
+    return await this.usersService.update(id, dto);
   }
 }

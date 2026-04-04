@@ -16,6 +16,7 @@ import { HealthModule } from './health';
 // module
 import { TenantsModule } from '@modules/tenants';
 import { UsersModule } from '@modules/users';
+import { AuthModule } from '@modules/auth';
 
 import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
 
@@ -31,6 +32,7 @@ import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
     HealthModule,
     TenantsModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

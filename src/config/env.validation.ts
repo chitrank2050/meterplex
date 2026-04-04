@@ -102,7 +102,13 @@ export class EnvConfig {
   JWT_SECRET!: string;
 
   @IsString()
-  JWT_EXPIRATION: string = '1d';
+  JWT_EXPIRATION: string = '15m';
+
+  @IsString()
+  JWT_REFRESH_SECRET!: string;
+
+  @IsString()
+  JWT_REFRESH_EXPIRATION: string = '7d';
 }
 
 /**
