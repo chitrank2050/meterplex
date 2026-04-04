@@ -22,6 +22,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 
 import { HttpExceptionFilter } from '@common/filters';
+import { API_PREFIX, API_VERSION } from '@common/constants/app';
 
 import { AppModule } from './app.module';
 
@@ -67,7 +68,7 @@ async function bootstrap(): Promise<void> {
   //    Separates API routes from static assets, health checks, etc.
   //    We exclude /health so load balancers hit it without the prefix.
   // =============================================================
-  const apiPrefix = process.env.API_PREFIX ?? 'api';
+  const apiPrefix = API_PREFIX;
   app.setGlobalPrefix(apiPrefix, {
     exclude: ['health'],
   });
@@ -85,7 +86,7 @@ async function bootstrap(): Promise<void> {
   // =============================================================
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: process.env.API_VERSION ?? '1',
+    defaultVersion: API_VERSION,
   });
 
   // =============================================================
@@ -142,7 +143,7 @@ async function bootstrap(): Promise<void> {
           'Manages tenants, plans, subscriptions, usage tracking, ' +
           'and invoice generation.',
       )
-      .setVersion(process.env.API_VERSION ?? '1')
+      .setVersion(API_VERSION)
       .addBearerAuth()
       .build();
 

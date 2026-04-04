@@ -13,6 +13,9 @@ import { ConfigModule } from './config';
 import { PrismaModule } from './prisma';
 import { HealthModule } from './health';
 
+// module
+import { TenantsModule } from './modules/tenants/tenants.module';
+
 import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
 
 @Module({
@@ -25,6 +28,7 @@ import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
     // in any service across the entire app without re-importing.
     PrismaModule,
     HealthModule,
+    TenantsModule,
   ],
   controllers: [],
   providers: [],
