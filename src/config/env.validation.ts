@@ -95,6 +95,14 @@ export class EnvConfig {
   @IsNumber()
   @Min(1)
   THROTTLE_LIMIT: number = 100;
+
+  // --- Auth (JWT) ---
+
+  @IsString()
+  JWT_SECRET!: string;
+
+  @IsString()
+  JWT_EXPIRATION: string = '1d';
 }
 
 /**
