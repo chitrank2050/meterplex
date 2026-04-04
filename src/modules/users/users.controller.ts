@@ -2,30 +2,45 @@
  * UsersController — HTTP layer for user management.
  *
  * Routes:
- *   POST   /api/v1/users      → Create a user
+ *   POST   /api/v1/users      → Create a user in a tenant (OWNER/ADMIN only)
+ *   GET    /api/v1/users/me    → Get current user profile
  *   GET    /api/v1/users/:id   → Get user by ID
  *   PATCH  /api/v1/users/:id   → Update user profile
  *
- * No list endpoint — users are listed through tenant memberships,
- * not as a global list. Listing all users across all tenants
- * would be an admin-only operation added later.
+ * Authorization:
+ *   - Creating users requires OWNER or ADMIN role in the target tenant
+ *   - Viewing and updating profiles requires authentication
+ *   - Users can update their own profile; ADMIN can update others
  *
- * Auth: Currently unprotected. JWT guards added in Step 5.
+ * No global list endpoint — users are listed through tenant memberships.
+ * Listing all users across all tenants is an admin-only concern.
  */
+import { CurrentUser, Roles, TenantId } from '@common/decorators';
+import { RolesGuard, TenantGuard } from '@common/guards';
+import { MembershipRole } from '@generated/prisma/client';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Patch,
-  Body,
-  Param,
   HttpCode,
   HttpStatus,
+  Param,
   ParseUUIDPipe,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { UsersService } from './users.service';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { UsersService } from './users.service';
 
 @ApiTags('Users')
 @Controller({
@@ -38,48 +53,101 @@ export class UsersController {
   /**
    * POST /api/v1/users
    *
-   * Creates a new user account. Password is hashed before storage.
-   * The response NEVER includes the password hash.
+   * Creates a new user and adds them to the specified tenant.
+   * Only OWNER and ADMIN can add users to their tenant.
+   *
+   * This creates the user account AND a membership in one operation.
+   * If the user already exists (by email), they're added to the tenant
+   * as a new membership instead of creating a duplicate account.
+   *
+   * Guard chain: JwtAuthGuard → TenantGuard → RolesGuard(OWNER, ADMIN)
    */
   @Post()
+  @UseGuards(JwtAuthGuard, TenantGuard, RolesGuard)
+  @Roles(MembershipRole.OWNER, MembershipRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'x-tenant-id',
+    description: 'Tenant UUID',
+    required: true,
+  })
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({ status: 201, description: 'User created' })
+  @ApiOperation({ summary: 'Create a user in a tenant (OWNER/ADMIN only)' })
+  @ApiResponse({ status: 201, description: 'User created and added to tenant' })
   @ApiResponse({ status: 409, description: 'Email already exists' })
   @ApiResponse({ status: 400, description: 'Validation failed' })
-  async create(@Body() dto: CreateUserDto) {
-    return await this.usersService.create(dto);
+  @ApiResponse({ status: 403, description: 'Insufficient role' })
+  async create(@Body() dto: CreateUserDto, @TenantId() tenantId: string) {
+    return await this.usersService.createWithMembership(dto, tenantId);
+  }
+
+  /**
+   * GET /api/v1/users/me
+   *
+   * Returns the authenticated user's own profile.
+   * No tenant context needed — user profiles are global.
+   *
+   * Guard chain: JwtAuthGuard only.
+   *
+   * IMPORTANT: This route is defined BEFORE :id to prevent
+   * NestJS from interpreting "me" as a UUID parameter.
+   */
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user profile' })
+  @ApiResponse({ status: 200, description: 'User profile' })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  async getMe(@CurrentUser('id') userId: string) {
+    return this.usersService.findById(userId);
   }
 
   /**
    * GET /api/v1/users/:id
    *
-   * Returns user profile. Never includes password hash.
+   * Returns a user's profile by ID.
+   * Any authenticated user can view profiles — profile data
+   * (name, email) is not tenant-scoped.
+   *
+   * Guard chain: JwtAuthGuard only.
    */
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user by ID' })
   @ApiParam({ name: 'id', description: 'User UUID' })
   @ApiResponse({ status: 200, description: 'User found' })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
-    return await this.usersService.findById(id);
+    return this.usersService.findById(id);
   }
 
   /**
    * PATCH /api/v1/users/:id
    *
-   * Updates user profile fields. Cannot change email or password
-   * through this endpoint (those have dedicated flows).
+   * Updates a user's profile. Users can update their own profile.
+   * OWNER and ADMIN can update other users' profiles within
+   * their tenant (e.g., disabling an account with isActive: false).
+   *
+   * TODO: Add authorization check — currently any authenticated user
+   * can update any profile. In Phase 2, add ownership check:
+   * "is this my profile OR am I an ADMIN in a shared tenant?"
+   *
+   * Guard chain: JwtAuthGuard only (ownership check TODO).
    */
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user profile' })
   @ApiParam({ name: 'id', description: 'User UUID' })
   @ApiResponse({ status: 200, description: 'User updated' })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateUserDto,
   ) {
-    return await this.usersService.update(id, dto);
+    return this.usersService.update(id, dto);
   }
 }

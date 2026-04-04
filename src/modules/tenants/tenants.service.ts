@@ -23,7 +23,6 @@ import {
 import { PrismaService } from '@prisma/prisma.service';
 import { Tenant } from '@generated/prisma/client';
 import { ERRORS } from '@common/constants/error-messages';
-
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
 @Injectable()
@@ -33,16 +32,16 @@ export class TenantsService {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * Create a new tenant.
+   * Create a new tenant (without assigning an owner).
+   *
+   * Used internally by the auth service during registration.
+   * For user-facing tenant creation, use createWithOwner() instead.
    *
    * @param dto - Validated tenant creation data
    * @returns The created tenant
    * @throws ConflictException if slug already exists
    */
   async create(dto: CreateTenantDto): Promise<Tenant> {
-    // Check slug uniqueness before attempting insert.
-    // Prisma would throw a raw P2002 error on duplicate — we catch it
-    // here to return a clean 409 Conflict with a human-readable message.
     const existing = await this.prisma.tenant.findUnique({
       where: { slug: dto.slug },
     });
@@ -64,15 +63,114 @@ export class TenantsService {
   }
 
   /**
-   * List all tenants with pagination.
+   * Create a tenant and assign the creating user as OWNER.
+   *
+   * This is the user-facing endpoint. When an authenticated user
+   * creates a tenant, they automatically become its OWNER.
+   * Different from registration (which creates user + tenant together).
+   *
+   * Use case: existing user wants to create a second organization.
+   *
+   * Both records are created in a transaction — if either fails,
+   * neither is persisted. No orphaned tenants without owners.
+   *
+   * @param dto - Validated tenant creation data
+   * @param userId - The authenticated user's UUID (becomes OWNER)
+   * @returns The created tenant
+   * @throws ConflictException if slug already exists
+   */
+  async createWithOwner(dto: CreateTenantDto, userId: string): Promise<Tenant> {
+    const existing = await this.prisma.tenant.findUnique({
+      where: { slug: dto.slug },
+    });
+
+    if (existing) {
+      throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
+    }
+
+    const tenant = await this.prisma.$transaction(async (tx) => {
+      const newTenant = await tx.tenant.create({
+        data: {
+          name: dto.name,
+          slug: dto.slug,
+          metadata: dto.metadata ?? {},
+        },
+      });
+
+      await tx.membership.create({
+        data: {
+          userId,
+          tenantId: newTenant.id,
+          role: 'OWNER',
+        },
+      });
+
+      return newTenant;
+    });
+
+    this.logger.log(`Tenant created with owner: ${tenant.slug} (${tenant.id})`);
+    return tenant;
+  }
+
+  /**
+   * List tenants the specified user belongs to (via memberships).
+   *
+   * This is NOT a global list — it only returns tenants where
+   * the user has an active membership. This is tenant isolation
+   * at the query level: users see only their own tenants.
+   *
+   * Each result includes the user's role in that tenant,
+   * so the frontend can render role-appropriate UI.
+   *
+   * @param userId - User UUID
+   * @param page - Page number (1-based)
+   * @param limit - Items per page
+   * @returns Paginated list of tenants with the user's role in each
+   */
+  async findAllForUser(userId: string, page = 1, limit = 20) {
+    const skip = (page - 1) * limit;
+
+    const [memberships, total] = await Promise.all([
+      this.prisma.membership.findMany({
+        where: { userId },
+        include: {
+          tenant: true,
+        },
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.membership.count({
+        where: { userId },
+      }),
+    ]);
+
+    return {
+      data: memberships.map((m) => ({
+        ...m.tenant,
+        role: m.role,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  /**
+   * List all tenants with pagination (admin operation).
+   *
+   * Returns ALL tenants regardless of membership.
+   * Kept for internal/admin use. The user-facing endpoint
+   * is findAllForUser() which filters by membership.
    *
    * @param page - Page number (1-based)
    * @param limit - Items per page
    * @returns Object with tenants array, total count, and pagination metadata
    */
   async findAll(page = 1, limit = 20) {
-    // Prisma's skip/take maps directly to SQL OFFSET/LIMIT.
-    // skip = how many rows to skip. take = how many to return.
     const skip = (page - 1) * limit;
 
     const [tenants, total] = await Promise.all([
@@ -142,9 +240,6 @@ export class TenantsService {
    * @throws NotFoundException if tenant doesn't exist
    */
   async update(id: string, dto: UpdateTenantDto): Promise<Tenant> {
-    // Verify tenant exists before updating.
-    // Prisma's update throws a raw P2025 on missing record —
-    // we check first to return a clean 404.
     await this.findById(id);
 
     const tenant = await this.prisma.tenant.update({

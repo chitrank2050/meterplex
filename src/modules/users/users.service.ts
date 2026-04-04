@@ -20,7 +20,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { PrismaService } from '@prisma/prisma.service';
 import { ERRORS } from '@common/constants/error-messages';
-import { User } from '@generated/prisma/client';
+import { User, MembershipRole } from '@generated/prisma/client';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
 
@@ -163,5 +163,93 @@ export class UsersService {
    */
   async validatePassword(plainText: string, hash: string): Promise<boolean> {
     return bcrypt.compare(plainText, hash);
+  }
+
+  /**
+   * Create a user and add them as a member of a tenant.
+   *
+   * If a user with this email already exists, we add a membership
+   * to the tenant instead of creating a duplicate user.
+   * This supports the multi-tenant model: one user, many tenants.
+   *
+   * @param dto - Validated user creation data
+   * @param tenantId - The tenant to add the user to
+   * @param role - The role in this tenant (defaults to DEVELOPER)
+   * @returns User object without passwordHash
+   * @throws ConflictException if user already belongs to this tenant
+   */
+  async createWithMembership(
+    dto: CreateUserDto,
+    tenantId: string,
+    role: MembershipRole = MembershipRole.DEVELOPER,
+  ): Promise<SafeUser> {
+    // Check if the user already exists
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: dto.email.toLowerCase() },
+    });
+
+    if (existingUser) {
+      // User exists — check if they're already in this tenant
+      const existingMembership = await this.prisma.membership.findUnique({
+        where: {
+          userId_tenantId: {
+            userId: existingUser.id,
+            tenantId,
+          },
+        },
+      });
+
+      if (existingMembership) {
+        throw new ConflictException(
+          ERRORS.MEMBERSHIP.ALREADY_EXISTS(dto.email, tenantId),
+        );
+      }
+
+      // Add membership to existing user
+      await this.prisma.membership.create({
+        data: {
+          userId: existingUser.id,
+          tenantId,
+          role,
+        },
+      });
+
+      this.logger.log(
+        `Existing user ${dto.email} added to tenant ${tenantId} as ${role}`,
+      );
+
+      return this.findById(existingUser.id);
+    }
+
+    // New user — create account + membership in a transaction
+    const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
+
+    const user = await this.prisma.$transaction(async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          email: dto.email.toLowerCase(),
+          passwordHash,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+        },
+        select: USER_SELECT,
+      });
+
+      await tx.membership.create({
+        data: {
+          userId: newUser.id,
+          tenantId,
+          role,
+        },
+      });
+
+      return newUser;
+    });
+
+    this.logger.log(
+      `User created and added to tenant: ${dto.email} → ${tenantId} as ${role}`,
+    );
+
+    return user;
   }
 }

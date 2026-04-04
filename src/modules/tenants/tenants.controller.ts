@@ -6,48 +6,48 @@
  *   - HTTP status codes (201 for creation, 200 for reads)
  *   - Request parsing (path params, query params, body)
  *   - Swagger documentation decorators
+ *   - Guard chain for authentication and authorization
  *
  * ALL business logic lives in TenantsService.
  * The controller is thin — it delegates everything to the service.
  *
- * Routes:
- *   POST   /api/v1/tenants          → Create a tenant
- *   GET    /api/v1/tenants          → List tenants (paginated)
- *   GET    /api/v1/tenants/:id      → Get tenant by ID
- *   GET    /api/v1/tenants/slug/:slug → Get tenant by slug
- *   PATCH  /api/v1/tenants/:id      → Update a tenant
- *   DELETE /api/v1/tenants/:id      → Soft-delete (cancel) a tenant
- *
- * Auth: Currently unprotected. JWT guards will be added in Step 5.
+ * Authorization levels:
+ *   POST   /tenants           → Authenticated (any user can create a tenant)
+ *   GET    /tenants           → Authenticated (list tenants user belongs to)
+ *   GET    /tenants/slug/:slug → Authenticated
+ *   GET    /tenants/:id       → JWT + TenantGuard (must be member)
+ *   PATCH  /tenants/:id       → JWT + TenantGuard + OWNER or ADMIN
+ *   DELETE /tenants/:id       → JWT + TenantGuard + OWNER only
  */
+import { CurrentUser, Roles } from '@common/decorators';
+import { RolesGuard, TenantGuard } from '@common/guards';
+import { MembershipRole } from '@generated/prisma/client';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
   Body,
-  Param,
-  Query,
+  Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiQuery,
   ApiBearerAuth,
   ApiHeader,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
-import { TenantsService } from './tenants.service';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { TenantGuard } from '@common/guards/tenant.guard';
-import { TenantId, CurrentUser } from '@common/decorators';
+import { TenantsService } from './tenants.service';
 
 @ApiTags('Tenants')
 @Controller({
@@ -61,46 +61,77 @@ export class TenantsController {
    * POST /api/v1/tenants
    *
    * Creates a new tenant organization.
-   * Returns 201 Created with the full tenant object.
-   * Returns 409 Conflict if the slug already exists.
+   * Any authenticated user can create a tenant — they become the OWNER
+   * automatically. This is separate from the registration flow
+   * (which creates user + tenant together).
+   *
+   * Use case: an existing user wants to create a second organization.
+   *
+   * Guard chain: JwtAuthGuard only — no tenant context needed
+   * (the tenant doesn't exist yet).
    */
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new tenant' })
   @ApiResponse({ status: 201, description: 'Tenant created successfully' })
   @ApiResponse({ status: 409, description: 'Slug already exists' })
   @ApiResponse({ status: 400, description: 'Validation failed' })
-  async create(@Body() dto: CreateTenantDto) {
-    return await this.tenantsService.create(dto);
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  async create(
+    @CurrentUser('id') userId: string,
+    @Body() dto: CreateTenantDto,
+  ) {
+    return await this.tenantsService.createWithOwner(dto, userId);
   }
 
   /**
    * GET /api/v1/tenants?page=1&limit=20
    *
-   * Lists all tenants with pagination.
-   * Defaults to page 1, 20 items per page.
+   * Lists tenants the authenticated user belongs to.
+   * NOT a global list — each user sees only their own tenants.
+   * A global admin list would be a separate endpoint.
+   *
+   * Guard chain: JwtAuthGuard only — filters by user membership.
    */
   @Get()
-  @ApiOperation({ summary: 'List all tenants (paginated)' })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'List tenants the current user belongs to' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
-  @ApiResponse({ status: 200, description: 'Paginated list of tenants' })
-  async findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
-    return await this.tenantsService.findAll(page ?? 1, limit ?? 20);
+  @ApiResponse({ status: 200, description: 'Paginated list of user tenants' })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  async findAll(
+    @CurrentUser('id') userId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return await this.tenantsService.findAllForUser(
+      userId,
+      page ?? 1,
+      limit ?? 20,
+    );
   }
 
   /**
    * GET /api/v1/tenants/slug/:slug
    *
    * Finds a tenant by its URL-safe slug.
-   * This route is defined BEFORE :id to prevent NestJS
-   * from interpreting "slug" as a UUID parameter.
+   * Authenticated users can look up any tenant by slug
+   * (e.g., to check if a slug is taken before creating a tenant).
+   *
+   * Guard chain: JwtAuthGuard only.
    */
   @Get('slug/:slug')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get tenant by slug' })
   @ApiParam({ name: 'slug', example: 'acme-corp' })
   @ApiResponse({ status: 200, description: 'Tenant found' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
   async findBySlug(@Param('slug') slug: string) {
     return await this.tenantsService.findBySlug(slug);
   }
@@ -109,15 +140,24 @@ export class TenantsController {
    * GET /api/v1/tenants/:id
    *
    * Finds a tenant by UUID.
-   * ParseUUIDPipe validates the param is a valid UUID before
-   * the method runs — returns 400 if it's not a UUID.
+   * Requires x-tenant-id header and membership — you can only
+   * view tenant details if you're a member.
+   *
+   * Guard chain: JwtAuthGuard → TenantGuard
    */
   @Get(':id')
+  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'x-tenant-id',
+    description: 'Tenant UUID',
+    required: true,
+  })
   @ApiOperation({ summary: 'Get tenant by ID' })
   @ApiParam({ name: 'id', description: 'Tenant UUID' })
   @ApiResponse({ status: 200, description: 'Tenant found' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
-  @ApiResponse({ status: 400, description: 'Invalid UUID format' })
+  @ApiResponse({ status: 403, description: 'Not a member of this tenant' })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.tenantsService.findById(id);
   }
@@ -125,15 +165,25 @@ export class TenantsController {
   /**
    * PATCH /api/v1/tenants/:id
    *
-   * Updates a tenant. Only sent fields are changed (partial update).
-   * Uses PATCH not PUT because we don't require all fields.
+   * Updates a tenant. Only OWNER and ADMIN can modify tenant settings.
+   * DEVELOPER and BILLING roles cannot change tenant configuration.
+   *
+   * Guard chain: JwtAuthGuard → TenantGuard → RolesGuard(OWNER, ADMIN)
    */
   @Patch(':id')
-  @ApiOperation({ summary: 'Update a tenant' })
+  @UseGuards(JwtAuthGuard, TenantGuard, RolesGuard)
+  @Roles(MembershipRole.OWNER, MembershipRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'x-tenant-id',
+    description: 'Tenant UUID',
+    required: true,
+  })
+  @ApiOperation({ summary: 'Update a tenant (OWNER or ADMIN only)' })
   @ApiParam({ name: 'id', description: 'Tenant UUID' })
   @ApiResponse({ status: 200, description: 'Tenant updated' })
+  @ApiResponse({ status: 403, description: 'Insufficient role' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
-  @ApiResponse({ status: 400, description: 'Validation failed' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTenantDto,
@@ -145,52 +195,26 @@ export class TenantsController {
    * DELETE /api/v1/tenants/:id
    *
    * Soft-deletes a tenant by setting status to CANCELLED.
-   * Data is preserved for compliance. Tenant can be reactivated.
+   * ONLY the OWNER can cancel a tenant — this is a destructive action
+   * that affects all members, billing, and API keys.
+   *
+   * Guard chain: JwtAuthGuard → TenantGuard → RolesGuard(OWNER)
    */
   @Delete(':id')
-  @ApiOperation({ summary: 'Cancel a tenant (soft delete)' })
-  @ApiParam({ name: 'id', description: 'Tenant UUID' })
-  @ApiResponse({ status: 200, description: 'Tenant cancelled' })
-  @ApiResponse({ status: 404, description: 'Tenant not found' })
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    return await this.tenantsService.remove(id);
-  }
-
-  /**
-   * GET /api/v1/tenants/me/context
-   *
-   * Returns the tenant context for the authenticated user.
-   * Proves tenant isolation: requires valid JWT + x-tenant-id header
-   * + user must be a member of that tenant.
-   *
-   * This is a test endpoint — demonstrates the guard chain:
-   *   1. JwtAuthGuard → validates the JWT
-   *   2. TenantGuard → validates x-tenant-id and membership
-   */
-  @Get('me/context')
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(JwtAuthGuard, TenantGuard, RolesGuard)
+  @Roles(MembershipRole.OWNER)
   @ApiBearerAuth()
   @ApiHeader({
     name: 'x-tenant-id',
     description: 'Tenant UUID',
     required: true,
   })
-  @ApiOperation({ summary: 'Get current tenant context (proves isolation)' })
-  @ApiResponse({
-    status: 200,
-    description: 'Tenant context for authenticated user',
-  })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
-  @ApiResponse({ status: 403, description: 'Not a member of this tenant' })
-  async getTenantContext(
-    @CurrentUser() user: { id: string; email: string },
-    @TenantId() tenantId: string,
-  ) {
-    const tenant = await this.tenantsService.findById(tenantId);
-    return {
-      user: { id: user.id, email: user.email },
-      tenant: { id: tenant.id, name: tenant.name, slug: tenant.slug },
-      message: 'You have access to this tenant',
-    };
+  @ApiOperation({ summary: 'Cancel a tenant (OWNER only, soft delete)' })
+  @ApiParam({ name: 'id', description: 'Tenant UUID' })
+  @ApiResponse({ status: 200, description: 'Tenant cancelled' })
+  @ApiResponse({ status: 403, description: 'Only OWNER can cancel a tenant' })
+  @ApiResponse({ status: 404, description: 'Tenant not found' })
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.tenantsService.remove(id);
   }
 }
