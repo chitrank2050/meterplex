@@ -1,13 +1,20 @@
 /**
- * AuthController — Public endpoints for registration and login.
+ * AuthController — Authentication and password management endpoints.
  *
- * These endpoints are NOT protected by JWT guards — they're how
- * you GET a JWT in the first place.
+ * This controller is split into two sections:
  *
- * Routes:
- *   POST /api/v1/auth/register → Create user + tenant, return JWT
- *   POST /api/v1/auth/login    → Validate credentials, return JWT
- *   GET  /api/v1/auth/me       → Get current user from JWT (protected)
+ * PUBLIC (no JWT required — these are how you GET a token):
+ *   POST /auth/register        → Create user + tenant → return tokens
+ *   POST /auth/login           → Validate credentials → return tokens
+ *   POST /auth/refresh         → Exchange refresh token for new pair
+ *   POST /auth/forgot-password → Generate password reset token
+ *   POST /auth/reset-password  → Reset password using token
+ *
+ * PROTECTED (JWT required — these need an existing valid token):
+ *   GET  /auth/me              → Get current user profile
+ *   POST /auth/change-password → Change password (requires current)
+ *   POST /auth/logout          → Revoke a single refresh token
+ *   POST /auth/logout-all      → Revoke all sessions for the user
  */
 import {
   Controller,
@@ -26,8 +33,24 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto } from './dto';
+import {
+  LoginDto,
+  RegisterDto,
+  RefreshTokenDto,
+  ForgotPasswordDto,
+  ResetPasswordDto,
+  ChangePasswordDto,
+} from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+
+/** Type for the authenticated request user (set by JwtStrategy.validate) */
+interface AuthenticatedUser {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+}
 
 @ApiTags('Auth')
 @Controller({
@@ -37,18 +60,23 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // =========================================================
+  // PUBLIC ENDPOINTS (no authentication required)
+  // =========================================================
+
   /**
    * POST /api/v1/auth/register
    *
-   * Creates a new user and tenant in a single transaction.
-   * Returns a JWT so the user is immediately logged in.
+   * Onboarding flow: creates a new user + tenant + OWNER membership.
+   * Returns both access and refresh tokens so the user is immediately
+   * logged in after registration.
    */
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Register a new user and tenant' })
   @ApiResponse({
     status: 201,
-    description: 'Registration successful, JWT returned',
+    description: 'Registration successful, tokens returned',
   })
   @ApiResponse({
     status: 409,
@@ -56,44 +84,182 @@ export class AuthController {
   })
   @ApiResponse({ status: 400, description: 'Validation failed' })
   async register(@Body() dto: RegisterDto) {
-    return await this.authService.register(dto);
+    return this.authService.register(dto);
   }
 
   /**
    * POST /api/v1/auth/login
    *
-   * Validates email + password, returns a JWT.
-   * Returns 401 for both wrong email and wrong password
-   * (prevents user enumeration).
+   * Authenticates with email + password.
+   * Returns access token (15 min) + refresh token (7 days).
+   * Same error for wrong email and wrong password (anti-enumeration).
    */
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login with email and password' })
-  @ApiResponse({ status: 200, description: 'Login successful, JWT returned' })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  @ApiResponse({
+    status: 200,
+    description: 'Login successful, tokens returned',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid credentials or disabled account',
+  })
   async login(@Body() dto: LoginDto) {
-    return await this.authService.login(dto);
+    return this.authService.login(dto);
   }
+
+  /**
+   * POST /api/v1/auth/refresh
+   *
+   * Exchanges a valid refresh token for a new access + refresh token pair.
+   * The old refresh token is revoked (token rotation).
+   *
+   * Frontend flow:
+   *   1. API call returns 401 (access token expired)
+   *   2. Frontend calls this endpoint with the stored refresh token
+   *   3. Gets new tokens, retries the original request
+   */
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Exchange refresh token for new token pair' })
+  @ApiResponse({
+    status: 200,
+    description: 'New access + refresh tokens returned',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid, expired, or revoked refresh token',
+  })
+  async refresh(@Body() dto: RefreshTokenDto) {
+    return this.authService.refresh(dto.refreshToken);
+  }
+
+  /**
+   * POST /api/v1/auth/forgot-password
+   *
+   * Generates a password reset token. In production, this token
+   * would be sent via email. For development, it's returned
+   * directly in the response.
+   *
+   * The response shape is identical whether the email exists or not.
+   * This prevents attackers from discovering registered emails.
+   */
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Request a password reset token' })
+  @ApiResponse({
+    status: 200,
+    description: 'Reset token generated (if account exists)',
+  })
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(dto.email);
+  }
+
+  /**
+   * POST /api/v1/auth/reset-password
+   *
+   * Resets the password using a token from forgot-password.
+   * After reset: token is marked used, all sessions are revoked.
+   * The user must log in again with their new password.
+   */
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Reset password using a reset token' })
+  @ApiResponse({ status: 200, description: 'Password reset successful' })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid, expired, or already-used token',
+  })
+  async resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto.token, dto.newPassword);
+  }
+
+  // =========================================================
+  // PROTECTED ENDPOINTS (JWT required)
+  // =========================================================
 
   /**
    * GET /api/v1/auth/me
    *
-   * Returns the current authenticated user's profile.
-   * This is the first protected endpoint — requires a valid JWT.
-   * Tests that the full auth flow works end-to-end.
+   * Returns the authenticated user's profile.
+   * The user data comes from JwtStrategy.validate() which
+   * looks up the user in the database on every request.
    */
   @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get current authenticated user' })
+  @ApiOperation({ summary: 'Get current authenticated user profile' })
   @ApiResponse({ status: 200, description: 'Current user profile' })
   @ApiResponse({ status: 401, description: 'Not authenticated' })
-  me(
-    @Request()
-    req: {
-      user: { id: string; email: string; firstName: string; lastName: string };
-    },
-  ) {
+  me(@Request() req: { user: AuthenticatedUser }) {
     return req.user;
+  }
+
+  /**
+   * POST /api/v1/auth/change-password
+   *
+   * Changes the password for the currently authenticated user.
+   * Requires the current password for verification (prevents
+   * password change via stolen access token alone).
+   *
+   * After change: all OTHER sessions are revoked, but the
+   * current session gets new tokens so the user isn't kicked out.
+   */
+  @Post('change-password')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Change password (requires current password)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Password changed, new tokens returned',
+  })
+  @ApiResponse({ status: 401, description: 'Current password is incorrect' })
+  async changePassword(
+    @Request() req: { user: AuthenticatedUser },
+    @Body() dto: ChangePasswordDto,
+  ) {
+    return this.authService.changePassword(
+      req.user.id,
+      dto.currentPassword,
+      dto.newPassword,
+    );
+  }
+
+  /**
+   * POST /api/v1/auth/logout
+   *
+   * Revokes a single refresh token (current device logout).
+   * The access token remains valid until it expires (max 15 min).
+   * For instant revocation, a Redis token blacklist would be needed (Phase 5).
+   */
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Logout current session (revoke refresh token)' })
+  @ApiResponse({ status: 200, description: 'Refresh token revoked' })
+  async logout(@Body() dto: RefreshTokenDto) {
+    await this.authService.logout(dto.refreshToken);
+    return { message: 'Logged out successfully' };
+  }
+
+  /**
+   * POST /api/v1/auth/logout-all
+   *
+   * Revokes ALL refresh tokens for the user (every device).
+   * Use after a security incident or when the user wants to
+   * force re-login everywhere.
+   */
+  @Post('logout-all')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Logout from all devices' })
+  @ApiResponse({ status: 200, description: 'All sessions revoked' })
+  async logoutAll(@Request() req: { user: AuthenticatedUser }) {
+    await this.authService.logoutAll(req.user.id);
+    return { message: 'All sessions have been logged out' };
   }
 }

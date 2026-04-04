@@ -1,13 +1,16 @@
 /**
  * AuthModule — Wires up JWT authentication with Passport.
  *
- * Imports:
- *   - UsersModule: needed to look up users during login
- *   - JwtModule: signs and verifies JWT tokens
- *   - PassportModule: integrates Passport strategies with NestJS
+ * Dependencies:
+ *   - UsersModule: user lookup during login and registration
+ *   - PassportModule: integrates Passport strategies with NestJS guards
+ *   - JwtModule: signs access tokens (refresh tokens use the service directly)
  *
  * The JwtStrategy is registered as a provider so Passport
- * can find it when JwtAuthGuard activates.
+ * discovers it when JwtAuthGuard activates on a protected route.
+ *
+ * JwtModule.registerAsync ensures ConfigModule has loaded and validated
+ * the JWT_SECRET before we try to read it.
  */
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
@@ -21,8 +24,10 @@ import { UsersModule } from '@modules/users/users.module';
 
 @Module({
   imports: [
+    // UsersModule exports UsersService — needed for login validation
     UsersModule,
 
+    // Register 'jwt' as the default Passport strategy
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
     // JwtModule.registerAsync reads config at runtime, not import time.
@@ -34,7 +39,7 @@ import { UsersModule } from '@modules/users/users.module';
         signOptions: {
           expiresIn: config.get<string>(
             'JWT_EXPIRATION',
-            '1h',
+            '15m',
           ) as unknown as number,
         },
       }),
