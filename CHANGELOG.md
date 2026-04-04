@@ -2,6 +2,18 @@
 
 All notable changes to Meterplex API.
 
+## [0.3.1] - 2026-04-04
+
+### Build
+
+- Bump the patch-and-minor group across 1 directory with 12 updates
+
+### Features
+
+- Add DTOs for token refresh and password management flows
+- Implement full authentication lifecycle including refresh tokens, password management
+- Add complete auth flow with dual JWT tokens, password reset, and token rotation
+
 ## [0.3.0] - 2026-04-04
 
 ### Bug Fixes
