@@ -39,9 +39,15 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
+  ApiBearerAuth,
+  ApiHeader,
 } from '@nestjs/swagger';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { TenantGuard } from '@common/guards/tenant.guard';
+import { TenantId, CurrentUser } from '@common/decorators';
 
 @ApiTags('Tenants')
 @Controller({
@@ -148,5 +154,43 @@ export class TenantsController {
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     return await this.tenantsService.remove(id);
+  }
+
+  /**
+   * GET /api/v1/tenants/me/context
+   *
+   * Returns the tenant context for the authenticated user.
+   * Proves tenant isolation: requires valid JWT + x-tenant-id header
+   * + user must be a member of that tenant.
+   *
+   * This is a test endpoint — demonstrates the guard chain:
+   *   1. JwtAuthGuard → validates the JWT
+   *   2. TenantGuard → validates x-tenant-id and membership
+   */
+  @Get('me/context')
+  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'x-tenant-id',
+    description: 'Tenant UUID',
+    required: true,
+  })
+  @ApiOperation({ summary: 'Get current tenant context (proves isolation)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tenant context for authenticated user',
+  })
+  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({ status: 403, description: 'Not a member of this tenant' })
+  async getTenantContext(
+    @CurrentUser() user: { id: string; email: string },
+    @TenantId() tenantId: string,
+  ) {
+    const tenant = await this.tenantsService.findById(tenantId);
+    return {
+      user: { id: user.id, email: user.email },
+      tenant: { id: tenant.id, name: tenant.name, slug: tenant.slug },
+      message: 'You have access to this tenant',
+    };
   }
 }
