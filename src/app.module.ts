@@ -14,7 +14,8 @@ import { PrismaModule } from './prisma';
 import { HealthModule } from './health';
 
 // module
-import { TenantsModule } from './modules/tenants/tenants.module';
+import { TenantsModule } from '@modules/tenants';
+import { UsersModule } from '@modules/users';
 
 import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
 
@@ -29,6 +30,7 @@ import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
     PrismaModule,
     HealthModule,
     TenantsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
