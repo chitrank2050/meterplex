@@ -8,14 +8,23 @@
  * Keep the payload small — it's sent on EVERY request in the
  * Authorization header. Don't put large objects here.
  *
- * sub: JWT standard claim for "subject" (the user ID)
- * email: for convenience in logs and error messages
- * iat/exp: added automatically by @nestjs/jwt (issued at, expires at)
+ * Standard JWT claims used:
+ *   sub: "subject" — the user's UUID
+ *   jti: "JWT ID" — unique token identifier (prevents hash collisions)
+ *   iat/exp: added automatically by @nestjs/jwt (issued at, expires at)
  */
 export interface JwtPayload {
-  /** User UUID — the "subject" of the token */
+  /** User UUID — the "subject" of the token. */
   sub: string;
 
-  /** User's email — for display and logging */
+  /** User's email — for display and logging. */
   email: string;
+
+  /**
+   * Unique token identifier — 16 bytes of randomness (hex encoded).
+   * Ensures every token is unique even when signed at the same second
+   * with the same payload. Without this, two tokens with identical
+   * sub + email + iat produce the same hash → unique constraint violation.
+   */
+  jti: string;
 }

@@ -622,7 +622,11 @@ export class AuthService {
    * @returns Object with accessToken and refreshToken strings
    */
   private async generateTokens(userId: string, email: string) {
-    const payload: JwtPayload = { sub: userId, email };
+    const payload: JwtPayload = {
+      sub: userId,
+      email,
+      jti: randomBytes(16).toString('hex'),
+    };
 
     // Access token — primary secret, short expiry
     const accessToken = this.jwtService.sign(payload);
