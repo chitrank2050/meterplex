@@ -90,6 +90,13 @@ async function bootstrap(): Promise<void> {
   });
 
   // =============================================================
+  // Global Exception Filter — Catches ALL unhandled exceptions
+  //     and returns a consistent JSON error response.
+  //     Without this, unhandled errors leak stack traces to clients.
+  // =============================================================
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // =============================================================
   // Global Validation Pipe —
   //    Rejects invalid request bodies
   //    BEFORE they reach our business logic.
@@ -106,12 +113,6 @@ async function bootstrap(): Promise<void> {
   //    - forbidNonWhitelisted: rejects request if extra properties sent
   //    - transform: auto-converts types (string "5" → number 5)
   // =============================================================
-  // =============================================================
-  // Global Exception Filter — Catches ALL unhandled exceptions
-  //     and returns a consistent JSON error response.
-  //     Without this, unhandled errors leak stack traces to clients.
-  // =============================================================
-  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -150,7 +151,7 @@ async function bootstrap(): Promise<void> {
     const document = SwaggerModule.createDocument(app, swaggerConfig);
 
     // Raw OpenAPI JSON — importable by Bruno, Postman, SDK generators.
-    SwaggerModule.setup(`${apiPrefix}/docs-json`, app, document, {
+    SwaggerModule.setup(`${apiPrefix}/swagger`, app, document, {
       jsonDocumentUrl: `${apiPrefix}/docs-json`,
     });
 

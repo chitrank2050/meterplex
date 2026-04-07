@@ -79,16 +79,23 @@ export class RolesGuard implements CanActivate {
       );
     }
 
-    // Step 4: Look up the user's membership in this tenant.
-    // This is a DB query on every request — cached in Redis in Phase 5.
-    const membership = await this.prisma.membership.findUnique({
-      where: {
-        userId_tenantId: {
-          userId: user.id,
-          tenantId,
-        },
-      },
-    });
+    // Check if TenantGuard already fetched and attached the membership
+    let membership = request.membership;
+
+    // ONLY query the DB if membership isn't already on the request
+    if (!membership) {
+      // Step 4: Look up the user's membership in this tenant.
+      // This is a DB query on every request — cached in Redis in Phase 5.
+      membership =
+        (await this.prisma.membership.findUnique({
+          where: {
+            userId_tenantId: {
+              userId: user.id,
+              tenantId,
+            },
+          },
+        })) ?? undefined;
+    }
 
     // Step 5: Check if the user has one of the required roles.
     if (!membership) {
