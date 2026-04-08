@@ -52,6 +52,10 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down -v",
     "docker:logs": "docker compose logs -f",
+    "init": "./scripts/install.sh",
+    "nuke": "./scripts/obliviate.sh",
+    "clean-setup": "pnpm run nuke && pnpm run init",
+    "clean-build": "pnpm run nuke && pnpm run init && ./scripts/build.sh",
     "prepare": "husky",
     "git-tag": "./scripts/git-tag.sh",
     "git-release": "./scripts/git-release.sh"
