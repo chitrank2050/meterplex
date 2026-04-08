@@ -29,7 +29,7 @@
     
     
       
-        <title>Phase 1 — Identity and Access - Meterplex Docs</title>
+        <title>Phase 1 - Identity and Access - Meterplex Docs</title>
       
     
     
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 1 — Identity and Access
+              Phase 1 - Identity and Access
             
           </span>
         </div>
@@ -622,7 +622,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 0 — Project Setup
+    Phase 0 - Project Setup
   
 
     
@@ -659,7 +659,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 — Identity and Access
+    Phase 1 - Identity and Access
   
 
     
@@ -677,7 +677,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 — Identity and Access
+    Phase 1 - Identity and Access
   
 
     
@@ -1167,7 +1167,7 @@
   
 
 
-<h1 id="phase-1-multi-tenant-identity-and-access">Phase 1 — Multi-tenant identity and access<a class="headerlink" href="#phase-1-multi-tenant-identity-and-access" title="Permanent link">&para;</a></h1>
+<h1 id="phase-1-multi-tenant-identity-and-access">Phase 1 - Multi-tenant identity and access<a class="headerlink" href="#phase-1-multi-tenant-identity-and-access" title="Permanent link">&para;</a></h1>
 <p><strong>Goal:</strong> Support organizations using the platform with authentication, authorization, and tenant isolation.</p>
 <p><strong>Status:</strong> ✅ Complete</p>
 <h2 id="tldr">TLDR:<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
@@ -1186,20 +1186,20 @@
 <p><img alt="Phase 1 ERD" src="../../architecture/phase-1-erd.png" /></p>
 <p>Four new tables added to the Tenant model from Phase 0:</p>
 <ul>
-<li><strong>users</strong> — global accounts with bcrypt-hashed passwords</li>
-<li><strong>memberships</strong> — join table connecting users to tenants with roles</li>
-<li><strong>api_keys</strong> — server-to-server authentication tokens (SHA-256 hashed)</li>
-<li><strong>refresh_tokens</strong> — stateful token tracking for session management</li>
-<li><strong>password_reset_tokens</strong> — single-use tokens for forgot-password flow</li>
+<li><strong>users</strong> - global accounts with bcrypt-hashed passwords</li>
+<li><strong>memberships</strong> - join table connecting users to tenants with roles</li>
+<li><strong>api_keys</strong> - server-to-server authentication tokens (SHA-256 hashed)</li>
+<li><strong>refresh_tokens</strong> - stateful token tracking for session management</li>
+<li><strong>password_reset_tokens</strong> - single-use tokens for forgot-password flow</li>
 </ul>
 <h3 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h3>
 <p>Two authentication mechanisms for two audiences:</p>
 <ul>
-<li><strong>JWT (access + refresh tokens)</strong> — for dashboard/admin users via browser</li>
+<li><strong>JWT (access + refresh tokens)</strong> - for dashboard/admin users via browser</li>
 <li>Access token: 15 min, stateless, no DB lookup per request</li>
 <li>Refresh token: 7 days, stateful (hashed in DB), token rotation on each refresh</li>
 <li>Separate signing secrets for access and refresh tokens</li>
-<li><strong>API keys</strong> — for server-to-server access (Stripe-style <code>mp_live_...</code> keys)</li>
+<li><strong>API keys</strong> - for server-to-server access (Stripe-style <code>mp_live_...</code> keys)</li>
 <li>Raw key shown once at creation, SHA-256 hash stored</li>
 <li>Key prefix stored for identification without exposure</li>
 <li>Supports expiration and revocation</li>
@@ -1252,15 +1252,15 @@
 <li>Users see only tenants they belong to (query-level filtering)</li>
 <li><code>TenantGuard</code> validates <code>x-tenant-id</code> header + membership on every scoped request</li>
 <li><code>RolesGuard</code> checks user's role within the specific tenant</li>
-<li>API keys are scoped to a single tenant — no cross-tenant access</li>
+<li>API keys are scoped to a single tenant - no cross-tenant access</li>
 </ul>
 <h3 id="password-management">Password management<a class="headerlink" href="#password-management" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Registration</strong> — creates user + tenant + OWNER membership in one transaction</li>
-<li><strong>Login</strong> — validates credentials, returns access + refresh tokens</li>
-<li><strong>Forgot password</strong> — generates crypto-random reset token (15 min, single-use)</li>
-<li><strong>Reset password</strong> — validates token, updates password, revokes all sessions</li>
-<li><strong>Change password</strong> — requires current password, revokes other sessions</li>
+<li><strong>Registration</strong> - creates user + tenant + OWNER membership in one transaction</li>
+<li><strong>Login</strong> - validates credentials, returns access + refresh tokens</li>
+<li><strong>Forgot password</strong> - generates crypto-random reset token (15 min, single-use)</li>
+<li><strong>Reset password</strong> - validates token, updates password, revokes all sessions</li>
+<li><strong>Change password</strong> - requires current password, revokes other sessions</li>
 </ul>
 <h2 id="api-endpoints">API endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
 <h3 id="auth-public">Auth (public)<a class="headerlink" href="#auth-public" title="Permanent link">&para;</a></h3>
@@ -1484,7 +1484,7 @@
 </tr>
 <tr>
 <td>API keys as SHA-256 hashes</td>
-<td>Same pattern as Stripe — database breach doesn't expose keys</td>
+<td>Same pattern as Stripe - database breach doesn't expose keys</td>
 </tr>
 <tr>
 <td>Soft-delete on tenants</td>
@@ -1516,29 +1516,29 @@
 <td>alice@meterplex.dev</td>
 <td>OWNER</td>
 <td>ADMIN</td>
-<td>—</td>
+<td>-</td>
 </tr>
 <tr>
 <td>bob@meterplex.dev</td>
 <td>DEVELOPER</td>
 <td>OWNER</td>
-<td>—</td>
+<td>-</td>
 </tr>
 <tr>
 <td>carol@meterplex.dev</td>
 <td>BILLING</td>
-<td>—</td>
+<td>-</td>
 <td>OWNER</td>
 </tr>
 <tr>
 <td>dave@meterplex.dev</td>
 <td>DEVELOPER</td>
 <td>DEVELOPER</td>
-<td>—</td>
+<td>-</td>
 </tr>
 <tr>
 <td>eve@meterplex.dev</td>
-<td>—</td>
+<td>-</td>
 <td>BILLING</td>
 <td>ADMIN</td>
 </tr>
@@ -1546,10 +1546,10 @@
 </table>
 <h2 id="gotchas-encountered">Gotchas encountered<a class="headerlink" href="#gotchas-encountered" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>JWT hash collision</strong> — two tokens signed at the same second with identical payload produce the same hash. Fixed by adding <code>jti</code> (JWT ID) claim with random bytes.</li>
-<li><strong><code>@nestjs/jwt</code> type mismatch</strong> — <code>expiresIn</code> accepts <code>string | number</code> at runtime but TypeScript overloads reject strings. Fixed by converting duration to seconds.</li>
-<li><strong>Route ordering matters</strong> — <code>/tenants/me/context</code> must be defined before <code>/tenants/:id</code> or NestJS interprets "me" as a UUID parameter.</li>
-<li><strong>Guard chain order</strong> — <code>JwtAuthGuard</code> must run before <code>TenantGuard</code> and <code>RolesGuard</code> because they depend on <code>request.user</code> being set.</li>
+<li><strong>JWT hash collision</strong> - two tokens signed at the same second with identical payload produce the same hash. Fixed by adding <code>jti</code> (JWT ID) claim with random bytes.</li>
+<li><strong><code>@nestjs/jwt</code> type mismatch</strong> - <code>expiresIn</code> accepts <code>string | number</code> at runtime but TypeScript overloads reject strings. Fixed by converting duration to seconds.</li>
+<li><strong>Route ordering matters</strong> - <code>/tenants/me/context</code> must be defined before <code>/tenants/:id</code> or NestJS interprets "me" as a UUID parameter.</li>
+<li><strong>Guard chain order</strong> - <code>JwtAuthGuard</code> must run before <code>TenantGuard</code> and <code>RolesGuard</code> because they depend on <code>request.user</code> being set.</li>
 </ol>
 
 

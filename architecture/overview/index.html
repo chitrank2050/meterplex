@@ -483,7 +483,7 @@
   <a href="#phase-1-data-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 1 — Data model
+        Phase 1 - Data model
       
     </span>
   </a>
@@ -752,7 +752,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 0 — Project Setup
+    Phase 0 - Project Setup
   
 
     
@@ -780,7 +780,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 — Identity and Access
+    Phase 1 - Identity and Access
   
 
     
@@ -930,7 +930,7 @@
   <a href="#phase-1-data-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 1 — Data model
+        Phase 1 - Data model
       
     </span>
   </a>
@@ -959,15 +959,15 @@
 
 <h1 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h1>
 <h2 id="philosophy">Philosophy<a class="headerlink" href="#philosophy" title="Permanent link">&para;</a></h2>
-<p>Meterplex follows the <strong>modular monolith</strong> pattern — a single deployable NestJS application with strict module boundaries enforced by the framework's dependency injection system.</p>
+<p>Meterplex follows the <strong>modular monolith</strong> pattern - a single deployable NestJS application with strict module boundaries enforced by the framework's dependency injection system.</p>
 <h3 id="why-not-microservices">Why not microservices?<a class="headerlink" href="#why-not-microservices" title="Permanent link">&para;</a></h3>
-<p>Microservices on day one create a <strong>distributed monolith</strong> — the worst of both worlds. You get the operational complexity of multiple services (separate deployments, inter-service communication, distributed tracing) without the benefits (independent scaling, isolated failures), because the domain boundaries haven't been proven yet.</p>
+<p>Microservices on day one create a <strong>distributed monolith</strong> - the worst of both worlds. You get the operational complexity of multiple services (separate deployments, inter-service communication, distributed tracing) without the benefits (independent scaling, isolated failures), because the domain boundaries haven't been proven yet.</p>
 <p>The modular monolith gives us:</p>
 <ul>
-<li><strong>One deployment</strong> — simpler CI/CD, one Docker image, one health check</li>
-<li><strong>In-process calls</strong> — no network latency between modules, no serialization overhead</li>
-<li><strong>Shared database</strong> — transactions span modules, no eventual consistency headaches</li>
-<li><strong>Clean extraction path</strong> — when a module needs independent scaling, extract it. Kafka topics are already in place for async communication</li>
+<li><strong>One deployment</strong> - simpler CI/CD, one Docker image, one health check</li>
+<li><strong>In-process calls</strong> - no network latency between modules, no serialization overhead</li>
+<li><strong>Shared database</strong> - transactions span modules, no eventual consistency headaches</li>
+<li><strong>Clean extraction path</strong> - when a module needs independent scaling, extract it. Kafka topics are already in place for async communication</li>
 </ul>
 <h3 id="when-to-extract-a-microservice">When to extract a microservice<a class="headerlink" href="#when-to-extract-a-microservice" title="Permanent link">&para;</a></h3>
 <p>A module becomes a microservice candidate when:</p>
@@ -979,13 +979,13 @@
 <p>Until then, modules stay in the monolith.</p>
 <h2 id="module-dependency-rules">Module Dependency Rules<a class="headerlink" href="#module-dependency-rules" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>AppModule
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── ConfigModule (global)     — env validation, ConfigService
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── PrismaModule (global)     — database access
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── HealthModule              — /health endpoint
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── ConfigModule (global)     - env validation, ConfigService
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── PrismaModule (global)     - database access
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── HealthModule              - /health endpoint
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└── Feature Modules
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ├── TenantsModule          — tenant CRUD
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ├── UsageModule            — usage event ingestion
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ├── BillingModule          — invoice generation
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ├── TenantsModule          - tenant CRUD
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ├── UsageModule            - usage event ingestion
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ├── BillingModule          - invoice generation
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    └── ...
 </code></pre></div>
 <p><strong>Rules:</strong></p>
@@ -1058,7 +1058,7 @@
 </tbody>
 </table>
 <p>All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).</p>
-<h2 id="phase-1-data-model">Phase 1 — Data model<a class="headerlink" href="#phase-1-data-model" title="Permanent link">&para;</a></h2>
+<h2 id="phase-1-data-model">Phase 1 - Data model<a class="headerlink" href="#phase-1-data-model" title="Permanent link">&para;</a></h2>
 <p><img alt="Phase 1 ERD" src="../phase-1-erd.png" /></p>
 <p>Four tables: <code>tenants</code> (organizations), <code>users</code> (global accounts), <code>memberships</code> (join table with roles), and <code>api_keys</code> (server-to-server authentication). A user can belong to multiple tenants with different roles via the memberships table.</p>
 

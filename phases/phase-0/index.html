@@ -29,7 +29,7 @@
     
     
       
-        <title>Phase 0 — Project Setup - Meterplex Docs</title>
+        <title>Phase 0 - Project Setup - Meterplex Docs</title>
       
     
     
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 0 — Project Setup
+              Phase 0 - Project Setup
             
           </span>
         </div>
@@ -631,7 +631,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 0 — Project Setup
+    Phase 0 - Project Setup
   
 
     
@@ -649,7 +649,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 0 — Project Setup
+    Phase 0 - Project Setup
   
 
     
@@ -824,7 +824,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 — Identity and Access
+    Phase 1 - Identity and Access
   
 
     
@@ -1045,7 +1045,7 @@
   
 
 
-<h1 id="phase-0-project-setup">Phase 0 — Project Setup<a class="headerlink" href="#phase-0-project-setup" title="Permanent link">&para;</a></h1>
+<h1 id="phase-0-project-setup">Phase 0 - Project Setup<a class="headerlink" href="#phase-0-project-setup" title="Permanent link">&para;</a></h1>
 <p><strong>Goal:</strong> Create production-style foundations that every subsequent phase builds on.</p>
 <p><strong>Status:</strong> ✅ Complete</p>
 <h2 id="what-was-built">What Was Built<a class="headerlink" href="#what-was-built" title="Permanent link">&para;</a></h2>
@@ -1062,12 +1062,12 @@
 <li><code>moduleFormat = "cjs"</code> to resolve ESM/CJS mismatch with NestJS</li>
 <li>First migration: <code>tenants</code> table with UUID primary keys, enum status, JSONB metadata, unique slug index</li>
 <li>Idempotent seed script using <code>upsert</code> (3 sample tenants)</li>
-<li>Database connection URL configured in <code>prisma.config.ts</code> (Prisma 7 requirement — not in <code>schema.prisma</code>)</li>
+<li>Database connection URL configured in <code>prisma.config.ts</code> (Prisma 7 requirement - not in <code>schema.prisma</code>)</li>
 </ul>
 <h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>NestJS 11</strong> scaffolded via CLI with <code>--strict</code> flag and pnpm</li>
-<li>TypeScript strict mode (<code>strict: true</code> — all 10 checks enabled)</li>
+<li>TypeScript strict mode (<code>strict: true</code> - all 10 checks enabled)</li>
 <li>Path aliases: <code>@common/*</code>, <code>@config/*</code>, <code>@modules/*</code></li>
 <li>Global API prefix <code>/api</code> with URI versioning (<code>/api/v1/...</code>)</li>
 <li>Health endpoint excluded from prefix and versioning via <code>VERSION_NEUTRAL</code></li>
@@ -1078,10 +1078,10 @@
 </ul>
 <h3 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Correlation ID middleware</strong> — every request gets a UUID in <code>x-correlation-id</code></li>
-<li><strong>Request logger middleware</strong> — logs method, path, status, duration for every request</li>
-<li><strong>Global exception filter</strong> — consistent error JSON with correlationId, timestamp, path</li>
-<li><strong>Health check endpoint</strong> at <code>/health</code> — Postgres connectivity via <code>SELECT 1</code></li>
+<li><strong>Correlation ID middleware</strong> - every request gets a UUID in <code>x-correlation-id</code></li>
+<li><strong>Request logger middleware</strong> - logs method, path, status, duration for every request</li>
+<li><strong>Global exception filter</strong> - consistent error JSON with correlationId, timestamp, path</li>
+<li><strong>Health check endpoint</strong> at <code>/health</code> - Postgres connectivity via <code>SELECT 1</code></li>
 </ul>
 <h3 id="code-quality">Code Quality<a class="headerlink" href="#code-quality" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1134,7 +1134,7 @@
 </tr>
 <tr>
 <td>Driver adapter pattern (<code>PrismaPg</code>)</td>
-<td>Prisma 7 requirement — the client no longer manages its own connection</td>
+<td>Prisma 7 requirement - the client no longer manages its own connection</td>
 </tr>
 <tr>
 <td><code>tsx</code> over <code>ts-node</code> for seed</td>
@@ -1144,14 +1144,14 @@
 </table>
 <h2 id="gotchas-encountered">Gotchas Encountered<a class="headerlink" href="#gotchas-encountered" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>Prisma 7 removed <code>url</code> from <code>schema.prisma</code></strong> — connection URL moved to <code>prisma.config.ts</code></li>
-<li><strong>Prisma 7 generates ESM by default</strong> — must set <code>moduleFormat = "cjs"</code> for NestJS</li>
-<li><strong>Prisma 7 requires driver adapters</strong> — can't just <code>super()</code> in PrismaService, must pass <code>PrismaPg</code> adapter</li>
-<li><strong><code>@prisma/client</code> must be installed separately</strong> — <code>prisma</code> (CLI) and <code>@prisma/client</code> (runtime) are different packages</li>
-<li><strong>Local Postgres on port 5432 conflicts with Docker</strong> — stop Homebrew/Postgres.app before running containers</li>
-<li><strong><code>forRoutes('*')</code> deprecated in NestJS 11</strong> — use <code>forRoutes('*path')</code> for wildcard middleware routing</li>
-<li><strong>Health endpoint needs <code>VERSION_NEUTRAL</code></strong> — <code>exclude</code> in <code>setGlobalPrefix</code> doesn't bypass URI versioning</li>
-<li><strong>Prisma 7 seed config moved to <code>prisma.config.ts</code></strong> — no longer in <code>package.json</code> under <code>"prisma": { "seed": ... }</code></li>
+<li><strong>Prisma 7 removed <code>url</code> from <code>schema.prisma</code></strong> - connection URL moved to <code>prisma.config.ts</code></li>
+<li><strong>Prisma 7 generates ESM by default</strong> - must set <code>moduleFormat = "cjs"</code> for NestJS</li>
+<li><strong>Prisma 7 requires driver adapters</strong> - can't just <code>super()</code> in PrismaService, must pass <code>PrismaPg</code> adapter</li>
+<li><strong><code>@prisma/client</code> must be installed separately</strong> - <code>prisma</code> (CLI) and <code>@prisma/client</code> (runtime) are different packages</li>
+<li><strong>Local Postgres on port 5432 conflicts with Docker</strong> - stop Homebrew/Postgres.app before running containers</li>
+<li><strong><code>forRoutes('*')</code> deprecated in NestJS 11</strong> - use <code>forRoutes('*path')</code> for wildcard middleware routing</li>
+<li><strong>Health endpoint needs <code>VERSION_NEUTRAL</code></strong> - <code>exclude</code> in <code>setGlobalPrefix</code> doesn't bypass URI versioning</li>
+<li><strong>Prisma 7 seed config moved to <code>prisma.config.ts</code></strong> - no longer in <code>package.json</code> under <code>"prisma": { "seed": ... }</code></li>
 </ol>
 <h2 id="files-createdmodified">Files Created/Modified<a class="headerlink" href="#files-createdmodified" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>meterplex/
@@ -1206,10 +1206,10 @@
 <p><img alt="alt text" src="../phase-0.png" /></p>
 <h2 id="interview-talking-points">Interview Talking Points<a class="headerlink" href="#interview-talking-points" title="Permanent link">&para;</a></h2>
 <ul>
-<li>"I chose a modular monolith because the domain boundaries weren't validated yet. Premature decomposition creates a distributed monolith — the worst of both worlds."</li>
-<li>"Every environment variable is validated at boot. If <code>DATABASE_URL</code> is missing, the app refuses to start with a clear error — not a cryptic crash 30 seconds later."</li>
+<li>"I chose a modular monolith because the domain boundaries weren't validated yet. Premature decomposition creates a distributed monolith - the worst of both worlds."</li>
+<li>"Every environment variable is validated at boot. If <code>DATABASE_URL</code> is missing, the app refuses to start with a clear error - not a cryptic crash 30 seconds later."</li>
 <li>"Every request gets a correlation ID that flows through logs, error responses, and eventually Kafka events. You can trace any issue end-to-end with one UUID."</li>
-<li>"The error response format is consistent across the entire API — the frontend team only needs one error interface."</li>
+<li>"The error response format is consistent across the entire API - the frontend team only needs one error interface."</li>
 <li>"Prisma 7 generates fully typed queries from the schema. If I mistype a field name, TypeScript catches it at compile time, not production."</li>
 </ul>
 
