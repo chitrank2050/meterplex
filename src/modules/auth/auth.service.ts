@@ -288,7 +288,7 @@ export class AuthService {
         secret: this.refreshSecret,
       });
     } catch {
-      throw new UnauthorizedException('Invalid or expired refresh token');
+      throw new UnauthorizedException(ERRORS.AUTH.TOKEN_INVALID_OR_EXPIRED);
     }
 
     // Step 2: Look up the hashed token in the database.
@@ -305,12 +305,12 @@ export class AuthService {
       this.logger.warn(
         `Refresh token reuse detected for user ${payload.sub} — all sessions revoked`,
       );
-      throw new UnauthorizedException('Refresh token has been revoked');
+      throw new UnauthorizedException(ERRORS.AUTH.REFRESSH_TOKEN_REVOKED);
     }
 
     // Step 4: Check database-level expiry (belt and suspenders with JWT expiry)
     if (storedToken.expiresAt < new Date()) {
-      throw new UnauthorizedException('Refresh token has expired');
+      throw new UnauthorizedException(ERRORS.AUTH.REFRESH_TOKEN_EXPIRED);
     }
 
     // Step 5: Revoke the old token (rotation) and issue a new pair
@@ -477,15 +477,15 @@ export class AuthService {
 
     // Validate the token — three checks
     if (!resetToken) {
-      throw new BadRequestException('Invalid reset token');
+      throw new BadRequestException(ERRORS.AUTH.INVALID_RESET_TOKEN);
     }
 
     if (resetToken.isUsed) {
-      throw new BadRequestException('Reset token has already been used');
+      throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_ALREADY_USED);
     }
 
     if (resetToken.expiresAt < new Date()) {
-      throw new BadRequestException('Reset token has expired');
+      throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_EXPIRED);
     }
 
     // All validations passed — update password and clean up
@@ -555,13 +555,13 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new UnauthorizedException(ERRORS.AUTH.USER_NOT_FOUND);
     }
 
     // Verify the current password — constant-time comparison via bcrypt
     const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
     if (!isValid) {
-      throw new UnauthorizedException('Current password is incorrect');
+      throw new UnauthorizedException(ERRORS.AUTH.INVALID_CURRENT_PASSWORD);
     }
 
     // Hash the new password and update everything in a transaction

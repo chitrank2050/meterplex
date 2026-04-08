@@ -33,9 +33,19 @@ export const ERRORS = {
    * Authentication related error messages
    */
   AUTH: {
+    USER_NOT_FOUND: 'User not found',
+    INVALID_CURRENT_PASSWORD: 'Invalid current password',
     INVALID_CREDENTIALS: 'Invalid email or password',
     INACTIVE_ACCOUNT: 'Account is disabled',
     TOKEN_EXPIRED: 'Token has expired',
+    // Reset Password
+    INVALID_RESET_TOKEN: 'Invalid reset token',
+    RESET_TOKEN_ALREADY_USED: 'Reset token has already been used',
+    RESET_TOKEN_EXPIRED: 'Reset token has expired',
+    // Refresh TOken
+    TOKEN_INVALID_OR_EXPIRED: 'Invalid or expired refresh token',
+    REFRESSH_TOKEN_REVOKED: 'Refresh token has been revoked',
+    REFRESH_TOKEN_EXPIRED: 'Refresh token has expired',
   },
   /**
    * API key related error messages
