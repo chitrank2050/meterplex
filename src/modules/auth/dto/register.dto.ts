@@ -32,6 +32,7 @@ export class RegisterDto {
 
   @ApiProperty({ example: 'SecurePass123' })
   @IsString()
+  @IsNotEmpty()
   @MinLength(8)
   @MaxLength(72)
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {

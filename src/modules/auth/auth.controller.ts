@@ -75,14 +75,17 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Register a new user and tenant' })
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     description: 'Registration successful, tokens returned',
   })
   @ApiResponse({
-    status: 409,
+    status: HttpStatus.CONFLICT,
     description: 'Email or tenant slug already exists',
   })
-  @ApiResponse({ status: 400, description: 'Validation failed' })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Validation failed',
+  })
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
@@ -98,11 +101,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login with email and password' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Login successful, tokens returned',
   })
   @ApiResponse({
-    status: 401,
+    status: HttpStatus.UNAUTHORIZED,
     description: 'Invalid credentials or disabled account',
   })
   async login(@Body() dto: LoginDto) {
@@ -124,11 +127,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Exchange refresh token for new token pair' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'New access + refresh tokens returned',
   })
   @ApiResponse({
-    status: 401,
+    status: HttpStatus.UNAUTHORIZED,
     description: 'Invalid, expired, or revoked refresh token',
   })
   async refresh(@Body() dto: RefreshTokenDto) {
@@ -149,7 +152,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Request a password reset token' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Reset token generated (if account exists)',
   })
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
@@ -166,9 +169,12 @@ export class AuthController {
   @Post('reset-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Reset password using a reset token' })
-  @ApiResponse({ status: 200, description: 'Password reset successful' })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.OK,
+    description: 'Password reset successful',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
     description: 'Invalid, expired, or already-used token',
   })
   async resetPassword(@Body() dto: ResetPasswordDto) {
@@ -190,8 +196,14 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current authenticated user profile' })
-  @ApiResponse({ status: 200, description: 'Current user profile' })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Current user profile',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Not authenticated',
+  })
   me(@Request() req: { user: AuthenticatedUser }) {
     return req.user;
   }
@@ -212,10 +224,13 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Change password (requires current password)' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Password changed, new tokens returned',
   })
-  @ApiResponse({ status: 401, description: 'Current password is incorrect' })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Current password is incorrect',
+  })
   async changePassword(
     @Request() req: { user: AuthenticatedUser },
     @Body() dto: ChangePasswordDto,
@@ -239,7 +254,10 @@ export class AuthController {
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Logout current session (revoke refresh token)' })
-  @ApiResponse({ status: 200, description: 'Refresh token revoked' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Refresh token revoked',
+  })
   async logout(@Body() dto: RefreshTokenDto) {
     await this.authService.logout(dto.refreshToken);
     return { message: 'Logged out successfully' };
@@ -257,7 +275,10 @@ export class AuthController {
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Logout from all devices' })
-  @ApiResponse({ status: 200, description: 'All sessions revoked' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'All sessions revoked',
+  })
   async logoutAll(@Request() req: { user: AuthenticatedUser }) {
     await this.authService.logoutAll(req.user.id);
     return { message: 'All sessions have been logged out' };
