@@ -1,5 +1,5 @@
 /**
- * LoginDto — Validates the login request body.
+ * LoginDto - Validates the login request body.
  *
  * The client sends email + plain text password.
  * The auth service validates against the bcrypt hash.

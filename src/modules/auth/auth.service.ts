@@ -1,5 +1,5 @@
 /**
- * AuthService — Complete authentication and password management.
+ * AuthService - Complete authentication and password management.
  *
  * This service handles every auth-related operation in the platform:
  *
@@ -20,7 +20,7 @@
  *   - Refresh tokens are long-lived (7 days) and stateful (hashed in DB)
  *   - Access and refresh tokens use DIFFERENT signing secrets
  *   - Reset tokens are crypto-random (not JWT), 15 min expiry, single-use
- *   - All tokens are stored as SHA-256 hashes — raw values never persisted
+ *   - All tokens are stored as SHA-256 hashes - raw values never persisted
  *   - Password changes revoke all sessions (defense against stolen tokens)
  *   - Same error message for wrong email and wrong password (prevents enumeration)
  *   - Same response shape for existing and non-existing emails on forgot-password
@@ -44,14 +44,14 @@ import { ERRORS } from '@common/constants';
 
 /**
  * bcrypt salt rounds. 12 = 2^12 = 4096 iterations.
- * Each hash takes ~250ms — deliberately slow to resist brute force.
+ * Each hash takes ~250ms - deliberately slow to resist brute force.
  * Industry standard for 2025+. Below 10 is insecure. Above 14 is too slow.
  */
 const SALT_ROUNDS = 12;
 
 /**
  * Password reset token validity period in milliseconds.
- * 15 minutes is standard — long enough to check email,
+ * 15 minutes is standard - long enough to check email,
  * short enough to limit exposure if the email is compromised.
  */
 const RESET_TOKEN_EXPIRY_MS = 15 * 60 * 1000;
@@ -73,7 +73,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {
     // Read refresh token config once at startup.
-    // These are validated by EnvConfig — guaranteed to exist.
+    // These are validated by EnvConfig - guaranteed to exist.
     this.refreshSecret =
       this.configService.getOrThrow<string>('JWT_REFRESH_SECRET')!;
     this.refreshExpiration = this.configService.get<string>(
@@ -119,7 +119,7 @@ export class AuthService {
    *   2. Tenant organization
    *   3. Membership linking the user as OWNER of the tenant
    *
-   * If any step fails, the transaction rolls back — no orphaned records.
+   * If any step fails, the transaction rolls back - no orphaned records.
    *
    * @param dto - Validated registration data (user + tenant fields)
    * @returns Access token, refresh token, user profile, and tenant info
@@ -164,7 +164,7 @@ export class AuthService {
         },
       });
 
-      // 3. Link user as OWNER — every tenant must have exactly one owner
+      // 3. Link user as OWNER - every tenant must have exactly one owner
       await tx.membership.create({
         data: {
           userId: user.id,
@@ -207,7 +207,7 @@ export class AuthService {
    * Authenticate a user with email and password.
    *
    * Security: returns the SAME error message for both "email not found"
-   * and "wrong password." This prevents user enumeration — an attacker
+   * and "wrong password." This prevents user enumeration - an attacker
    * can't determine which emails are registered by observing different
    * error messages.
    *
@@ -217,10 +217,10 @@ export class AuthService {
    */
   async login(dto: LoginDto) {
     // findByEmailWithPassword is the ONLY method that returns the hash.
-    // It's used exclusively here — never exposed via any controller.
+    // It's used exclusively here - never exposed via any controller.
     const user = await this.usersService.findByEmailWithPassword(dto.email);
 
-    // Same error for "not found" and "wrong password" — prevents enumeration
+    // Same error for "not found" and "wrong password" - prevents enumeration
     if (!user) {
       throw new UnauthorizedException(ERRORS.AUTH.INVALID_CREDENTIALS);
     }
@@ -230,7 +230,7 @@ export class AuthService {
       throw new UnauthorizedException(ERRORS.AUTH.INACTIVE_ACCOUNT);
     }
 
-    // bcrypt.compare is constant-time — takes the same duration whether
+    // bcrypt.compare is constant-time - takes the same duration whether
     // the password is correct or not. Prevents timing attacks.
     const isPasswordValid = await this.usersService.validatePassword(
       dto.password,
@@ -263,7 +263,7 @@ export class AuthService {
   /**
    * Exchange a valid refresh token for a new access + refresh token pair.
    *
-   * This implements TOKEN ROTATION — the old refresh token is revoked
+   * This implements TOKEN ROTATION - the old refresh token is revoked
    * and a new one is issued every time. This limits the damage if a
    * refresh token is stolen:
    *
@@ -292,7 +292,7 @@ export class AuthService {
     }
 
     // Step 2: Look up the hashed token in the database.
-    // We store only the hash — compare hash-to-hash.
+    // We store only the hash - compare hash-to-hash.
     const tokenHash = this.hashToken(refreshToken);
     const storedToken = await this.prisma.refreshToken.findUnique({
       where: { tokenHash },
@@ -303,7 +303,7 @@ export class AuthService {
     if (!storedToken || storedToken.isRevoked) {
       await this.revokeAllUserRefreshTokens(payload.sub);
       this.logger.warn(
-        `Refresh token reuse detected for user ${payload.sub} — all sessions revoked`,
+        `Refresh token reuse detected for user ${payload.sub} - all sessions revoked`,
       );
       throw new UnauthorizedException(ERRORS.AUTH.REFRESSH_TOKEN_REVOKED);
     }
@@ -334,7 +334,7 @@ export class AuthService {
    * Revoke a single refresh token (single-device logout).
    *
    * The access token remains valid until it naturally expires (max 15 min).
-   * This is by design — access tokens are stateless. If you need instant
+   * This is by design - access tokens are stateless. If you need instant
    * revocation, you'd add a token blacklist in Redis (Phase 5).
    *
    * @param refreshToken - The raw refresh token to revoke
@@ -342,7 +342,7 @@ export class AuthService {
   async logout(refreshToken: string): Promise<void> {
     const tokenHash = this.hashToken(refreshToken);
 
-    // updateMany won't throw if the token doesn't exist — idempotent
+    // updateMany won't throw if the token doesn't exist - idempotent
     await this.prisma.refreshToken.updateMany({
       where: { tokenHash, isRevoked: false },
       data: { isRevoked: true },
@@ -379,7 +379,7 @@ export class AuthService {
    *   - The response is IDENTICAL whether the email exists or not.
    *     An attacker cannot tell if an email is registered.
    *   - The token is 32 bytes of crypto-random data (base64url encoded).
-   *     Unguessable — 2^256 possible values.
+   *     Unguessable - 2^256 possible values.
    *   - Only the SHA-256 hash is stored in the database.
    *   - Token expires in 15 minutes.
    *   - Any existing unused tokens for the user are invalidated.
@@ -420,7 +420,7 @@ export class AuthService {
     const rawToken = randomBytes(32).toString('base64url');
     const tokenHash = this.hashToken(rawToken);
 
-    // Store only the hash — the raw token is returned once and never stored
+    // Store only the hash - the raw token is returned once and never stored
     await this.prisma.passwordResetToken.create({
       data: {
         userId: user.id,
@@ -456,7 +456,7 @@ export class AuthService {
    *   - Password is updated with a new bcrypt hash
    *   - The reset token is marked as used (prevents replay)
    *   - ALL refresh tokens are revoked (forces re-login everywhere)
-   *     This is critical — if an attacker triggered the reset,
+   *     This is critical - if an attacker triggered the reset,
    *     revoking sessions limits their access.
    *
    * All three operations run in a transaction for consistency.
@@ -475,7 +475,7 @@ export class AuthService {
       include: { user: true },
     });
 
-    // Validate the token — three checks
+    // Validate the token - three checks
     if (!resetToken) {
       throw new BadRequestException(ERRORS.AUTH.INVALID_RESET_TOKEN);
     }
@@ -488,7 +488,7 @@ export class AuthService {
       throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_EXPIRED);
     }
 
-    // All validations passed — update password and clean up
+    // All validations passed - update password and clean up
     const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
 
     await this.prisma.$transaction(async (tx) => {
@@ -498,13 +498,13 @@ export class AuthService {
         data: { passwordHash },
       });
 
-      // Mark the token as used — single-use enforcement
+      // Mark the token as used - single-use enforcement
       await tx.passwordResetToken.update({
         where: { id: resetToken.id },
         data: { isUsed: true },
       });
 
-      // Revoke ALL refresh tokens — forces re-login on every device.
+      // Revoke ALL refresh tokens - forces re-login on every device.
       // This is a security measure: if an attacker initiated the reset,
       // they can't use any existing sessions afterward.
       await tx.refreshToken.updateMany({
@@ -558,7 +558,7 @@ export class AuthService {
       throw new UnauthorizedException(ERRORS.AUTH.USER_NOT_FOUND);
     }
 
-    // Verify the current password — constant-time comparison via bcrypt
+    // Verify the current password - constant-time comparison via bcrypt
     const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
     if (!isValid) {
       throw new UnauthorizedException(ERRORS.AUTH.INVALID_CURRENT_PASSWORD);
@@ -574,7 +574,7 @@ export class AuthService {
         data: { passwordHash },
       });
 
-      // Revoke all refresh tokens — logs out every other device
+      // Revoke all refresh tokens - logs out every other device
       await tx.refreshToken.updateMany({
         where: { userId, isRevoked: false },
         data: { isRevoked: true },
@@ -604,13 +604,13 @@ export class AuthService {
    * Access token:
    *   - Signed with JWT_SECRET
    *   - Short expiry (15 min from env)
-   *   - Stateless — NOT stored in the database
+   *   - Stateless - NOT stored in the database
    *   - Sent by the frontend on every API request
    *
    * Refresh token:
    *   - Signed with JWT_REFRESH_SECRET (DIFFERENT secret)
    *   - Long expiry (7 days from env)
-   *   - Stateful — SHA-256 hash stored in the database
+   *   - Stateful - SHA-256 hash stored in the database
    *   - Sent ONLY to POST /auth/refresh
    *
    * Why different secrets? If the access token secret is compromised
@@ -628,10 +628,10 @@ export class AuthService {
       jti: randomBytes(16).toString('hex'),
     };
 
-    // Access token — primary secret, short expiry
+    // Access token - primary secret, short expiry
     const accessToken = this.jwtService.sign(payload);
 
-    // Refresh token — separate secret, long expiry
+    // Refresh token - separate secret, long expiry
     const refreshExpirySeconds = this.parseExpiryToSeconds(
       this.refreshExpiration,
     );
@@ -642,7 +642,7 @@ export class AuthService {
     });
 
     // Store the refresh token hash in the database.
-    // The raw token is returned to the client — never stored server-side.
+    // The raw token is returned to the client - never stored server-side.
     const tokenHash = this.hashToken(refreshToken);
 
     // Parse the expiry duration string (e.g., '7d') into a Date

@@ -1,5 +1,5 @@
 /**
- * ResetPasswordDto — Validates the password reset request body.
+ * ResetPasswordDto - Validates the password reset request body.
  *
  * This is the second step of the forgot-password flow:
  *   1. POST /auth/forgot-password → receives a reset token
@@ -23,7 +23,7 @@ export class ResetPasswordDto {
   /**
    * The raw reset token received from the forgot-password endpoint.
    * This is a 32-byte crypto-random string encoded as base64url.
-   * The server stores only its SHA-256 hash — this raw value
+   * The server stores only its SHA-256 hash - this raw value
    * is the only way to prove ownership.
    */
   @ApiProperty({
@@ -37,7 +37,7 @@ export class ResetPasswordDto {
   /**
    * The new password. Same strength requirements as registration:
    * 8-72 chars, at least one uppercase, one lowercase, one number.
-   * 72 is bcrypt's max input length — anything beyond is silently truncated.
+   * 72 is bcrypt's max input length - anything beyond is silently truncated.
    */
   @ApiProperty({ example: 'NewSecurePass456' })
   @IsString()

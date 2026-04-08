@@ -1,5 +1,5 @@
 /**
- * PaginationMetaDto — Metadata shape returned with every paginated response.
+ * PaginationMetaDto - Metadata shape returned with every paginated response.
  *
  * Consistent across all list endpoints so the frontend can build
  * one reusable pagination component that works with any resource.

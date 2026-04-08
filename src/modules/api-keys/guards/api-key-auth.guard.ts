@@ -1,7 +1,7 @@
 /**
- * ApiKeyAuthGuard — Authenticates requests using API keys.
+ * ApiKeyAuthGuard - Authenticates requests using API keys.
  *
- * This guard is an ALTERNATIVE to JwtAuthGuard — not used alongside it.
+ * This guard is an ALTERNATIVE to JwtAuthGuard - not used alongside it.
  * A request is authenticated by either:
  *   - JWT token (dashboard/admin users) → JwtAuthGuard
  *   - API key (server-to-server) → ApiKeyAuthGuard
@@ -12,7 +12,7 @@
  *   3. If valid, sets request.tenantId and request.apiKeyId
  *   4. If invalid, throws 401
  *
- * API key requests are always tenant-scoped — the key IS the
+ * API key requests are always tenant-scoped - the key IS the
  * tenant context. No x-tenant-id header needed.
  *
  * Usage:
@@ -61,12 +61,12 @@ export class ApiKeyAuthGuard implements CanActivate {
       throw new UnauthorizedException('Invalid API key format');
     }
 
-    // Authenticate the key — throws 401 if invalid
+    // Authenticate the key - throws 401 if invalid
     const { tenantId, keyId } = await this.apiKeysService.authenticate(key);
 
     // Attach tenant context to the request.
     // Downstream controllers use @TenantId() to read this.
-    // No x-tenant-id header needed — the key IS the tenant context.
+    // No x-tenant-id header needed - the key IS the tenant context.
     request.tenantId = tenantId;
     request.headers['x-tenant-id'] = tenantId;
     request.apiKeyId = keyId;

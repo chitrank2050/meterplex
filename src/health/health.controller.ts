@@ -1,5 +1,5 @@
 /**
- * HealthController — Exposes /health endpoint for infrastructure monitoring.
+ * HealthController - Exposes /health endpoint for infrastructure monitoring.
  *
  * Two types of health checks (important interview concept):
  *

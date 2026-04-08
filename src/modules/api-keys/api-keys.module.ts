@@ -1,5 +1,5 @@
 /**
- * ApiKeysModule — API key management and authentication.
+ * ApiKeysModule - API key management and authentication.
  *
  * Exports:
  *   - ApiKeysService: used by ApiKeyAuthGuard to authenticate requests

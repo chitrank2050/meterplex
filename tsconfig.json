@@ -53,7 +53,7 @@
      * With:     import { Something } from '@common/filters/something';
      *
      * Cleaner imports, no fragile relative paths that break on refactor.
-     * IMPORTANT: Jest has its own resolver — we mirror these in
+     * IMPORTANT: Jest has its own resolver - we mirror these in
      * package.json > jest > moduleNameMapper so tests work too.
      */
     "baseUrl": "./",

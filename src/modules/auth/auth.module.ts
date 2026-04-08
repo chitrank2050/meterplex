@@ -1,5 +1,5 @@
 /**
- * AuthModule — Wires up JWT authentication with Passport.
+ * AuthModule - Wires up JWT authentication with Passport.
  *
  * Dependencies:
  *   - UsersModule: user lookup during login and registration
@@ -24,7 +24,7 @@ import { UsersModule } from '@modules/users/users.module';
 
 @Module({
   imports: [
-    // UsersModule exports UsersService — needed for login validation
+    // UsersModule exports UsersService - needed for login validation
     UsersModule,
 
     // Register 'jwt' as the default Passport strategy

@@ -1,5 +1,5 @@
 /**
- * UsersModule — Encapsulates user management.
+ * UsersModule - Encapsulates user management.
  *
  * Exports UsersService so the auth module can use it
  * for login validation and registration.

@@ -1,5 +1,5 @@
 /**
- * RolesGuard — Enforces role-based access control (RBAC).
+ * RolesGuard - Enforces role-based access control (RBAC).
  *
  * How it works:
  *   1. The @Roles() decorator sets required roles on the route handler
@@ -11,7 +11,7 @@
  *   7. If not → 403 Forbidden
  *
  * If no @Roles() decorator is present, the guard allows access
- * (the route is role-agnostic — any authenticated user can access it).
+ * (the route is role-agnostic - any authenticated user can access it).
  *
  * This guard MUST be used AFTER JwtAuthGuard:
  *   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -85,7 +85,7 @@ export class RolesGuard implements CanActivate {
     // ONLY query the DB if membership isn't already on the request
     if (!membership) {
       // Step 4: Look up the user's membership in this tenant.
-      // This is a DB query on every request — cached in Redis in Phase 5.
+      // This is a DB query on every request - cached in Redis in Phase 5.
       membership =
         (await this.prisma.membership.findUnique({
           where: {

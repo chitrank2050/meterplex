@@ -1,5 +1,5 @@
 /**
- * UsersController — HTTP layer for user management.
+ * UsersController - HTTP layer for user management.
  *
  * Routes:
  *   POST   /api/v1/users      → Create a user in a tenant (OWNER/ADMIN only)
@@ -12,7 +12,7 @@
  *   - Viewing and updating profiles requires authentication
  *   - Users can update their own profile; ADMIN can update others
  *
- * No global list endpoint — users are listed through tenant memberships.
+ * No global list endpoint - users are listed through tenant memberships.
  * Listing all users across all tenants is an admin-only concern.
  */
 import { CurrentUser, Roles, TenantId } from '@common/decorators';
@@ -85,7 +85,7 @@ export class UsersController {
    * GET /api/v1/users/me
    *
    * Returns the authenticated user's own profile.
-   * No tenant context needed — user profiles are global.
+   * No tenant context needed - user profiles are global.
    *
    * Guard chain: JwtAuthGuard only.
    *
@@ -106,7 +106,7 @@ export class UsersController {
    * GET /api/v1/users/:id
    *
    * Returns a user's profile by ID.
-   * Any authenticated user can view profiles — profile data
+   * Any authenticated user can view profiles - profile data
    * (name, email) is not tenant-scoped.
    *
    * Guard chain: JwtAuthGuard only.
@@ -130,7 +130,7 @@ export class UsersController {
    * OWNER and ADMIN can update other users' profiles within
    * their tenant (e.g., disabling an account with isActive: false).
    *
-   * TODO: Add authorization check — currently any authenticated user
+   * TODO: Add authorization check - currently any authenticated user
    * can update any profile. In Phase 2, add ownership check:
    * "is this my profile OR am I an ADMIN in a shared tenant?"
    *

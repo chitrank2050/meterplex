@@ -1,5 +1,5 @@
 /**
- * TenantsService — Business logic for tenant management.
+ * TenantsService - Business logic for tenant management.
  *
  * This is the service layer. It contains ALL business logic.
  * The controller handles HTTP concerns (request/response).
@@ -9,7 +9,7 @@
  *   - Controller: "What HTTP method? What status code? What route?"
  *   - Service: "Does this slug already exist? What data do I return?"
  *   - The same service can be used by REST controllers, GraphQL resolvers,
- *     Kafka consumers, and CLI commands — all without duplication.
+ *     Kafka consumers, and CLI commands - all without duplication.
  *
  * Every method receives typed inputs and returns typed outputs.
  * Prisma's generated types ensure compile-time safety on every query.
@@ -71,7 +71,7 @@ export class TenantsService {
    *
    * Use case: existing user wants to create a second organization.
    *
-   * Both records are created in a transaction — if either fails,
+   * Both records are created in a transaction - if either fails,
    * neither is persisted. No orphaned tenants without owners.
    *
    * @param dto - Validated tenant creation data
@@ -115,7 +115,7 @@ export class TenantsService {
   /**
    * List tenants the specified user belongs to (via memberships).
    *
-   * This is NOT a global list — it only returns tenants where
+   * This is NOT a global list - it only returns tenants where
    * the user has an active membership. This is tenant isolation
    * at the query level: users see only their own tenants.
    *

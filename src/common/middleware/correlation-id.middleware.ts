@@ -1,5 +1,5 @@
 /**
- * CorrelationIdMiddleware — Attaches a unique ID to every request.
+ * CorrelationIdMiddleware - Attaches a unique ID to every request.
  *
  * Every request gets a UUID in the x-correlation-id header.
  * This ID flows through:
@@ -15,7 +15,7 @@
  * Why middleware and not an interceptor?
  *   Middleware runs BEFORE the NestJS pipeline (guards, pipes, interceptors).
  *   The correlation ID must exist before anything else logs or errors.
- *   An interceptor runs too late — if a guard throws, there's no correlation ID.
+ *   An interceptor runs too late - if a guard throws, there's no correlation ID.
  */
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';

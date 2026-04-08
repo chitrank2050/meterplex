@@ -1,5 +1,5 @@
 /**
- * HttpExceptionFilter — Catches ALL exceptions and returns a consistent error response.
+ * HttpExceptionFilter - Catches ALL exceptions and returns a consistent error response.
  *
  * Without this filter, NestJS returns different error shapes depending on
  * where the error occurs:

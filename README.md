@@ -12,7 +12,7 @@ Meterplex is the backend that powers a SaaS or AI API company. It decides whethe
 
 ## Architecture
 
-Modular monolith — one deployable unit with strict module boundaries. Each domain (tenants, billing, usage, payments) is a self-contained NestJS module that can be extracted into a microservice when scale demands it.
+Modular monolith - one deployable unit with strict module boundaries. Each domain (tenants, billing, usage, payments) is a self-contained NestJS module that can be extracted into a microservice when scale demands it.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -132,7 +132,7 @@ meterplex/
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/health` | Infrastructure health check |
-| — | `/api/docs` | Swagger UI (development only) |
+| - | `/api/docs` | Swagger UI (development only) |
 
 *More endpoints are added with each phase.*
 
@@ -140,10 +140,10 @@ meterplex/
 
 Detailed documentation lives in the [`docs/`](./docs) folder:
 
-- **[Architecture](./docs/architecture/overview.md)** — System design, module boundaries, data flow
-- **[Development](./docs/development/setup.md)** — Setup guide, conventions, workflow
-- **[API](./docs/api/overview.md)** — API design decisions, versioning, error format
-- **[Phases](./docs/phases/phase-0.md)** — Build log for each development phase
+- **[Architecture](./docs/architecture/overview.md)** - System design, module boundaries, data flow
+- **[Development](./docs/development/setup.md)** - Setup guide, conventions, workflow
+- **[API](./docs/api/overview.md)** - API design decisions, versioning, error format
+- **[Phases](./docs/phases/phase-0.md)** - Build log for each development phase
 
 ## Development Phases
 
@@ -151,10 +151,10 @@ Detailed documentation lives in the [`docs/`](./docs) folder:
 |-------|-------|--------|
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
 | 1 | Auth, tenants, users, plans, subscriptions | 🔜 Next |
-| 2 | Entitlements and usage tracking | — |
-| 3 | Billing, invoices, payments | — |
-| 4 | Kafka event pipeline, async processing | — |
-| 5 | Observability, rate limiting, hardening | — |
+| 2 | Entitlements and usage tracking | - |
+| 3 | Billing, invoices, payments | - |
+| 4 | Kafka event pipeline, async processing | - |
+| 5 | Observability, rate limiting, hardening | - |
 
 ## License
 

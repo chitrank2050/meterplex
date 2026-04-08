@@ -1,6 +1,6 @@
 # Meterplex Documentation
 
-> Welcome to the Meterplex documentation — a B2B usage metering, entitlements, and billing platform.
+> Welcome to the Meterplex documentation - a B2B usage metering, entitlements, and billing platform.
 
 ---
 
@@ -11,7 +11,7 @@
 | [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions. |
 | [Development](development/setup.md) | Setup guide, daily workflow, conventions, troubleshooting. |
 | [API](api/overview.md) | API design decisions, versioning strategy, error response format, authentication. |
-| [Build Phases](phases/phase-0.md) | Detailed log of each development phase — what was built, why, and lessons learned. |
+| [Build Phases](phases/phase-0.md) | Detailed log of each development phase - what was built, why, and lessons learned. |
 
 ---
 
@@ -37,7 +37,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 |-------|-------|--------|
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
 | 1 | Auth, tenants, users, plans, subscriptions | 🔜 Next |
-| 2 | Entitlements and usage tracking | — |
-| 3 | Billing, invoices, payments | — |
-| 4 | Kafka event pipeline | — |
-| 5 | Observability, rate limiting | — |
+| 2 | Entitlements and usage tracking | - |
+| 3 | Billing, invoices, payments | - |
+| 4 | Kafka event pipeline | - |
+| 5 | Observability, rate limiting | - |

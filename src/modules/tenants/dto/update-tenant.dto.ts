@@ -1,7 +1,7 @@
 /**
- * UpdateTenantDto — Validates the request body for tenant updates.
+ * UpdateTenantDto - Validates the request body for tenant updates.
  *
- * All fields are optional — the client sends only what they want to change.
+ * All fields are optional - the client sends only what they want to change.
  * This is the "partial update" pattern (PATCH semantics).
  *
  * Note: slug is NOT updatable. Changing a slug would break

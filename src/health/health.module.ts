@@ -1,7 +1,7 @@
 /**
- * HealthModule — Registers health check endpoint and indicators.
+ * HealthModule - Registers health check endpoint and indicators.
  *
- * NOT global — only the health controller needs these providers.
+ * NOT global - only the health controller needs these providers.
  * TerminusModule provides the HealthCheckService used by the controller.
  */
 import { Module } from '@nestjs/common';

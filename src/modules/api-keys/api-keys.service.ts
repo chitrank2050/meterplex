@@ -1,5 +1,5 @@
 /**
- * ApiKeysService — Server-to-server API key management.
+ * ApiKeysService - Server-to-server API key management.
  *
  * Implements the same pattern used by Stripe, GitHub, and AWS:
  *
@@ -12,7 +12,7 @@
  *   - The raw key is shown ONCE at creation, then never again
  *   - Only the SHA-256 hash is stored in the database
  *   - The first 10 chars are stored as key_prefix for identification
- *     (e.g., "mp_live_aB" — enough to identify, not enough to use)
+ *     (e.g., "mp_live_aB" - enough to identify, not enough to use)
  *
  * Authentication flow:
  *   1. Client sends: Authorization: Bearer mp_live_aBcDeFgH...
@@ -24,7 +24,7 @@
  *
  * Security:
  *   - Raw keys never touch the database or logs
- *   - SHA-256 is one-way — a database breach doesn't expose keys
+ *   - SHA-256 is one-way - a database breach doesn't expose keys
  *   - Constant-time hash comparison prevents timing attacks
  *   - Expiration + revocation support key rotation
  *   - last_used_at identifies stale keys for cleanup
@@ -59,7 +59,7 @@ export class ApiKeysService {
    * Generate a new API key for a tenant.
    *
    * The raw key is returned ONCE in the response. After this,
-   * only the hash and prefix are stored — the raw key cannot
+   * only the hash and prefix are stored - the raw key cannot
    * be retrieved. If the user loses it, they must create a new one.
    *
    * @param dto - Key name and optional expiration
@@ -72,7 +72,7 @@ export class ApiKeysService {
     const randomPart = randomBytes(KEY_RANDOM_BYTES).toString('base64url');
     const rawKey = `${KEY_PREFIX}${randomPart}`;
 
-    // Store only the SHA-256 hash — the raw key never touches the DB
+    // Store only the SHA-256 hash - the raw key never touches the DB
     const keyHash = this.hashKey(rawKey);
 
     // Store the first 10 chars for display: "mp_live_aB..."
@@ -107,7 +107,7 @@ export class ApiKeysService {
     );
 
     // Return the raw key ONCE. After this response,
-    // the raw key is gone forever — only the hash exists.
+    // the raw key is gone forever - only the hash exists.
     return {
       ...apiKey,
       key: rawKey,
@@ -118,7 +118,7 @@ export class ApiKeysService {
   /**
    * List all API keys for a tenant.
    *
-   * Returns metadata only — never the raw key or hash.
+   * Returns metadata only - never the raw key or hash.
    * The keyPrefix is shown so users can identify which key is which.
    *
    * @param tenantId - The tenant to list keys for
@@ -153,7 +153,7 @@ export class ApiKeysService {
   /**
    * Revoke an API key.
    *
-   * Revocation is permanent — a revoked key cannot be re-activated.
+   * Revocation is permanent - a revoked key cannot be re-activated.
    * If the user needs a new key, they create one.
    *
    * Why not delete? Audit trail. You want to see which keys existed,
@@ -197,7 +197,7 @@ export class ApiKeysService {
   /**
    * Authenticate a request using an API key.
    *
-   * This is the hot path — called on every API-key-authenticated request.
+   * This is the hot path - called on every API-key-authenticated request.
    * Performance matters here.
    *
    * Flow:
@@ -232,7 +232,7 @@ export class ApiKeysService {
       },
     });
 
-    // Same error for all failure cases — prevents key enumeration
+    // Same error for all failure cases - prevents key enumeration
     if (!apiKey) {
       throw new UnauthorizedException(ERRORS.API_KEY.NOT_FOUND);
     }
@@ -255,7 +255,7 @@ export class ApiKeysService {
       throw new UnauthorizedException(ERRORS.API_KEY.EXPIRED);
     }
 
-    // Update last_used_at — fire-and-forget (don't slow down the request)
+    // Update last_used_at - fire-and-forget (don't slow down the request)
     // This runs in the background. If it fails, the request still succeeds.
     this.prisma.apiKey
       .update({

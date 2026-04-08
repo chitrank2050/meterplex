@@ -1,9 +1,9 @@
 /**
- * RefreshTokenDto — Validates the token refresh request body.
+ * RefreshTokenDto - Validates the token refresh request body.
  *
  * The frontend stores the refresh token securely (httpOnly cookie
  * or encrypted storage) and sends it ONLY to this endpoint.
- * It is NOT sent on regular API requests — only when the
+ * It is NOT sent on regular API requests - only when the
  * access token expires and needs to be renewed.
  *
  * Flow:

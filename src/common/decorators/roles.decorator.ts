@@ -1,5 +1,5 @@
 /**
- * @Roles() — Metadata decorator that specifies which roles can access a route.
+ * @Roles() - Metadata decorator that specifies which roles can access a route.
  *
  * Usage:
  *   @Roles(MembershipRole.OWNER, MembershipRole.ADMIN)

@@ -1,5 +1,5 @@
 /**
- * UpdateUserDto — Validates the request body for user profile updates.
+ * UpdateUserDto - Validates the request body for user profile updates.
  *
  * Password changes are handled separately via a dedicated endpoint
  * (not a generic PATCH) because they require the current password

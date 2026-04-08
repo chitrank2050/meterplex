@@ -30,20 +30,20 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
   // =============================================================
-  // Security — Helmet sets HTTP headers that protect against
+  // Security - Helmet sets HTTP headers that protect against
   //    common attacks: XSS, clickjacking, MIME sniffing, etc.
   //    This MUST run before any route handler sends a response.
   // =============================================================
   app.use(
     helmet({
-      // Scalar loads JS/CSS from CDN — default CSP blocks it.
+      // Scalar loads JS/CSS from CDN - default CSP blocks it.
       // Disabled in dev (where Scalar runs), enabled in prod (where it doesn't).
       contentSecurityPolicy: process.env.NODE_ENV === 'production',
     }),
   );
 
   // =============================================================
-  // Compression — gzip responses over the wire.
+  // Compression - gzip responses over the wire.
   //    Reduces payload size by 60-80% for JSON responses.
   //    In production, we typically let a reverse proxy (nginx)
   //    handle this. But for dev and smaller deployments, this works.
@@ -51,10 +51,10 @@ async function bootstrap(): Promise<void> {
   app.use(compression());
 
   // =============================================================
-  // CORS — Controls which frontends can call this API.
+  // CORS - Controls which frontends can call this API.
   //    Reads allowed origins from env. In production, this is our
   //    actual frontend domain. Never use origin: true (allow all)
-  //    in production — that's a security hole.
+  //    in production - that's a security hole.
   // =============================================================
   app.enableCors({
     origin: process.env.CORS_ORIGINS?.split(',') ?? ['http://localhost:3000'],
@@ -63,7 +63,7 @@ async function bootstrap(): Promise<void> {
   });
 
   // =============================================================
-  // Global prefix — Every route starts with /api.
+  // Global prefix - Every route starts with /api.
   //    /tenants becomes /api/tenants.
   //    Separates API routes from static assets, health checks, etc.
   //    We exclude /health so load balancers hit it without the prefix.
@@ -74,7 +74,7 @@ async function bootstrap(): Promise<void> {
   });
 
   // =============================================================
-  // API Versioning — URI-based: /api/v1/tenants, /api/v2/tenants.
+  // API Versioning - URI-based: /api/v1/tenants, /api/v2/tenants.
   //
   //    Why URI versioning over header versioning?
   //    - Visible in the URL (easy to debug, easy to curl)
@@ -90,14 +90,14 @@ async function bootstrap(): Promise<void> {
   });
 
   // =============================================================
-  // Global Exception Filter — Catches ALL unhandled exceptions
+  // Global Exception Filter - Catches ALL unhandled exceptions
   //     and returns a consistent JSON error response.
   //     Without this, unhandled errors leak stack traces to clients.
   // =============================================================
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // =============================================================
-  // Global Validation Pipe —
+  // Global Validation Pipe -
   //    Rejects invalid request bodies
   //    BEFORE they reach our business logic.
   //
@@ -125,7 +125,7 @@ async function bootstrap(): Promise<void> {
   );
 
   // =============================================================
-  // API Documentation — Swagger spec + Scalar UI
+  // API Documentation - Swagger spec + Scalar UI
   //
   //    Swagger generates the OpenAPI JSON spec from your decorators.
   //    Scalar renders it as a modern, interactive docs page.
@@ -150,12 +150,12 @@ async function bootstrap(): Promise<void> {
 
     const document = SwaggerModule.createDocument(app, swaggerConfig);
 
-    // Raw OpenAPI JSON — importable by Bruno, Postman, SDK generators.
+    // Raw OpenAPI JSON - importable by Bruno, Postman, SDK generators.
     SwaggerModule.setup(`${apiPrefix}/swagger`, app, document, {
       jsonDocumentUrl: `${apiPrefix}/docs-json`,
     });
 
-    // Scalar UI — modern interactive API docs replacing Swagger UI.
+    // Scalar UI - modern interactive API docs replacing Swagger UI.
     // Dynamic import avoids CJS/ESM compatibility issues.
     const { apiReference } = await import('@scalar/nestjs-api-reference');
     app.use(
@@ -168,7 +168,7 @@ async function bootstrap(): Promise<void> {
   }
 
   // =============================================================
-  // Graceful Shutdown — When the process receives SIGTERM
+  // Graceful Shutdown - When the process receives SIGTERM
   //    (e.g., Kubernetes rolling update, docker compose down),
   //    NestJS will:
   //    1. Stop accepting new connections

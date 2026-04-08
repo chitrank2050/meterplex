@@ -6,7 +6,7 @@
 http://localhost:3000/api/v1
 ```
 
-All API endpoints are prefixed with `/api/v1`. The health check is the only exception — it lives at `/health` (no prefix, no version).
+All API endpoints are prefixed with `/api/v1`. The health check is the only exception - it lives at `/health` (no prefix, no version).
 
 ## Versioning
 

@@ -1,11 +1,11 @@
 # =============================================================
-# Dependabot — Automated dependency updates.
+# Dependabot - Automated dependency updates.
 #
 # Creates PRs for outdated dependencies on a weekly schedule.
 # Groups minor/patch updates into single PRs to reduce noise.
 # Major versions get individual PRs (they may have breaking changes).
 #
-# You review and merge — Dependabot never auto-merges.
+# You review and merge - Dependabot never auto-merges.
 # =============================================================
 
 version: 2

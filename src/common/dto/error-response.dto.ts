@@ -1,7 +1,7 @@
 /**
- * ErrorResponseDto — The standard error response shape for Swagger docs.
+ * ErrorResponseDto - The standard error response shape for Swagger docs.
  *
- * Every error from the API matches this shape — defined once here
+ * Every error from the API matches this shape - defined once here
  * so Scalar can display it on every error response.
  */
 import { ApiProperty } from '@nestjs/swagger';

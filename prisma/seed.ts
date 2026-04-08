@@ -1,5 +1,5 @@
 /**
- * seed.ts — Populates the database with development/testing data.
+ * seed.ts - Populates the database with development/testing data.
  *
  * Run with: pnpm prisma:seed
  * Also runs automatically on: pnpm prisma:migrate:reset
@@ -14,7 +14,7 @@
  * for memberships and keys. Safe to run multiple times.
  *
  * All passwords are "DevPass123" for development convenience.
- * These credentials are documented here intentionally — this is
+ * These credentials are documented here intentionally - this is
  * seed data, not production secrets.
  *
  * Dev accounts created:

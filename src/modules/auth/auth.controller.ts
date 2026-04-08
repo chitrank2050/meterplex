@@ -1,16 +1,16 @@
 /**
- * AuthController — Authentication and password management endpoints.
+ * AuthController - Authentication and password management endpoints.
  *
  * This controller is split into two sections:
  *
- * PUBLIC (no JWT required — these are how you GET a token):
+ * PUBLIC (no JWT required - these are how you GET a token):
  *   POST /auth/register        → Create user + tenant → return tokens
  *   POST /auth/login           → Validate credentials → return tokens
  *   POST /auth/refresh         → Exchange refresh token for new pair
  *   POST /auth/forgot-password → Generate password reset token
  *   POST /auth/reset-password  → Reset password using token
  *
- * PROTECTED (JWT required — these need an existing valid token):
+ * PROTECTED (JWT required - these need an existing valid token):
  *   GET  /auth/me              → Get current user profile
  *   POST /auth/change-password → Change password (requires current)
  *   POST /auth/logout          → Revoke a single refresh token

@@ -1,12 +1,12 @@
 /**
- * RegisterDto — Validates the registration request body.
+ * RegisterDto - Validates the registration request body.
  *
  * Registration creates THREE things in one transaction:
  *   1. A new user account
  *   2. A new tenant organization
  *   3. A membership linking the user as OWNER of that tenant
  *
- * This is the "sign up" flow — a new customer onboarding.
+ * This is the "sign up" flow - a new customer onboarding.
  * Adding users to an EXISTING tenant is a separate operation
  * handled by the memberships module.
  */

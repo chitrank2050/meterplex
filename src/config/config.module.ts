@@ -1,8 +1,8 @@
 /**
- * config.module.ts — Centralized Configuration Module
+ * config.module.ts - Centralized Configuration Module
  *
  * Wraps @nestjs/config with our validation layer.
- * Import this module ONCE in AppModule — it's global,
+ * Import this module ONCE in AppModule - it's global,
  * meaning ConfigService is available in every module
  * without re-importing.
  *

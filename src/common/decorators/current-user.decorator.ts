@@ -1,5 +1,5 @@
 /**
- * @CurrentUser() — Extracts the authenticated user from the request.
+ * @CurrentUser() - Extracts the authenticated user from the request.
  *
  * Without this decorator, every controller method needs:
  *   @Request() req: { user: { id: string; email: string; ... } }

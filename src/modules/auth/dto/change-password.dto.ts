@@ -1,5 +1,5 @@
 /**
- * ChangePasswordDto — Validates the change password request body.
+ * ChangePasswordDto - Validates the change password request body.
  *
  * This is for authenticated users who know their current password
  * and want to set a new one. This is NOT the forgot-password flow.
@@ -26,7 +26,7 @@ export class ChangePasswordDto {
   /**
    * Current password for verification.
    * This prevents an attacker who has a stolen access token
-   * from changing the password — they'd also need to know
+   * from changing the password - they'd also need to know
    * the current password.
    */
   @ApiProperty({ example: 'SecurePass123' })

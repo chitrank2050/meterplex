@@ -1,9 +1,9 @@
 /**
- * env.validation.ts — Environment Variable Validation
+ * env.validation.ts - Environment Variable Validation
  *
  * Uses class-validator to validate ALL environment variables at boot time.
  * If any required variable is missing or malformed, the app crashes
- * immediately with a clear error message — not 30 seconds later on the
+ * immediately with a clear error message - not 30 seconds later on the
  * first database query.
  *
  * This is the "fail fast" principle: catch config errors at startup,
@@ -26,7 +26,7 @@ import {
   validateSync,
 } from 'class-validator';
 
-/** Allowed Node environments — prevents typos like "devlopment" */
+/** Allowed Node environments - prevents typos like "devlopment" */
 enum Environment {
   Development = 'development',
   Production = 'production',
@@ -50,7 +50,7 @@ export class EnvConfig {
   API_VERSION: string = '1';
 
   // --- Database ---
-  // No default — this MUST be set. Missing DATABASE_URL = crash on boot.
+  // No default - this MUST be set. Missing DATABASE_URL = crash on boot.
 
   @IsString()
   DATABASE_URL!: string;
@@ -112,7 +112,7 @@ export class EnvConfig {
 }
 
 /**
- * validate() — Called by ConfigModule on startup.
+ * validate() - Called by ConfigModule on startup.
  *
  * Transforms raw process.env (all strings) into typed EnvConfig,
  * then validates every field. Returns the validated config or

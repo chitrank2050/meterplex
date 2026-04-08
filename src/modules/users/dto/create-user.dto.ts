@@ -1,5 +1,5 @@
 /**
- * CreateUserDto — Validates the request body for user registration.
+ * CreateUserDto - Validates the request body for user registration.
  *
  * This DTO is used when an OWNER creates a user directly via the API.
  * The auth/register endpoint (coming in Step 4) will use a separate

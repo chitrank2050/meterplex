@@ -1,5 +1,5 @@
 /**
- * @TenantId() — Extracts the tenant ID from the request header.
+ * @TenantId() - Extracts the tenant ID from the request header.
  *
  * Multi-tenant APIs need to know WHICH tenant the request is for.
  * The frontend sends this in the x-tenant-id header on every request.

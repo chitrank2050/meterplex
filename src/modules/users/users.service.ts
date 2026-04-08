@@ -1,5 +1,5 @@
 /**
- * UsersService — Business logic for user management.
+ * UsersService - Business logic for user management.
  *
  * Handles user CRUD and password hashing. Users are global entities
  * (not tenant-scoped). Tenant association happens through memberships.
@@ -44,7 +44,7 @@ const USER_SELECT = {
   updatedAt: true,
 } as const;
 
-/** User object without passwordHash — safe for API responses. */
+/** User object without passwordHash - safe for API responses. */
 type SafeUser = Omit<User, 'passwordHash'>;
 
 @Injectable()
@@ -153,7 +153,7 @@ export class UsersService {
    * Validate a password against a bcrypt hash.
    *
    * Used by the auth service during login. bcrypt.compare() is
-   * constant-time — it takes the same amount of time whether
+   * constant-time - it takes the same amount of time whether
    * the password is correct or not. This prevents timing attacks
    * where an attacker measures response time to guess passwords.
    *
@@ -189,7 +189,7 @@ export class UsersService {
     });
 
     if (existingUser) {
-      // User exists — check if they're already in this tenant
+      // User exists - check if they're already in this tenant
       const existingMembership = await this.prisma.membership.findUnique({
         where: {
           userId_tenantId: {
@@ -221,7 +221,7 @@ export class UsersService {
       return this.findById(existingUser.id);
     }
 
-    // New user — create account + membership in a transaction
+    // New user - create account + membership in a transaction
     const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
 
     const user = await this.prisma.$transaction(async (tx) => {

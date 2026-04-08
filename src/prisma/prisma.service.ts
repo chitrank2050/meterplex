@@ -1,8 +1,8 @@
 /**
- * PrismaService — Injectable database client for the entire application.
+ * PrismaService - Injectable database client for the entire application.
  *
  * Prisma 7 Breaking Changes (vs Prisma 6):
- *   1. PrismaClient requires a "driver adapter" — no more bare super()
+ *   1. PrismaClient requires a "driver adapter" - no more bare super()
  *   2. @prisma/adapter-pg connects to Postgres via the pg driver
  *   3. The connection URL comes from process.env, NOT from schema.prisma
  *   4. Generated client must use moduleFormat = "cjs" for NestJS

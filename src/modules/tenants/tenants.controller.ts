@@ -1,5 +1,5 @@
 /**
- * TenantsController — HTTP layer for tenant management.
+ * TenantsController - HTTP layer for tenant management.
  *
  * This controller handles ONLY HTTP concerns:
  *   - Route mapping (which URL maps to which method)
@@ -9,7 +9,7 @@
  *   - Guard chain for authentication and authorization
  *
  * ALL business logic lives in TenantsService.
- * The controller is thin — it delegates everything to the service.
+ * The controller is thin - it delegates everything to the service.
  *
  * Authorization levels:
  *   POST   /tenants           → Authenticated (any user can create a tenant)
@@ -61,13 +61,13 @@ export class TenantsController {
    * POST /api/v1/tenants
    *
    * Creates a new tenant organization.
-   * Any authenticated user can create a tenant — they become the OWNER
+   * Any authenticated user can create a tenant - they become the OWNER
    * automatically. This is separate from the registration flow
    * (which creates user + tenant together).
    *
    * Use case: an existing user wants to create a second organization.
    *
-   * Guard chain: JwtAuthGuard only — no tenant context needed
+   * Guard chain: JwtAuthGuard only - no tenant context needed
    * (the tenant doesn't exist yet).
    */
   @Post()
@@ -90,10 +90,10 @@ export class TenantsController {
    * GET /api/v1/tenants?page=1&limit=20
    *
    * Lists tenants the authenticated user belongs to.
-   * NOT a global list — each user sees only their own tenants.
+   * NOT a global list - each user sees only their own tenants.
    * A global admin list would be a separate endpoint.
    *
-   * Guard chain: JwtAuthGuard only — filters by user membership.
+   * Guard chain: JwtAuthGuard only - filters by user membership.
    */
   @Get()
   @UseGuards(JwtAuthGuard)
@@ -140,7 +140,7 @@ export class TenantsController {
    * GET /api/v1/tenants/:id
    *
    * Finds a tenant by UUID.
-   * Requires x-tenant-id header and membership — you can only
+   * Requires x-tenant-id header and membership - you can only
    * view tenant details if you're a member.
    *
    * Guard chain: JwtAuthGuard → TenantGuard
@@ -195,7 +195,7 @@ export class TenantsController {
    * DELETE /api/v1/tenants/:id
    *
    * Soft-deletes a tenant by setting status to CANCELLED.
-   * ONLY the OWNER can cancel a tenant — this is a destructive action
+   * ONLY the OWNER can cancel a tenant - this is a destructive action
    * that affects all members, billing, and API keys.
    *
    * Guard chain: JwtAuthGuard → TenantGuard → RolesGuard(OWNER)

@@ -19,7 +19,7 @@ Follow the setup guide: [Setup & Installation](https://chitrank2050.github.io/me
 
 ### Make your changes
 
-Follow the existing code style — strict TypeScript, Prettier formatting, ESLint rules.
+Follow the existing code style - strict TypeScript, Prettier formatting, ESLint rules.
 ```bash
 pnpm lint
 pnpm format

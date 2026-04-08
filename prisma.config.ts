@@ -1,5 +1,5 @@
 /**
- * Prisma Configuration — Runtime connection and migration settings.
+ * Prisma Configuration - Runtime connection and migration settings.
  *
  * Prisma 7 moved all runtime config out of schema.prisma into this file.
  * This is where you configure:
@@ -23,11 +23,11 @@ export default defineConfig({
   migrations: {
     path: 'prisma/migrations',
 
-    // Seed command — runs via `pnpm prisma:seed` or after `prisma migrate reset`.
+    // Seed command - runs via `pnpm prisma:seed` or after `prisma migrate reset`.
     seed: 'npx tsx prisma/seed.ts',
   },
 
-  /** Database connection — reads DATABASE_URL from environment */
+  /** Database connection - reads DATABASE_URL from environment */
   datasource: {
     url: process.env['DATABASE_URL'],
   },

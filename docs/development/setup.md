@@ -105,7 +105,7 @@ pnpm prisma:seed
 
 ## Environment Variables
 
-All environment variables are documented in `.env.example`. The app validates every variable on startup — if any required variable is missing, the app crashes immediately with a clear error listing exactly what's missing.
+All environment variables are documented in `.env.example`. The app validates every variable on startup - if any required variable is missing, the app crashes immediately with a clear error listing exactly what's missing.
 
 See `src/config/env.validation.ts` for the validation schema.
 

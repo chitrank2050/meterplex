@@ -1,8 +1,8 @@
 /**
- * CreateApiKeyDto — Validates the request body for API key creation.
+ * CreateApiKeyDto - Validates the request body for API key creation.
  *
  * The client provides a human-readable name and optional expiration.
- * The server generates the actual key — clients never choose their own keys.
+ * The server generates the actual key - clients never choose their own keys.
  *
  * Example request:
  *   {

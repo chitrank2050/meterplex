@@ -1,5 +1,5 @@
 /**
- * TenantGuard — Ensures the request has a valid x-tenant-id header
+ * TenantGuard - Ensures the request has a valid x-tenant-id header
  * and the authenticated user is a member of that tenant.
  *
  * This is the ROW-LEVEL TENANT ISOLATION guard. It guarantees:
@@ -14,7 +14,7 @@
  *   @UseGuards(JwtAuthGuard, TenantGuard)
  *   async listUsageEvents(@TenantId() tenantId: string) { ... }
  *
- * This guard does NOT check roles — it only checks membership.
+ * This guard does NOT check roles - it only checks membership.
  * For role checks, add RolesGuard after TenantGuard:
  *   @UseGuards(JwtAuthGuard, TenantGuard, RolesGuard)
  */
@@ -57,7 +57,7 @@ export class TenantGuard implements CanActivate {
       throw new BadRequestException('x-tenant-id header is required');
     }
 
-    // Validate UUID format (basic check — prevents DB errors)
+    // Validate UUID format (basic check - prevents DB errors)
     const uuidRegex =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(tenantId)) {

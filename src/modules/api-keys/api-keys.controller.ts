@@ -1,12 +1,12 @@
 /**
- * ApiKeysController — CRUD for API key management.
+ * ApiKeysController - CRUD for API key management.
  *
  * These endpoints are for MANAGING keys (create, list, revoke).
  * They are protected by JWT + TenantGuard + RolesGuard because
  * only authenticated dashboard users (OWNER/ADMIN) should manage keys.
  *
  * The keys THEMSELVES are used by a different guard (ApiKeyAuthGuard)
- * on endpoints like usage ingestion — not here.
+ * on endpoints like usage ingestion - not here.
  *
  * Routes:
  *   POST   /api/v1/api-keys       → Create a new key (OWNER/ADMIN)
@@ -52,7 +52,7 @@ export class ApiKeysController {
    * POST /api/v1/api-keys
    *
    * Creates a new API key for the tenant.
-   * The raw key is returned ONCE in the response — store it securely.
+   * The raw key is returned ONCE in the response - store it securely.
    * After this, only the prefix and metadata are visible.
    *
    * Only OWNER and ADMIN can create API keys.
@@ -72,7 +72,7 @@ export class ApiKeysController {
   @ApiOperation({ summary: 'Create a new API key (shown once)' })
   @ApiResponse({
     status: 201,
-    description: 'Key created — raw key in response',
+    description: 'Key created - raw key in response',
   })
   @ApiResponse({ status: 403, description: 'Insufficient role' })
   async create(
@@ -87,7 +87,7 @@ export class ApiKeysController {
    * GET /api/v1/api-keys
    *
    * Lists all API keys for the tenant.
-   * Returns metadata only — never the raw key or hash.
+   * Returns metadata only - never the raw key or hash.
    * The keyPrefix helps users identify which key is which.
    *
    * Only OWNER and ADMIN can view API keys.
@@ -114,7 +114,7 @@ export class ApiKeysController {
    * DELETE /api/v1/api-keys/:id
    *
    * Revokes an API key permanently. Revoked keys cannot be re-activated.
-   * The key record is preserved for audit trail — not hard-deleted.
+   * The key record is preserved for audit trail - not hard-deleted.
    *
    * Only OWNER and ADMIN can revoke API keys.
    *

@@ -1,5 +1,5 @@
 # =============================================================
-# Meterplex — Local Development Infrastructure
+# Meterplex - Local Development Infrastructure
 #
 # Runs Postgres, Kafka, and Redis in containers so you don't
 # install anything on your host machine.
@@ -15,7 +15,7 @@
 
 services:
   # ---------------------------------------------------------
-  # PostgreSQL 17 — Primary data store
+  # PostgreSQL 17 - Primary data store
   #
   # Stores all business data: tenants, plans, subscriptions,
   # usage records, invoices, audit logs.
@@ -51,7 +51,7 @@ services:
       retries: 5
 
   # ---------------------------------------------------------
-  # Redis 7 — Cache + Rate Limiting
+  # Redis 7 - Cache + Rate Limiting
   #
   # Two jobs:
   #   1. Cache frequently-read data (plan lookups, entitlements)
@@ -77,7 +77,7 @@ services:
       retries: 5
 
   # ---------------------------------------------------------
-  # Apache Kafka (via KRaft mode — no Zookeeper needed)
+  # Apache Kafka (via KRaft mode - no Zookeeper needed)
   #
   # Handles async event streaming:
   #   - usage.raw → raw usage events from API
@@ -108,8 +108,8 @@ services:
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
 
       # Two listeners:
-      #   INTERNAL — containers talk to each other (kafka:29092)
-      #   EXTERNAL — your app on the host talks to Kafka (localhost:9092)
+      #   INTERNAL - containers talk to each other (kafka:29092)
+      #   EXTERNAL - your app on the host talks to Kafka (localhost:9092)
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
@@ -142,7 +142,7 @@ services:
       start_period: 30s
 
 # ---------------------------------------------------------
-# Named volumes — persist data across container restarts.
+# Named volumes - persist data across container restarts.
 # Destroyed only on `docker compose down -v`.
 # ---------------------------------------------------------
 volumes:

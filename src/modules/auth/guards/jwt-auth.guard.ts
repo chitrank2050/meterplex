@@ -1,5 +1,5 @@
 /**
- * JwtAuthGuard — Protects routes that require authentication.
+ * JwtAuthGuard - Protects routes that require authentication.
  *
  * Usage on a controller or method:
  *   @UseGuards(JwtAuthGuard)
@@ -13,7 +13,7 @@
  *   6. If invalid → 401 Unauthorized response
  *
  * We extend AuthGuard('jwt') to customize the error response.
- * The default Passport error is generic — we make it clear.
+ * The default Passport error is generic - we make it clear.
  */
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';

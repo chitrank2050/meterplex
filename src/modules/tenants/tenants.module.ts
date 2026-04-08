@@ -1,5 +1,5 @@
 /**
- * TenantsModule — Encapsulates all tenant-related functionality.
+ * TenantsModule - Encapsulates all tenant-related functionality.
  *
  * Registers the controller and service. PrismaService is available
  * globally (from PrismaModule), so no need to import it here.

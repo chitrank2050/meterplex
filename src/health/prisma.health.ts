@@ -1,5 +1,5 @@
 /**
- * PrismaHealthIndicator — Checks if PostgreSQL is reachable.
+ * PrismaHealthIndicator - Checks if PostgreSQL is reachable.
  *
  * Uses the NEW Terminus API (v11+):
  *   - HealthIndicatorService replaces the deprecated HealthIndicator base class

@@ -1,5 +1,5 @@
 /**
- * RequestLoggerMiddleware — Logs every incoming request and its response time.
+ * RequestLoggerMiddleware - Logs every incoming request and its response time.
  *
  * Output for every request:
  *   [RequestLogger] [abc-123] GET /api/v1/tenants → 200 (45ms)
@@ -11,7 +11,7 @@
  *   - Duration in milliseconds (spot slow endpoints instantly)
  *
  * Why middleware and not an interceptor?
- *   Same reason as CorrelationIdMiddleware — we want to capture the
+ *   Same reason as CorrelationIdMiddleware - we want to capture the
  *   FULL request lifecycle including time spent in guards and pipes.
  *   Interceptors only measure controller + service time.
  */

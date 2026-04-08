@@ -1,8 +1,8 @@
 /**
- * ForgotPasswordDto — Validates the forgot password request body.
+ * ForgotPasswordDto - Validates the forgot password request body.
  *
  * Only requires an email. The response is always the same shape
- * regardless of whether the email exists — this prevents attackers
+ * regardless of whether the email exists - this prevents attackers
  * from discovering which emails are registered (user enumeration).
  *
  * In production, the reset token would be sent via email.

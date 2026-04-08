@@ -1,7 +1,7 @@
 /**
- * PrismaModule — Makes PrismaService available for injection.
+ * PrismaModule - Makes PrismaService available for injection.
  *
- * Global module — import ONCE in AppModule, then inject PrismaService
+ * Global module - import ONCE in AppModule, then inject PrismaService
  * in any service across the entire app without re-importing.
  *
  * Why global? Every feature module (tenants, billing, usage) needs

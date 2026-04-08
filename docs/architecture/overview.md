@@ -2,18 +2,18 @@
 
 ## Philosophy
 
-Meterplex follows the **modular monolith** pattern — a single deployable NestJS application with strict module boundaries enforced by the framework's dependency injection system.
+Meterplex follows the **modular monolith** pattern - a single deployable NestJS application with strict module boundaries enforced by the framework's dependency injection system.
 
 ### Why not microservices?
 
-Microservices on day one create a **distributed monolith** — the worst of both worlds. You get the operational complexity of multiple services (separate deployments, inter-service communication, distributed tracing) without the benefits (independent scaling, isolated failures), because the domain boundaries haven't been proven yet.
+Microservices on day one create a **distributed monolith** - the worst of both worlds. You get the operational complexity of multiple services (separate deployments, inter-service communication, distributed tracing) without the benefits (independent scaling, isolated failures), because the domain boundaries haven't been proven yet.
 
 The modular monolith gives us:
 
-- **One deployment** — simpler CI/CD, one Docker image, one health check
-- **In-process calls** — no network latency between modules, no serialization overhead
-- **Shared database** — transactions span modules, no eventual consistency headaches
-- **Clean extraction path** — when a module needs independent scaling, extract it. Kafka topics are already in place for async communication
+- **One deployment** - simpler CI/CD, one Docker image, one health check
+- **In-process calls** - no network latency between modules, no serialization overhead
+- **Shared database** - transactions span modules, no eventual consistency headaches
+- **Clean extraction path** - when a module needs independent scaling, extract it. Kafka topics are already in place for async communication
 
 ### When to extract a microservice
 
@@ -29,13 +29,13 @@ Until then, modules stay in the monolith.
 
 ```
 AppModule
-├── ConfigModule (global)     — env validation, ConfigService
-├── PrismaModule (global)     — database access
-├── HealthModule              — /health endpoint
+├── ConfigModule (global)     - env validation, ConfigService
+├── PrismaModule (global)     - database access
+├── HealthModule              - /health endpoint
 └── Feature Modules
-    ├── TenantsModule          — tenant CRUD
-    ├── UsageModule            — usage event ingestion
-    ├── BillingModule          — invoice generation
+    ├── TenantsModule          - tenant CRUD
+    ├── UsageModule            - usage event ingestion
+    ├── BillingModule          - invoice generation
     └── ...
 ```
 
@@ -90,7 +90,7 @@ Client Response
 
 All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).
 
-## Phase 1 — Data model
+## Phase 1 - Data model
 
 ![Phase 1 ERD](phase-1-erd.png)
 

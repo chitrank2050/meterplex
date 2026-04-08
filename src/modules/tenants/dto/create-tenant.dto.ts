@@ -1,5 +1,5 @@
 /**
- * CreateTenantDto — Validates the request body for tenant creation.
+ * CreateTenantDto - Validates the request body for tenant creation.
  *
  * class-validator decorators define what the client MUST send.
  * The global ValidationPipe (configured in main.ts) runs these

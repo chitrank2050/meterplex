@@ -1,5 +1,5 @@
 /**
- * JwtStrategy — Passport strategy that validates JWT tokens.
+ * JwtStrategy - Passport strategy that validates JWT tokens.
  *
  * How it works:
  *   1. Client sends request with header: Authorization: Bearer <token>
