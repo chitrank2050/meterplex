@@ -2,6 +2,12 @@
 
 All notable changes to Meterplex API.
 
+## [0.3.5] - 2026-04-09
+
+### Refactoring
+
+- Implement robust Prisma unique constraint error handling with dedicated utility
+
 ## [0.3.4] - 2026-04-09
 
 ### Build
