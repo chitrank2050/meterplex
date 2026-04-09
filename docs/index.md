@@ -1,6 +1,6 @@
 # Meterplex Documentation
 
-> Welcome to the Meterplex documentation — a B2B usage metering, entitlements, and billing platform.
+> Welcome to the Meterplex documentation - a B2B usage metering, entitlements, and billing platform.
 
 ---
 
@@ -11,7 +11,7 @@
 | [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions. |
 | [Development](development/setup.md) | Setup guide, daily workflow, conventions, troubleshooting. |
 | [API](api/overview.md) | API design decisions, versioning, error format, authentication. |
-| [Build Phases](phases/phase-0.md) | Detailed log of each development phase — what was built, why, and lessons learned. |
+| [Build Phases](phases/phase-0.md) | Detailed log of each development phase - what was built, why, and lessons learned. |
 
 ---
 
@@ -39,12 +39,12 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
 | 1 | Multi-tenant identity and access (auth, tenants, users, API keys) | ✅ Complete |
 | 2 | Plans, entitlements, and quotas | 🔜 Next |
-| 3 | Usage ingestion, outbox pattern, Kafka pipeline | — |
-| 4 | Billing ledger and invoices | — |
-| 5 | Payments and webhooks | — |
-| 6 | Admin, audit log, reconciliation | — |
-| 7 | Observability (Grafana, Loki, OpenTelemetry) | — |
-| 8 | Scale, hardening, load testing | — |
+| 3 | Usage ingestion, outbox pattern, Kafka pipeline | - |
+| 4 | Billing ledger and invoices | - |
+| 5 | Payments and webhooks | - |
+| 6 | Admin, audit log, reconciliation | - |
+| 7 | Observability (Grafana, Loki, OpenTelemetry) | - |
+| 8 | Scale, hardening, load testing | - |
 
 ## API Endpoints (Phase 1)
 

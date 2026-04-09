@@ -9,7 +9,7 @@
  * NOT at the serialization layer. The service methods use select
  * to ensure sensitive fields (keyHash) never enter application memory.
  *
- * The CreateApiKeyResponseDto includes the raw key — this is
+ * The CreateApiKeyResponseDto includes the raw key - this is
  * the ONLY time it appears. All other responses show only
  * the prefix and metadata.
  */
@@ -53,7 +53,7 @@ export class CreateApiKeyResponseDto {
 
   @ApiProperty({
     example: 'mp_live_aBcDeFgHiJkLmNoPqRsTuVwXyZ012345',
-    description: 'The full API key — shown ONCE, never again',
+    description: 'The full API key - shown ONCE, never again',
   })
   key!: string;
 

@@ -6,7 +6,7 @@
 http://localhost:3000/api/v1
 ```
 
-All API endpoints are prefixed with `/api/v1`. The health check is the only exception — it lives at `/health` (no prefix, no version).
+All API endpoints are prefixed with `/api/v1`. The health check is the only exception - it lives at `/health` (no prefix, no version).
 
 ## Versioning
 
@@ -44,7 +44,7 @@ For programmatic access (SDKs, CI/CD, backend integrations). Keys follow the for
 Authorization: Bearer mp_live_aBcDeFgHiJkLmNoPqRs...
 ```
 
-API key requests are inherently tenant-scoped — the key itself identifies the tenant. No `x-tenant-id` header is needed.
+API key requests are inherently tenant-scoped - the key itself identifies the tenant. No `x-tenant-id` header is needed.
 
 Keys are created via `POST /api/v1/api-keys`. The raw key is shown once at creation and never again. Only a SHA-256 hash is stored.
 
