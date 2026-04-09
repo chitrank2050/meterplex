@@ -357,6 +357,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#api-endpoints-phase-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints (Phase 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints (Phase 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tenants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -835,6 +896,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#api-endpoints-phase-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints (Phase 1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints (Phase 1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tenants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -857,7 +979,7 @@
 
 <h1 id="meterplex-documentation">Meterplex Documentation<a class="headerlink" href="#meterplex-documentation" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>Welcome to the Meterplex documentation - a B2B usage metering, entitlements, and billing platform.</p>
+<p>Welcome to the Meterplex documentation — a B2B usage metering, entitlements, and billing platform.</p>
 </blockquote>
 <hr />
 <h2 id="quick-links">Quick Links<a class="headerlink" href="#quick-links" title="Permanent link">&para;</a></h2>
@@ -879,17 +1001,17 @@
 </tr>
 <tr>
 <td><a href="api/overview/">API</a></td>
-<td>API design decisions, versioning strategy, error response format, authentication.</td>
+<td>API design decisions, versioning, error format, authentication.</td>
 </tr>
 <tr>
 <td><a href="phases/phase-0/">Build Phases</a></td>
-<td>Detailed log of each development phase - what was built, why, and lessons learned.</td>
+<td>Detailed log of each development phase — what was built, why, and lessons learned.</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>&lt;repo-url&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:chitrank2050/meterplex.git
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>meterplex
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>pnpm<span class="w"> </span>install
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
@@ -917,28 +1039,197 @@
 </tr>
 <tr>
 <td>1</td>
-<td>Auth, tenants, users, plans, subscriptions</td>
-<td>🔜 Next</td>
+<td>Multi-tenant identity and access (auth, tenants, users, API keys)</td>
+<td>✅ Complete</td>
 </tr>
 <tr>
 <td>2</td>
-<td>Entitlements and usage tracking</td>
-<td>-</td>
+<td>Plans, entitlements, and quotas</td>
+<td>🔜 Next</td>
 </tr>
 <tr>
 <td>3</td>
-<td>Billing, invoices, payments</td>
-<td>-</td>
+<td>Usage ingestion, outbox pattern, Kafka pipeline</td>
+<td>—</td>
 </tr>
 <tr>
 <td>4</td>
-<td>Kafka event pipeline</td>
-<td>-</td>
+<td>Billing ledger and invoices</td>
+<td>—</td>
 </tr>
 <tr>
 <td>5</td>
-<td>Observability, rate limiting</td>
-<td>-</td>
+<td>Payments and webhooks</td>
+<td>—</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Admin, audit log, reconciliation</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Observability (Grafana, Loki, OpenTelemetry)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Scale, hardening, load testing</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="api-endpoints-phase-1">API Endpoints (Phase 1)<a class="headerlink" href="#api-endpoints-phase-1" title="Permanent link">&para;</a></h2>
+<h3 id="auth">Auth<a class="headerlink" href="#auth" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/register</code></td>
+<td>Register user + create tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/login</code></td>
+<td>Login, get JWT + refresh token</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/refresh</code></td>
+<td>Refresh access token</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/auth/me</code></td>
+<td>Get current user profile</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/change-password</code></td>
+<td>Change password, revoke other sessions</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/forgot-password</code></td>
+<td>Request password reset token</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/reset-password</code></td>
+<td>Reset password with token</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/logout</code></td>
+<td>Revoke a refresh token</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/revoke-all</code></td>
+<td>Revoke all sessions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tenants">Tenants<a class="headerlink" href="#tenants" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenants</code></td>
+<td>Create a tenant</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenants</code></td>
+<td>List tenants for current user</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenants/:id</code></td>
+<td>Get tenant by ID</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenants/slug/:slug</code></td>
+<td>Get tenant by slug</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/tenants/:id</code></td>
+<td>Update tenant</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenants/me/context</code></td>
+<td>Get current tenant context</td>
+</tr>
+</tbody>
+</table>
+<h3 id="users">Users<a class="headerlink" href="#users" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/users</code></td>
+<td>Create user in tenant</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/users/:id</code></td>
+<td>Get user by ID</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/users/:id</code></td>
+<td>Update user profile</td>
+</tr>
+</tbody>
+</table>
+<h3 id="api-keys">API Keys<a class="headerlink" href="#api-keys" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/api-keys</code></td>
+<td>Create API key (shown once)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/api-keys</code></td>
+<td>List keys for tenant</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/api-keys/:id</code></td>
+<td>Revoke API key</td>
 </tr>
 </tbody>
 </table>
