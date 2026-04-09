@@ -20,6 +20,7 @@
  *   DELETE /tenants/:id       → JWT + TenantGuard + OWNER only
  */
 import { CurrentUser, Roles } from '@common/decorators';
+import { ErrorResponseDto } from '@common/dto';
 import { RolesGuard, TenantGuard } from '@common/guards';
 import { MembershipRole } from '@generated/prisma/client';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -86,9 +87,21 @@ export class TenantsController {
     description: 'Tenant created successfully',
     type: TenantWithRoleResponseDto,
   })
-  @ApiResponse({ status: 409, description: 'Slug already exists' })
-  @ApiResponse({ status: 400, description: 'Validation failed' })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: 409,
+    description: 'Slug already exists',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Validation failed',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async create(
     @CurrentUser('id') userId: string,
     @Body() dto: CreateTenantDto,
@@ -117,7 +130,11 @@ export class TenantsController {
     description: 'Paginated list of user tenants',
     type: TenantListResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async findAll(
     @CurrentUser('id') userId: string,
     @Query('page') page?: number,
@@ -150,8 +167,16 @@ export class TenantsController {
     description: 'Tenant found',
     type: TenantResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Tenant not found' })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: 404,
+    description: 'Tenant not found',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async findBySlug(@Param('slug') slug: string): Promise<TenantResponseDto> {
     const tenant = await this.tenantsService.findBySlug(slug);
     return TenantResponseDto.fromPrisma(tenant);
@@ -181,8 +206,16 @@ export class TenantsController {
     description: 'Tenant found',
     type: TenantWithRoleResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Tenant not found' })
-  @ApiResponse({ status: 403, description: 'Not a member of this tenant' })
+  @ApiResponse({
+    status: 404,
+    description: 'Tenant not found',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Not a member of this tenant',
+    type: ErrorResponseDto,
+  })
   async findById(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser('id') userId: string,
@@ -215,8 +248,16 @@ export class TenantsController {
     description: 'Tenant updated',
     type: TenantResponseDto,
   })
-  @ApiResponse({ status: 403, description: 'Insufficient role' })
-  @ApiResponse({ status: 404, description: 'Tenant not found' })
+  @ApiResponse({
+    status: 403,
+    description: 'Insufficient role',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Tenant not found',
+    type: ErrorResponseDto,
+  })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTenantDto,
@@ -250,8 +291,16 @@ export class TenantsController {
     description: 'Tenant cancelled',
     type: TenantResponseDto,
   })
-  @ApiResponse({ status: 403, description: 'Only OWNER can cancel a tenant' })
-  @ApiResponse({ status: 404, description: 'Tenant not found' })
+  @ApiResponse({
+    status: 403,
+    description: 'Only OWNER can cancel a tenant',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Tenant not found',
+    type: ErrorResponseDto,
+  })
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<TenantResponseDto> {
