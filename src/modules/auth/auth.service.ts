@@ -41,6 +41,10 @@ import { UsersService } from '@modules/users/users.service';
 import { LoginDto, RegisterDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { ERRORS } from '@common/constants';
+import {
+  isUniqueConstraintError,
+  getUniqueViolationFields,
+} from '@common/utils/prisma-errors';
 
 /**
  * bcrypt salt rounds. 12 = 2^12 = 4096 iterations.
@@ -127,7 +131,7 @@ export class AuthService {
    */
   async register(dto: RegisterDto) {
     // Pre-check uniqueness outside the transaction for clear error messages.
-    // Inside the transaction, Prisma would throw a raw P2002 constraint error.
+    // These catch 99.9% of duplicates with a readable error.
     const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email.toLowerCase() },
     });
@@ -143,38 +147,66 @@ export class AuthService {
     }
 
     // Transaction: all three records succeed together or none do.
-    const result = await this.prisma.$transaction(async (tx) => {
-      // 1. Create user with hashed password
-      const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
-      const user = await tx.user.create({
-        data: {
-          email: dto.email.toLowerCase(),
-          passwordHash,
-          firstName: dto.firstName,
-          lastName: dto.lastName,
-        },
-      });
+    // The try/catch handles the rare race condition where two concurrent
+    // requests both pass the pre-checks above, then one create() hits
+    // the database unique constraint. Without this, that case returns
+    // an ugly 500 instead of a clean 409.
+    let result: {
+      user: { id: string; email: string; firstName: string; lastName: string };
+      tenant: { id: string; name: string; slug: string };
+    };
 
-      // 2. Create tenant organization
-      const tenant = await tx.tenant.create({
-        data: {
-          name: dto.tenantName,
-          slug: dto.tenantSlug,
-          metadata: dto.tenantMetadata ?? {},
-        },
-      });
+    try {
+      result = await this.prisma.$transaction(async (tx) => {
+        // 1. Create user with hashed password
+        const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
+        const user = await tx.user.create({
+          data: {
+            email: dto.email.toLowerCase(),
+            passwordHash,
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+          },
+        });
 
-      // 3. Link user as OWNER - every tenant must have exactly one owner
-      await tx.membership.create({
-        data: {
-          userId: user.id,
-          tenantId: tenant.id,
-          role: 'OWNER',
-        },
-      });
+        // 2. Create tenant organization
+        const tenant = await tx.tenant.create({
+          data: {
+            name: dto.tenantName,
+            slug: dto.tenantSlug,
+            metadata: dto.tenantMetadata ?? {},
+          },
+        });
 
-      return { user, tenant };
-    });
+        // 3. Link user as OWNER - every tenant must have exactly one owner
+        await tx.membership.create({
+          data: {
+            userId: user.id,
+            tenantId: tenant.id,
+            role: 'OWNER',
+          },
+        });
+
+        return { user, tenant };
+      });
+    } catch (error) {
+      if (isUniqueConstraintError(error)) {
+        const fields = getUniqueViolationFields(error);
+        if (fields.includes('email')) {
+          throw new ConflictException(ERRORS.USER.EMAIL_EXISTS(dto.email));
+        }
+        if (fields.includes('slug')) {
+          throw new ConflictException(
+            ERRORS.TENANT.SLUG_EXISTS(dto.tenantSlug),
+          );
+        }
+        // Fallback for any other unique constraint
+        throw new ConflictException(
+          ERRORS.COMMON.UNIQUE_CONSTRAINT(fields.join(', ') || 'value'),
+        );
+      }
+      throw error; // Re-throw non-Prisma errors
+    }
 
     this.logger.log(
       `Registration: ${result.user.email} → tenant ${result.tenant.slug}`,

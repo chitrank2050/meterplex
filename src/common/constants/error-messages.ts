@@ -63,4 +63,11 @@ export const ERRORS = {
     NOT_FOUND: 'Membership not found',
     CANNOT_REMOVE_OWNER: 'Cannot remove the owner from a tenant',
   },
+  /**
+   * Generic database error messages
+   */
+  COMMON: {
+    UNIQUE_CONSTRAINT: (field: string) =>
+      `A record with this ${field} already exists`,
+  },
 } as const;

@@ -23,6 +23,10 @@ import { ERRORS } from '@common/constants/error-messages';
 import { User, MembershipRole } from '@generated/prisma/client';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
+import {
+  isUniqueConstraintError,
+  getUniqueViolationFields,
+} from '@common/utils/prisma-errors';
 
 /** bcrypt salt rounds. 12 = ~250ms per hash. Secure and performant. */
 const SALT_ROUNDS = 12;
@@ -61,7 +65,7 @@ export class UsersService {
    * @throws ConflictException if email already exists
    */
   async create(dto: CreateUserDto): Promise<SafeUser> {
-    // Check email uniqueness with a readable error.
+    // Pre-check email uniqueness with a readable error.
     const existing = await this.prisma.user.findUnique({
       where: { email: dto.email.toLowerCase() },
     });
@@ -74,18 +78,25 @@ export class UsersService {
     // Never store or log the plain text password.
     const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email.toLowerCase(),
-        passwordHash,
-        firstName: dto.firstName,
-        lastName: dto.lastName,
-      },
-      select: USER_SELECT,
-    });
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          email: dto.email.toLowerCase(),
+          passwordHash,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+        },
+        select: USER_SELECT,
+      });
 
-    this.logger.log(`User created: ${user.email} (${user.id})`);
-    return user;
+      this.logger.log(`User created: ${user.email} (${user.id})`);
+      return user;
+    } catch (error) {
+      if (isUniqueConstraintError(error)) {
+        throw new ConflictException(ERRORS.USER.EMAIL_EXISTS(dto.email));
+      }
+      throw error;
+    }
   }
 
   /**
@@ -221,35 +232,50 @@ export class UsersService {
       return this.findById(existingUser.id);
     }
 
-    // New user - create account + membership in a transaction
+    // New user - create account + membership in a transaction.
+    // try/catch handles the race where two concurrent requests both
+    // pass the findUnique check above, then one hits the unique constraint.
     const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
 
-    const user = await this.prisma.$transaction(async (tx) => {
-      const newUser = await tx.user.create({
-        data: {
-          email: dto.email.toLowerCase(),
-          passwordHash,
-          firstName: dto.firstName,
-          lastName: dto.lastName,
-        },
-        select: USER_SELECT,
+    try {
+      const user = await this.prisma.$transaction(async (tx) => {
+        const newUser = await tx.user.create({
+          data: {
+            email: dto.email.toLowerCase(),
+            passwordHash,
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+          },
+          select: USER_SELECT,
+        });
+
+        await tx.membership.create({
+          data: {
+            userId: newUser.id,
+            tenantId,
+            role,
+          },
+        });
+
+        return newUser;
       });
 
-      await tx.membership.create({
-        data: {
-          userId: newUser.id,
-          tenantId,
-          role,
-        },
-      });
+      this.logger.log(
+        `User created and added to tenant: ${dto.email} → ${tenantId} as ${role}`,
+      );
 
-      return newUser;
-    });
-
-    this.logger.log(
-      `User created and added to tenant: ${dto.email} → ${tenantId} as ${role}`,
-    );
-
-    return user;
+      return user;
+    } catch (error) {
+      if (isUniqueConstraintError(error)) {
+        const fields = getUniqueViolationFields(error);
+        if (fields.includes('userId_tenantId')) {
+          throw new ConflictException(
+            ERRORS.MEMBERSHIP.ALREADY_EXISTS(dto.email, tenantId),
+          );
+        }
+        throw new ConflictException(ERRORS.USER.EMAIL_EXISTS(dto.email));
+      }
+      throw error;
+    }
   }
 }

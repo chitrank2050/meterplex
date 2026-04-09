@@ -23,6 +23,7 @@ import {
 import { PrismaService } from '@prisma/prisma.service';
 import { Tenant } from '@generated/prisma/client';
 import { ERRORS } from '@common/constants/error-messages';
+import { isUniqueConstraintError } from '@common/utils/prisma-errors';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
 @Injectable()
@@ -91,28 +92,41 @@ export class TenantsService {
       throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
     }
 
-    const tenant = await this.prisma.$transaction(async (tx) => {
-      const newTenant = await tx.tenant.create({
-        data: {
-          name: dto.name,
-          slug: dto.slug,
-          metadata: dto.metadata ?? {},
-        },
+    // Transaction: both records succeed together or none do.
+    // The try/catch handles the rare race condition where two concurrent
+    // requests both pass the slug check above, then one create() hits
+    // the database unique constraint.
+    try {
+      const tenant = await this.prisma.$transaction(async (tx) => {
+        const newTenant = await tx.tenant.create({
+          data: {
+            name: dto.name,
+            slug: dto.slug,
+            metadata: dto.metadata ?? {},
+          },
+        });
+
+        await tx.membership.create({
+          data: {
+            userId,
+            tenantId: newTenant.id,
+            role: 'OWNER',
+          },
+        });
+
+        return { ...newTenant, role: 'OWNER' };
       });
 
-      await tx.membership.create({
-        data: {
-          userId,
-          tenantId: newTenant.id,
-          role: 'OWNER',
-        },
-      });
-
-      return { ...newTenant, role: 'OWNER' };
-    });
-
-    this.logger.log(`Tenant created with owner: ${tenant.slug} (${tenant.id})`);
-    return tenant;
+      this.logger.log(
+        `Tenant created with owner: ${tenant.slug} (${tenant.id})`,
+      );
+      return tenant;
+    } catch (error) {
+      if (isUniqueConstraintError(error)) {
+        throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
+      }
+      throw error;
+    }
   }
 
   /**
