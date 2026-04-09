@@ -7,6 +7,7 @@
  */
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationMetaDto } from '@common/dto';
+import { Tenant } from '@generated/prisma/client';
 
 export class TenantResponseDto {
   @ApiProperty({ example: '0eed08b2-60b6-4578-ae98-a98f3b164c54' })
@@ -32,6 +33,21 @@ export class TenantResponseDto {
 
   @ApiProperty({ example: '2026-04-04T12:00:00.000Z' })
   updatedAt!: Date;
+
+  /**
+   * Factory method to map a Prisma Tenant entity to this DTO.
+   */
+  static fromPrisma(entity: Tenant): TenantResponseDto {
+    return {
+      id: entity.id,
+      name: entity.name,
+      slug: entity.slug,
+      status: entity.status,
+      metadata: (entity.metadata as Record<string, unknown>) ?? {},
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+    };
+  }
 }
 
 export class TenantWithRoleResponseDto extends TenantResponseDto {
@@ -41,6 +57,18 @@ export class TenantWithRoleResponseDto extends TenantResponseDto {
     description: "The authenticated user's role in this tenant",
   })
   role!: string;
+
+  /**
+   * Factory method to map a Tenant entity + role string to this DTO.
+   */
+  static fromPrismaWithRole(
+    entity: Tenant & { role: string },
+  ): TenantWithRoleResponseDto {
+    return {
+      ...TenantResponseDto.fromPrisma(entity),
+      role: entity.role,
+    };
+  }
 }
 
 export class TenantListResponseDto {
@@ -49,4 +77,19 @@ export class TenantListResponseDto {
 
   @ApiProperty({ type: PaginationMetaDto })
   meta!: PaginationMetaDto;
+
+  /**
+   * Factory method to map a paginated list of tenant-role entities to this DTO.
+   */
+  static fromPrisma(
+    data: (Tenant & { role: string })[],
+    meta: PaginationMetaDto,
+  ): TenantListResponseDto {
+    return {
+      data: data.map((item) =>
+        TenantWithRoleResponseDto.fromPrismaWithRole(item),
+      ),
+      meta,
+    };
+  }
 }

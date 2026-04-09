@@ -46,7 +46,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateTenantDto, UpdateTenantDto } from './dto';
+import {
+  CreateTenantDto,
+  UpdateTenantDto,
+  TenantResponseDto,
+  TenantListResponseDto,
+  TenantWithRoleResponseDto,
+} from './dto';
 import { TenantsService } from './tenants.service';
 
 @ApiTags('Tenants')
@@ -75,15 +81,20 @@ export class TenantsController {
   @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new tenant' })
-  @ApiResponse({ status: 201, description: 'Tenant created successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Tenant created successfully',
+    type: TenantWithRoleResponseDto,
+  })
   @ApiResponse({ status: 409, description: 'Slug already exists' })
   @ApiResponse({ status: 400, description: 'Validation failed' })
   @ApiResponse({ status: 401, description: 'Not authenticated' })
   async create(
     @CurrentUser('id') userId: string,
     @Body() dto: CreateTenantDto,
-  ) {
-    return await this.tenantsService.createWithOwner(dto, userId);
+  ): Promise<TenantWithRoleResponseDto> {
+    const tenant = await this.tenantsService.createWithOwner(dto, userId);
+    return TenantWithRoleResponseDto.fromPrismaWithRole(tenant);
   }
 
   /**
@@ -101,18 +112,23 @@ export class TenantsController {
   @ApiOperation({ summary: 'List tenants the current user belongs to' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
-  @ApiResponse({ status: 200, description: 'Paginated list of user tenants' })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated list of user tenants',
+    type: TenantListResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Not authenticated' })
   async findAll(
     @CurrentUser('id') userId: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
-  ) {
-    return await this.tenantsService.findAllForUser(
+  ): Promise<TenantListResponseDto> {
+    const result = await this.tenantsService.findAllForUser(
       userId,
       page ?? 1,
       limit ?? 20,
     );
+    return TenantListResponseDto.fromPrisma(result.data, result.meta);
   }
 
   /**
@@ -129,11 +145,16 @@ export class TenantsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get tenant by slug' })
   @ApiParam({ name: 'slug', example: 'acme-corp' })
-  @ApiResponse({ status: 200, description: 'Tenant found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tenant found',
+    type: TenantResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   @ApiResponse({ status: 401, description: 'Not authenticated' })
-  async findBySlug(@Param('slug') slug: string) {
-    return await this.tenantsService.findBySlug(slug);
+  async findBySlug(@Param('slug') slug: string): Promise<TenantResponseDto> {
+    const tenant = await this.tenantsService.findBySlug(slug);
+    return TenantResponseDto.fromPrisma(tenant);
   }
 
   /**
@@ -155,11 +176,19 @@ export class TenantsController {
   })
   @ApiOperation({ summary: 'Get tenant by ID' })
   @ApiParam({ name: 'id', description: 'Tenant UUID' })
-  @ApiResponse({ status: 200, description: 'Tenant found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tenant found',
+    type: TenantWithRoleResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   @ApiResponse({ status: 403, description: 'Not a member of this tenant' })
-  async findById(@Param('id', ParseUUIDPipe) id: string) {
-    return await this.tenantsService.findById(id);
+  async findById(
+    @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser('id') userId: string,
+  ): Promise<TenantWithRoleResponseDto> {
+    const tenant = await this.tenantsService.findById(id, userId);
+    return TenantWithRoleResponseDto.fromPrismaWithRole(tenant as any);
   }
 
   /**
@@ -181,14 +210,19 @@ export class TenantsController {
   })
   @ApiOperation({ summary: 'Update a tenant (OWNER or ADMIN only)' })
   @ApiParam({ name: 'id', description: 'Tenant UUID' })
-  @ApiResponse({ status: 200, description: 'Tenant updated' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tenant updated',
+    type: TenantResponseDto,
+  })
   @ApiResponse({ status: 403, description: 'Insufficient role' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTenantDto,
-  ) {
-    return await this.tenantsService.update(id, dto);
+  ): Promise<TenantResponseDto> {
+    const tenant = await this.tenantsService.update(id, dto);
+    return TenantResponseDto.fromPrisma(tenant);
   }
 
   /**
@@ -211,10 +245,17 @@ export class TenantsController {
   })
   @ApiOperation({ summary: 'Cancel a tenant (OWNER only, soft delete)' })
   @ApiParam({ name: 'id', description: 'Tenant UUID' })
-  @ApiResponse({ status: 200, description: 'Tenant cancelled' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tenant cancelled',
+    type: TenantResponseDto,
+  })
   @ApiResponse({ status: 403, description: 'Only OWNER can cancel a tenant' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    return await this.tenantsService.remove(id);
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<TenantResponseDto> {
+    const tenant = await this.tenantsService.remove(id);
+    return TenantResponseDto.fromPrisma(tenant);
   }
 }

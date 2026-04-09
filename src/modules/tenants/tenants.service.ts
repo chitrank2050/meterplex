@@ -79,7 +79,10 @@ export class TenantsService {
    * @returns The created tenant
    * @throws ConflictException if slug already exists
    */
-  async createWithOwner(dto: CreateTenantDto, userId: string): Promise<Tenant> {
+  async createWithOwner(
+    dto: CreateTenantDto,
+    userId: string,
+  ): Promise<Tenant & { role: string }> {
     const existing = await this.prisma.tenant.findUnique({
       where: { slug: dto.slug },
     });
@@ -105,7 +108,7 @@ export class TenantsService {
         },
       });
 
-      return newTenant;
+      return { ...newTenant, role: 'OWNER' };
     });
 
     this.logger.log(`Tenant created with owner: ${tenant.slug} (${tenant.id})`);
@@ -200,7 +203,26 @@ export class TenantsService {
    * @returns The tenant
    * @throws NotFoundException if tenant doesn't exist
    */
-  async findById(id: string): Promise<Tenant> {
+  async findById(
+    id: string,
+    userId?: string,
+  ): Promise<Tenant & { role?: string }> {
+    if (userId) {
+      const membership = await this.prisma.membership.findUnique({
+        where: { userId_tenantId: { userId, tenantId: id } },
+        include: { tenant: true },
+      });
+
+      if (!membership) {
+        throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
+      }
+
+      return {
+        ...membership.tenant,
+        role: membership.role,
+      };
+    }
+
     const tenant = await this.prisma.tenant.findUnique({
       where: { id },
     });
