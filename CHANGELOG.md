@@ -2,6 +2,42 @@
 
 All notable changes to Meterplex API.
 
+## [0.3.4] - 2026-04-09
+
+### Build
+
+- Bump @types/node from 22.19.15 to 25.5.2 (#9)
+- Bump actions/setup-python in the all-actions group (#3)
+- Bump dotenv in the patch-and-minor group (#8)
+- Bump @types/uuid from 10.0.0 to 11.0.0 (#11)
+
+### Features
+
+- Add lodash dependency to package.json
+- Add standard pagination and error response DTOs for API consistency
+- Add TenantResponseDtos for API documentation
+- Add UserResponseDto for standardized user API responses
+- Add IsNotEmpty validation to password and refactor Auth API status codes to use enums
+- Add installation and cleanup automation scripts with corresponding npm lifecycle commands
+- Implement response DTOs for auth and api-keys modules
+- Implement DTO factory methods and update tenant module to return typed responses
+- Add Swagger response DTOs and error schemas to Auth and Users controllers
+
+### Maintenance
+
+- Centralize prettier endOfLine configuration in .prettierrc and remove from eslint config
+- Update dependencies in pnpm-lock.yaml
+
+### Refactoring
+
+- Optimize membership lookup, update Swagger path, fix Prisma import, and standardize logger
+- Centralize authentication error messages in constants and update auth service to use them
+- Migrate to eslint-config-prettier and update configuration structure
+- Standardize documentation by replacing em-dashes with hyphens across the codebase
+- Add ErrorResponseDto to Swagger API response decorators in tenants controller
+- Implement DTO factory methods for API key and tenant responses to decouple service layer
+- Remove static DTO factory methods to rely on direct service return types for serialization
+
 ## [0.3.3] - 2026-04-04
 
 ### Documentation
