@@ -1,0 +1,25 @@
+meta {
+  name: Update User
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/users/PASTE_USER_ID_HERE
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+body:json {
+  {
+    "firstName": "Updated"
+  }
+}
