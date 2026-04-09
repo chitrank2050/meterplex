@@ -107,7 +107,7 @@ export class TenantsController {
     @Body() dto: CreateTenantDto,
   ): Promise<TenantWithRoleResponseDto> {
     const tenant = await this.tenantsService.createWithOwner(dto, userId);
-    return TenantWithRoleResponseDto.fromPrismaWithRole(tenant);
+    return TenantWithRoleResponseDto.fromServiceWithRole(tenant);
   }
 
   /**
@@ -145,7 +145,7 @@ export class TenantsController {
       page ?? 1,
       limit ?? 20,
     );
-    return TenantListResponseDto.fromPrisma(result.data, result.meta);
+    return TenantListResponseDto.fromService(result.data, result.meta);
   }
 
   /**
@@ -179,7 +179,7 @@ export class TenantsController {
   })
   async findBySlug(@Param('slug') slug: string): Promise<TenantResponseDto> {
     const tenant = await this.tenantsService.findBySlug(slug);
-    return TenantResponseDto.fromPrisma(tenant);
+    return TenantResponseDto.fromService(tenant);
   }
 
   /**
@@ -221,7 +221,7 @@ export class TenantsController {
     @CurrentUser('id') userId: string,
   ): Promise<TenantWithRoleResponseDto> {
     const tenant = await this.tenantsService.findById(id, userId);
-    return TenantWithRoleResponseDto.fromPrismaWithRole(tenant as any);
+    return TenantWithRoleResponseDto.fromServiceWithRole(tenant as any);
   }
 
   /**
@@ -263,7 +263,7 @@ export class TenantsController {
     @Body() dto: UpdateTenantDto,
   ): Promise<TenantResponseDto> {
     const tenant = await this.tenantsService.update(id, dto);
-    return TenantResponseDto.fromPrisma(tenant);
+    return TenantResponseDto.fromService(tenant);
   }
 
   /**
@@ -305,6 +305,6 @@ export class TenantsController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<TenantResponseDto> {
     const tenant = await this.tenantsService.remove(id);
-    return TenantResponseDto.fromPrisma(tenant);
+    return TenantResponseDto.fromService(tenant);
   }
 }

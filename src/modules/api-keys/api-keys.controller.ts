@@ -35,10 +35,16 @@ import {
 } from '@nestjs/swagger';
 import { MembershipRole } from '@generated/prisma/client';
 import { ApiKeysService } from './api-keys.service';
-import { CreateApiKeyDto } from './dto';
+import {
+  CreateApiKeyDto,
+  CreateApiKeyResponseDto,
+  ApiKeyListResponseDto,
+  ApiKeyRevokedResponseDto,
+} from './dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { TenantGuard, RolesGuard } from '@common/guards';
 import { CurrentUser, TenantId, Roles } from '@common/decorators';
+import { ErrorResponseDto } from '@common/dto';
 
 @ApiTags('API Keys')
 @Controller({
@@ -73,14 +79,25 @@ export class ApiKeysController {
   @ApiResponse({
     status: 201,
     description: 'Key created - raw key in response',
+    type: CreateApiKeyResponseDto,
   })
-  @ApiResponse({ status: 403, description: 'Insufficient role' })
+  @ApiResponse({
+    status: 403,
+    description: 'Insufficient role',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async create(
     @Body() dto: CreateApiKeyDto,
     @TenantId() tenantId: string,
     @CurrentUser('id') userId: string,
-  ) {
-    return this.apiKeysService.create(dto, tenantId, userId);
+  ): Promise<CreateApiKeyResponseDto> {
+    const result = await this.apiKeysService.create(dto, tenantId, userId);
+    return CreateApiKeyResponseDto.fromService(result);
   }
 
   /**
@@ -104,10 +121,24 @@ export class ApiKeysController {
     required: true,
   })
   @ApiOperation({ summary: 'List API keys for tenant' })
-  @ApiResponse({ status: 200, description: 'List of API key metadata' })
-  @ApiResponse({ status: 403, description: 'Insufficient role' })
-  async findAll(@TenantId() tenantId: string) {
-    return this.apiKeysService.findAllForTenant(tenantId);
+  @ApiResponse({
+    status: 200,
+    description: 'List of API key metadata',
+    type: ApiKeyListResponseDto,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Insufficient role',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
+  async findAll(@TenantId() tenantId: string): Promise<ApiKeyListResponseDto> {
+    const result = await this.apiKeysService.findAllForTenant(tenantId);
+    return ApiKeyListResponseDto.fromService(result.data);
   }
 
   /**
@@ -131,13 +162,31 @@ export class ApiKeysController {
   })
   @ApiOperation({ summary: 'Revoke an API key (permanent)' })
   @ApiParam({ name: 'id', description: 'API key UUID' })
-  @ApiResponse({ status: 200, description: 'Key revoked' })
-  @ApiResponse({ status: 404, description: 'Key not found' })
-  @ApiResponse({ status: 403, description: 'Insufficient role' })
+  @ApiResponse({
+    status: 200,
+    description: 'Key revoked',
+    type: ApiKeyRevokedResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Key not found',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Insufficient role',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async revoke(
     @Param('id', ParseUUIDPipe) id: string,
     @TenantId() tenantId: string,
-  ) {
-    return this.apiKeysService.revoke(id, tenantId);
+  ): Promise<ApiKeyRevokedResponseDto> {
+    const result = await this.apiKeysService.revoke(id, tenantId);
+    return ApiKeyRevokedResponseDto.fromService(result);
   }
 }

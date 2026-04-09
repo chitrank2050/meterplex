@@ -35,9 +35,9 @@ export class TenantResponseDto {
   updatedAt!: Date;
 
   /**
-   * Factory method to map a Prisma Tenant entity to this DTO.
+   * Factory method to map a service Tenant entity to this DTO.
    */
-  static fromPrisma(entity: Tenant): TenantResponseDto {
+  static fromService(entity: Tenant): TenantResponseDto {
     return {
       id: entity.id,
       name: entity.name,
@@ -61,11 +61,11 @@ export class TenantWithRoleResponseDto extends TenantResponseDto {
   /**
    * Factory method to map a Tenant entity + role string to this DTO.
    */
-  static fromPrismaWithRole(
+  static fromServiceWithRole(
     entity: Tenant & { role: string },
   ): TenantWithRoleResponseDto {
     return {
-      ...TenantResponseDto.fromPrisma(entity),
+      ...TenantResponseDto.fromService(entity),
       role: entity.role,
     };
   }
@@ -81,13 +81,13 @@ export class TenantListResponseDto {
   /**
    * Factory method to map a paginated list of tenant-role entities to this DTO.
    */
-  static fromPrisma(
+  static fromService(
     data: (Tenant & { role: string })[],
     meta: PaginationMetaDto,
   ): TenantListResponseDto {
     return {
       data: data.map((item) =>
-        TenantWithRoleResponseDto.fromPrismaWithRole(item),
+        TenantWithRoleResponseDto.fromServiceWithRole(item),
       ),
       meta,
     };
