@@ -1,0 +1,14 @@
+meta {
+  name: Get Tenant by ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/tenants/{{tenantId}}
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

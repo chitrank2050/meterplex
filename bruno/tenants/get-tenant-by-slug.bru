@@ -1,0 +1,14 @@
+meta {
+  name: Get Tenant by Slug
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/tenants/slug/acme-corp
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

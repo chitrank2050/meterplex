@@ -1,0 +1,25 @@
+meta {
+  name: Update Tenant
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/tenants/{{tenantId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+body:json {
+  {
+    "name": "Acme Corp (Updated)"
+  }
+}
