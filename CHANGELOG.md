@@ -2,6 +2,19 @@
 
 All notable changes to Meterplex API.
 
+## [0.4.0] - 2026-04-09
+
+### Documentation
+
+- Update project roadmap and document API authentication and endpoints
+
+### Features
+
+- Add Bruno API collection files for authentication endpoints
+- Add Bruno API requests for retrieving and updating tenants
+- Add Bruno API collections for tenant context and user management endpoints
+- Add Bruno API collections for creating, listing, and revoking API keys
+
 ## [0.3.5] - 2026-04-09
 
 ### Refactoring
