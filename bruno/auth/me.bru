@@ -1,0 +1,14 @@
+meta {
+  name: Me (Current User)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/auth/me
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
