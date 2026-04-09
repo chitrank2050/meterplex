@@ -8,6 +8,11 @@
  * The keys THEMSELVES are used by a different guard (ApiKeyAuthGuard)
  * on endpoints like usage ingestion - not here.
  *
+ * Response strategy:
+ *   The service layer handles field filtering via Prisma select.
+ *   Sensitive fields (keyHash) never enter application memory.
+ *   Response DTOs exist purely for Swagger documentation.
+ *
  * Routes:
  *   POST   /api/v1/api-keys       → Create a new key (OWNER/ADMIN)
  *   GET    /api/v1/api-keys       → List keys for tenant (OWNER/ADMIN)
@@ -95,9 +100,8 @@ export class ApiKeysController {
     @Body() dto: CreateApiKeyDto,
     @TenantId() tenantId: string,
     @CurrentUser('id') userId: string,
-  ): Promise<CreateApiKeyResponseDto> {
-    const result = await this.apiKeysService.create(dto, tenantId, userId);
-    return CreateApiKeyResponseDto.fromService(result);
+  ) {
+    return this.apiKeysService.create(dto, tenantId, userId);
   }
 
   /**
@@ -136,9 +140,8 @@ export class ApiKeysController {
     description: 'Not authenticated',
     type: ErrorResponseDto,
   })
-  async findAll(@TenantId() tenantId: string): Promise<ApiKeyListResponseDto> {
-    const result = await this.apiKeysService.findAllForTenant(tenantId);
-    return ApiKeyListResponseDto.fromService(result.data);
+  async findAll(@TenantId() tenantId: string) {
+    return this.apiKeysService.findAllForTenant(tenantId);
   }
 
   /**
@@ -185,8 +188,7 @@ export class ApiKeysController {
   async revoke(
     @Param('id', ParseUUIDPipe) id: string,
     @TenantId() tenantId: string,
-  ): Promise<ApiKeyRevokedResponseDto> {
-    const result = await this.apiKeysService.revoke(id, tenantId);
-    return ApiKeyRevokedResponseDto.fromService(result);
+  ) {
+    return this.apiKeysService.revoke(id, tenantId);
   }
 }

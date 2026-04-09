@@ -11,6 +11,12 @@
  * ALL business logic lives in TenantsService.
  * The controller is thin - it delegates everything to the service.
  *
+ * Response strategy:
+ *   The service layer handles field filtering via Prisma select/queries.
+ *   Response DTOs exist purely for Swagger documentation and TypeScript
+ *   return type safety. No serialization interceptor is needed because
+ *   sensitive fields never enter application memory.
+ *
  * Authorization levels:
  *   POST   /tenants           → Authenticated (any user can create a tenant)
  *   GET    /tenants           → Authenticated (list tenants user belongs to)
@@ -105,9 +111,8 @@ export class TenantsController {
   async create(
     @CurrentUser('id') userId: string,
     @Body() dto: CreateTenantDto,
-  ): Promise<TenantWithRoleResponseDto> {
-    const tenant = await this.tenantsService.createWithOwner(dto, userId);
-    return TenantWithRoleResponseDto.fromServiceWithRole(tenant);
+  ) {
+    return this.tenantsService.createWithOwner(dto, userId);
   }
 
   /**
@@ -139,13 +144,8 @@ export class TenantsController {
     @CurrentUser('id') userId: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
-  ): Promise<TenantListResponseDto> {
-    const result = await this.tenantsService.findAllForUser(
-      userId,
-      page ?? 1,
-      limit ?? 20,
-    );
-    return TenantListResponseDto.fromService(result.data, result.meta);
+  ) {
+    return this.tenantsService.findAllForUser(userId, page ?? 1, limit ?? 20);
   }
 
   /**
@@ -177,9 +177,8 @@ export class TenantsController {
     description: 'Not authenticated',
     type: ErrorResponseDto,
   })
-  async findBySlug(@Param('slug') slug: string): Promise<TenantResponseDto> {
-    const tenant = await this.tenantsService.findBySlug(slug);
-    return TenantResponseDto.fromService(tenant);
+  async findBySlug(@Param('slug') slug: string) {
+    return this.tenantsService.findBySlug(slug);
   }
 
   /**
@@ -219,9 +218,8 @@ export class TenantsController {
   async findById(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser('id') userId: string,
-  ): Promise<TenantWithRoleResponseDto> {
-    const tenant = await this.tenantsService.findById(id, userId);
-    return TenantWithRoleResponseDto.fromServiceWithRole(tenant as any);
+  ) {
+    return this.tenantsService.findById(id, userId);
   }
 
   /**
@@ -261,9 +259,8 @@ export class TenantsController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTenantDto,
-  ): Promise<TenantResponseDto> {
-    const tenant = await this.tenantsService.update(id, dto);
-    return TenantResponseDto.fromService(tenant);
+  ) {
+    return this.tenantsService.update(id, dto);
   }
 
   /**
@@ -301,10 +298,7 @@ export class TenantsController {
     description: 'Tenant not found',
     type: ErrorResponseDto,
   })
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<TenantResponseDto> {
-    const tenant = await this.tenantsService.remove(id);
-    return TenantResponseDto.fromService(tenant);
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.tenantsService.remove(id);
   }
 }
