@@ -1,0 +1,26 @@
+meta {
+  name: Create API Key
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/api-keys
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+body:json {
+  {
+    "name": "Test Key",
+    "expiresInDays": 90
+  }
+}
