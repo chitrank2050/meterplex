@@ -85,27 +85,32 @@ The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/
 meterplex/
 ├── src/
 │   ├── common/              # Cross-cutting concerns
+│   │   ├── constants/       # Error codes, app constants
+│   │   ├── decorators/      # @CurrentUser, @TenantId, @Roles
+│   │   ├── dto/             # Shared DTOs (error response, pagination)
 │   │   ├── filters/         # Global exception filter
+│   │   ├── guards/          # TenantGuard, RolesGuard
+│   │   ├── interceptors/    # (Phase 2) Audit log interceptor
 │   │   ├── middleware/       # Correlation ID, request logging
-│   │   ├── interceptors/    # (future) Response transform, timeout
 │   │   ├── pipes/           # (future) Custom validation pipes
-│   │   ├── decorators/      # (future) @CurrentUser, @Public
-│   │   ├── constants/       # (future) Error codes, Kafka topics
 │   │   ├── interfaces/      # (future) Shared TypeScript types
-│   │   ├── dto/             # (future) Shared DTOs
-│   │   └── utils/           # (future) Pure utility functions
+│   │   └── utils/           # Prisma error helpers
 │   ├── config/              # Environment validation and ConfigModule
 │   ├── prisma/              # PrismaService and PrismaModule
 │   ├── health/              # Health check endpoint
-│   └── modules/             # Feature modules (tenants, billing, etc.)
+│   └── modules/
+│       ├── tenants/         # Tenant CRUD, tenant-scoped queries
+│       ├── users/           # User management, tenant membership
+│       ├── auth/            # JWT, Passport, refresh tokens, password reset
+│       └── api-keys/        # Server-to-server key management + auth guard
 ├── prisma/
 │   ├── schema.prisma        # Database schema (single source of truth)
-│   ├── migrations/          # SQL migration files (committed to Git)
-│   └── seed.ts              # Development data seeding
-├── bruno/                   # API request collections
-├── docker-compose.yml       # Local dev infrastructure
-├── docs/                    # Project documentation
-└── test/                    # E2E tests
+│   ├── seed.ts              # Development seed data
+│   └── migrations/          # Prisma migration history
+├── bruno/                   # API testing collection (Bruno)
+├── docs/                    # MkDocs documentation
+├── docker-compose.yml       # Postgres, Kafka, Redis
+└── package.json
 ```
 
 ## Available Scripts

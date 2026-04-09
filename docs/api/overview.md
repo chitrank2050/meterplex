@@ -6,7 +6,7 @@
 http://localhost:3000/api/v1
 ```
 
-All API endpoints are prefixed with `/api/v1`. The health check is the only exception - it lives at `/health` (no prefix, no version).
+All API endpoints are prefixed with `/api/v1`. The health check is the only exception — it lives at `/health` (no prefix, no version).
 
 ## Versioning
 
@@ -18,13 +18,46 @@ A breaking change is: removing a field, changing a field's type, changing the me
 
 ## Authentication
 
-*(Coming in Phase 1)*
+Meterplex supports two authentication mechanisms for two audiences:
 
-Bearer token via the `Authorization` header:
+### JWT (Dashboard / Admin users)
+
+Bearer token via the `Authorization` header. Obtained by calling `POST /api/v1/auth/login`.
 
 ```
-Authorization: Bearer <token>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
+
+Access tokens expire after 15 minutes. Use the refresh token endpoint to get a new pair without re-logging in.
+
+Most endpoints also require the `x-tenant-id` header to scope the request to a specific tenant:
+
+```
+x-tenant-id: 0eed08b2-60b6-4578-ae98-a98f3b164c54
+```
+
+### API Keys (Server-to-server)
+
+For programmatic access (SDKs, CI/CD, backend integrations). Keys follow the format `mp_live_<random>`.
+
+```
+Authorization: Bearer mp_live_aBcDeFgHiJkLmNoPqRs...
+```
+
+API key requests are inherently tenant-scoped — the key itself identifies the tenant. No `x-tenant-id` header is needed.
+
+Keys are created via `POST /api/v1/api-keys`. The raw key is shown once at creation and never again. Only a SHA-256 hash is stored.
+
+### Role-Based Access Control (RBAC)
+
+Users have a role within each tenant via the memberships table:
+
+| Role | Manage Users | Manage Billing | Use APIs | Delete Tenant |
+|------|:---:|:---:|:---:|:---:|
+| OWNER | ✅ | ✅ | ✅ | ✅ |
+| ADMIN | ✅ | ❌ | ✅ | ❌ |
+| DEVELOPER | ❌ | ❌ | ✅ | ❌ |
+| BILLING | ❌ | ✅ | ❌ | ❌ |
 
 ## Error Response Format
 
