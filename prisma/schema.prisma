@@ -348,3 +348,105 @@ model PasswordResetToken {
   @@index([userId])
   @@map("password_reset_tokens")
 }
+
+// =============================================================
+// AuditAction - What type of mutation was performed.
+// =============================================================
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+
+  @@map("audit_action")
+}
+
+// =============================================================
+// AuditActorType - Who performed the action.
+//
+// USER:    Authenticated via JWT (dashboard user)
+// API_KEY: Authenticated via API key (server-to-server)
+// SYSTEM:  Internal operations (cron jobs, migrations, seed scripts)
+// =============================================================
+
+enum AuditActorType {
+  USER
+  API_KEY
+  SYSTEM
+
+  @@map("audit_actor_type")
+}
+
+// =============================================================
+// AuditLog - Immutable record of every mutation in the system.
+//
+// Why a database table instead of structured logs?
+//   - Queryable: "Show all changes Alice made to Acme Corp last week"
+//   - Reliable: log aggregators can lose data, Postgres won't
+//   - Required: billing platforms must prove who changed what
+//   - Indexable: fast lookups by tenant, actor, resource, time range
+//
+// Design decisions:
+//   - No foreign keys to other tables. Audit logs must survive
+//     even if the referenced record is deleted. If a user is
+//     removed, their audit trail remains.
+//   - JSONB for changes allows flexible before/after diffs
+//     without schema changes per resource type.
+//   - Immutable: no updatedAt column. Audit logs are append-only.
+//     Nobody edits an audit log - that defeats the purpose.
+//   - ip_address and userAgent for forensics.
+//   - correlationId links back to the full request log.
+// =============================================================
+
+model AuditLog {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The tenant this action was performed on.
+  /// Stored as plain string, NOT a foreign key - survives tenant deletion.
+  tenantId String @map("tenant_id") @db.Uuid
+
+  /// Who performed the action. User UUID or API key UUID.
+  actorId String @map("actor_id") @db.VarChar(255)
+
+  /// How the actor authenticated.
+  actorType AuditActorType @map("actor_type")
+
+  /// What type of mutation: CREATE, UPDATE, or DELETE.
+  action AuditAction
+
+  /// Which resource type was affected: "tenant", "user", "api_key", etc.
+  resource String @db.VarChar(100)
+
+  /// UUID of the specific resource that was affected.
+  resourceId String @map("resource_id") @db.VarChar(255)
+
+  /// What changed. Shape depends on action:
+  ///   CREATE: { "after": { ...full created object } }
+  ///   UPDATE: { "before": { ...old fields }, "after": { ...new fields } }
+  ///   DELETE: { "before": { ...full deleted object } }
+  changes Json @default("{}") @db.JsonB
+
+  /// Client IP address for forensics.
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+
+  /// Client user agent string.
+  userAgent String? @map("user_agent") @db.VarChar(500)
+
+  /// Links this audit record to the full request log.
+  correlationId String? @map("correlation_id") @db.VarChar(36)
+
+  /// When the action occurred. Immutable - no updatedAt.
+  createdAt DateTime @default(now()) @map("created_at")
+
+  /// Indexes for common query patterns:
+  ///   - By tenant (all activity in an org)
+  ///   - By actor (all actions by a user)
+  ///   - By resource (history of a specific record)
+  ///   - By time (recent activity)
+  @@index([tenantId])
+  @@index([actorId])
+  @@index([resource, resourceId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
