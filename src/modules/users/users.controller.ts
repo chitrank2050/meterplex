@@ -12,10 +12,16 @@
  *   - Viewing and updating profiles requires authentication
  *   - Users can update their own profile; ADMIN can update others
  *
+ * Response strategy:
+ *   The service layer handles field filtering via Prisma select.
+ *   passwordHash never enters application memory.
+ *   Response DTOs exist purely for Swagger documentation.
+ *
  * No global list endpoint - users are listed through tenant memberships.
  * Listing all users across all tenants is an admin-only concern.
  */
 import { CurrentUser, Roles, TenantId } from '@common/decorators';
+import { ErrorResponseDto } from '@common/dto';
 import { RolesGuard, TenantGuard } from '@common/guards';
 import { MembershipRole } from '@generated/prisma/client';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -39,7 +45,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto, UserResponseDto } from './dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
@@ -73,10 +79,31 @@ export class UsersController {
   })
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a user in a tenant (OWNER/ADMIN only)' })
-  @ApiResponse({ status: 201, description: 'User created and added to tenant' })
-  @ApiResponse({ status: 409, description: 'Email already exists' })
-  @ApiResponse({ status: 400, description: 'Validation failed' })
-  @ApiResponse({ status: 403, description: 'Insufficient role' })
+  @ApiResponse({
+    status: 201,
+    description: 'User created and added to tenant',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Email already exists',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Validation failed',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Insufficient role',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async create(@Body() dto: CreateUserDto, @TenantId() tenantId: string) {
     return await this.usersService.createWithMembership(dto, tenantId);
   }
@@ -96,8 +123,16 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current user profile' })
-  @ApiResponse({ status: 200, description: 'User profile' })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: 200,
+    description: 'User profile',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async getMe(@CurrentUser('id') userId: string) {
     return this.usersService.findById(userId);
   }
@@ -116,9 +151,21 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user by ID' })
   @ApiParam({ name: 'id', description: 'User UUID' })
-  @ApiResponse({ status: 200, description: 'User found' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: 200,
+    description: 'User found',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findById(id);
   }
@@ -141,9 +188,21 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user profile' })
   @ApiParam({ name: 'id', description: 'User UUID' })
-  @ApiResponse({ status: 200, description: 'User updated' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  @ApiResponse({ status: 401, description: 'Not authenticated' })
+  @ApiResponse({
+    status: 200,
+    description: 'User updated',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
+  })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateUserDto,

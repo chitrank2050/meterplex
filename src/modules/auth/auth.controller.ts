@@ -15,6 +15,10 @@
  *   POST /auth/change-password → Change password (requires current)
  *   POST /auth/logout          → Revoke a single refresh token
  *   POST /auth/logout-all      → Revoke all sessions for the user
+ *
+ * Response strategy:
+ *   The service layer handles field filtering via Prisma select.
+ *   Response DTOs exist purely for Swagger documentation.
  */
 import {
   Controller,
@@ -32,6 +36,7 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { ErrorResponseDto } from '@common/dto';
 import { AuthService } from './auth.service';
 import {
   LoginDto,
@@ -40,6 +45,13 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
   ChangePasswordDto,
+  RegisterResponseDto,
+  LoginResponseDto,
+  TokenPairResponseDto,
+  ForgotPasswordResponseDto,
+  MessageResponseDto,
+  ChangePasswordResponseDto,
+  MeResponseDto,
 } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
@@ -77,14 +89,17 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Registration successful, tokens returned',
+    type: RegisterResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
     description: 'Email or tenant slug already exists',
+    type: ErrorResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Validation failed',
+    type: ErrorResponseDto,
   })
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
@@ -103,10 +118,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Login successful, tokens returned',
+    type: LoginResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: 'Invalid credentials or disabled account',
+    type: ErrorResponseDto,
   })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
@@ -129,10 +146,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'New access + refresh tokens returned',
+    type: TokenPairResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: 'Invalid, expired, or revoked refresh token',
+    type: ErrorResponseDto,
   })
   async refresh(@Body() dto: RefreshTokenDto) {
     return this.authService.refresh(dto.refreshToken);
@@ -154,6 +173,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Reset token generated (if account exists)',
+    type: ForgotPasswordResponseDto,
   })
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this.authService.forgotPassword(dto.email);
@@ -172,10 +192,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Password reset successful',
+    type: MessageResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid, expired, or already-used token',
+    type: ErrorResponseDto,
   })
   async resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto.token, dto.newPassword);
@@ -199,10 +221,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Current user profile',
+    type: MeResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: 'Not authenticated',
+    type: ErrorResponseDto,
   })
   me(@Request() req: { user: AuthenticatedUser }) {
     return req.user;
@@ -226,10 +250,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Password changed, new tokens returned',
+    type: ChangePasswordResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: 'Current password is incorrect',
+    type: ErrorResponseDto,
   })
   async changePassword(
     @Request() req: { user: AuthenticatedUser },
@@ -257,6 +283,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Refresh token revoked',
+    type: MessageResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
   })
   async logout(@Body() dto: RefreshTokenDto) {
     await this.authService.logout(dto.refreshToken);
@@ -278,6 +310,12 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'All sessions revoked',
+    type: MessageResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Not authenticated',
+    type: ErrorResponseDto,
   })
   async logoutAll(@Request() req: { user: AuthenticatedUser }) {
     await this.authService.logoutAll(req.user.id);
