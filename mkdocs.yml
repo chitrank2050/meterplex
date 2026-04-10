@@ -59,6 +59,7 @@ nav:
   - Architecture:
       - Overview: architecture/overview.md
       - Audit Log: architecture/audit-log.md
+      - Plans and Entitlements: architecture/phase-2-plans-and-entitlements.md
   - Development:
       - Setup: development/setup.md
   - API:

@@ -86,10 +86,11 @@ model Tenant {
   /// JSONB in Postgres = indexed, queryable, no schema enforcement.
   metadata Json @default("{}") @db.JsonB
 
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-  memberships Membership[]
-  apiKeys     ApiKey[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  memberships   Membership[]
+  apiKeys       ApiKey[]
+  subscriptions Subscription[]
 
   @@map("tenants")
 }
@@ -449,4 +450,486 @@ model AuditLog {
   @@index([resource, resourceId])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+// =============================================================
+// PlanStatus - Lifecycle of a plan.
+//
+// ACTIVE:   Plan is available for new subscriptions.
+// ARCHIVED: Plan is retired. Existing subscribers keep it,
+//           but no new subscriptions can be created.
+//           Never delete a plan - archive it. Existing
+//           subscriptions reference it, and invoices need
+//           the plan name for receipts.
+// =============================================================
+
+enum PlanStatus {
+  ACTIVE
+  ARCHIVED
+
+  @@map("plan_status")
+}
+
+// =============================================================
+// Plan - What you sell. "Starter", "Pro", "Enterprise".
+//
+// A plan is the product identity - it does NOT contain pricing.
+// Pricing lives in PlanPrice (separate table) so you can have
+// $99/month and $948/year for the same plan without duplication.
+//
+// This mirrors Stripe's Product/Price separation (2026 API).
+// Stripe deprecated their old Plans API in favor of this pattern
+// because baking price into the plan means creating a new plan
+// every time you change pricing. With separation, "Pro" stays
+// as one entity forever, and you attach/archive prices freely.
+//
+// Design decisions:
+//   - slug is the URL-safe identifier (used in API paths)
+//   - is_public controls visibility on pricing pages
+//   - display_order controls sorting on pricing pages
+//   - metadata for custom attributes (trial days, support tier, etc.)
+//   - ARCHIVED status instead of deletion (billing compliance)
+// =============================================================
+
+model Plan {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Human-readable plan name. "Starter", "Pro", "Enterprise".
+  name String @db.VarChar(255)
+
+  /// URL-safe unique identifier. Used in API paths and pricing pages.
+  /// Example: "pro" → /api/v1/plans/pro
+  slug String @unique @db.VarChar(100)
+
+  /// Optional marketing description shown on pricing pages.
+  description String? @db.Text
+
+  /// Current lifecycle status. ARCHIVED plans can't get new subscribers.
+  status PlanStatus @default(ACTIVE)
+
+  /// Whether this plan appears on public pricing pages.
+  /// False = hidden/custom/enterprise plans visible only via direct link.
+  isPublic Boolean @default(true) @map("is_public")
+
+  /// Controls display order on pricing pages. Lower = first.
+  /// Starter = 1, Pro = 2, Enterprise = 3.
+  displayOrder Int @default(0) @map("display_order")
+
+  /// Flexible metadata bag for plan-specific settings.
+  /// Example: { "trialDays": 14, "supportTier": "priority" }
+  metadata Json @default("{}") @db.JsonB
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Relations
+  prices        PlanPrice[]
+  entitlements  Entitlement[]
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+// =============================================================
+// BillingInterval - How often the customer is charged.
+//
+// MONTHLY: Charged every month on the billing anchor date.
+// ANNUALLY: Charged once per year. Typically discounted (e.g., 2 months free).
+// =============================================================
+
+enum BillingInterval {
+  MONTHLY
+  ANNUALLY
+
+  @@map("billing_interval")
+}
+
+// =============================================================
+// PlanPrice - Pricing for a plan at a specific interval + currency.
+//
+// The same plan can have multiple prices:
+//   Pro = $99/month, $948/year, €89/month, €948/year
+//
+// This is Stripe's Prices API pattern. You change pricing by
+// archiving the old price and creating a new one - existing
+// subscribers keep the old price until renewal.
+//
+// Design decisions:
+//   - amount is stored in the smallest currency unit (cents for USD,
+//     pence for GBP). $99.00 = 9900. This avoids floating-point
+//     rounding errors that would corrupt billing calculations.
+//   - currency is ISO 4217 (usd, eur, gbp). Always lowercase.
+//   - is_active allows archiving old prices without deletion.
+//   - Unique constraint on (plan, interval, currency) prevents
+//     duplicate active prices for the same combination.
+// =============================================================
+
+model PlanPrice {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The plan this price belongs to.
+  planId String @map("plan_id") @db.Uuid
+  plan   Plan   @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  /// Billing frequency: monthly or annually.
+  interval BillingInterval
+
+  /// Price in smallest currency unit. $99.00 = 9900 cents.
+  /// Integer to avoid floating-point rounding errors in billing math.
+  amount Int
+
+  /// ISO 4217 currency code, lowercase. "usd", "eur", "gbp".
+  currency String @default("usd") @db.VarChar(3)
+
+  /// Whether this price can be used for new subscriptions.
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Relations
+  subscriptions Subscription[]
+
+  @@unique([planId, interval, currency])
+  @@index([planId])
+  @@map("plan_prices")
+}
+
+// =============================================================
+// FeatureType - How a feature is gated and consumed.
+//
+// BOOLEAN: On or off. "Does this plan include SSO?"
+// QUOTA:   Numeric limit with reset period. "50,000 API calls/month"
+// METERED: Usage-based billing. "$0.02/GB after 10GB free"
+// =============================================================
+
+enum FeatureType {
+  BOOLEAN
+  QUOTA
+  METERED
+
+  @@map("feature_type")
+}
+
+// =============================================================
+// Feature - The global catalog of capabilities your platform offers.
+//
+// Features exist independently of plans. They are the "nouns"
+// of your system: "API Calls", "SSO", "Webhooks", "Storage".
+//
+// A feature's type determines how entitlements work for it:
+//   BOOLEAN → entitlement has a true/false value
+//   QUOTA   → entitlement has a numeric limit + reset period
+//   METERED → entitlement has per-unit pricing + optional free tier
+//
+// The lookup_key is the programmatic identifier used in code:
+//   GET /entitlements/api_access/check
+// This is the Stripe pattern - code references lookup_key, not UUID.
+//
+// Design decisions:
+//   - lookup_key is the stable code-facing identifier (like Stripe)
+//   - unit is the human-readable measurement unit ("calls", "GB", "seats")
+//   - Features are ARCHIVED, never deleted (entitlements reference them)
+// =============================================================
+
+model Feature {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Human-readable feature name. "API Calls", "SSO", "Storage".
+  name String @db.VarChar(255)
+
+  /// Stable programmatic identifier used in entitlement checks.
+  /// Example: "api_calls", "sso", "storage", "webhooks"
+  /// This is what your code checks: GET /entitlements/api_calls/check
+  lookupKey String @unique @map("lookup_key") @db.VarChar(100)
+
+  /// How this feature is gated: BOOLEAN (on/off), QUOTA (limit),
+  /// or METERED (usage-based pricing).
+  type FeatureType
+
+  /// Human-readable measurement unit for QUOTA and METERED features.
+  /// "calls", "GB", "seats", "messages". Null for BOOLEAN features.
+  unit String? @db.VarChar(50)
+
+  /// Optional description for documentation and pricing pages.
+  description String? @db.Text
+
+  /// Current lifecycle status. Same enum as Plan for consistency.
+  status PlanStatus @default(ACTIVE)
+
+  /// Flexible metadata bag.
+  metadata Json @default("{}") @db.JsonB
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Relations
+  entitlements Entitlement[]
+
+  @@map("features")
+}
+
+// =============================================================
+// LimitBehavior - What happens when a tenant exceeds their quota.
+//
+// HARD: Request is blocked. "You've used 50,000/50,000 API calls."
+// SOFT: Request succeeds but overage is charged. "Usage beyond
+//       50,000 calls is billed at $0.001/call."
+// =============================================================
+
+enum LimitBehavior {
+  HARD
+  SOFT
+
+  @@map("limit_behavior")
+}
+
+// =============================================================
+// ResetPeriod - When quota counters reset to zero.
+//
+// MONTHLY:  Resets on the billing anchor date each month.
+// ANNUALLY: Resets once per year on the subscription anniversary.
+// NEVER:    Lifetime quota - once consumed, it's gone.
+// =============================================================
+
+enum ResetPeriod {
+  MONTHLY
+  ANNUALLY
+  NEVER
+
+  @@map("reset_period")
+}
+
+// =============================================================
+// Entitlement - The bridge between Plan and Feature.
+//
+// "The Pro plan grants API Calls with a limit of 50,000/month"
+// "The Enterprise plan grants SSO (boolean: true)"
+// "The Pro plan grants Storage at $0.02/GB after 10GB free"
+//
+// The columns flex based on feature type:
+//
+//   BOOLEAN:
+//     value = true, everything else null
+//
+//   QUOTA:
+//     limit = 50000
+//     resetPeriod = MONTHLY
+//     limitBehavior = HARD (blocked) or SOFT (overage charged)
+//     overagePrice = null (hard) or 100 (soft, $0.001/unit in cents)
+//
+//   METERED:
+//     includedAmount = 10 (first 10 units free)
+//     overagePrice = 200 ($0.02/unit in cents - wait, see note below)
+//     resetPeriod = MONTHLY
+//
+// overagePrice is stored in 1/100th of the smallest currency unit
+// (micro-cents) to handle sub-cent pricing like $0.001/API call.
+// $0.001 = 100 micro-cents. $0.02 = 2000 micro-cents.
+// This avoids decimals entirely in billing math.
+//
+// Design decisions:
+//   - Unique constraint on (plan_id, feature_id) - one entitlement
+//     per feature per plan. A plan can't grant the same feature twice.
+//   - limit_behavior is on the entitlement, not the feature, because
+//     the same feature can be hard-capped on Starter and soft-capped
+//     on Pro.
+//   - overagePrice in micro-cents (integer) avoids floating-point math.
+// =============================================================
+
+model Entitlement {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The plan that grants this entitlement.
+  planId String @map("plan_id") @db.Uuid
+  plan   Plan   @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  /// The feature being granted.
+  featureId String  @map("feature_id") @db.Uuid
+  feature   Feature @relation(fields: [featureId], references: [id], onDelete: Cascade)
+
+  /// For BOOLEAN features: true = granted, false = explicitly denied.
+  value Boolean?
+
+  /// For QUOTA features: the numeric limit per reset period.
+  /// Example: 50000 (API calls per month).
+  limit Int?
+
+  /// What happens when the limit is exceeded: block or charge overage.
+  /// Only relevant for QUOTA features.
+  limitBehavior LimitBehavior? @map("limit_behavior")
+
+  /// Price per unit beyond the limit (for SOFT quotas) or beyond
+  /// includedAmount (for METERED features).
+  /// Stored in micro-cents (1/10000th of currency unit).
+  /// $0.001/call = 10 micro-cents. $0.02/GB = 200 micro-cents.
+  overagePrice Int? @map("overage_price")
+
+  /// For METERED features: units included before overage charges apply.
+  /// Example: 10 (first 10 GB free, then $0.02/GB).
+  includedAmount Int? @map("included_amount")
+
+  /// When the quota counter resets: MONTHLY, ANNUALLY, or NEVER.
+  resetPeriod ResetPeriod? @map("reset_period")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// One entitlement per feature per plan.
+  @@unique([planId, featureId])
+  @@index([planId])
+  @@index([featureId])
+  @@map("entitlements")
+}
+
+// =============================================================
+// SubscriptionStatus - Lifecycle of a subscription.
+//
+// ACTIVE:    Subscription is current and paid.
+// TRIALING:  In free trial period. Becomes ACTIVE when trial ends.
+// PAST_DUE:  Payment failed. Grace period before cancellation.
+// CANCELLED: Subscription ended. Access removed.
+// PAUSED:    Temporarily halted. Can be resumed.
+// =============================================================
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELLED
+  PAUSED
+
+  @@map("subscription_status")
+}
+
+// =============================================================
+// Subscription - Binds a Tenant to a Plan + Price.
+//
+// "Acme Corp is subscribed to the Pro plan at $99/month,
+// started on April 1st, renews on the 1st of each month."
+//
+// A tenant has exactly ONE active subscription at a time.
+// Upgrades/downgrades create a new subscription and cancel the old one.
+// This keeps the audit trail clean - every subscription is immutable
+// once created, with only status changes allowed.
+//
+// Design decisions:
+//   - billingAnchor is the day-of-month for recurring charges.
+//     If a customer subscribes on the 15th, they're always charged
+//     on the 15th. This is how Stripe handles billing anchors.
+//   - trialEndsAt supports free trial periods. During trial,
+//     status = TRIALING. When trial ends, status → ACTIVE and
+//     first charge is created.
+//   - cancelledAt records when cancellation was requested.
+//     The subscription may still be active until currentPeriodEnd
+//     (cancel-at-end-of-period behavior).
+//   - No foreign key to entitlements - entitlement snapshots
+//     are linked via the subscription ID (see EntitlementSnapshot).
+// =============================================================
+
+model Subscription {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The tenant that holds this subscription.
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  /// The plan the tenant is subscribed to.
+  planId String @map("plan_id") @db.Uuid
+  plan   Plan   @relation(fields: [planId], references: [id])
+
+  /// The specific price (interval + amount + currency) for this subscription.
+  priceId String    @map("price_id") @db.Uuid
+  price   PlanPrice @relation(fields: [priceId], references: [id])
+
+  /// Current lifecycle status.
+  status SubscriptionStatus @default(ACTIVE)
+
+  /// Start of the current billing period.
+  currentPeriodStart DateTime @map("current_period_start")
+
+  /// End of the current billing period. Next charge happens here.
+  currentPeriodEnd DateTime @map("current_period_end")
+
+  /// Day-of-month for recurring charges (1-28).
+  /// Capped at 28 to avoid month-length edge cases (Feb 28/29/30/31).
+  billingAnchor Int @map("billing_anchor")
+
+  /// When the free trial ends. Null if no trial.
+  trialEndsAt DateTime? @map("trial_ends_at")
+
+  /// When cancellation was requested. Null if not cancelled.
+  /// Subscription stays active until currentPeriodEnd.
+  cancelledAt DateTime? @map("cancelled_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Relations
+  entitlementSnapshots EntitlementSnapshot[]
+
+  @@index([tenantId])
+  @@index([planId])
+  @@map("subscriptions")
+}
+
+// =============================================================
+// EntitlementSnapshot - Frozen copy of entitlements at subscribe time.
+//
+// Why snapshot?
+//   When Acme Corp subscribes to Pro, we freeze the entitlements:
+//     "API Calls: 50,000/month, SSO: true, Storage: $0.02/GB"
+//
+//   If we later change Pro to "API Calls: 25,000/month", Acme Corp
+//   keeps their 50,000 until renewal. The snapshot is their contract.
+//
+// This is what Stripe does internally - they maintain "active
+// entitlements" per customer that only update on subscription changes.
+//
+// The entitlement check service reads from snapshots, NOT from
+// the plan's current entitlements. This ensures price/limit changes
+// never silently affect existing subscribers.
+//
+// Design decisions:
+//   - Mirrors the Entitlement table structure exactly
+//   - Linked to subscription (not plan) so it survives plan changes
+//   - featureLookupKey denormalized for fast lookups without joins
+//   - Immutable: no updatedAt. Created once, never modified.
+// =============================================================
+
+model EntitlementSnapshot {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The subscription this snapshot belongs to.
+  subscriptionId String       @map("subscription_id") @db.Uuid
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  /// Denormalized feature lookup key for fast entitlement checks.
+  /// "api_calls", "sso", "storage" - no join to Feature table needed.
+  featureLookupKey String @map("feature_lookup_key") @db.VarChar(100)
+
+  /// Feature type at the time of snapshot.
+  featureType FeatureType @map("feature_type")
+
+  /// Snapshotted entitlement values - same semantics as Entitlement.
+  value          Boolean?
+  limit          Int?
+  limitBehavior  LimitBehavior? @map("limit_behavior")
+  overagePrice   Int?           @map("overage_price")
+  includedAmount Int?           @map("included_amount")
+  resetPeriod    ResetPeriod?   @map("reset_period")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  /// One snapshot per feature per subscription.
+  @@unique([subscriptionId, featureLookupKey])
+  @@index([subscriptionId])
+  @@index([featureLookupKey])
+  @@map("entitlement_snapshots")
 }

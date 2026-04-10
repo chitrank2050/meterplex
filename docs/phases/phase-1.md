@@ -159,7 +159,7 @@ Added as a cross-cutting concern before Phase 2 begins. Every mutation (POST, PA
 
 **What it skips:** GET requests, health checks, auth endpoints, and routes with `@SkipAudit()`.
 
-**How it works:** Global NestJS interceptor using RxJS `tap()`. Runs after the handler completes. Fire-and-forget — audit failures are logged to stdout but never block the response.
+**How it works:** Global NestJS interceptor using RxJS `tap()`. Runs after the handler completes. Fire-and-forget - audit failures are logged to stdout but never block the response.
 
 **Sensitive fields stripped:** passwords, tokens, key material are automatically sanitized from the changes payload before storage.
 
