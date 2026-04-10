@@ -1,14 +1,24 @@
-# Meterplex
+<div align="center">
+  <img src="assets/logo.png" width="160" height="160" alt="Meterplex Logo">
+  <h1>Meterplex</h1>
+  <p><strong>Open-source B2B usage metering, entitlements, and billing platform.</strong></p>
 
-**Open-source B2B usage metering, entitlements, and billing platform.**
-
-Built with NestJS, Postgres, Kafka, Redis, and Prisma.
+  <p>
+    <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white" alt="NestJS">
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript">
+    <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL">
+    <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat&logo=prisma&logoColor=white" alt="Prisma">
+    <img src="https://img.shields.io/badge/Kafka-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka">
+    <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+  </p>
+</div>
 
 ---
 
-## What is this?
+# What is this?
 
-Meterplex is the backend that powers a SaaS or AI API company. It decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation. Every mutation is recorded to an immutable audit log for compliance and forensics.
+> Meterplex is the backend that powers a SaaS or AI API company. It decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation. Every mutation is recorded to an immutable audit log for compliance and forensics.
 
 ## Architecture
 
@@ -155,16 +165,18 @@ Detailed documentation lives in the [`docs/`](./docs) folder:
 | Phase | Focus | Status |
 |-------|-------|--------|
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
-| 1 | Auth, tenants, users, plans, subscriptions | 🔜 Next |
-| 2 | Entitlements and usage tracking | - |
+| 1 | Auth, tenants, users, plans, subscriptions | ✅ Complete |
+| 2 | Entitlements and usage tracking | 🔜 Next |
 | 3 | Billing, invoices, payments | - |
 | 4 | Kafka event pipeline, async processing | - |
 | 5 | Observability, rate limiting, hardening | - |
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE) for details.
+
+If you use Meterplex in your project, a star or credit is appreciated.
 
 ---
 
-Developed by [Chitrank Agnihotri](https://www.chitrankagnihotri.com)
+❤️ Developed by [Chitrank Agnihotri](https://www.chitrankagnihotri.com)
