@@ -44,7 +44,7 @@ import {
   ],
   controllers: [],
   providers: [
-    // Global audit log interceptor — registered here so DI resolves
+    // Global audit log interceptor - registered here so DI resolves
     // PrismaService and Reflector automatically. Applied globally in main.ts.
     AuditLogInterceptor,
   ],

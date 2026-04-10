@@ -1,12 +1,12 @@
 /**
- * AuditLogInterceptor — Automatically logs every mutation to the audit_logs table.
+ * AuditLogInterceptor - Automatically logs every mutation to the audit_logs table.
  *
  * How it works:
  *   1. Runs AFTER the route handler completes (in the response pipeline)
  *   2. Checks if the request is a mutation (POST, PATCH, PUT, DELETE)
  *   3. Extracts: who (actor), what (resource + action), where (tenant)
  *   4. Writes an immutable audit record to Postgres
- *   5. Fire-and-forget — audit failures are logged but never block the response
+ *   5. Fire-and-forget - audit failures are logged but never block the response
  *
  * What it skips:
  *   - GET, HEAD, OPTIONS requests (reads don't mutate)
@@ -36,7 +36,7 @@
  *   Loki/ELK will catch it in Phase 7.
  *
  * Usage:
- *   Applied globally in main.ts — no per-controller decoration needed.
+ *   Applied globally in main.ts - no per-controller decoration needed.
  *   To skip a specific route, use the @SkipAudit() decorator.
  */
 import {
@@ -256,7 +256,7 @@ export class AuditLogInterceptor implements NestInterceptor {
    *
    * Note: For UPDATE, we don't have the "before" state because the
    * interceptor runs AFTER the handler. To capture "before" state,
-   * we'd need to query the database before the update — that's a
+   * we'd need to query the database before the update - that's a
    * performance cost we avoid for now. If needed, individual services
    * can pass before/after diffs explicitly.
    */

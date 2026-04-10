@@ -1,5 +1,5 @@
 /**
- * @SkipAudit() — Marks a route handler to skip audit logging.
+ * @SkipAudit() - Marks a route handler to skip audit logging.
  *
  * Use this on endpoints where audit logging is either:
  *   - Not meaningful (bulk health checks, internal endpoints)

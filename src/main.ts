@@ -98,7 +98,7 @@ async function bootstrap(): Promise<void> {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // =============================================================
-  // Global Audit Log Interceptor — Records every mutation
+  // Global Audit Log Interceptor - Records every mutation
   //    (POST, PATCH, PUT, DELETE) to the audit_logs table.
   //    Runs after the route handler completes. Fire-and-forget:
   //    audit failures are logged but never block the response.
