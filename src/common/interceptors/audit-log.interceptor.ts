@@ -78,6 +78,10 @@ const PATH_TO_RESOURCE: Record<string, string> = {
   users: 'user',
   'api-keys': 'api_key',
   memberships: 'membership',
+  plans: 'plan',
+  features: 'feature',
+  entitlements: 'entitlement',
+  subscriptions: 'subscription',
 };
 
 /**
