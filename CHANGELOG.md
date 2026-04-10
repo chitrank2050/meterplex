@@ -2,6 +2,30 @@
 
 All notable changes to Meterplex API.
 
+## [0.4.1] - 2026-04-10
+
+### Build
+
+- Bump @types/supertest from 6.0.3 to 7.2.0 (#10)
+
+### Documentation
+
+- Add audit log architecture documentation and standardize code comments
+
+### Features
+
+- Add AuditLog model and supporting enums to track system mutations
+- Implement global audit log interceptor with skip decorator for mutation tracking
+- Implement global audit log interceptor with SkipAudit decorator support
+- Add audit log interceptor documentation and phase 1 summary updates
+- Implement plans, features, and entitlements schema with supporting documentation
+- Add support for plans, features, entitlements, and subscriptions to audit log resource mapping
+
+### Maintenance
+
+- Update project metadata, simplify license terms, and add branding assets
+- Update package metadata and keywords for better project discoverability
+
 ## [0.4.0] - 2026-04-09
 
 ### Documentation
