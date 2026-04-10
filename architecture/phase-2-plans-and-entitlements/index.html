@@ -1,0 +1,2134 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="B2B usage metering, entitlements, and billing platform">
+      
+      
+        <meta name="author" content="Chitrank Agnihotri">
+      
+      
+        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/architecture/phase-2-plans-and-entitlements/">
+      
+      
+        <link rel="prev" href="../audit-log/">
+      
+      
+        <link rel="next" href="../../development/setup/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Plans and Entitlements - Meterplex Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-2-plans-features-entitlements-and-subscriptions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Meterplex Docs" class="md-header__button md-logo" aria-label="Meterplex Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Meterplex Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Plans and Entitlements
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chitrank2050/meterplex" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    chitrank2050/meterplex
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Meterplex Docs" class="md-nav__button md-logo" aria-label="Meterplex Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Meterplex Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chitrank2050/meterplex" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    chitrank2050/meterplex
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit-log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans and Entitlements
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans and Entitlements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-model-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data model overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data model overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relationship-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship map
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan_prices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plan_prices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        entitlements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        subscriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlement_snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        entitlement_snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entitlement-check-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlement check flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quota-consumption-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quota consumption flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seed-data-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seed data plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seed data plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plans_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlements-plan-feature-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlements (Plan × Feature matrix)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subscriptions-dev-tenants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscriptions (dev tenants)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key design decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Phases
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Phases
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/phase-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 0 - Project Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/phase-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 - Identity and Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-model-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data model overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data model overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relationship-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship map
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan_prices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plan_prices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        entitlements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        subscriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlement_snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        entitlement_snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entitlement-check-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlement check flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quota-consumption-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quota consumption flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seed-data-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seed data plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seed data plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plans_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlements-plan-feature-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlements (Plan × Feature matrix)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subscriptions-dev-tenants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscriptions (dev tenants)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key design decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="phase-2-plans-features-entitlements-and-subscriptions">Phase 2 - Plans, Features, Entitlements, and Subscriptions<a class="headerlink" href="#phase-2-plans-features-entitlements-and-subscriptions" title="Permanent link">&para;</a></h1>
+<p><strong>Goal:</strong> Decide what a customer is allowed to do. Define plans, map features to plans with access rules, and check entitlements at runtime.</p>
+<p><strong>Status:</strong> In progress</p>
+<hr />
+<h2 id="data-model-overview">Data model overview<a class="headerlink" href="#data-model-overview" title="Permanent link">&para;</a></h2>
+<p><img alt="Phase 2 ERD" src="../phase-2-erd.png" /></p>
+<p>Phase 2 adds 6 new tables to the existing Phase 1 schema:</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Purpose</th>
+<th>Relates to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plans</code></td>
+<td>What you sell: "Starter", "Pro", "Enterprise"</td>
+<td>plan_prices, entitlements, subscriptions</td>
+</tr>
+<tr>
+<td><code>plan_prices</code></td>
+<td>How much it costs: $99/mo, $948/yr</td>
+<td>plans, subscriptions</td>
+</tr>
+<tr>
+<td><code>features</code></td>
+<td>Global catalog of capabilities: "API Calls", "SSO"</td>
+<td>entitlements</td>
+</tr>
+<tr>
+<td><code>entitlements</code></td>
+<td>Bridge: Plan + Feature = access rule</td>
+<td>plans, features</td>
+</tr>
+<tr>
+<td><code>subscriptions</code></td>
+<td>Tenant → Plan binding with billing period</td>
+<td>tenants, plans, plan_prices, entitlement_snapshots</td>
+</tr>
+<tr>
+<td><code>entitlement_snapshots</code></td>
+<td>Frozen copy of entitlements at subscribe time</td>
+<td>subscriptions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="relationship-map">Relationship map<a class="headerlink" href="#relationship-map" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Tenant ──1:N──▶ Subscription ──N:1──▶ Plan ──1:N──▶ PlanPrice
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                     │                   │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                     │                   └──1:N──▶ Entitlement ──N:1──▶ Feature
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                     │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                     └──1:N──▶ EntitlementSnapshot
+</code></pre></div>
+<hr />
+<h2 id="table-details">Table details<a class="headerlink" href="#table-details" title="Permanent link">&para;</a></h2>
+<h3 id="plans">plans<a class="headerlink" href="#plans" title="Permanent link">&para;</a></h3>
+<p>The product identity. Does NOT contain pricing - that's in <code>plan_prices</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>UUID PK</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>name</td>
+<td>VARCHAR(255)</td>
+<td>"Starter", "Pro", "Enterprise"</td>
+</tr>
+<tr>
+<td>slug</td>
+<td>VARCHAR(100) UNIQUE</td>
+<td>URL-safe identifier: "pro" → <code>/api/v1/plans/pro</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td>TEXT</td>
+<td>Optional marketing copy for pricing pages</td>
+</tr>
+<tr>
+<td>status</td>
+<td>ENUM(ACTIVE, ARCHIVED)</td>
+<td>ARCHIVED = no new subscriptions, existing ones continue</td>
+</tr>
+<tr>
+<td>is_public</td>
+<td>BOOLEAN</td>
+<td>Show on pricing page? False = hidden/enterprise plans</td>
+</tr>
+<tr>
+<td>display_order</td>
+<td>INT</td>
+<td>Sorting on pricing pages. Starter=1, Pro=2, Enterprise=3</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td>JSONB</td>
+<td>Custom attributes: <code>{ "trialDays": 14, "supportTier": "priority" }</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why separate from pricing?</strong> This mirrors Stripe's Product/Price split. Changing from $99/mo to $119/mo means archiving the old price and creating a new one - the plan identity stays unchanged. Without separation, you'd need a new plan for every price change, breaking references from existing subscriptions.</p>
+<h3 id="plan_prices">plan_prices<a class="headerlink" href="#plan_prices" title="Permanent link">&para;</a></h3>
+<p>Multiple prices per plan. Same plan, different intervals and currencies.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>UUID PK</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>plan_id</td>
+<td>UUID FK → plans</td>
+<td>Which plan this price belongs to</td>
+</tr>
+<tr>
+<td>interval</td>
+<td>ENUM(MONTHLY, ANNUALLY)</td>
+<td>Billing frequency</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>INT</td>
+<td>Price in smallest currency unit. $99.00 = 9900 cents</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>VARCHAR(3)</td>
+<td>ISO 4217 lowercase: "usd", "eur", "gbp"</td>
+</tr>
+<tr>
+<td>is_active</td>
+<td>BOOLEAN</td>
+<td>Can this price be used for new subscriptions?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why store amount in cents (integer)?</strong> Floating-point math produces rounding errors in billing calculations. <code>0.1 + 0.2 = 0.30000000000000004</code> in JavaScript/most languages. Integers don't have this problem. $99.99 = 9999 cents. All arithmetic stays in integers, convert to dollars only at display time.</p>
+<p><strong>Unique constraint:</strong> <code>(plan_id, interval, currency)</code> - one active price per plan per interval per currency.</p>
+<h3 id="features">features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<p>The global catalog of things your platform can do. Features exist independently of plans.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>UUID PK</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>name</td>
+<td>VARCHAR(255)</td>
+<td>"API Calls", "SSO", "Storage", "Webhooks"</td>
+</tr>
+<tr>
+<td>lookup_key</td>
+<td>VARCHAR(100) UNIQUE</td>
+<td>Stable code identifier: "api_calls", "sso", "storage"</td>
+</tr>
+<tr>
+<td>type</td>
+<td>ENUM(BOOLEAN, QUOTA, METERED)</td>
+<td>How this feature is gated</td>
+</tr>
+<tr>
+<td>unit</td>
+<td>VARCHAR(50)</td>
+<td>Measurement unit: "calls", "GB", "seats". Null for BOOLEAN</td>
+</tr>
+<tr>
+<td>description</td>
+<td>TEXT</td>
+<td>Documentation/pricing page description</td>
+</tr>
+<tr>
+<td>status</td>
+<td>ENUM(ACTIVE, ARCHIVED)</td>
+<td>ARCHIVED features can't be added to new entitlements</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td>JSONB</td>
+<td>Custom attributes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why <code>lookup_key</code> instead of just <code>slug</code>?</strong> This is the Stripe pattern. Your code checks entitlements using the lookup_key, not the UUID:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>GET /api/v1/entitlements/api_calls/check
+</code></pre></div>
+The lookup_key is immutable after creation - changing it would break all code that references it.</p>
+<p><strong>Feature types explained:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it controls</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BOOLEAN</td>
+<td>On/off access</td>
+<td>SSO, webhooks, priority support</td>
+</tr>
+<tr>
+<td>QUOTA</td>
+<td>Numeric limit per period</td>
+<td>50,000 API calls/month, 5 team seats</td>
+</tr>
+<tr>
+<td>METERED</td>
+<td>Usage-based billing</td>
+<td>Storage at $0.02/GB, tokens at $0.001/call</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entitlements">entitlements<a class="headerlink" href="#entitlements" title="Permanent link">&para;</a></h3>
+<p>The bridge between Plan and Feature. "The Pro plan grants 50,000 API calls/month."</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>UUID PK</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>plan_id</td>
+<td>UUID FK → plans</td>
+<td>Which plan grants this</td>
+</tr>
+<tr>
+<td>feature_id</td>
+<td>UUID FK → features</td>
+<td>Which feature is granted</td>
+</tr>
+<tr>
+<td>value</td>
+<td>BOOLEAN</td>
+<td>For BOOLEAN features: true=granted, false=denied</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>For QUOTA features: numeric limit per reset period</td>
+</tr>
+<tr>
+<td>limit_behavior</td>
+<td>ENUM(HARD, SOFT)</td>
+<td>HARD=block at limit, SOFT=allow overage + charge</td>
+</tr>
+<tr>
+<td>overage_price</td>
+<td>INT</td>
+<td>Per-unit charge beyond limit/included amount (micro-cents)</td>
+</tr>
+<tr>
+<td>included_amount</td>
+<td>INT</td>
+<td>For METERED: free units before overage kicks in</td>
+</tr>
+<tr>
+<td>reset_period</td>
+<td>ENUM(MONTHLY, ANNUALLY, NEVER)</td>
+<td>When quota counters reset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unique constraint:</strong> <code>(plan_id, feature_id)</code> - one entitlement per feature per plan.</p>
+<p><strong>Why <code>limit_behavior</code> is on the entitlement, not the feature:</strong> The same feature ("API Calls") can be hard-capped on Starter (block at 1,000) and soft-capped on Pro (allow overage beyond 50,000, charge $0.001/call). The behavior depends on the plan, not the feature.</p>
+<p><strong>Overage price in micro-cents:</strong> Sub-cent pricing is common in API billing. $0.001/API call can't be stored as cents (0.1 cents is not an integer). Micro-cents solve this:</p>
+<table>
+<thead>
+<tr>
+<th>Real price</th>
+<th>Micro-cents</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$0.001/call</td>
+<td>10</td>
+<td>$0.001 × 10,000 = 10</td>
+</tr>
+<tr>
+<td>$0.02/GB</td>
+<td>200</td>
+<td>$0.02 × 10,000 = 200</td>
+</tr>
+<tr>
+<td>$0.50/seat</td>
+<td>5000</td>
+<td>$0.50 × 10,000 = 5000</td>
+</tr>
+<tr>
+<td>$1.00/unit</td>
+<td>10000</td>
+<td>$1.00 × 10,000 = 10,000</td>
+</tr>
+</tbody>
+</table>
+<p>Formula: <code>micro_cents = real_price_in_dollars × 10,000</code></p>
+<p>All billing math stays in integers. Convert to dollars at display time only.</p>
+<p><strong>Entitlement examples by feature type:</strong></p>
+<p>BOOLEAN - "Pro includes SSO":
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>plan_id: pro, feature_id: sso, value: true
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>(all other fields null)
+</code></pre></div></p>
+<p>QUOTA (hard limit) - "Starter gets 1,000 API calls/month, blocked at limit":
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>plan_id: starter, feature_id: api_calls
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>limit: 1000, limit_behavior: HARD, reset_period: MONTHLY
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>(overage_price: null, included_amount: null)
+</code></pre></div></p>
+<p>QUOTA (soft limit) - "Pro gets 50,000 API calls/month, $0.001/call overage":
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>plan_id: pro, feature_id: api_calls
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>limit: 50000, limit_behavior: SOFT, overage_price: 10, reset_period: MONTHLY
+</code></pre></div></p>
+<p>METERED - "Pro gets 10GB storage free, $0.02/GB after":
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>plan_id: pro, feature_id: storage
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>included_amount: 10, overage_price: 200, reset_period: MONTHLY
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>(limit: null, limit_behavior: null)
+</code></pre></div></p>
+<h3 id="subscriptions">subscriptions<a class="headerlink" href="#subscriptions" title="Permanent link">&para;</a></h3>
+<p>Binds a tenant to a plan + price. One active subscription per tenant at a time.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>UUID PK</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>tenant_id</td>
+<td>UUID FK → tenants</td>
+<td>Which tenant holds this subscription</td>
+</tr>
+<tr>
+<td>plan_id</td>
+<td>UUID FK → plans</td>
+<td>Which plan they're on</td>
+</tr>
+<tr>
+<td>price_id</td>
+<td>UUID FK → plan_prices</td>
+<td>Which price they're paying</td>
+</tr>
+<tr>
+<td>status</td>
+<td>ENUM(ACTIVE, TRIALING, PAST_DUE, CANCELLED, PAUSED)</td>
+<td>Current lifecycle state</td>
+</tr>
+<tr>
+<td>current_period_start</td>
+<td>TIMESTAMP</td>
+<td>Start of current billing period</td>
+</tr>
+<tr>
+<td>current_period_end</td>
+<td>TIMESTAMP</td>
+<td>End of current billing period (next charge date)</td>
+</tr>
+<tr>
+<td>billing_anchor</td>
+<td>INT (1-28)</td>
+<td>Day-of-month for recurring charges</td>
+</tr>
+<tr>
+<td>trial_ends_at</td>
+<td>TIMESTAMP</td>
+<td>When trial expires. Null if no trial</td>
+</tr>
+<tr>
+<td>cancelled_at</td>
+<td>TIMESTAMP</td>
+<td>When cancellation was requested. Null if active</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why billing_anchor is capped at 28:</strong> February has 28 days. If you anchor on the 31st, what happens in February? Every billing system has this edge case. Capping at 28 eliminates it. Stripe does the same thing.</p>
+<p><strong>Subscription lifecycle:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>TRIALING → ACTIVE → PAST_DUE → CANCELLED
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>                  → PAUSED → ACTIVE
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>                  → CANCELLED
+</code></pre></div></p>
+<p><strong>Why one active subscription per tenant?</strong> Upgrades/downgrades cancel the old subscription and create a new one. This keeps the audit trail clean - each subscription is a point-in-time contract. The old subscription stays in the database with status=CANCELLED for historical reference.</p>
+<h3 id="entitlement_snapshots">entitlement_snapshots<a class="headerlink" href="#entitlement_snapshots" title="Permanent link">&para;</a></h3>
+<p>Frozen copy of entitlements at the moment a tenant subscribes.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>UUID PK</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>subscription_id</td>
+<td>UUID FK → subscriptions</td>
+<td>Which subscription this belongs to</td>
+</tr>
+<tr>
+<td>feature_lookup_key</td>
+<td>VARCHAR(100)</td>
+<td>Denormalized from features.lookup_key</td>
+</tr>
+<tr>
+<td>feature_type</td>
+<td>ENUM(BOOLEAN, QUOTA, METERED)</td>
+<td>Denormalized from features.type</td>
+</tr>
+<tr>
+<td>value</td>
+<td>BOOLEAN</td>
+<td>Snapshot of entitlement value</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>Snapshot of entitlement limit</td>
+</tr>
+<tr>
+<td>limit_behavior</td>
+<td>ENUM(HARD, SOFT)</td>
+<td>Snapshot of limit behavior</td>
+</tr>
+<tr>
+<td>overage_price</td>
+<td>INT</td>
+<td>Snapshot of overage price (micro-cents)</td>
+</tr>
+<tr>
+<td>included_amount</td>
+<td>INT</td>
+<td>Snapshot of included amount</td>
+</tr>
+<tr>
+<td>reset_period</td>
+<td>ENUM(MONTHLY, ANNUALLY, NEVER)</td>
+<td>Snapshot of reset period</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why snapshot?</strong> When Acme Corp subscribes to Pro with 50,000 API calls/month, we freeze that number. If we later change Pro to 25,000 API calls/month, Acme Corp keeps 50,000 until their subscription renews. The snapshot is their contract.</p>
+<p><strong>Why denormalize <code>feature_lookup_key</code> and <code>feature_type</code>?</strong> The entitlement check service runs on every API request. It needs to look up "does this tenant have <code>api_calls</code> access?" as fast as possible. Denormalizing avoids a JOIN to the features table on every check. The query becomes:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">entitlement_snapshots</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">feature_lookup_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="mi">2</span>
+</code></pre></div></p>
+<p><strong>Unique constraint:</strong> <code>(subscription_id, feature_lookup_key)</code> - one snapshot per feature per subscription.</p>
+<p><strong>Immutable:</strong> No <code>updated_at</code> column. Snapshots are created once when the subscription starts and never modified. When a subscription renews or changes plan, new snapshots are created for the new subscription.</p>
+<hr />
+<h2 id="entitlement-check-flow">Entitlement check flow<a class="headerlink" href="#entitlement-check-flow" title="Permanent link">&para;</a></h2>
+<p>This is the hot path - it runs on every API request that needs authorization.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Client calls: GET /api/v1/entitlements/api_calls/check
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>                 Header: x-tenant-id: &lt;acme-corp-id&gt;
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>2. Service finds tenant&#39;s active subscription
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>   → SELECT * FROM subscriptions
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>     WHERE tenant_id = $1 AND status = &#39;ACTIVE&#39;
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>3. Service finds the entitlement snapshot for this feature
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>   → SELECT * FROM entitlement_snapshots
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>     WHERE subscription_id = $1 AND feature_lookup_key = &#39;api_calls&#39;
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>4. Service evaluates based on feature_type:
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>   BOOLEAN → return { allowed: snapshot.value }
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>   QUOTA   → check usage counter against snapshot.limit
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>   METERED → always allowed, but track for billing
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>5. Response:
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>   {
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>     &quot;allowed&quot;: true,
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>     &quot;feature&quot;: &quot;api_calls&quot;,
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>     &quot;limit&quot;: 50000,
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>     &quot;used&quot;: 23456,
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>     &quot;remaining&quot;: 26544,
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>     &quot;resetAt&quot;: &quot;2026-05-01T00:00:00Z&quot;
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>   }
+</code></pre></div>
+<h2 id="quota-consumption-flow">Quota consumption flow<a class="headerlink" href="#quota-consumption-flow" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>1. Client calls: POST /api/v1/entitlements/api_calls/consume
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>                 Body: { &quot;amount&quot;: 1 }
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>2. Service finds active subscription + snapshot (same as above)
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>3. Service checks current usage against limit:
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>   HARD limit: if (used + amount &gt; limit) → 403 &quot;Quota exceeded&quot;
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>   SOFT limit: if (used + amount &gt; limit) → allow, flag as overage
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>4. Service increments usage counter
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>5. Response:
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>   {
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>     &quot;allowed&quot;: true,
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>     &quot;feature&quot;: &quot;api_calls&quot;,
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>     &quot;consumed&quot;: 1,
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>     &quot;used&quot;: 23457,
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>     &quot;remaining&quot;: 26543,
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>     &quot;overage&quot;: false
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>   }
+</code></pre></div>
+<hr />
+<h2 id="seed-data-plan">Seed data plan<a class="headerlink" href="#seed-data-plan" title="Permanent link">&para;</a></h2>
+<p>Three plans with features and entitlements:</p>
+<h3 id="plans_1">Plans<a class="headerlink" href="#plans_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Slug</th>
+<th>Price (monthly)</th>
+<th>Price (annual)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Starter</td>
+<td>starter</td>
+<td>$29/mo</td>
+<td>$278/yr ($23.17/mo)</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>pro</td>
+<td>$99/mo</td>
+<td>$948/yr ($79/mo)</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>enterprise</td>
+<td>$499/mo</td>
+<td>$4,788/yr ($399/mo)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Lookup Key</th>
+<th>Type</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API Access</td>
+<td>api_access</td>
+<td>BOOLEAN</td>
+<td>-</td>
+</tr>
+<tr>
+<td>API Calls</td>
+<td>api_calls</td>
+<td>QUOTA</td>
+<td>calls</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>storage</td>
+<td>METERED</td>
+<td>GB</td>
+</tr>
+<tr>
+<td>SSO</td>
+<td>sso</td>
+<td>BOOLEAN</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Webhooks</td>
+<td>webhooks</td>
+<td>BOOLEAN</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Priority Support</td>
+<td>priority_support</td>
+<td>BOOLEAN</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Team Seats</td>
+<td>team_seats</td>
+<td>QUOTA</td>
+<td>seats</td>
+</tr>
+<tr>
+<td>Analytics Export</td>
+<td>analytics_export</td>
+<td>BOOLEAN</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entitlements-plan-feature-matrix">Entitlements (Plan × Feature matrix)<a class="headerlink" href="#entitlements-plan-feature-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Starter</th>
+<th>Pro</th>
+<th>Enterprise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API Access</td>
+<td>✅ true</td>
+<td>✅ true</td>
+<td>✅ true</td>
+</tr>
+<tr>
+<td>API Calls</td>
+<td>1,000/mo HARD</td>
+<td>50,000/mo SOFT ($0.001/call)</td>
+<td>500,000/mo SOFT ($0.0005/call)</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>1 GB included, $0.05/GB</td>
+<td>10 GB included, $0.02/GB</td>
+<td>100 GB included, $0.01/GB</td>
+</tr>
+<tr>
+<td>SSO</td>
+<td>❌ false</td>
+<td>❌ false</td>
+<td>✅ true</td>
+</tr>
+<tr>
+<td>Webhooks</td>
+<td>❌ false</td>
+<td>✅ true</td>
+<td>✅ true</td>
+</tr>
+<tr>
+<td>Priority Support</td>
+<td>❌ false</td>
+<td>❌ false</td>
+<td>✅ true</td>
+</tr>
+<tr>
+<td>Team Seats</td>
+<td>3 seats HARD</td>
+<td>10 seats SOFT ($10/seat)</td>
+<td>50 seats SOFT ($8/seat)</td>
+</tr>
+<tr>
+<td>Analytics Export</td>
+<td>❌ false</td>
+<td>✅ true</td>
+<td>✅ true</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscriptions-dev-tenants">Subscriptions (dev tenants)<a class="headerlink" href="#subscriptions-dev-tenants" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tenant</th>
+<th>Plan</th>
+<th>Interval</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Acme Corp</td>
+<td>Pro</td>
+<td>Monthly</td>
+</tr>
+<tr>
+<td>Globex Industries</td>
+<td>Starter</td>
+<td>Monthly</td>
+</tr>
+<tr>
+<td>Stark Enterprises</td>
+<td>Enterprise</td>
+<td>Annually</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-design-decisions">Key design decisions<a class="headerlink" href="#key-design-decisions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plan/Price separation</td>
+<td>Stripe pattern. Change pricing without creating new plans</td>
+</tr>
+<tr>
+<td>Features as global catalog</td>
+<td>Decouple capabilities from plans. Same feature, different limits per plan</td>
+</tr>
+<tr>
+<td>Entitlement as the bridge</td>
+<td>Single place to define "Plan X gets Feature Y with these rules"</td>
+</tr>
+<tr>
+<td>Entitlement snapshots</td>
+<td>Existing subscribers keep their contracted limits when plan changes</td>
+</tr>
+<tr>
+<td>Micro-cents for overage pricing</td>
+<td>Avoids floating-point math for sub-cent pricing ($0.001/call)</td>
+</tr>
+<tr>
+<td>limit_behavior on entitlement</td>
+<td>Same feature can be HARD on Starter and SOFT on Pro</td>
+</tr>
+<tr>
+<td>lookup_key on features</td>
+<td>Stable code-facing identifier. Code checks "api_calls", not a UUID</td>
+</tr>
+<tr>
+<td>Denormalized snapshots</td>
+<td>Avoids JOIN on the hot path (entitlement check per request)</td>
+</tr>
+<tr>
+<td>One active subscription per tenant</td>
+<td>Clean audit trail. Upgrades create new subscription, cancel old</td>
+</tr>
+<tr>
+<td>billing_anchor capped at 28</td>
+<td>Avoids February edge case (28/29/30/31 days)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Chitrank Agnihotri
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/chitrank2050" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://chitrankagnihotri.com/" target="_blank" rel="noopener" title="Portfolio" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M351.9 280H161c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1 52.4 11.2 10.5 18.9 12.2 22.9 12.2s11.7-1.7 22.9-12.2c11.4-10.6 23.7-28 35.1-52.4 20.3-43.5 34.6-102.9 37.5-167.4zm-191-48h190.9c-2.8-64.5-17.1-123.9-37.4-167.4-11.4-24.4-23.7-41.8-35.1-52.4C268.1 1.7 260.4 0 256.4 0s-11.7 1.7-22.9 12.2c-11.4 10.6-23.7 28-35.1 52.4-20.3 43.5-34.6 102.9-37.5 167.4m-48 0c3.5-85.6 25.6-165.1 57.9-217.3C78.7 47.3 10.9 131.2 1.5 232zM1.5 280c9.4 100.8 77.2 184.7 169.3 217.3-32.3-52.2-54.4-131.7-57.9-217.3zm398.4 0c-3.5 85.6-25.6 165.1-57.9 217.3 92.1-32.7 159.9-116.5 169.3-217.3zm111.4-48C501.9 131.2 434.1 47.3 342 14.7c32.3 52.2 54.4 131.7 57.9 217.3z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/chitrank-agnihotri/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

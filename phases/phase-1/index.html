@@ -397,6 +397,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/phase-2-plans-and-entitlements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans and Entitlements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1639,7 +1667,7 @@
 <p>Added as a cross-cutting concern before Phase 2 begins. Every mutation (POST, PATCH, PUT, DELETE) is recorded to an immutable <code>audit_logs</code> table in Postgres.</p>
 <p><strong>What it captures:</strong> actor (user or API key), action (create/update/delete), resource type and ID, tenant, JSONB changes payload, IP address, user agent, and correlation ID.</p>
 <p><strong>What it skips:</strong> GET requests, health checks, auth endpoints, and routes with <code>@SkipAudit()</code>.</p>
-<p><strong>How it works:</strong> Global NestJS interceptor using RxJS <code>tap()</code>. Runs after the handler completes. Fire-and-forget — audit failures are logged to stdout but never block the response.</p>
+<p><strong>How it works:</strong> Global NestJS interceptor using RxJS <code>tap()</code>. Runs after the handler completes. Fire-and-forget - audit failures are logged to stdout but never block the response.</p>
 <p><strong>Sensitive fields stripped:</strong> passwords, tokens, key material are automatically sanitized from the changes payload before storage.</p>
 <p>See <a href="../../architecture/audit-log/">Audit Log documentation</a> for the full schema, query examples, and extension guide.</p>
 <h3 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">&para;</a></h3>
