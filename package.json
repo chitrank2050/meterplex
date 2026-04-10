@@ -2,7 +2,8 @@
   "name": "meterplex",
   "private": false,
   "version": "0.4.1",
-  "description": "Open-source B2B usage metering, entitlements, and billing platform. Built with NestJS, Postgres, Kafka, Redis, and Prisma.",
+  "description": "Open-source B2B usage metering, entitlements, and billing platform.",
+  "homepage": "https://github.com/chitrank2050/meterplex#readme",
   "author": {
     "name": "Chitrank agnihotri",
     "email": "chitrank2050@gmail.com",
@@ -21,6 +22,7 @@
     "metering",
     "entitlements",
     "billing",
+    "billing-engine",
     "usage-based-billing",
     "saas",
     "open-source",
@@ -28,7 +30,8 @@
     "prisma",
     "kafka",
     "redis",
-    "postgres"
+    "postgres",
+    "quota-management"
   ],
   "scripts": {
     "build": "nest build",
