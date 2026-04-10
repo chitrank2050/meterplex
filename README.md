@@ -11,6 +11,13 @@
     <img src="https://img.shields.io/badge/Kafka-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka">
     <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+    <img src="https://img.shields.io/badge/Version-0.5.3-blue" alt="Version">
+    <a href="https://chitrank2050.github.io/meterplex/">
+      <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
+    </a>
+    <a href="https://ko-fi.com/D1D71U581P" target="_blank">
+      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Buy me a coffee at ko-fi.com">
+    </a>
   </p>
 </div>
 
@@ -153,7 +160,9 @@ meterplex/
 
 ## Documentation
 
-Detailed documentation lives in the [`docs/`](./docs) folder:
+🚀 **Live Docs:** [chitrank2050.github.io/meterplex](https://chitrank2050.github.io/meterplex/)
+
+Detailed documentation is available in the [`docs/`](./docs) folder and on GitHub Pages:
 
 - **[Architecture](./docs/architecture/overview.md)** - System design, module boundaries, data flow
 - **[Development](./docs/development/setup.md)** - Setup guide, conventions, workflow
