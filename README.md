@@ -8,7 +8,7 @@ Built with NestJS, Postgres, Kafka, Redis, and Prisma.
 
 ## What is this?
 
-Meterplex is the backend that powers a SaaS or AI API company. It decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation.
+Meterplex is the backend that powers a SaaS or AI API company. It decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation. Every mutation is recorded to an immutable audit log for compliance and forensics.
 
 ## Architecture
 

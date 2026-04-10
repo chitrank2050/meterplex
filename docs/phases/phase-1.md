@@ -150,3 +150,25 @@ All passwords: `DevPass123`
 2. **`@nestjs/jwt` type mismatch** - `expiresIn` accepts `string | number` at runtime but TypeScript overloads reject strings. Fixed by converting duration to seconds.
 3. **Route ordering matters** - `/tenants/me/context` must be defined before `/tenants/:id` or NestJS interprets "me" as a UUID parameter.
 4. **Guard chain order** - `JwtAuthGuard` must run before `TenantGuard` and `RolesGuard` because they depend on `request.user` being set.
+
+## Post-Phase 1: Audit Log Interceptor
+
+Added as a cross-cutting concern before Phase 2 begins. Every mutation (POST, PATCH, PUT, DELETE) is recorded to an immutable `audit_logs` table in Postgres.
+
+**What it captures:** actor (user or API key), action (create/update/delete), resource type and ID, tenant, JSONB changes payload, IP address, user agent, and correlation ID.
+
+**What it skips:** GET requests, health checks, auth endpoints, and routes with `@SkipAudit()`.
+
+**How it works:** Global NestJS interceptor using RxJS `tap()`. Runs after the handler completes. Fire-and-forget — audit failures are logged to stdout but never block the response.
+
+**Sensitive fields stripped:** passwords, tokens, key material are automatically sanitized from the changes payload before storage.
+
+See [Audit Log documentation](../architecture/audit-log.md) for the full schema, query examples, and extension guide.
+
+### Migration
+
+```sql
+-- 20260409103239_add_audit_logs
+CREATE TABLE "audit_logs" (...)
+-- Indexes: tenant_id, actor_id, (resource, resource_id), created_at
+```
