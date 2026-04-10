@@ -369,6 +369,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/audit-log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -890,6 +918,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#post-phase-1-audit-log-interceptor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Phase 1: Audit Log Interceptor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Phase 1: Audit Log Interceptor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1144,6 +1200,34 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-phase-1-audit-log-interceptor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Phase 1: Audit Log Interceptor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Phase 1: Audit Log Interceptor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1551,6 +1635,18 @@
 <li><strong>Route ordering matters</strong> - <code>/tenants/me/context</code> must be defined before <code>/tenants/:id</code> or NestJS interprets "me" as a UUID parameter.</li>
 <li><strong>Guard chain order</strong> - <code>JwtAuthGuard</code> must run before <code>TenantGuard</code> and <code>RolesGuard</code> because they depend on <code>request.user</code> being set.</li>
 </ol>
+<h2 id="post-phase-1-audit-log-interceptor">Post-Phase 1: Audit Log Interceptor<a class="headerlink" href="#post-phase-1-audit-log-interceptor" title="Permanent link">&para;</a></h2>
+<p>Added as a cross-cutting concern before Phase 2 begins. Every mutation (POST, PATCH, PUT, DELETE) is recorded to an immutable <code>audit_logs</code> table in Postgres.</p>
+<p><strong>What it captures:</strong> actor (user or API key), action (create/update/delete), resource type and ID, tenant, JSONB changes payload, IP address, user agent, and correlation ID.</p>
+<p><strong>What it skips:</strong> GET requests, health checks, auth endpoints, and routes with <code>@SkipAudit()</code>.</p>
+<p><strong>How it works:</strong> Global NestJS interceptor using RxJS <code>tap()</code>. Runs after the handler completes. Fire-and-forget — audit failures are logged to stdout but never block the response.</p>
+<p><strong>Sensitive fields stripped:</strong> passwords, tokens, key material are automatically sanitized from the changes payload before storage.</p>
+<p>See <a href="../../architecture/audit-log/">Audit Log documentation</a> for the full schema, query examples, and extension guide.</p>
+<h3 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- 20260409103239_add_audit_logs</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="ss">&quot;audit_logs&quot;</span><span class="w"> </span><span class="p">(...)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">-- Indexes: tenant_id, actor_id, (resource, resource_id), created_at</span>
+</code></pre></div>
 
 
 
