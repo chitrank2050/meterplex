@@ -182,7 +182,7 @@ Detailed documentation is available in the [`docs/`](./docs) folder and on GitHu
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT - see [LICENSE](LICENSE) for details.
 
 If you use Meterplex in your project, a star or credit is appreciated.
 
