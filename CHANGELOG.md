@@ -2,6 +2,12 @@
 
 All notable changes to Meterplex API.
 
+## [0.4.2] - 2026-04-10
+
+### Documentation
+
+- Update README and add CODEOWNERS file to define repository ownership
+
 ## [0.4.1] - 2026-04-10
 
 ### Build
