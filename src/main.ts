@@ -23,6 +23,7 @@ import compression from 'compression';
 
 import { HttpExceptionFilter } from '@common/filters';
 import { API_PREFIX, API_VERSION } from '@common/constants/app';
+import { AuditLogInterceptor } from '@common/interceptors';
 
 import { AppModule } from './app.module';
 
@@ -95,6 +96,20 @@ async function bootstrap(): Promise<void> {
   //     Without this, unhandled errors leak stack traces to clients.
   // =============================================================
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  // =============================================================
+  // Global Audit Log Interceptor — Records every mutation
+  //    (POST, PATCH, PUT, DELETE) to the audit_logs table.
+  //    Runs after the route handler completes. Fire-and-forget:
+  //    audit failures are logged but never block the response.
+  //
+  //    Skips: GET requests, health checks, auth endpoints.
+  //    Use @SkipAudit() decorator to exclude specific routes.
+  //
+  //    Retrieved from the DI container (not new()) because it
+  //    depends on PrismaService and Reflector.
+  // =============================================================
+  app.useGlobalInterceptors(app.get(AuditLogInterceptor));
 
   // =============================================================
   // Global Validation Pipe -

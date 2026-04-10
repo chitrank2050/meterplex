@@ -19,7 +19,11 @@ import { UsersModule } from '@modules/users';
 import { AuthModule } from '@modules/auth';
 import { ApiKeysModule } from '@modules/api-keys';
 
-import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
+import {
+  AuditLogInterceptor,
+  CorrelationIdMiddleware,
+  RequestLoggerMiddleware,
+} from './common';
 
 @Module({
   imports: [
@@ -39,7 +43,11 @@ import { CorrelationIdMiddleware, RequestLoggerMiddleware } from './common';
     ApiKeysModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    // Global audit log interceptor — registered here so DI resolves
+    // PrismaService and Reflector automatically. Applied globally in main.ts.
+    AuditLogInterceptor,
+  ],
 })
 export class AppModule implements NestModule {
   /**
