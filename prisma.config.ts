@@ -23,7 +23,7 @@ export default defineConfig({
   migrations: {
     path: 'prisma/migrations',
 
-    // Seed command - runs via `pnpm prisma:seed` or after `prisma migrate reset`.
+    // Seed command - runs via `pnpm db:seed` or after `prisma migrate reset`.
     seed: 'npx tsx prisma/seed.ts',
   },
 

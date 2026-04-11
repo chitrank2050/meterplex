@@ -29,10 +29,10 @@ pnpm docker:up
 docker compose ps
 
 # Run database migrations
-pnpm prisma:migrate:dev
+pnpm db:migrate:dev
 
 # Seed development data
-pnpm prisma:seed
+pnpm db:seed
 
 # Start the app
 pnpm start:dev
@@ -59,14 +59,14 @@ pnpm docker:up          # Start containers (if stopped)
 pnpm start:dev          # Start app with hot reload
 
 # After changing schema.prisma
-pnpm prisma:migrate:dev --name describe-your-change
-pnpm prisma:generate    # Regenerate typed client
+pnpm db:migrate:dev --name describe-your-change
+pnpm db:generate    # Regenerate typed client
 
 # Nuclear reset (drops all data, re-runs everything)
 pnpm docker:down        # Removes containers AND volumes
 pnpm docker:up
-pnpm prisma:migrate:dev
-pnpm prisma:seed
+pnpm db:migrate:dev
+pnpm db:seed
 ```
 
 ## Common Issues
@@ -89,7 +89,7 @@ The Prisma client was generated without `moduleFormat = "cjs"`. Fix:
 
 ```bash
 # Verify schema.prisma has moduleFormat = "cjs" in the generator block
-pnpm prisma:generate
+pnpm db:generate
 ```
 
 ### Prisma "role does not exist"
@@ -99,8 +99,8 @@ Docker volume has stale data from a previous run with different credentials:
 ```bash
 pnpm docker:down   # -v flag removes volumes
 pnpm docker:up
-pnpm prisma:migrate:dev
-pnpm prisma:seed
+pnpm db:migrate:dev
+pnpm db:seed
 ```
 
 ## Environment Variables

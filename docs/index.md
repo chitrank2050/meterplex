@@ -23,8 +23,8 @@ cd meterplex
 pnpm install
 cp .env.example .env
 pnpm docker:up
-pnpm prisma:migrate:dev
-pnpm prisma:seed
+pnpm db:migrate:dev
+pnpm db:seed
 pnpm start:dev
 ```
 

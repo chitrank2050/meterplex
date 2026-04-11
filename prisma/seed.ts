@@ -1,8 +1,8 @@
 /**
  * seed.ts - Populates the database with development/testing data.
  *
- * Run with: pnpm prisma:seed
- * Also runs automatically on: pnpm prisma:migrate:reset
+ * Run with: pnpm db:seed
+ * Also runs automatically on: pnpm db:migrate:reset
  *
  * This script creates a complete development environment:
  *   - 3 tenants (Acme, Globex, Stark)
@@ -24,11 +24,13 @@
  *   dave@meterplex.dev    → DEVELOPER of Acme, DEVELOPER of Globex
  *   eve@meterplex.dev     → BILLING of Globex, ADMIN of Stark
  */
-import 'dotenv/config';
 import * as bcrypt from 'bcryptjs';
+import 'dotenv/config';
 import { createHash, randomBytes } from 'node:crypto';
-import { PrismaClient } from '../generated/prisma/client';
+
 import { PrismaPg } from '@prisma/adapter-pg';
+
+import { PrismaClient } from '../generated/prisma/client';
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL as string,

@@ -31,7 +31,7 @@
 
 Modular monolith - one deployable unit with strict module boundaries. Each domain (tenants, billing, usage, payments) is a self-contained NestJS module that can be extracted into a microservice when scale demands it.
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │                    NestJS App                       │
 │                                                     │
@@ -85,10 +85,10 @@ cp .env.example .env
 pnpm docker:up
 
 # 4. Run database migrations
-pnpm prisma:migrate:dev
+pnpm db:migrate:dev
 
 # 5. Seed development data
-pnpm prisma:seed
+pnpm db:seed
 
 # 6. Start the app
 pnpm start:dev
@@ -98,7 +98,7 @@ The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/
 
 ## Project Structure
 
-```
+```text
 meterplex/
 ├── src/
 │   ├── common/              # Cross-cutting concerns
@@ -140,11 +140,11 @@ meterplex/
 | `pnpm test` | Run unit tests |
 | `pnpm test:e2e` | Run end-to-end tests |
 | `pnpm lint` | Lint and fix code |
-| `pnpm prisma:generate` | Regenerate Prisma client |
-| `pnpm prisma:migrate:dev` | Create and apply migration |
-| `pnpm prisma:migrate:deploy` | Apply migrations (CI/prod) |
-| `pnpm prisma:seed` | Seed development data |
-| `pnpm prisma:studio` | Open Prisma data browser |
+| `pnpm db:generate` | Regenerate Prisma client |
+| `pnpm db:migrate:dev` | Create and apply migration |
+| `pnpm db:migrate:deploy` | Apply migrations (CI/prod) |
+| `pnpm db:seed` | Seed development data |
+| `pnpm db:studio` | Open Prisma data browser |
 | `pnpm docker:up` | Start Docker containers |
 | `pnpm docker:down` | Stop containers and remove volumes |
 | `pnpm docker:logs` | Tail container logs |

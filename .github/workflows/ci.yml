@@ -45,7 +45,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Prisma client
-        run: pnpm prisma:generate
+        run: pnpm db:generate
 
       - name: Check formatting
         run: pnpm prettier --check "**/*.{ts,json,md,yml,yaml}"

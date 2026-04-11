@@ -30,7 +30,7 @@ pnpm test
 - [ ] `pnpm lint` passes
 - [ ] `pnpm build` passes
 - [ ] New environment variables are added to `.env.example`
-- [ ] Database changes include a Prisma migration (`pnpm prisma:migrate:dev`)
+- [ ] Database changes include a Prisma migration (`pnpm db:migrate:dev`)
 
 ## Screenshots (if applicable)
 

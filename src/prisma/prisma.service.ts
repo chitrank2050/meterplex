@@ -8,7 +8,7 @@
  *   4. Generated client must use moduleFormat = "cjs" for NestJS
  *
  * Usage in any service:
- *   constructor(private prisma: PrismaService) {}
+ *   constructor(private db: PrismaService) {}
  *   const tenant = await this.prisma.tenant.findUnique({ where: { id } });
  */
 import {

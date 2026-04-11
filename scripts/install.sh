@@ -24,7 +24,7 @@ fi
 
 # Step 3: Generate Prisma client
 echo "[3/$TOTAL_STEPS] 💎 Generating Prisma client..."
-if ! pnpm prisma:generate; then
+if ! pnpm db:generate; then
     echo "❌ Error: Prisma generation failed."
     exit 1
 fi

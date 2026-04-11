@@ -6,8 +6,8 @@
 //
 // Workflow:
 //   1. Edit this file
-//   2. Run `pnpm prisma:migrate:dev` → creates a migration SQL file
-//   3. Run `pnpm prisma:generate` → regenerates the typed client
+//   2. Run `pnpm db:migrate:dev` → creates a migration SQL file
+//   3. Run `pnpm db:generate` → regenerates the typed client
 //
 // NOTE: Database connection URL is configured in prisma.config.ts,
 // NOT here. Prisma 7 moved runtime config out of the schema file.
