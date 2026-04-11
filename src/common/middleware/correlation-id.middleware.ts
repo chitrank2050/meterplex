@@ -22,20 +22,22 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
 
+import { CORRELATION_ID_HEADER } from '@common/constants';
+
 @Injectable()
 export class CorrelationIdMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction): void {
     // Respect client-provided correlation ID for end-to-end tracing.
     // Generate a new one if the client didn't send one.
     const correlationId =
-      (req.headers['x-correlation-id'] as string) || randomUUID();
+      (req.headers[CORRELATION_ID_HEADER] as string) || randomUUID();
 
     // Set it on the request so downstream code can read it.
-    req.headers['x-correlation-id'] = correlationId;
+    req.headers[CORRELATION_ID_HEADER] = correlationId;
 
     // Set it on the response so the client can see it.
     // Useful for debugging: "what correlation ID did my request get?"
-    res.setHeader('x-correlation-id', correlationId);
+    res.setHeader(CORRELATION_ID_HEADER, correlationId);
 
     next();
   }

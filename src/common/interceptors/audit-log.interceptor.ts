@@ -51,6 +51,8 @@ import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable, tap } from 'rxjs';
 
+import { CORRELATION_ID_HEADER } from '@common/constants';
+
 import { PrismaService } from '@prisma/prisma.service';
 
 import { AuditAction, AuditActorType, Prisma } from '@generated/prisma/client';
@@ -208,7 +210,8 @@ export class AuditLogInterceptor implements NestInterceptor {
         changes,
         ipAddress: this.extractIp(request),
         userAgent: request.headers['user-agent']?.substring(0, 500) || null,
-        correlationId: (request.headers['x-correlation-id'] as string) || null,
+        correlationId:
+          (request.headers[CORRELATION_ID_HEADER] as string) || null,
       },
     });
   }

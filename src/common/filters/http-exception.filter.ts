@@ -34,6 +34,8 @@ import {
 
 import { Request, Response } from 'express';
 
+import { CORRELATION_ID_HEADER } from '@common/constants';
+
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(HttpExceptionFilter.name);
@@ -70,7 +72,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // correlationId is attached by our middleware (created next).
     // Falls back to 'unknown' if the middleware didn't run (shouldn't happen).
     const correlationId =
-      (request.headers['x-correlation-id'] as string) ?? 'unknown';
+      (request.headers[CORRELATION_ID_HEADER] as string) ?? 'unknown';
 
     const errorResponse = {
       statusCode,
