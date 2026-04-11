@@ -29,6 +29,6 @@ export default defineConfig({
 
   /** Database connection - reads DATABASE_URL from environment */
   datasource: {
-    url: process.env['DATABASE_URL'],
+    url: process.env['DATABASE_URL']!,
   },
 });
