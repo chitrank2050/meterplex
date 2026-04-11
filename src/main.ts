@@ -15,20 +15,28 @@
  * - Compression must wrap the response stream early.
  * - Validation pipe must be global so no controller can skip it.
  */
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import helmet from 'helmet';
-import compression from 'compression';
 
-import { HttpExceptionFilter } from '@common/filters';
+import compression from 'compression';
+import helmet from 'helmet';
+import { WinstonModule } from 'nest-winston';
+
 import { API_PREFIX, API_VERSION } from '@common/constants/app';
+import { HttpExceptionFilter } from '@common/filters';
 import { AuditLogInterceptor } from '@common/interceptors';
+
+import { getWinstonConfig } from '@config/logger.config';
 
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const nodeEnv = process.env.NODE_ENV ?? 'development';
+
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger(getWinstonConfig(nodeEnv)),
+  });
 
   // =============================================================
   // Security - Helmet sets HTTP headers that protect against
