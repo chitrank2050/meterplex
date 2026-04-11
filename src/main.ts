@@ -32,10 +32,10 @@ import { getWinstonConfig } from '@config/logger.config';
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
-  const nodeEnv = process.env.NODE_ENV ?? 'development';
+  const ENV = process.env.NODE_ENV ?? 'development';
 
   const app = await NestFactory.create(AppModule, {
-    logger: WinstonModule.createLogger(getWinstonConfig(nodeEnv)),
+    logger: WinstonModule.createLogger(getWinstonConfig(ENV)),
   });
 
   // =============================================================
@@ -47,7 +47,7 @@ async function bootstrap(): Promise<void> {
     helmet({
       // Scalar loads JS/CSS from CDN - default CSP blocks it.
       // Disabled in dev (where Scalar runs), enabled in prod (where it doesn't).
-      contentSecurityPolicy: process.env.NODE_ENV === 'production',
+      contentSecurityPolicy: ENV === 'production',
     }),
   );
 
@@ -77,8 +77,7 @@ async function bootstrap(): Promise<void> {
   //    Separates API routes from static assets, health checks, etc.
   //    We exclude /health so load balancers hit it without the prefix.
   // =============================================================
-  const apiPrefix = API_PREFIX;
-  app.setGlobalPrefix(apiPrefix, {
+  app.setGlobalPrefix(API_PREFIX, {
     exclude: ['health'],
   });
 
@@ -159,7 +158,7 @@ async function bootstrap(): Promise<void> {
   //    Only enabled in non-production. You don't expose internal
   //    API docs in production unless it's a public API.
   // =============================================================
-  if (process.env.NODE_ENV !== 'production') {
+  if (ENV !== 'production') {
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Meterplex API')
       .setDescription(
@@ -174,15 +173,15 @@ async function bootstrap(): Promise<void> {
     const document = SwaggerModule.createDocument(app, swaggerConfig);
 
     // Raw OpenAPI JSON - importable by Bruno, Postman, SDK generators.
-    SwaggerModule.setup(`${apiPrefix}/swagger`, app, document, {
-      jsonDocumentUrl: `${apiPrefix}/docs-json`,
+    SwaggerModule.setup(`${API_PREFIX}/swagger`, app, document, {
+      jsonDocumentUrl: `${API_PREFIX}/docs-json`,
     });
 
     // Scalar UI - modern interactive API docs replacing Swagger UI.
     // Dynamic import avoids CJS/ESM compatibility issues.
     const { apiReference } = await import('@scalar/nestjs-api-reference');
     app.use(
-      `/${apiPrefix}/docs`,
+      `/${API_PREFIX}/docs`,
       apiReference({
         content: document,
         theme: 'purple',
@@ -216,7 +215,7 @@ async function bootstrap(): Promise<void> {
   │  Local:   http://localhost:${String(port).padEnd(4)}              │
   │  Docs:    http://localhost:${String(port).padEnd(4)}/api/docs     │
   │  Health:  http://localhost:${String(port).padEnd(4)}/health       │
-  │  Mode:    ${String(process.env.NODE_ENV ?? 'development').padEnd(35)}│
+  │  Mode:    ${String(ENV ?? 'development').padEnd(35)}│
   └──────────────────────────────────────────────┘
   `);
 }
