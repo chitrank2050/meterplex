@@ -30,7 +30,7 @@ export class RequestLoggerMiddleware implements NestMiddleware {
     const { method, originalUrl } = req;
     const correlationId = req.headers[CORRELATION_ID_HEADER] as string;
 
-    // Skip health checks — they fire every few seconds and clutter logs.
+    // Skip health checks - they fire every few seconds and clutter logs.
     if (originalUrl === '/health') {
       return next();
     }

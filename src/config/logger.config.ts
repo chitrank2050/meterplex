@@ -8,7 +8,7 @@
  *
  * @param nodeEnv - The current environment (development, production, test)
  */
-import { WinstonModuleOptions } from 'nest-winston';
+import type { WinstonModuleOptions } from 'nest-winston';
 import * as winston from 'winston';
 
 export const getWinstonConfig = (nodeEnv: string): WinstonModuleOptions => {
