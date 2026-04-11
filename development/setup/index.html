@@ -1208,10 +1208,10 @@
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>docker<span class="w"> </span>compose<span class="w"> </span>ps
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># Run database migrations</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>pnpm<span class="w"> </span>prisma:migrate:dev
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>pnpm<span class="w"> </span>db:migrate:dev
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1"># Seed development data</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>pnpm<span class="w"> </span>prisma:seed
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>pnpm<span class="w"> </span>db:seed
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="c1"># Start the app</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>pnpm<span class="w"> </span>start:dev
@@ -1232,14 +1232,14 @@
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>pnpm<span class="w"> </span>start:dev<span class="w">          </span><span class="c1"># Start app with hot reload</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># After changing schema.prisma</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>pnpm<span class="w"> </span>prisma:migrate:dev<span class="w"> </span>--name<span class="w"> </span>describe-your-change
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>pnpm<span class="w"> </span>prisma:generate<span class="w">    </span><span class="c1"># Regenerate typed client</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>pnpm<span class="w"> </span>db:migrate:dev<span class="w"> </span>--name<span class="w"> </span>describe-your-change
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>pnpm<span class="w"> </span>db:generate<span class="w">    </span><span class="c1"># Regenerate typed client</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Nuclear reset (drops all data, re-runs everything)</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>pnpm<span class="w"> </span>docker:down<span class="w">        </span><span class="c1"># Removes containers AND volumes</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>pnpm<span class="w"> </span>docker:up
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>pnpm<span class="w"> </span>prisma:migrate:dev
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>pnpm<span class="w"> </span>prisma:seed
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>pnpm<span class="w"> </span>db:migrate:dev
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>pnpm<span class="w"> </span>db:seed
 </code></pre></div>
 <h2 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h2>
 <h3 id="port-5432-already-in-use">Port 5432 already in use<a class="headerlink" href="#port-5432-already-in-use" title="Permanent link">&para;</a></h3>
@@ -1253,14 +1253,14 @@
 <h3 id="prisma-exports-is-not-defined-in-es-module-scope">Prisma "exports is not defined in ES module scope"<a class="headerlink" href="#prisma-exports-is-not-defined-in-es-module-scope" title="Permanent link">&para;</a></h3>
 <p>The Prisma client was generated without <code>moduleFormat = "cjs"</code>. Fix:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Verify schema.prisma has moduleFormat = &quot;cjs&quot; in the generator block</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>pnpm<span class="w"> </span>prisma:generate
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>pnpm<span class="w"> </span>db:generate
 </code></pre></div>
 <h3 id="prisma-role-does-not-exist">Prisma "role does not exist"<a class="headerlink" href="#prisma-role-does-not-exist" title="Permanent link">&para;</a></h3>
 <p>Docker volume has stale data from a previous run with different credentials:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pnpm<span class="w"> </span>docker:down<span class="w">   </span><span class="c1"># -v flag removes volumes</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pnpm<span class="w"> </span>docker:up
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pnpm<span class="w"> </span>prisma:migrate:dev
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>pnpm<span class="w"> </span>prisma:seed
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pnpm<span class="w"> </span>db:migrate:dev
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>pnpm<span class="w"> </span>db:seed
 </code></pre></div>
 <h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <p>All environment variables are documented in <code>.env.example</code>. The app validates every variable on startup - if any required variable is missing, the app crashes immediately with a clear error listing exactly what's missing.</p>
