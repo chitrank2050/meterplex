@@ -21,37 +21,39 @@
  *   Response DTOs exist purely for Swagger documentation.
  */
 import {
-  Controller,
-  Post,
-  Get,
   Body,
+  Controller,
+  Get,
   HttpCode,
   HttpStatus,
-  UseGuards,
+  Post,
   Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
-  ApiTags,
+  ApiBearerAuth,
   ApiOperation,
   ApiResponse,
-  ApiBearerAuth,
+  ApiTags,
 } from '@nestjs/swagger';
+
 import { ErrorResponseDto } from '@common/dto';
+
 import { AuthService } from './auth.service';
 import {
-  LoginDto,
-  RegisterDto,
-  RefreshTokenDto,
-  ForgotPasswordDto,
-  ResetPasswordDto,
   ChangePasswordDto,
-  RegisterResponseDto,
-  LoginResponseDto,
-  TokenPairResponseDto,
-  ForgotPasswordResponseDto,
-  MessageResponseDto,
   ChangePasswordResponseDto,
+  ForgotPasswordDto,
+  ForgotPasswordResponseDto,
+  LoginDto,
+  LoginResponseDto,
   MeResponseDto,
+  MessageResponseDto,
+  RefreshTokenDto,
+  RegisterDto,
+  RegisterResponseDto,
+  ResetPasswordDto,
+  TokenPairResponseDto,
 } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 

@@ -19,14 +19,17 @@
  *   @UseGuards(JwtAuthGuard, TenantGuard, RolesGuard)
  */
 import {
-  Injectable,
+  BadRequestException,
   CanActivate,
   ExecutionContext,
-  BadRequestException,
   ForbiddenException,
+  Injectable,
 } from '@nestjs/common';
-import { PrismaService } from '@prisma/prisma.service';
+
 import { Request } from 'express';
+
+import { PrismaService } from '@prisma/prisma.service';
+
 import { Membership } from '@generated/prisma/client';
 
 interface CustomRequest extends Request {

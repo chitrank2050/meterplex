@@ -22,7 +22,8 @@
  * This only works on routes protected by JwtAuthGuard.
  * On unprotected routes, request.user is undefined.
  */
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { ExecutionContext, createParamDecorator } from '@nestjs/common';
+
 import { Request } from 'express';
 
 export const CurrentUser = createParamDecorator(

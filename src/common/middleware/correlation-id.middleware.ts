@@ -18,7 +18,8 @@
  *   An interceptor runs too late - if a guard throws, there's no correlation ID.
  */
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+
+import { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
 
 @Injectable()

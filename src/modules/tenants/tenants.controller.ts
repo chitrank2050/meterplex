@@ -25,11 +25,6 @@
  *   PATCH  /tenants/:id       → JWT + TenantGuard + OWNER or ADMIN
  *   DELETE /tenants/:id       → JWT + TenantGuard + OWNER only
  */
-import { CurrentUser, Roles } from '@common/decorators';
-import { ErrorResponseDto } from '@common/dto';
-import { RolesGuard, TenantGuard } from '@common/guards';
-import { MembershipRole } from '@generated/prisma/client';
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -53,12 +48,21 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { CurrentUser, Roles } from '@common/decorators';
+import { ErrorResponseDto } from '@common/dto';
+import { RolesGuard, TenantGuard } from '@common/guards';
+
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+
+import { MembershipRole } from '@generated/prisma/client';
+
 import {
   CreateTenantDto,
-  UpdateTenantDto,
-  TenantResponseDto,
   TenantListResponseDto,
+  TenantResponseDto,
   TenantWithRoleResponseDto,
+  UpdateTenantDto,
 } from './dto';
 import { TenantsService } from './tenants.service';
 

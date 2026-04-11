@@ -9,9 +9,11 @@
  * If a tenant needs a new slug, create a new tenant.
  */
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, MaxLength, IsOptional, IsObject } from 'class-validator';
-import { TenantStatus } from '../../../../generated/prisma/client';
+
 import { Transform, TransformFnParams } from 'class-transformer';
+import { IsObject, IsOptional, IsString, MaxLength } from 'class-validator';
+
+import { TenantStatus } from '../../../../generated/prisma/client';
 
 export class UpdateTenantDto {
   /** Updated organization name. */

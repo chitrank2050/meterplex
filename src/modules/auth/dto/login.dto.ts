@@ -5,6 +5,7 @@
  * The auth service validates against the bcrypt hash.
  */
 import { ApiProperty } from '@nestjs/swagger';
+
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginDto {

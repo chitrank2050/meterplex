@@ -15,15 +15,19 @@
  * Prisma's generated types ensure compile-time safety on every query.
  */
 import {
-  Injectable,
   ConflictException,
-  NotFoundException,
+  Injectable,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@prisma/prisma.service';
-import { Tenant } from '@generated/prisma/client';
+
 import { ERRORS } from '@common/constants/error-messages';
 import { isUniqueConstraintError } from '@common/utils/prisma-errors';
+
+import { PrismaService } from '@prisma/prisma.service';
+
+import { Tenant } from '@generated/prisma/client';
+
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
 @Injectable()

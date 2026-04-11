@@ -11,15 +11,16 @@
  * handled by the memberships module.
  */
 import { ApiProperty } from '@nestjs/swagger';
+
 import {
   IsEmail,
   IsNotEmpty,
-  IsString,
-  MinLength,
-  MaxLength,
-  Matches,
-  IsOptional,
   IsObject,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class RegisterDto {

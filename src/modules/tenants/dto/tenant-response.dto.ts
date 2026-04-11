@@ -14,6 +14,7 @@
  * ClassSerializerInterceptor can be added per-endpoint at that point.
  */
 import { ApiProperty } from '@nestjs/swagger';
+
 import { PaginationMetaDto } from '@common/dto';
 
 export class TenantResponseDto {

@@ -20,11 +20,6 @@
  * No global list endpoint - users are listed through tenant memberships.
  * Listing all users across all tenants is an admin-only concern.
  */
-import { CurrentUser, Roles, TenantId } from '@common/decorators';
-import { ErrorResponseDto } from '@common/dto';
-import { RolesGuard, TenantGuard } from '@common/guards';
-import { MembershipRole } from '@generated/prisma/client';
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -45,6 +40,15 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { CurrentUser, Roles, TenantId } from '@common/decorators';
+import { ErrorResponseDto } from '@common/dto';
+import { RolesGuard, TenantGuard } from '@common/guards';
+
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+
+import { MembershipRole } from '@generated/prisma/client';
+
 import { CreateUserDto, UpdateUserDto, UserResponseDto } from './dto';
 import { UsersService } from './users.service';
 

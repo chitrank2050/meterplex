@@ -40,17 +40,20 @@
  *   To skip a specific route, use the @SkipAudit() decorator.
  */
 import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
   CallHandler,
+  ExecutionContext,
+  Injectable,
   Logger,
+  NestInterceptor,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable, tap } from 'rxjs';
+
 import { Request } from 'express';
+import { Observable, tap } from 'rxjs';
+
 import { PrismaService } from '@prisma/prisma.service';
-import { Prisma, AuditAction, AuditActorType } from '@generated/prisma/client';
+
+import { AuditAction, AuditActorType, Prisma } from '@generated/prisma/client';
 
 /** Metadata key for the @SkipAudit() decorator. */
 export const SKIP_AUDIT_KEY = 'skipAudit';

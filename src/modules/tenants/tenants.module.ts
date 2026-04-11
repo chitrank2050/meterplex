@@ -5,6 +5,7 @@
  * globally (from PrismaModule), so no need to import it here.
  */
 import { Module } from '@nestjs/common';
+
 import { TenantsController } from './tenants.controller';
 import { TenantsService } from './tenants.service';
 

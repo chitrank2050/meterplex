@@ -15,8 +15,9 @@
  *   FULL request lifecycle including time spent in guards and pipes.
  *   Interceptors only measure controller + service time.
  */
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+
+import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class RequestLoggerMiddleware implements NestMiddleware {

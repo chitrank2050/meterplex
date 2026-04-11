@@ -11,17 +11,17 @@
  * The controller never sees invalid data.
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsString,
-  IsNotEmpty,
-  MaxLength,
-  MinLength,
-  Matches,
-  IsOptional,
-  IsObject,
-} from 'class-validator';
 
 import { Transform, TransformFnParams } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateTenantDto {
   /** Human-readable organization name. */

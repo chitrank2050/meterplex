@@ -13,7 +13,8 @@
  *   4. Frontend retries the original request with the new access token
  */
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty } from 'class-validator';
+
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class RefreshTokenDto {
   /**

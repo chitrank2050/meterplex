@@ -29,15 +29,19 @@
  *   - Expiration + revocation support key rotation
  *   - last_used_at identifies stale keys for cleanup
  */
-import { ERRORS } from '@common/constants';
 import {
   Injectable,
   Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PrismaService } from '@prisma/prisma.service';
+
 import { createHash, randomBytes } from 'node:crypto';
+
+import { ERRORS } from '@common/constants';
+
+import { PrismaService } from '@prisma/prisma.service';
+
 import { CreateApiKeyDto } from './dto';
 
 /** Prefix for all Meterplex API keys. Identifies the source in logs. */

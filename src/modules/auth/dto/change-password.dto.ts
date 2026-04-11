@@ -14,12 +14,13 @@
  *   - New token pair is returned so the current session continues
  */
 import { ApiProperty } from '@nestjs/swagger';
+
 import {
-  IsString,
   IsNotEmpty,
-  MinLength,
-  MaxLength,
+  IsString,
   Matches,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class ChangePasswordDto {

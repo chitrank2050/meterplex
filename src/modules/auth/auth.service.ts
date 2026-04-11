@@ -26,25 +26,30 @@
  *   - Same response shape for existing and non-existing emails on forgot-password
  */
 import {
-  Injectable,
-  UnauthorizedException,
-  ConflictException,
   BadRequestException,
+  ConflictException,
+  Injectable,
   Logger,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+
 import * as bcrypt from 'bcryptjs';
 import { createHash, randomBytes } from 'node:crypto';
-import { PrismaService } from '@prisma/prisma.service';
-import { UsersService } from '@modules/users/users.service';
-import { LoginDto, RegisterDto } from './dto';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
+
 import { ERRORS } from '@common/constants';
 import {
-  isUniqueConstraintError,
   getUniqueViolationFields,
+  isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
+
+import { UsersService } from '@modules/users/users.service';
+
+import { PrismaService } from '@prisma/prisma.service';
+
+import { LoginDto, RegisterDto } from './dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 /**
  * bcrypt salt rounds. 12 = 2^12 = 4096 iterations.

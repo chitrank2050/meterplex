@@ -17,7 +17,8 @@
  *
  * Throws 400 if the header is missing (enforced by TenantGuard).
  */
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { ExecutionContext, createParamDecorator } from '@nestjs/common';
+
 import { Request } from 'express';
 
 export const TenantId = createParamDecorator(

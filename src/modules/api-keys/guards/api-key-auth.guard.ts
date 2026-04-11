@@ -20,12 +20,14 @@
  *   async ingestUsageEvent() { ... }
  */
 import {
-  Injectable,
   CanActivate,
   ExecutionContext,
+  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+
 import { Request } from 'express';
+
 import { ApiKeysService } from '../api-keys.service';
 
 interface CustomRequest extends Request {

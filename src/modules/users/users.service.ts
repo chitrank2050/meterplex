@@ -11,22 +11,25 @@
  *   - 12 rounds = 2^12 = 4096 iterations. Industry standard for 2025+.
  */
 import {
-  Injectable,
   ConflictException,
-  NotFoundException,
+  Injectable,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
+
 import * as bcrypt from 'bcryptjs';
 
-import { PrismaService } from '@prisma/prisma.service';
 import { ERRORS } from '@common/constants/error-messages';
-import { User, MembershipRole } from '@generated/prisma/client';
+import {
+  getUniqueViolationFields,
+  isUniqueConstraintError,
+} from '@common/utils/prisma-errors';
+
+import { PrismaService } from '@prisma/prisma.service';
+
+import { MembershipRole, User } from '@generated/prisma/client';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
-import {
-  isUniqueConstraintError,
-  getUniqueViolationFields,
-} from '@common/utils/prisma-errors';
 
 /** bcrypt salt rounds. 12 = ~250ms per hash. Secure and performant. */
 const SALT_ROUNDS = 12;

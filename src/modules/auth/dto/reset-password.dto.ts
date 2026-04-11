@@ -11,12 +11,13 @@
  *   - ALL refresh tokens are revoked (forces re-login on every device)
  */
 import { ApiProperty } from '@nestjs/swagger';
+
 import {
-  IsString,
   IsNotEmpty,
-  MinLength,
-  MaxLength,
+  IsString,
   Matches,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class ResetPasswordDto {

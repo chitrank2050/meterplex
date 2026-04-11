@@ -24,13 +24,14 @@
  *   - Consistent error shape is an interview talking point (API design)
  */
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
   Logger,
 } from '@nestjs/common';
+
 import { Request, Response } from 'express';
 
 @Catch()

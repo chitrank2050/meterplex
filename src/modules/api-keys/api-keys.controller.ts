@@ -19,37 +19,41 @@
  *   DELETE /api/v1/api-keys/:id   → Revoke a key (OWNER/ADMIN)
  */
 import {
-  Controller,
-  Post,
-  Get,
-  Delete,
   Body,
-  Param,
+  Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   ParseUUIDPipe,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
   ApiBearerAuth,
   ApiHeader,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
+
+import { CurrentUser, Roles, TenantId } from '@common/decorators';
+import { ErrorResponseDto } from '@common/dto';
+import { RolesGuard, TenantGuard } from '@common/guards';
+
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+
 import { MembershipRole } from '@generated/prisma/client';
+
 import { ApiKeysService } from './api-keys.service';
 import {
-  CreateApiKeyDto,
-  CreateApiKeyResponseDto,
   ApiKeyListResponseDto,
   ApiKeyRevokedResponseDto,
+  CreateApiKeyDto,
+  CreateApiKeyResponseDto,
 } from './dto';
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { TenantGuard, RolesGuard } from '@common/guards';
-import { CurrentUser, TenantId, Roles } from '@common/decorators';
-import { ErrorResponseDto } from '@common/dto';
 
 @ApiTags('API Keys')
 @Controller({

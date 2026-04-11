@@ -7,23 +7,22 @@
  *   3. HealthModule - readiness/liveness checks
  *   4. Feature modules - tenants, billing, usage, etc.
  */
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
-import { ConfigModule } from './config';
-import { PrismaModule } from './prisma';
-import { HealthModule } from './health';
-
+import { ApiKeysModule } from '@modules/api-keys';
+import { AuthModule } from '@modules/auth';
 // module
 import { TenantsModule } from '@modules/tenants';
 import { UsersModule } from '@modules/users';
-import { AuthModule } from '@modules/auth';
-import { ApiKeysModule } from '@modules/api-keys';
 
 import {
   AuditLogInterceptor,
   CorrelationIdMiddleware,
   RequestLoggerMiddleware,
 } from './common';
+import { ConfigModule } from './config';
+import { HealthModule } from './health';
+import { PrismaModule } from './prisma';
 
 @Module({
   imports: [

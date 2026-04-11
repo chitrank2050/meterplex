@@ -19,8 +19,6 @@
  * Without JwtAuthGuard, request.user is undefined and the guard
  * can't identify who the user is.
  */
-import { ROLES_KEY } from '@common/decorators/roles.decorator';
-import { Membership, MembershipRole } from '@generated/prisma/client';
 import {
   BadRequestException,
   CanActivate,
@@ -29,8 +27,14 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { PrismaService } from '@prisma/prisma.service';
+
 import { Request } from 'express';
+
+import { ROLES_KEY } from '@common/decorators/roles.decorator';
+
+import { PrismaService } from '@prisma/prisma.service';
+
+import { Membership, MembershipRole } from '@generated/prisma/client';
 
 interface CustomRequest extends Request {
   user?: {
