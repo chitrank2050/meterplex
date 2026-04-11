@@ -40,7 +40,9 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "pnpm run lint:ts && pnpm run lint:md",
+    "lint:ts": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -110,6 +112,7 @@
     "husky": "^9.1.7",
     "jest": "^30.0.0",
     "lint-staged": "^16.4.0",
+    "markdownlint-cli": "^0.44.0",
     "prettier": "^3.4.2",
     "@trivago/prettier-plugin-sort-imports": "^5.2.1",
     "prisma": "^7.6.0",
@@ -161,6 +164,9 @@
     ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"
+    ],
+    "*.md": [
+      "markdownlint --fix"
     ]
   },
   "pnpm": {
