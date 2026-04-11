@@ -31,14 +31,16 @@
       "matchUpdateTypes": ["patch", "minor"],
       "matchPackagePatterns": ["*"],
       "automerge": true
+    },
+    {
+      "matchPaths": ["/experimental/*"],
+      "ignoreMajor": true
     }
   ],
   "dependencyDashboard": true,
   "prConcurrentLimit": 10,
   "prHourlyLimit": 2,
   "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": ["security"],
-    "assignees": ["chitrank2050"]
+    "enabled": false
   }
 }
