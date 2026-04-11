@@ -29,11 +29,11 @@
     },
     {
       "matchUpdateTypes": ["patch", "minor"],
-      "matchPackagePatterns": ["*"],
+      "matchPackagePatterns": [".*"],
       "automerge": true
     },
     {
-      "matchPaths": ["/experimental/*"],
+      "matchPaths": ["experimental/**"],
       "ignoreMajor": true
     }
   ],
