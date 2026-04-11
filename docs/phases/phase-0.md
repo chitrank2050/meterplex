@@ -76,7 +76,7 @@
 
 ## Files Created/Modified
 
-```
+```text
 meterplex/
 ├── .editorconfig                          NEW
 ├── .env                                   MODIFIED (all app env vars)

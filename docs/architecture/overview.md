@@ -27,7 +27,7 @@ Until then, modules stay in the monolith.
 
 ## Module Dependency Rules
 
-```
+```text
 AppModule
 ├── ConfigModule (global)     - env validation, ConfigService
 ├── PrismaModule (global)     - database access
@@ -48,7 +48,7 @@ AppModule
 
 ## Data Flow
 
-```
+```text
 Client Request
     │
     ▼

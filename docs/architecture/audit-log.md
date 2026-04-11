@@ -70,7 +70,7 @@ The `AuditLogInterceptor` is registered globally in `main.ts`. It runs on every 
 
 ### Request lifecycle
 
-```
+```text
 Request in
   → CorrelationIdMiddleware (assigns x-correlation-id)
   → RequestLoggerMiddleware (logs method, path, status)

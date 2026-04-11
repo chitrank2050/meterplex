@@ -4,7 +4,10 @@
 
 **Status:** ✅ Complete
 
-## TLDR:
+---
+
+## TLDR
+
 Phase 1 is complete. Here's what you built:
 
 - Multi-tenant user model with RBAC (4 roles)
@@ -138,11 +141,11 @@ All passwords: `DevPass123`
 
 | User | Acme Corp | Globex | Stark |
 |------|-----------|--------|-------|
-| alice@meterplex.dev | OWNER | ADMIN | - |
-| bob@meterplex.dev | DEVELOPER | OWNER | - |
-| carol@meterplex.dev | BILLING | - | OWNER |
-| dave@meterplex.dev | DEVELOPER | DEVELOPER | - |
-| eve@meterplex.dev | - | BILLING | ADMIN |
+| <alice@meterplex.dev> | OWNER | ADMIN | - |
+| <bob@meterplex.dev> | DEVELOPER | OWNER | - |
+| <carol@meterplex.dev> | BILLING | - | OWNER |
+| <dave@meterplex.dev> | DEVELOPER | DEVELOPER | - |
+| <eve@meterplex.dev> | - | BILLING | ADMIN |
 
 ## Gotchas encountered
 

@@ -23,7 +23,7 @@ Phase 2 adds 6 new tables to the existing Phase 1 schema:
 
 ### Relationship map
 
-```
+```text
 Tenant ──1:N──▶ Subscription ──N:1──▶ Plan ──1:N──▶ PlanPrice
                      │                   │
                      │                   └──1:N──▶ Entitlement ──N:1──▶ Feature
@@ -85,9 +85,11 @@ The global catalog of things your platform can do. Features exist independently 
 | metadata | JSONB | Custom attributes |
 
 **Why `lookup_key` instead of just `slug`?** This is the Stripe pattern. Your code checks entitlements using the lookup_key, not the UUID:
-```
+
+```bash
 GET /api/v1/entitlements/api_calls/check
 ```
+
 The lookup_key is immutable after creation - changing it would break all code that references it.
 
 **Feature types explained:**
@@ -134,26 +136,30 @@ All billing math stays in integers. Convert to dollars at display time only.
 **Entitlement examples by feature type:**
 
 BOOLEAN - "Pro includes SSO":
-```
+
+```text
 plan_id: pro, feature_id: sso, value: true
 (all other fields null)
 ```
 
 QUOTA (hard limit) - "Starter gets 1,000 API calls/month, blocked at limit":
-```
+
+```text
 plan_id: starter, feature_id: api_calls
 limit: 1000, limit_behavior: HARD, reset_period: MONTHLY
 (overage_price: null, included_amount: null)
 ```
 
 QUOTA (soft limit) - "Pro gets 50,000 API calls/month, $0.001/call overage":
-```
+
+```text
 plan_id: pro, feature_id: api_calls
 limit: 50000, limit_behavior: SOFT, overage_price: 10, reset_period: MONTHLY
 ```
 
 METERED - "Pro gets 10GB storage free, $0.02/GB after":
-```
+
+```text
 plan_id: pro, feature_id: storage
 included_amount: 10, overage_price: 200, reset_period: MONTHLY
 (limit: null, limit_behavior: null)
@@ -179,7 +185,8 @@ Binds a tenant to a plan + price. One active subscription per tenant at a time.
 **Why billing_anchor is capped at 28:** February has 28 days. If you anchor on the 31st, what happens in February? Every billing system has this edge case. Capping at 28 eliminates it. Stripe does the same thing.
 
 **Subscription lifecycle:**
-```
+
+```text
 TRIALING → ACTIVE → PAST_DUE → CANCELLED
                   → PAUSED → ACTIVE
                   → CANCELLED
@@ -207,6 +214,7 @@ Frozen copy of entitlements at the moment a tenant subscribes.
 **Why snapshot?** When Acme Corp subscribes to Pro with 50,000 API calls/month, we freeze that number. If we later change Pro to 25,000 API calls/month, Acme Corp keeps 50,000 until their subscription renews. The snapshot is their contract.
 
 **Why denormalize `feature_lookup_key` and `feature_type`?** The entitlement check service runs on every API request. It needs to look up "does this tenant have `api_calls` access?" as fast as possible. Denormalizing avoids a JOIN to the features table on every check. The query becomes:
+
 ```sql
 SELECT * FROM entitlement_snapshots
 WHERE subscription_id = $1 AND feature_lookup_key = $2
@@ -222,7 +230,7 @@ WHERE subscription_id = $1 AND feature_lookup_key = $2
 
 This is the hot path - it runs on every API request that needs authorization.
 
-```
+```text
 1. Client calls: GET /api/v1/entitlements/api_calls/check
                  Header: x-tenant-id: <acme-corp-id>
 
@@ -252,7 +260,7 @@ This is the hot path - it runs on every API request that needs authorization.
 
 ## Quota consumption flow
 
-```
+```text
 1. Client calls: POST /api/v1/entitlements/api_calls/consume
                  Body: { "amount": 1 }
 
@@ -282,6 +290,7 @@ This is the hot path - it runs on every API request that needs authorization.
 Three plans with features and entitlements:
 
 ### Plans
+
 | Plan | Slug | Price (monthly) | Price (annual) |
 |------|------|----------------|----------------|
 | Starter | starter | $29/mo | $278/yr ($23.17/mo) |
@@ -289,6 +298,7 @@ Three plans with features and entitlements:
 | Enterprise | enterprise | $499/mo | $4,788/yr ($399/mo) |
 
 ### Features
+
 | Feature | Lookup Key | Type | Unit |
 |---------|-----------|------|------|
 | API Access | api_access | BOOLEAN | - |
@@ -314,6 +324,7 @@ Three plans with features and entitlements:
 | Analytics Export | ❌ false | ✅ true | ✅ true |
 
 ### Subscriptions (dev tenants)
+
 | Tenant | Plan | Interval |
 |--------|------|----------|
 | Acme Corp | Pro | Monthly |

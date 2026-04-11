@@ -2,7 +2,7 @@
 
 ## Base URL
 
-```
+```http
 http://localhost:3000/api/v1
 ```
 
@@ -24,7 +24,7 @@ Meterplex supports two authentication mechanisms for two audiences:
 
 Bearer token via the `Authorization` header. Obtained by calling `POST /api/v1/auth/login`.
 
-```
+```http
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 ```
 
@@ -32,7 +32,7 @@ Access tokens expire after 15 minutes. Use the refresh token endpoint to get a n
 
 Most endpoints also require the `x-tenant-id` header to scope the request to a specific tenant:
 
-```
+```http
 x-tenant-id: 0eed08b2-60b6-4578-ae98-a98f3b164c54
 ```
 
@@ -40,7 +40,7 @@ x-tenant-id: 0eed08b2-60b6-4578-ae98-a98f3b164c54
 
 For programmatic access (SDKs, CI/CD, backend integrations). Keys follow the format `mp_live_<random>`.
 
-```
+```http
 Authorization: Bearer mp_live_aBcDeFgHiJkLmNoPqRs...
 ```
 
@@ -115,7 +115,7 @@ Extra fields not defined in the DTO are rejected (`forbidNonWhitelisted`). This 
 
 ## Health Check
 
-```
+```http
 GET /health
 ```
 

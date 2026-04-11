@@ -9,6 +9,7 @@ Thank you for considering contributing. If you've noticed a bug or have a featur
 ### Fork and create a branch
 
 [Fork the repo](https://github.com/chitrank2050/meterplex/fork) and create a branch with a descriptive name:
+
 ```bash
 git checkout -b 42-fix-cache-invalidation
 ```
@@ -20,6 +21,7 @@ Follow the setup guide: [Setup & Installation](https://chitrank2050.github.io/me
 ### Make your changes
 
 Follow the existing code style - strict TypeScript, Prettier formatting, ESLint rules.
+
 ```bash
 pnpm lint
 pnpm format
@@ -28,6 +30,7 @@ pnpm format
 Husky runs lint-staged automatically on commit. If your code has lint errors, the commit will be rejected.
 
 ### Run tests
+
 ```bash
 pnpm test
 ```
@@ -47,7 +50,8 @@ CI runs lint, build, and tests on every PR. All checks must pass before merging.
 ## Commit messages
 
 We use [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint:
-```
+
+```text
 feat: add tenant CRUD endpoints
 fix: resolve correlation ID missing on 500 errors
 chore: update dependencies
