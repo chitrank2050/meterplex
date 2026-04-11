@@ -1,42 +1,36 @@
 # =============================================================
-# Dependabot - Automated dependency updates.
-#
-# Creates PRs for outdated dependencies on a weekly schedule.
-# Groups minor/patch updates into single PRs to reduce noise.
-# Major versions get individual PRs (they may have breaking changes).
-#
-# You review and merge - Dependabot never auto-merges.
+# Dependabot - DISABLED (Using Renovate instead)
 # =============================================================
 
-version: 2
-updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
-    schedule:
-      interval: 'weekly'
-      day: 'monday'
-    open-pull-requests-limit: 3
-    reviewers:
-      - chitrank2050
-    labels:
-      - 'dependencies'
-    groups:
-      patch-and-minor:
-        patterns:
-          - '*'
-        update-types:
-          - 'minor'
-          - 'patch'
-
-  - package-ecosystem: 'github-actions'
-    directory: '/'
-    schedule:
-      interval: 'weekly'
-      day: 'monday'
-    open-pull-requests-limit: 3
-    labels:
-      - 'ci'
-    groups:
-      all-actions:
-        patterns:
-          - '*'
+# version: 2
+# updates:
+#   - package-ecosystem: 'npm'
+#     directory: '/'
+#     schedule:
+#       interval: 'weekly'
+#       day: 'monday'
+#     open-pull-requests-limit: 3
+#     reviewers:
+#       - chitrank2050
+#     labels:
+#       - 'dependencies'
+#     groups:
+#       patch-and-minor:
+#         patterns:
+#           - '*'
+#         update-types:
+#           - 'minor'
+#           - 'patch'
+#
+#   - package-ecosystem: 'github-actions'
+#     directory: '/'
+#     schedule:
+#       interval: 'weekly'
+#       day: 'monday'
+#     open-pull-requests-limit: 3
+#     labels:
+#       - 'ci'
+#     groups:
+#       all-actions:
+#         patterns:
+#           - '*'
