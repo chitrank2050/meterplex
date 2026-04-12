@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report something that isn't working correctly
-title: "[BUG] "
+title: "fix(): "
 labels: bug
 assignees: ""
 ---
@@ -25,6 +25,7 @@ What you expected to happen.
 ## Actual behavior
 
 What actually happened. Include the full error response if applicable:
+
 ```json
 {
   "statusCode": 500,

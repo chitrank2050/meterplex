@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest a new feature or improvement
-title: "[FEATURE] "
+title: "feat(): "
 labels: enhancement
 assignees: ""
 ---
@@ -15,7 +15,8 @@ What problem does this feature solve? Describe the pain point.
 How should this work? Be specific about the API surface, data model changes, or behavior.
 
 ## API design (if applicable)
-```
+
+```json
 POST /api/v1/example
 {
   "field": "value"
