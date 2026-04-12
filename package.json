@@ -91,8 +91,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "uuid": "^13.0.0",
-    "winston": "^3.19.0",
-    "pg": "^8.16.0"
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
@@ -130,7 +129,8 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.58.0",
     "unplugin-swc": "^1.5.9",
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.4",
+    "pg": "^8.16.0"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
