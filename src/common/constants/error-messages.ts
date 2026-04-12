@@ -88,4 +88,12 @@ export const ERRORS = {
     NOT_FOUND_LOOKUP_KEY: (lookupKey: string) =>
       `Feature with lookup key "${lookupKey}" not found`,
   },
+  /**
+   * Plan price related error messages
+   */
+  PLAN_PRICE: {
+    ALREADY_EXISTS: (planSlug: string, interval: string, currency: string) =>
+      `Plan "${planSlug}" already has an active ${interval} price in ${currency}`,
+    NOT_FOUND: 'Price not found or does not belong to this plan',
+  },
 } as const;

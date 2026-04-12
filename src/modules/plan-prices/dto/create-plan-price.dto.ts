@@ -1,5 +1,5 @@
 /**
- * CreatePlanPriceDto — Validates the request body for adding a price to a plan.
+ * CreatePlanPriceDto - Validates the request body for adding a price to a plan.
  *
  * Prices are attached to plans, not created independently.
  * The plan_id comes from the URL path, not the request body.
