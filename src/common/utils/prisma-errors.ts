@@ -6,23 +6,23 @@
  * internals into every service file.
  *
  * Common Prisma error codes we handle:
- *   P2002 — Unique constraint violation (duplicate slug, email, etc.)
- *   P2003 — Foreign key constraint violation (referencing non-existent record)
- *   P2025 — Record not found (update/delete on non-existent row)
- *   P2014 — Required relation violation (deleting a record that others depend on)
- *   P2024 — Timed out waiting for database connection (pool exhausted)
+ *   P2002 - Unique constraint violation (duplicate slug, email, etc.)
+ *   P2003 - Foreign key constraint violation (referencing non-existent record)
+ *   P2025 - Record not found (update/delete on non-existent row)
+ *   P2014 - Required relation violation (deleting a record that others depend on)
+ *   P2024 - Timed out waiting for database connection (pool exhausted)
  *
  * Error codes reference: https://www.prisma.io/docs/orm/reference/error-reference
  */
 import { Prisma } from '@generated/prisma/client';
 
 // =============================================================
-// Type Guards — Detect specific Prisma error types
+// Type Guards - Detect specific Prisma error types
 // =============================================================
 
 /**
  * Check if an error is a Prisma known request error.
- * Base check — use the specific helpers below for individual codes.
+ * Base check - use the specific helpers below for individual codes.
  *
  * @param error - The caught error
  * @returns true if this is a PrismaClientKnownRequestError
@@ -112,7 +112,7 @@ export function isConnectionTimeoutError(
 }
 
 // =============================================================
-// Field Extractors — Pull metadata from Prisma errors
+// Field Extractors - Pull metadata from Prisma errors
 // =============================================================
 
 /**
@@ -165,7 +165,7 @@ export function getNotFoundCause(
 }
 
 // =============================================================
-// Error Code Matcher — Generic check for any Prisma error code
+// Error Code Matcher - Generic check for any Prisma error code
 // =============================================================
 
 /**

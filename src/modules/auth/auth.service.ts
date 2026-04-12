@@ -41,6 +41,7 @@ import { createHash, randomBytes } from 'node:crypto';
 import { ERRORS } from '@common/constants';
 import {
   getUniqueViolationFields,
+  isNotFoundError,
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
@@ -135,22 +136,6 @@ export class AuthService {
    * @throws ConflictException if email or tenant slug already exists
    */
   async register(dto: RegisterDto) {
-    // Pre-check uniqueness outside the transaction for clear error messages.
-    // These catch 99.9% of duplicates with a readable error.
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: dto.email.toLowerCase() },
-    });
-    if (existingUser) {
-      throw new ConflictException(ERRORS.USER.EMAIL_EXISTS(dto.email));
-    }
-
-    const existingTenant = await this.prisma.tenant.findUnique({
-      where: { slug: dto.tenantSlug },
-    });
-    if (existingTenant) {
-      throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.tenantSlug));
-    }
-
     // Transaction: all three records succeed together or none do.
     // The try/catch handles the rare race condition where two concurrent
     // requests both pass the pre-checks above, then one create() hits
@@ -324,20 +309,23 @@ export class AuthService {
       payload = this.jwtService.verify<JwtPayload>(refreshToken, {
         secret: this.refreshSecret,
       });
-    } catch {
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new UnauthorizedException(ERRORS.AUTH.TOKEN_INVALID_OR_EXPIRED);
+      }
       throw new UnauthorizedException(ERRORS.AUTH.TOKEN_INVALID_OR_EXPIRED);
     }
 
     // Step 2: Look up the hashed token in the database.
     // We store only the hash - compare hash-to-hash.
     const tokenHash = this.hashToken(refreshToken);
-    const storedToken = await this.prisma.refreshToken.findUnique({
+    const storedToken = await this.prisma.refreshToken.findUniqueOrThrow({
       where: { tokenHash },
     });
 
     // Step 3: If the token is already revoked, this might be a stolen token
     // being replayed by an attacker. Revoke ALL tokens as a precaution.
-    if (!storedToken || storedToken.isRevoked) {
+    if (storedToken.isRevoked) {
       await this.revokeAllUserRefreshTokens(payload.sub);
       this.logger.warn(
         `Refresh token reuse detected for user ${payload.sub} - all sessions revoked`,
@@ -507,54 +495,60 @@ export class AuthService {
     // Hash the submitted token and look up the hash
     const tokenHash = this.hashToken(token);
 
-    const resetToken = await this.prisma.passwordResetToken.findUnique({
-      where: { tokenHash },
-      include: { user: true },
-    });
+    try {
+      const resetToken = await this.prisma.passwordResetToken.findUniqueOrThrow(
+        {
+          where: { tokenHash },
+          include: { user: true },
+        },
+      );
 
-    // Validate the token - three checks
-    if (!resetToken) {
-      throw new BadRequestException(ERRORS.AUTH.INVALID_RESET_TOKEN);
-    }
+      // Validate the token - two checks (existence handled by OrThrow)
+      if (resetToken.isUsed) {
+        throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_ALREADY_USED);
+      }
 
-    if (resetToken.isUsed) {
-      throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_ALREADY_USED);
-    }
+      if (resetToken.expiresAt < new Date()) {
+        throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_EXPIRED);
+      }
 
-    if (resetToken.expiresAt < new Date()) {
-      throw new BadRequestException(ERRORS.AUTH.RESET_TOKEN_EXPIRED);
-    }
+      // All validations passed - update password and clean up
+      const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
 
-    // All validations passed - update password and clean up
-    const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+      await this.prisma.$transaction(async (tx) => {
+        // Update the password
+        await tx.user.update({
+          where: { id: resetToken.userId },
+          data: { passwordHash },
+        });
 
-    await this.prisma.$transaction(async (tx) => {
-      // Update the password
-      await tx.user.update({
-        where: { id: resetToken.userId },
-        data: { passwordHash },
+        // Mark the token as used - single-use enforcement
+        await tx.passwordResetToken.update({
+          where: { id: resetToken.id },
+          data: { isUsed: true },
+        });
+
+        // Revoke ALL refresh tokens - forces re-login on every device.
+        // This is a security measure: if an attacker initiated the reset,
+        // they can't use any existing sessions afterward.
+        await tx.refreshToken.updateMany({
+          where: { userId: resetToken.userId, isRevoked: false },
+          data: { isRevoked: true },
+        });
       });
 
-      // Mark the token as used - single-use enforcement
-      await tx.passwordResetToken.update({
-        where: { id: resetToken.id },
-        data: { isUsed: true },
-      });
+      this.logger.log(`Password reset: ${resetToken.user.email}`);
 
-      // Revoke ALL refresh tokens - forces re-login on every device.
-      // This is a security measure: if an attacker initiated the reset,
-      // they can't use any existing sessions afterward.
-      await tx.refreshToken.updateMany({
-        where: { userId: resetToken.userId, isRevoked: false },
-        data: { isRevoked: true },
-      });
-    });
-
-    this.logger.log(`Password reset: ${resetToken.user.email}`);
-
-    return {
-      message: 'Password has been reset. Please log in with your new password.',
-    };
+      return {
+        message:
+          'Password has been reset. Please log in with your new password.',
+      };
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new BadRequestException(ERRORS.AUTH.INVALID_RESET_TOKEN);
+      }
+      throw error;
+    }
   }
 
   // =========================================================
@@ -586,49 +580,51 @@ export class AuthService {
     currentPassword: string,
     newPassword: string,
   ) {
-    // Look up the user with their password hash
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException(ERRORS.AUTH.USER_NOT_FOUND);
-    }
-
-    // Verify the current password - constant-time comparison via bcrypt
-    const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
-    if (!isValid) {
-      throw new UnauthorizedException(ERRORS.AUTH.INVALID_CURRENT_PASSWORD);
-    }
-
-    // Hash the new password and update everything in a transaction
-    const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
-
-    await this.prisma.$transaction(async (tx) => {
-      // Update the password
-      await tx.user.update({
+    // Look up the user and perform the password change
+    try {
+      const user = await this.prisma.user.findUniqueOrThrow({
         where: { id: userId },
-        data: { passwordHash },
       });
 
-      // Revoke all refresh tokens - logs out every other device
-      await tx.refreshToken.updateMany({
-        where: { userId, isRevoked: false },
-        data: { isRevoked: true },
+      // Verify the current password - constant-time comparison via bcrypt
+      const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
+      if (!isValid) {
+        throw new UnauthorizedException(ERRORS.AUTH.INVALID_CURRENT_PASSWORD);
+      }
+
+      // Hash the new password and update everything in a transaction
+      const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+      await this.prisma.$transaction(async (tx) => {
+        // Update the password
+        await tx.user.update({
+          where: { id: userId },
+          data: { passwordHash },
+        });
+
+        // Revoke all refresh tokens - logs out every other device
+        await tx.refreshToken.updateMany({
+          where: { userId, isRevoked: false },
+          data: { isRevoked: true },
+        });
       });
-    });
 
-    this.logger.log(`Password changed: ${user.email}`);
+      this.logger.log(`Password changed: ${user.email}`);
 
-    // Issue new tokens for the current session so the user
-    // doesn't get logged out of the device they're using right now
-    const tokens = await this.generateTokens(user.id, user.email);
+      // Issue new tokens for the current session
+      const tokens = await this.generateTokens(user.id, user.email);
 
-    return {
-      message:
-        'Password changed successfully. All other sessions have been logged out.',
-      ...tokens,
-    };
+      return {
+        message:
+          'Password changed successfully. All other sessions have been logged out.',
+        ...tokens,
+      };
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new UnauthorizedException(ERRORS.AUTH.USER_NOT_FOUND);
+      }
+      throw error;
+    }
   }
 
   // =========================================================

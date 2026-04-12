@@ -1,8 +1,8 @@
 /**
- * PlansService — CRUD for billing plans.
+ * PlansService - CRUD for billing plans.
  *
  * Plans are the product identity: "Starter", "Pro", "Enterprise".
- * They do NOT contain pricing — that's in PlanPrice (separate module).
+ * They do NOT contain pricing - that's in PlanPrice (separate module).
  *
  * Business rules:
  *   - slug must be unique (enforced by DB unique constraint)
@@ -19,6 +19,10 @@ import {
 } from '@nestjs/common';
 
 import { ERRORS } from '@common/constants';
+import {
+  isNotFoundError,
+  isUniqueConstraintError,
+} from '@common/utils/prisma-errors';
 
 import { PrismaService } from '@prisma/prisma.service';
 
@@ -85,10 +89,7 @@ export class PlansService {
       this.logger.log(`Plan created: ${plan.name} (${plan.slug})`);
       return plan;
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      ) {
+      if (isUniqueConstraintError(error)) {
         throw new ConflictException(ERRORS.PLAN.SLUG_EXISTS(dto.slug));
       }
       throw error;
@@ -121,16 +122,17 @@ export class PlansService {
    * @throws NotFoundException if plan doesn't exist
    */
   async findById(id: string) {
-    const plan = await this.prisma.plan.findUnique({
-      where: { id },
-      select: this.DEFAULT_SELECT,
-    });
-
-    if (!plan) {
-      throw new NotFoundException(ERRORS.PLAN.NOT_FOUND_ID(id));
+    try {
+      return await this.prisma.plan.findUniqueOrThrow({
+        where: { id },
+        select: this.DEFAULT_SELECT,
+      });
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.PLAN.NOT_FOUND_ID(id));
+      }
+      throw error;
     }
-
-    return plan;
   }
 
   /**
@@ -141,22 +143,23 @@ export class PlansService {
    * @throws NotFoundException if plan doesn't exist
    */
   async findBySlug(slug: string) {
-    const plan = await this.prisma.plan.findUnique({
-      where: { slug },
-      select: this.DEFAULT_SELECT,
-    });
-
-    if (!plan) {
-      throw new NotFoundException(ERRORS.PLAN.NOT_FOUND_SLUG(slug));
+    try {
+      return await this.prisma.plan.findUniqueOrThrow({
+        where: { slug },
+        select: this.DEFAULT_SELECT,
+      });
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.PLAN.NOT_FOUND_SLUG(slug));
+      }
+      throw error;
     }
-
-    return plan;
   }
 
   /**
    * Update a plan.
    *
-   * slug is NOT updatable — it's the stable identifier
+   * slug is NOT updatable - it's the stable identifier
    * referenced by API paths and subscription records.
    *
    * @param id - Plan UUID
@@ -165,27 +168,33 @@ export class PlansService {
    * @throws NotFoundException if plan doesn't exist
    */
   async update(id: string, dto: UpdatePlanDto) {
-    // Verify plan exists
-    await this.findById(id);
+    try {
+      const plan = await this.prisma.plan.update({
+        where: { id },
+        data: {
+          ...(dto.name !== undefined && { name: dto.name }),
+          ...(dto.description !== undefined && {
+            description: dto.description,
+          }),
+          ...(dto.status !== undefined && { status: dto.status }),
+          ...(dto.isPublic !== undefined && { isPublic: dto.isPublic }),
+          ...(dto.displayOrder !== undefined && {
+            displayOrder: dto.displayOrder,
+          }),
+          ...(dto.metadata !== undefined && {
+            metadata: dto.metadata as Prisma.InputJsonValue,
+          }),
+        },
+        select: this.DEFAULT_SELECT,
+      });
 
-    const plan = await this.prisma.plan.update({
-      where: { id },
-      data: {
-        ...(dto.name !== undefined && { name: dto.name }),
-        ...(dto.description !== undefined && { description: dto.description }),
-        ...(dto.status !== undefined && { status: dto.status }),
-        ...(dto.isPublic !== undefined && { isPublic: dto.isPublic }),
-        ...(dto.displayOrder !== undefined && {
-          displayOrder: dto.displayOrder,
-        }),
-        ...(dto.metadata !== undefined && {
-          metadata: dto.metadata as Prisma.InputJsonValue,
-        }),
-      },
-      select: this.DEFAULT_SELECT,
-    });
-
-    this.logger.log(`Plan updated: ${plan.name} (${plan.slug})`);
-    return plan;
+      this.logger.log(`Plan updated: ${plan.name} (${plan.slug})`);
+      return plan;
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.PLAN.NOT_FOUND_ID(id));
+      }
+      throw error;
+    }
   }
 }

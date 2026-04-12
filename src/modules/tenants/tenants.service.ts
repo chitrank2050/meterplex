@@ -22,7 +22,10 @@ import {
 } from '@nestjs/common';
 
 import { ERRORS } from '@common/constants/error-messages';
-import { isUniqueConstraintError } from '@common/utils/prisma-errors';
+import {
+  isNotFoundError,
+  isUniqueConstraintError,
+} from '@common/utils/prisma-errors';
 
 import { PrismaService } from '@prisma/prisma.service';
 
@@ -47,24 +50,23 @@ export class TenantsService {
    * @throws ConflictException if slug already exists
    */
   async create(dto: CreateTenantDto): Promise<Tenant> {
-    const existing = await this.prisma.tenant.findUnique({
-      where: { slug: dto.slug },
-    });
+    try {
+      const tenant = await this.prisma.tenant.create({
+        data: {
+          name: dto.name,
+          slug: dto.slug,
+          metadata: dto.metadata ?? {},
+        },
+      });
 
-    if (existing) {
-      throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
+      this.logger.log(`Tenant created: ${tenant.slug} (${tenant.id})`);
+      return tenant;
+    } catch (error) {
+      if (isUniqueConstraintError(error)) {
+        throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
+      }
+      throw error;
     }
-
-    const tenant = await this.prisma.tenant.create({
-      data: {
-        name: dto.name,
-        slug: dto.slug,
-        metadata: dto.metadata ?? {},
-      },
-    });
-
-    this.logger.log(`Tenant created: ${tenant.slug} (${tenant.id})`);
-    return tenant;
   }
 
   /**
@@ -88,14 +90,6 @@ export class TenantsService {
     dto: CreateTenantDto,
     userId: string,
   ): Promise<Tenant & { role: string }> {
-    const existing = await this.prisma.tenant.findUnique({
-      where: { slug: dto.slug },
-    });
-
-    if (existing) {
-      throw new ConflictException(ERRORS.TENANT.SLUG_EXISTS(dto.slug));
-    }
-
     // Transaction: both records succeed together or none do.
     // The try/catch handles the rare race condition where two concurrent
     // requests both pass the slug check above, then one create() hits
@@ -225,31 +219,28 @@ export class TenantsService {
     id: string,
     userId?: string,
   ): Promise<Tenant & { role?: string }> {
-    if (userId) {
-      const membership = await this.prisma.membership.findUnique({
-        where: { userId_tenantId: { userId, tenantId: id } },
-        include: { tenant: true },
-      });
+    try {
+      if (userId) {
+        const membership = await this.prisma.membership.findUniqueOrThrow({
+          where: { userId_tenantId: { userId, tenantId: id } },
+          include: { tenant: true },
+        });
 
-      if (!membership) {
-        throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
+        return {
+          ...membership.tenant,
+          role: membership.role,
+        };
       }
 
-      return {
-        ...membership.tenant,
-        role: membership.role,
-      };
+      return await this.prisma.tenant.findUniqueOrThrow({
+        where: { id },
+      });
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
+      }
+      throw error;
     }
-
-    const tenant = await this.prisma.tenant.findUnique({
-      where: { id },
-    });
-
-    if (!tenant) {
-      throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
-    }
-
-    return tenant;
   }
 
   /**
@@ -260,15 +251,16 @@ export class TenantsService {
    * @throws NotFoundException if tenant doesn't exist
    */
   async findBySlug(slug: string): Promise<Tenant> {
-    const tenant = await this.prisma.tenant.findUnique({
-      where: { slug },
-    });
-
-    if (!tenant) {
-      throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_SLUG(slug));
+    try {
+      return await this.prisma.tenant.findUniqueOrThrow({
+        where: { slug },
+      });
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_SLUG(slug));
+      }
+      throw error;
     }
-
-    return tenant;
   }
 
   /**
@@ -280,19 +272,24 @@ export class TenantsService {
    * @throws NotFoundException if tenant doesn't exist
    */
   async update(id: string, dto: UpdateTenantDto): Promise<Tenant> {
-    await this.findById(id);
+    try {
+      const tenant = await this.prisma.tenant.update({
+        where: { id },
+        data: {
+          ...(dto.name !== undefined && { name: dto.name }),
+          ...(dto.status !== undefined && { status: dto.status }),
+          ...(dto.metadata !== undefined && { metadata: dto.metadata }),
+        },
+      });
 
-    const tenant = await this.prisma.tenant.update({
-      where: { id },
-      data: {
-        ...(dto.name !== undefined && { name: dto.name }),
-        ...(dto.status !== undefined && { status: dto.status }),
-        ...(dto.metadata !== undefined && { metadata: dto.metadata }),
-      },
-    });
-
-    this.logger.log(`Tenant updated: ${tenant.slug} (${tenant.id})`);
-    return tenant;
+      this.logger.log(`Tenant updated: ${tenant.slug} (${tenant.id})`);
+      return tenant;
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
+      }
+      throw error;
+    }
   }
 
   /**
@@ -308,14 +305,19 @@ export class TenantsService {
    * @throws NotFoundException if tenant doesn't exist
    */
   async remove(id: string): Promise<Tenant> {
-    await this.findById(id);
+    try {
+      const tenant = await this.prisma.tenant.update({
+        where: { id },
+        data: { status: 'CANCELLED' },
+      });
 
-    const tenant = await this.prisma.tenant.update({
-      where: { id },
-      data: { status: 'CANCELLED' },
-    });
-
-    this.logger.log(`Tenant cancelled: ${tenant.slug} (${tenant.id})`);
-    return tenant;
+      this.logger.log(`Tenant cancelled: ${tenant.slug} (${tenant.id})`);
+      return tenant;
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.TENANT.NOT_FOUND_ID(id));
+      }
+      throw error;
+    }
   }
 }

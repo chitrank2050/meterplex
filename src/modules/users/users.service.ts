@@ -22,6 +22,7 @@ import * as bcrypt from 'bcryptjs';
 import { ERRORS } from '@common/constants/error-messages';
 import {
   getUniqueViolationFields,
+  isNotFoundError,
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
@@ -110,16 +111,17 @@ export class UsersService {
    * @throws NotFoundException if user doesn't exist
    */
   async findById(id: string): Promise<SafeUser> {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-      select: USER_SELECT,
-    });
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER.NOT_FOUND(id));
+    try {
+      return await this.prisma.user.findUniqueOrThrow({
+        where: { id },
+        select: USER_SELECT,
+      });
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.USER.NOT_FOUND(id));
+      }
+      throw error;
     }
-
-    return user;
   }
 
   /**
@@ -147,20 +149,25 @@ export class UsersService {
    * @throws NotFoundException if user doesn't exist
    */
   async update(id: string, dto: UpdateUserDto): Promise<SafeUser> {
-    await this.findById(id);
+    try {
+      const user = await this.prisma.user.update({
+        where: { id },
+        data: {
+          ...(dto.firstName !== undefined && { firstName: dto.firstName }),
+          ...(dto.lastName !== undefined && { lastName: dto.lastName }),
+          ...(dto.isActive !== undefined && { isActive: dto.isActive }),
+        },
+        select: USER_SELECT,
+      });
 
-    const user = await this.prisma.user.update({
-      where: { id },
-      data: {
-        ...(dto.firstName !== undefined && { firstName: dto.firstName }),
-        ...(dto.lastName !== undefined && { lastName: dto.lastName }),
-        ...(dto.isActive !== undefined && { isActive: dto.isActive }),
-      },
-      select: USER_SELECT,
-    });
-
-    this.logger.log(`User updated: ${user.email} (${user.id})`);
-    return user;
+      this.logger.log(`User updated: ${user.email} (${user.id})`);
+      return user;
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.USER.NOT_FOUND(id));
+      }
+      throw error;
+    }
   }
 
   /**

@@ -39,6 +39,7 @@ import {
 import { createHash, randomBytes } from 'node:crypto';
 
 import { ERRORS } from '@common/constants';
+import { isNotFoundError } from '@common/utils/prisma-errors';
 
 import { PrismaService } from '@prisma/prisma.service';
 
@@ -171,12 +172,15 @@ export class ApiKeysService {
    */
   async revoke(id: string, tenantId: string) {
     // Find the key and verify it belongs to this tenant
-    const apiKey = await this.prisma.apiKey.findFirst({
-      where: { id, tenantId },
-    });
-
-    if (!apiKey) {
-      throw new NotFoundException(ERRORS.API_KEY.NOT_FOUND);
+    try {
+      await this.prisma.apiKey.findFirstOrThrow({
+        where: { id, tenantId },
+      });
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new NotFoundException(ERRORS.API_KEY.NOT_FOUND);
+      }
+      throw error;
     }
 
     const revoked = await this.prisma.apiKey.update({
@@ -226,54 +230,55 @@ export class ApiKeysService {
   ): Promise<{ tenantId: string; keyId: string }> {
     const keyHash = this.hashKey(rawKey);
 
-    const apiKey = await this.prisma.apiKey.findUnique({
-      where: { keyHash },
-      select: {
-        id: true,
-        tenantId: true,
-        status: true,
-        expiresAt: true,
-      },
-    });
+    try {
+      const apiKey = await this.prisma.apiKey.findUniqueOrThrow({
+        where: { keyHash },
+        select: {
+          id: true,
+          tenantId: true,
+          status: true,
+          expiresAt: true,
+        },
+      });
 
-    // Same error for all failure cases - prevents key enumeration
-    if (!apiKey) {
-      throw new UnauthorizedException(ERRORS.API_KEY.NOT_FOUND);
-    }
+      if (apiKey.status !== 'ACTIVE') {
+        throw new UnauthorizedException(ERRORS.API_KEY.NOT_FOUND);
+      }
 
-    if (apiKey.status !== 'ACTIVE') {
-      throw new UnauthorizedException(ERRORS.API_KEY.NOT_FOUND);
-    }
+      if (apiKey.expiresAt && apiKey.expiresAt < new Date()) {
+        // Mark as expired in the database (best-effort)
+        this.prisma.apiKey
+          .update({
+            where: { id: apiKey.id },
+            data: { status: 'EXPIRED' },
+          })
+          .catch((err: Error) => {
+            this.logger.warn(`Failed to mark key as expired: ${err.message}`);
+          });
 
-    if (apiKey.expiresAt && apiKey.expiresAt < new Date()) {
-      // Mark as expired in the database (best-effort, don't block the response)
+        throw new UnauthorizedException(ERRORS.API_KEY.EXPIRED);
+      }
+
+      // Update last_used_at - fire-and-forget
       this.prisma.apiKey
         .update({
           where: { id: apiKey.id },
-          data: { status: 'EXPIRED' },
+          data: { lastUsedAt: new Date() },
         })
         .catch((err: Error) => {
-          this.logger.warn(`Failed to mark key as expired: ${err.message}`);
+          this.logger.warn(`Failed to update last_used_at: ${err.message}`);
         });
 
-      throw new UnauthorizedException(ERRORS.API_KEY.EXPIRED);
+      return {
+        tenantId: apiKey.tenantId,
+        keyId: apiKey.id,
+      };
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        throw new UnauthorizedException(ERRORS.API_KEY.NOT_FOUND);
+      }
+      throw error;
     }
-
-    // Update last_used_at - fire-and-forget (don't slow down the request)
-    // This runs in the background. If it fails, the request still succeeds.
-    this.prisma.apiKey
-      .update({
-        where: { id: apiKey.id },
-        data: { lastUsedAt: new Date() },
-      })
-      .catch((err: Error) => {
-        this.logger.warn(`Failed to update last_used_at: ${err.message}`);
-      });
-
-    return {
-      tenantId: apiKey.tenantId,
-      keyId: apiKey.id,
-    };
   }
 
   /**
