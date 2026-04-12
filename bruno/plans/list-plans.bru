@@ -1,0 +1,15 @@
+meta {
+  name: List All Plans
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans
+  body: none
+  auth: none
+}
+
+params:query {
+  ~includeArchived: true
+}

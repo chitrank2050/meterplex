@@ -64,6 +64,11 @@ nav:
       - Setup: development/setup.md
   - API:
       - Overview: api/overview.md
+      - Auth: api/auth.md
+      - Users: api/users.md
+      - Tenants: api/tenants.md
+      - Plans: api/plans.md
+      - API Keys: api/api-keys.md
   - Build Phases:
       - Phase 0 - Project Setup: phases/phase-0.md
       - Phase 1 - Identity and Access: phases/phase-1.md

@@ -1,0 +1,27 @@
+meta {
+  name: Update Plan
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/:id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "name": "Professional Plus",
+    "description": "Updated description for Pro plan",
+    "status": "ACTIVE"
+  }
+}

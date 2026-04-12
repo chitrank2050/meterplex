@@ -1,0 +1,28 @@
+meta {
+  name: Create Plan
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "Professional",
+    "slug": "pro",
+    "description": "For scaling startups",
+    "isPublic": true,
+    "displayOrder": 2,
+    "metadata": {
+      "trialDays": 14
+    }
+  }
+}
