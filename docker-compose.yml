@@ -96,7 +96,7 @@ services:
   #   - Faster startup, simpler config
   # ---------------------------------------------------------
   kafka:
-    image: apache/kafka:3.9.2
+    image: apache/kafka:4.2.0
     container_name: meterplex-kafka
     restart: unless-stopped
     ports:
