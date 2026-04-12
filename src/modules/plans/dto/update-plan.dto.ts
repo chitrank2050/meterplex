@@ -28,7 +28,7 @@ import {
   Min,
 } from 'class-validator';
 
-import { PlanStatus } from '@generated/prisma/client';
+import { PlanStatus } from '@prisma/client';
 
 export class UpdatePlanDto {
   /**

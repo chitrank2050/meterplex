@@ -35,6 +35,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
+import { PrismaService } from '@app-prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { createHash, randomBytes } from 'node:crypto';
 
@@ -46,8 +47,6 @@ import {
 } from '@common/utils/prisma-errors';
 
 import { UsersService } from '@modules/users/users.service';
-
-import { PrismaService } from '@prisma/prisma.service';
 
 import { LoginDto, RegisterDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';

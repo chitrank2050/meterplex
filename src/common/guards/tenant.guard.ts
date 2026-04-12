@@ -26,11 +26,10 @@ import {
   Injectable,
 } from '@nestjs/common';
 
+import { PrismaService } from '@app-prisma/prisma.service';
 import { Request } from 'express';
 
-import { PrismaService } from '@prisma/prisma.service';
-
-import { Membership } from '@generated/prisma/client';
+import { Membership } from '@prisma/client';
 
 interface CustomRequest extends Request {
   user?: {

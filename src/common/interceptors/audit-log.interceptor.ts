@@ -48,14 +48,13 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+import { PrismaService } from '@app-prisma/prisma.service';
 import { Request } from 'express';
 import { Observable, tap } from 'rxjs';
 
 import { CORRELATION_ID_HEADER } from '@common/constants';
 
-import { PrismaService } from '@prisma/prisma.service';
-
-import { AuditAction, AuditActorType, Prisma } from '@generated/prisma/client';
+import { AuditAction, AuditActorType, Prisma } from '@prisma/client';
 
 /** Metadata key for the @SkipAudit() decorator. */
 export const SKIP_AUDIT_KEY = 'skipAudit';

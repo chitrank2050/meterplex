@@ -17,6 +17,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
+import { PrismaService } from '@app-prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 
 import { ERRORS } from '@common/constants/error-messages';
@@ -26,9 +27,7 @@ import {
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
-import { PrismaService } from '@prisma/prisma.service';
-
-import { MembershipRole, User } from '@generated/prisma/client';
+import { MembershipRole, User } from '@prisma/client';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
 

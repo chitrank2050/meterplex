@@ -18,15 +18,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
+import { PrismaService } from '@app-prisma/prisma.service';
+
 import { ERRORS } from '@common/constants';
 import {
   isNotFoundError,
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
-import { PrismaService } from '@prisma/prisma.service';
-
-import { Prisma } from '@generated/prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { CreatePlanDto, UpdatePlanDto } from './dto';
 

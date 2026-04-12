@@ -14,7 +14,7 @@
  *
  * Error codes reference: https://www.prisma.io/docs/orm/reference/error-reference
  */
-import { Prisma } from '@generated/prisma/client';
+import { Prisma } from '@prisma/client';
 
 // =============================================================
 // Type Guards - Detect specific Prisma error types

@@ -36,12 +36,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
+import { PrismaService } from '@app-prisma/prisma.service';
 import { createHash, randomBytes } from 'node:crypto';
 
 import { ERRORS } from '@common/constants';
 import { isNotFoundError } from '@common/utils/prisma-errors';
-
-import { PrismaService } from '@prisma/prisma.service';
 
 import { CreateApiKeyDto } from './dto';
 

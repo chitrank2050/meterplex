@@ -60,7 +60,6 @@ pids
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-/generated/
 
 # --- Docker persistent data ---
 # Docker volumes mount here. Not source code.

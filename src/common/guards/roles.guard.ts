@@ -28,13 +28,12 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+import { PrismaService } from '@app-prisma/prisma.service';
 import { Request } from 'express';
 
 import { ROLES_KEY } from '@common/decorators/roles.decorator';
 
-import { PrismaService } from '@prisma/prisma.service';
-
-import { Membership, MembershipRole } from '@generated/prisma/client';
+import { Membership, MembershipRole } from '@prisma/client';
 
 interface CustomRequest extends Request {
   user?: {

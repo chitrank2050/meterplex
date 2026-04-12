@@ -13,7 +13,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsObject, IsOptional, IsString, MaxLength } from 'class-validator';
 
-import { TenantStatus } from '../../../../generated/prisma/client';
+import { TenantStatus } from '@prisma/client';
 
 export class UpdateTenantDto {
   /** Updated organization name. */

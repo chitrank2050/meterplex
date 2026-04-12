@@ -17,7 +17,7 @@
  */
 import { SetMetadata } from '@nestjs/common';
 
-import { MembershipRole } from '@generated/prisma/client';
+import { MembershipRole } from '@prisma/client';
 
 /**
  * Key used to store and retrieve roles metadata.

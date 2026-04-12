@@ -28,8 +28,7 @@ export default defineConfig({
       '@common': resolve(__dirname, './src/common'),
       '@config': resolve(__dirname, './src/config'),
       '@modules': resolve(__dirname, './src/modules'),
-      '@prisma': resolve(__dirname, './src/prisma'),
-      '@generated': resolve(__dirname, './generated'),
+      '@app-prisma': resolve(__dirname, './src/prisma'),
     },
   },
   plugins: [

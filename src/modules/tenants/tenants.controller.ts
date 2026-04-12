@@ -55,7 +55,7 @@ import { RolesGuard, TenantGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
-import { MembershipRole } from '@generated/prisma/client';
+import { MembershipRole } from '@prisma/client';
 
 import {
   CreateTenantDto,
