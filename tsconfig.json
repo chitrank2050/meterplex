@@ -48,13 +48,13 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "types": ["vitest/globals"],
     /* --- Path aliases ---
      * Without:  import { Something } from '../../../common/filters/something';
      * With:     import { Something } from '@common/filters/something';
      *
      * Cleaner imports, no fragile relative paths that break on refactor.
-     * IMPORTANT: Jest has its own resolver - we mirror these in
-     * package.json > jest > moduleNameMapper so tests work too.
+     * Vitest handles these via the 'alias' property in vitest.config.ts.
      */
     "baseUrl": "./",
     "paths": {
@@ -74,7 +74,9 @@
     "src/**/*",
     "prisma/**/*",
     "prisma.config.ts",
-    "commitlint.config.js"
+    "commitlint.config.js",
+    "vitest.config.ts",
+    "vitest.config.e2e.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
