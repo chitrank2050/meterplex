@@ -71,7 +71,7 @@ export class CreateFeatureDto {
     example: 'QUOTA',
     description: 'Feature gating type',
   })
-  @IsEnum(FeatureType)
+  @IsEnum(FeatureType as object)
   type!: FeatureType;
 
   /**

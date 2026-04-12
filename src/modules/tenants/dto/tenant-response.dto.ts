@@ -17,6 +17,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { PaginationMetaDto } from '@common/dto';
 
+import { MembershipRole, TenantStatus } from '@prisma/client';
+
 export class TenantResponseDto {
   @ApiProperty({ example: '0eed08b2-60b6-4578-ae98-a98f3b164c54' })
   id!: string;
@@ -28,10 +30,10 @@ export class TenantResponseDto {
   slug!: string;
 
   @ApiProperty({
-    enum: ['ACTIVE', 'SUSPENDED', 'CANCELLED'],
+    enum: TenantStatus,
     example: 'ACTIVE',
   })
-  status!: string;
+  status!: TenantStatus;
 
   @ApiProperty({ example: { timezone: 'America/New_York' } })
   metadata!: Record<string, unknown>;
@@ -45,11 +47,11 @@ export class TenantResponseDto {
 
 export class TenantWithRoleResponseDto extends TenantResponseDto {
   @ApiProperty({
-    enum: ['OWNER', 'ADMIN', 'DEVELOPER', 'BILLING'],
+    enum: MembershipRole,
     example: 'OWNER',
     description: "The authenticated user's role in this tenant",
   })
-  role!: string;
+  role!: MembershipRole;
 }
 
 export class TenantListResponseDto {

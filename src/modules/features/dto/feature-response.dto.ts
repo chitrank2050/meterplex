@@ -3,6 +3,8 @@
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+import { FeatureType, PlanStatus } from '@prisma/client';
+
 export class FeatureResponseDto {
   @ApiProperty({ example: 'b1ccfb75-6d33-4be4-9556-6f3ac55456a1' })
   id!: string;
@@ -13,8 +15,8 @@ export class FeatureResponseDto {
   @ApiProperty({ example: 'api_calls' })
   lookupKey!: string;
 
-  @ApiProperty({ enum: ['BOOLEAN', 'QUOTA', 'METERED'], example: 'QUOTA' })
-  type!: string;
+  @ApiProperty({ enum: FeatureType, example: 'QUOTA' })
+  type!: FeatureType;
 
   @ApiPropertyOptional({ example: 'calls', nullable: true })
   unit!: string | null;
@@ -25,8 +27,8 @@ export class FeatureResponseDto {
   })
   description!: string | null;
 
-  @ApiProperty({ enum: ['ACTIVE', 'ARCHIVED'], example: 'ACTIVE' })
-  status!: string;
+  @ApiProperty({ enum: PlanStatus, example: 'ACTIVE' })
+  status!: PlanStatus;
 
   @ApiProperty({ example: { category: 'usage' } })
   metadata!: Record<string, unknown>;

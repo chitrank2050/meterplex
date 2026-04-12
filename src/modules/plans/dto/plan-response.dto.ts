@@ -8,12 +8,14 @@
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+import { BillingInterval, PlanStatus } from '@prisma/client';
+
 class PlanPriceResponseDto {
   @ApiProperty({ example: 'a1b2c3d4-...' })
   id!: string;
 
-  @ApiProperty({ enum: ['MONTHLY', 'ANNUALLY'], example: 'MONTHLY' })
-  interval!: string;
+  @ApiProperty({ enum: BillingInterval, example: 'MONTHLY' })
+  interval!: BillingInterval;
 
   @ApiProperty({
     example: 9900,
@@ -41,8 +43,8 @@ export class PlanResponseDto {
   @ApiPropertyOptional({ example: 'For growing teams that need more power.' })
   description!: string | null;
 
-  @ApiProperty({ enum: ['ACTIVE', 'ARCHIVED'], example: 'ACTIVE' })
-  status!: string;
+  @ApiProperty({ enum: PlanStatus, example: 'ACTIVE' })
+  status!: PlanStatus;
 
   @ApiProperty({ example: true })
   isPublic!: boolean;

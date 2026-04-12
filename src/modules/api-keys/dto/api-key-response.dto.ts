@@ -15,6 +15,8 @@
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+import { ApiKeyStatus } from '@prisma/client';
+
 class ApiKeyCreatorDto {
   @ApiProperty({ example: 'b1ccfb75-6d33-4be4-9556-6f3ac55456a1' })
   id!: string;
@@ -42,8 +44,8 @@ export class CreateApiKeyResponseDto {
   })
   keyPrefix!: string;
 
-  @ApiProperty({ enum: ['ACTIVE', 'REVOKED', 'EXPIRED'], example: 'ACTIVE' })
-  status!: string;
+  @ApiProperty({ enum: ApiKeyStatus, example: 'ACTIVE' })
+  status!: ApiKeyStatus;
 
   @ApiPropertyOptional({ example: '2026-07-04T12:00:00.000Z', nullable: true })
   expiresAt!: Date | null;
@@ -73,8 +75,8 @@ export class ApiKeyResponseDto {
   @ApiProperty({ example: 'mp_live_aB' })
   keyPrefix!: string;
 
-  @ApiProperty({ enum: ['ACTIVE', 'REVOKED', 'EXPIRED'], example: 'ACTIVE' })
-  status!: string;
+  @ApiProperty({ enum: ApiKeyStatus, example: 'ACTIVE' })
+  status!: ApiKeyStatus;
 
   @ApiPropertyOptional({ example: '2026-07-04T12:00:00.000Z', nullable: true })
   expiresAt!: Date | null;

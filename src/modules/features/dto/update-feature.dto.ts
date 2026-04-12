@@ -49,7 +49,7 @@ export class UpdateFeatureDto {
     description: 'ARCHIVED = cannot be added to new entitlements',
   })
   @IsOptional()
-  @IsEnum(PlanStatus)
+  @IsEnum(PlanStatus as object)
   status?: PlanStatus;
 
   @ApiPropertyOptional({ example: { category: 'core' } })

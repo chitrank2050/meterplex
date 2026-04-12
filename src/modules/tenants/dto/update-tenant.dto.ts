@@ -27,7 +27,7 @@ export class UpdateTenantDto {
   name?: string;
 
   /** Updated tenant status. */
-  @ApiPropertyOptional({ enum: ['ACTIVE', 'SUSPENDED', 'CANCELLED'] })
+  @ApiPropertyOptional({ enum: TenantStatus })
   @IsOptional()
   @IsString()
   status?: TenantStatus;
