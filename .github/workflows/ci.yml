@@ -23,6 +23,9 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  NODE_VERSION: 24
+
 jobs:
   build_and_test:
     name: Build and Verify
@@ -48,7 +51,7 @@ jobs:
         run: pnpm db:generate
 
       - name: Check formatting
-        run: pnpm prettier --check "**/*.{ts,json,md,yml,yaml}"
+        run: pnpm format:check
 
       - name: Lint
         run: pnpm lint
