@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.png" width="160" height="160" alt="Meterplex Logo">
+  <img src="assets/logo.png" width="160" height="auto" alt="Meterplex Logo">
   <h1>Meterplex</h1>
   <p><strong>Open-source B2B usage metering, entitlements, and billing platform.</strong></p>
 
