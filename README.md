@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/Kafka-3.9-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka">
     <img src="https://img.shields.io/badge/Redis-7-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
-    <img src="https://img.shields.io/badge/Version-0.4.3-blue" alt="Version">
+    <img src="https://img.shields.io/badge/Version-0.4.4-blue" alt="Version">
     <a href="https://chitrank2050.github.io/meterplex/">
       <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
     </a>
