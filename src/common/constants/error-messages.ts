@@ -78,4 +78,14 @@ export const ERRORS = {
     NOT_FOUND_ID: (id: string) => `Plan with ID "${id}" not found`,
     NOT_FOUND_SLUG: (slug: string) => `Plan with slug "${slug}" not found`,
   },
+  /**
+   * Feature related error messages
+   */
+  FEATURE: {
+    LOOKUP_KEY_EXISTS: (lookupKey: string) =>
+      `Feature with lookup key "${lookupKey}" already exists`,
+    NOT_FOUND_ID: (id: string) => `Feature with ID "${id}" not found`,
+    NOT_FOUND_LOOKUP_KEY: (lookupKey: string) =>
+      `Feature with lookup key "${lookupKey}" not found`,
+  },
 } as const;
