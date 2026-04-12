@@ -33,8 +33,9 @@
       "automerge": true
     },
     {
-      "matchPaths": ["experimental/**"],
-      "ignoreMajor": true
+      "matchFileNames": ["experimental/**"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ],
   "dependencyDashboard": true,
