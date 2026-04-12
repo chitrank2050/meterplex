@@ -156,6 +156,9 @@ importers:
       markdownlint-cli:
         specifier: ^0.44.0
         version: 0.44.0
+      pg:
+        specifier: ^8.16.0
+        version: 8.20.0
       prettier:
         specifier: ^3.4.2
         version: 3.8.1
