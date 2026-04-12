@@ -2,6 +2,29 @@
 
 All notable changes to Meterplex API.
 
+## [0.4.5] - 2026-04-12
+
+### Documentation
+
+- Update project documentation in README.md
+
+### Features
+
+- Implement DTOs for feature management module
+- Implement features module with CRUD operations for the global feature catalog
+- Add DTOs for plan price creation and response schemas
+- Implement plan pricing module with CRUD operations and nested routing
+- Add documentation and task issue templates and set default assignees for all templates
+
+### Maintenance
+
+- Update issue template titles to follow conventional commit
+
+### Refactoring
+
+- Replace hardcoded enum strings with Prisma generated enums across all DTOs
+- Replace hardcoded string enums with Prisma generated enum types across services
+
 ## [0.4.3] - 2026-04-12
 
 ### Documentation
