@@ -78,6 +78,9 @@ importers:
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      pg:
+        specifier: ^8.16.0
+        version: 8.20.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -163,9 +166,6 @@ importers:
       markdownlint-cli:
         specifier: ^0.44.0
         version: 0.44.0
-      pg:
-        specifier: ^8.16.0
-        version: 8.20.0
       prettier:
         specifier: ^3.4.2
         version: 3.8.2
