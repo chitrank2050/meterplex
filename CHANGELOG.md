@@ -2,6 +2,56 @@
 
 All notable changes to Meterplex API.
 
+## [0.4.3] - 2026-04-12
+
+### Documentation
+
+- Update project documentation in README.md
+- Update project documentation in README.md
+- Update project documentation and installation instructions in README
+- Update project documentation in README.md
+- Update project documentation in README.md
+
+### Features
+
+- Add docker:prune script and include project banner assets
+- Implement Winston logging, configure import sorting, and standardize database script
+- Add markdownlint configuration and integrate linting into CI and pre-commit hooks
+- Add weekly schedule to renovate configuration
+- Enable Prisma client generation in CI pipeline
+- Implement DTOs for plan creation, updates, and API responses
+- Implement PlansService and expand Prisma error utility helpers for robust db constraint handle
+- Migrate NestJS build and test compilation to SWC for improved performance
+- Implement plans module with CRUD endpoints for billing plan management
+- Add API documentation and Bruno collections for plans, auth, users, tenants, and API keys
+
+### Maintenance
+
+- Migrate dependency management from Dependabot to Renovate
+- Update pnpm-lock.yaml dependencies
+- Standardize markdown code blocks, update linting configuration, and improve docs formatting
+- Reformat renovate config, add experimental path ignore rules, and disable vulnerability alert
+- Replace em-dashes with hyphens and update import to type-only in logger configuration
+- Update dependencies, configure pnpm settings, and enforce non-null database URL type
+- Add format:check script and update CI workflow to use Node 24
+- Reformat renovate configuration and disable Prisma client generation in CI workflow
+- Update lockfile dependencies
+- Update @hono/node-server and add glob dependency to package.json
+- Move pg dependency from devDependencies to dependencies
+- Move pg dependency from devDependencies to dependencies
+
+### Refactoring
+
+- Standardize import ordering and formatting across the codebase
+- Rename prisma CLI scripts to db prefix across codebase and documentation
+- Reformat renovate configuration and update experimental path pattern
+- Centralize correlation ID header constant and exclude health checks from request logging
+- Simplify environment variable usage
+- Replace manual existence checks with Prisma findUniqueOrThrow and error handling utilities
+- Migrate test runner from Jest to Vitest
+- Reorder color scheme definitions in mkdocs.yml to set dark mode as default
+- Migrate Prisma client generation to node_modules and update import paths
+
 ## [0.4.2] - 2026-04-10
 
 ### Documentation
