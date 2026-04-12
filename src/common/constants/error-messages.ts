@@ -70,4 +70,12 @@ export const ERRORS = {
     UNIQUE_CONSTRAINT: (field: string) =>
       `A record with this ${field} already exists`,
   },
+  /**
+   * Plan related error messages
+   */
+  PLAN: {
+    SLUG_EXISTS: (slug: string) => `Plan with slug "${slug}" already exists`,
+    NOT_FOUND_ID: (id: string) => `Plan with ID "${id}" not found`,
+    NOT_FOUND_SLUG: (slug: string) => `Plan with slug "${slug}" not found`,
+  },
 } as const;
