@@ -26,7 +26,7 @@ import {
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
-import { Prisma } from '@prisma/client';
+import { PlanStatus, Prisma } from '@prisma/client';
 
 import { CreateFeatureDto, UpdateFeatureDto } from './dto';
 
@@ -94,7 +94,7 @@ export class FeaturesService {
    * @returns Array of features
    */
   async findAll(includeArchived = false) {
-    const where = includeArchived ? {} : { status: 'ACTIVE' as const };
+    const where = includeArchived ? {} : { status: PlanStatus.ACTIVE };
 
     const features = await this.prisma.feature.findMany({
       where,

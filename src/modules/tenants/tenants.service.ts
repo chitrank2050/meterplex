@@ -29,7 +29,7 @@ import {
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
-import { Tenant } from '@prisma/client';
+import { MembershipRole, Tenant, TenantStatus } from '@prisma/client';
 
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
@@ -108,11 +108,11 @@ export class TenantsService {
           data: {
             userId,
             tenantId: newTenant.id,
-            role: 'OWNER',
+            role: MembershipRole.OWNER,
           },
         });
 
-        return { ...newTenant, role: 'OWNER' };
+        return { ...newTenant, role: MembershipRole.OWNER };
       });
 
       this.logger.log(
@@ -308,7 +308,7 @@ export class TenantsService {
     try {
       const tenant = await this.prisma.tenant.update({
         where: { id },
-        data: { status: 'CANCELLED' },
+        data: { status: TenantStatus.CANCELLED },
       });
 
       this.logger.log(`Tenant cancelled: ${tenant.slug} (${tenant.id})`);

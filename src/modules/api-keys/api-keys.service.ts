@@ -42,6 +42,8 @@ import { createHash, randomBytes } from 'node:crypto';
 import { ERRORS } from '@common/constants';
 import { isNotFoundError } from '@common/utils/prisma-errors';
 
+import { ApiKeyStatus } from '@prisma/client';
+
 import { CreateApiKeyDto } from './dto';
 
 /** Prefix for all Meterplex API keys. Identifies the source in logs. */
@@ -240,7 +242,7 @@ export class ApiKeysService {
         },
       });
 
-      if (apiKey.status !== 'ACTIVE') {
+      if (apiKey.status !== ApiKeyStatus.ACTIVE) {
         throw new UnauthorizedException(ERRORS.API_KEY.NOT_FOUND);
       }
 

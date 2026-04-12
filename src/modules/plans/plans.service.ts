@@ -26,7 +26,7 @@ import {
   isUniqueConstraintError,
 } from '@common/utils/prisma-errors';
 
-import { Prisma } from '@prisma/client';
+import { PlanStatus, Prisma } from '@prisma/client';
 
 import { CreatePlanDto, UpdatePlanDto } from './dto';
 
@@ -103,7 +103,7 @@ export class PlansService {
    * @returns Array of plans with active prices
    */
   async findAll(includeArchived = false) {
-    const where = includeArchived ? {} : { status: 'ACTIVE' as const };
+    const where = includeArchived ? {} : { status: PlanStatus.ACTIVE };
 
     const plans = await this.prisma.plan.findMany({
       where,

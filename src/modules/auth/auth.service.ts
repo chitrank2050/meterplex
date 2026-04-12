@@ -48,6 +48,8 @@ import {
 
 import { UsersService } from '@modules/users/users.service';
 
+import { MembershipRole } from '@prisma/client';
+
 import { LoginDto, RegisterDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 
@@ -172,7 +174,7 @@ export class AuthService {
           data: {
             userId: user.id,
             tenantId: tenant.id,
-            role: 'OWNER',
+            role: MembershipRole.OWNER,
           },
         });
 
