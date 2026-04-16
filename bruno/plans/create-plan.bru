@@ -1,7 +1,7 @@
 meta {
   name: Create Plan
   type: http
-  seq: 4
+  seq: 3
 }
 
 post {
@@ -16,13 +16,18 @@ auth:bearer {
 
 body:json {
   {
-    "name": "Professional",
-    "slug": "pro",
-    "description": "For scaling startups",
-    "isPublic": true,
-    "displayOrder": 2,
+    "name": "Pro Plus",
+    "slug": "pro-plus",
+    "description": "For teams that need even more power.",
+    "displayOrder": 4,
     "metadata": {
-      "trialDays": 14
+      "trialDays": 21
     }
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setEnvVar("planId", res.body.id);
   }
 }

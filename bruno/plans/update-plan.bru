@@ -1,11 +1,11 @@
 meta {
   name: Update Plan
   type: http
-  seq: 5
+  seq: 6
 }
 
 patch {
-  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/:id
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}
   body: json
   auth: bearer
 }
@@ -14,14 +14,9 @@ auth:bearer {
   token: {{accessToken}}
 }
 
-params:path {
-  id: 
-}
-
 body:json {
   {
-    "name": "Professional Plus",
-    "description": "Updated description for Pro plan",
-    "status": "ACTIVE"
+    "description": "Updated description for Pro Plus plan.",
+    "displayOrder": 5
   }
 }

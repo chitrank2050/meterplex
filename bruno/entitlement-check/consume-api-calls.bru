@@ -1,0 +1,25 @@
+meta {
+  name: Consume API Calls (1)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/entitlements/api_calls/consume
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+body:json {
+  {
+    "amount": 1
+  }
+}

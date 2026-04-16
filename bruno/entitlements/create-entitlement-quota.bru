@@ -1,0 +1,25 @@
+meta {
+  name: Create Entitlement (QUOTA)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/entitlements
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "featureId": "{{featureId}}",
+    "limit": 10000,
+    "limitBehavior": "SOFT",
+    "overagePrice": 10,
+    "resetPeriod": "MONTHLY"
+  }
+}

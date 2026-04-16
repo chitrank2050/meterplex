@@ -1,0 +1,21 @@
+meta {
+  name: Update Entitlement
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/entitlements/{{entitlementId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "limit": 20000
+  }
+}

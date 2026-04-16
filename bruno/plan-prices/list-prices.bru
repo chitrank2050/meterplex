@@ -1,0 +1,10 @@
+meta {
+  name: List Plan Prices
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/prices
+  auth: none
+}

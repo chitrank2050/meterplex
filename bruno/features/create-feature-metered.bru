@@ -1,0 +1,25 @@
+meta {
+  name: Create Feature (METERED)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/features
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "Bandwidth",
+    "lookupKey": "bandwidth",
+    "type": "METERED",
+    "unit": "GB",
+    "description": "Outbound bandwidth per month"
+  }
+}

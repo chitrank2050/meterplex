@@ -1,0 +1,27 @@
+meta {
+  name: Subscribe with 14-Day Trial
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/subscriptions
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+body:json {
+  {
+    "planId": "{{proPlanId}}",
+    "priceId": "{{proMonthlyPriceId}}",
+    "trialDays": 14
+  }
+}

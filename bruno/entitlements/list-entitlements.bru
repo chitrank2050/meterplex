@@ -1,0 +1,14 @@
+meta {
+  name: List Plan Entitlements
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/entitlements
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

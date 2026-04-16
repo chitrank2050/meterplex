@@ -1,0 +1,24 @@
+meta {
+  name: Create Entitlement (METERED)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/entitlements
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "featureId": "{{featureId}}",
+    "includedAmount": 50,
+    "overagePrice": 200,
+    "resetPeriod": "MONTHLY"
+  }
+}

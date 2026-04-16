@@ -1,0 +1,21 @@
+meta {
+  name: Update Feature
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/features/{{featureId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "description": "Updated feature description"
+  }
+}

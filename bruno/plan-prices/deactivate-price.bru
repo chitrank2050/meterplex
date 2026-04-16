@@ -1,0 +1,14 @@
+meta {
+  name: Deactivate Price
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/prices/{{priceId}}
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

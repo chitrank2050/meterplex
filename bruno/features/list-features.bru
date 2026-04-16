@@ -1,0 +1,14 @@
+meta {
+  name: List Features
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/features
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

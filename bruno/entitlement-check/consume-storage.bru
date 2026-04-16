@@ -1,0 +1,25 @@
+meta {
+  name: Consume Storage (5 GB)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/entitlements/storage/consume
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+body:json {
+  {
+    "amount": 5
+  }
+}

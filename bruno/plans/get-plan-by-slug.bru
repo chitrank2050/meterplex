@@ -1,15 +1,18 @@
 meta {
-  name: Get Plan by Slug
+  name: Get Plan by Slug (pro)
   type: http
-  seq: 3
+  seq: 5
 }
 
 get {
-  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/slug/:slug
-  body: none
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/slug/pro
   auth: none
 }
 
-params:path {
-  slug: pro
+script:post-response {
+  if (res.status === 200) {
+    bru.setEnvVar("proPlanId", res.body.id);
+    const monthly = res.body.prices.find(p => p.interval === "MONTHLY");
+    if (monthly) bru.setEnvVar("proMonthlyPriceId", monthly.id);
+  }
 }

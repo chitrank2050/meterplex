@@ -1,0 +1,25 @@
+meta {
+  name: Create Feature (QUOTA)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/features
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "Reports",
+    "lookupKey": "reports",
+    "type": "QUOTA",
+    "unit": "reports",
+    "description": "Number of reports generated per period"
+  }
+}

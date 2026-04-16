@@ -1,0 +1,14 @@
+meta {
+  name: Remove Entitlement
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/plans/{{planId}}/entitlements/{{entitlementId}}
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

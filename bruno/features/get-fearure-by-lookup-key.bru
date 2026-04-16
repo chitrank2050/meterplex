@@ -1,0 +1,14 @@
+meta {
+  name: Get Feature by Lookup Key (api_calls)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/features/key/api_calls
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
