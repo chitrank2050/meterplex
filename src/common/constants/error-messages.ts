@@ -130,4 +130,14 @@ export const ERRORS = {
     NOT_FOUND: 'Subscription not found or does not belong to this tenant',
     ALREADY_CANCELLED: 'Subscription is already cancelled',
   },
+  /**
+   * Entitlement check related error messages
+   */
+  ENTITLEMENT_CHECK: {
+    QUOTA_EXCEEDED: (featureKey: string, limit: number, used: number) =>
+      `Quota exceeded for "${featureKey}": limit is ${limit}, used ${used}`,
+    NO_SUBSCRIPTION: 'No active subscription found',
+    FEATURE_NOT_IN_PLAN: (featureKey: string) =>
+      `Feature "${featureKey}" is not included in your current plan`,
+  },
 } as const;
