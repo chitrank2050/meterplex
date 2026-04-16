@@ -72,6 +72,7 @@ nav:
   - Build Phases:
       - Phase 0 - Project Setup: phases/phase-0.md
       - Phase 1 - Identity and Access: phases/phase-1.md
+      - Phase 2 - Plans and Entitlements: phases/phase-2.md
   - Changelog: changelog.md
 
 docs_dir: docs

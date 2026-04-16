@@ -25,9 +25,9 @@
 
 ---
 
-# What is this?
+## What is this?
 
-> Meterplex is the backend that powers a SaaS or AI API company. It decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation. Every mutation is recorded to an immutable audit log for compliance and forensics.
+> Meterplex is the backend that powers a SaaS or AI API company. It defines plans and entitlements, decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation. Every mutation is recorded to an immutable audit log for compliance and forensics.
 
 ## Architecture
 

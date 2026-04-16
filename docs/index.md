@@ -38,13 +38,15 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 |-------|-------|--------|
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
 | 1 | Multi-tenant identity and access (auth, tenants, users, API keys) | ✅ Complete |
-| 2 | Plans, entitlements, and quotas | 🔜 Next |
-| 3 | Usage ingestion, outbox pattern, Kafka pipeline | - |
-| 4 | Billing ledger and invoices | - |
-| 5 | Payments and webhooks | - |
-| 6 | Admin, audit log, reconciliation | - |
-| 7 | Observability (Grafana, Loki, OpenTelemetry) | - |
-| 8 | Scale, hardening, load testing | - |
+| 2 | Plans, entitlements, and quotas | ✅ Complete |
+| 3 | Usage ingestion, outbox pattern, Kafka pipeline | 🔜 Next |
+| 4 | Billing ledger and invoices |  |
+| 5 | Payments and webhooks |  |
+| 6 | Admin, audit log, reconciliation |  |
+| 7 | Observability (Grafana, Loki, OpenTelemetry) |  |
+| 8 | Scale, hardening, load testing |  |
+
+---
 
 ## API Endpoints (Phase 1)
 
@@ -88,3 +90,61 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 | POST | `/api/v1/api-keys` | Create API key (shown once) |
 | GET | `/api/v1/api-keys` | List keys for tenant |
 | DELETE | `/api/v1/api-keys/:id` | Revoke API key |
+
+---
+
+### Phase 2  Plans and Entitlements
+
+#### Plans
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/plans` | Create a plan |
+| GET | `/api/v1/plans` | List plans |
+| GET | `/api/v1/plans/:id` | Get plan by ID |
+| GET | `/api/v1/plans/slug/:slug` | Get plan by slug |
+| PATCH | `/api/v1/plans/:id` | Update plan |
+
+#### Plan Prices
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/plans/:planId/prices` | Add price to plan |
+| GET | `/api/v1/plans/:planId/prices` | List prices |
+| PATCH | `/api/v1/plans/:planId/prices/:id` | Deactivate price |
+
+#### Features
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/features` | Create feature |
+| GET | `/api/v1/features` | List features |
+| GET | `/api/v1/features/:id` | Get feature by ID |
+| GET | `/api/v1/features/key/:lookupKey` | Get feature by lookup key |
+| PATCH | `/api/v1/features/:id` | Update feature |
+
+#### Entitlements
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/plans/:planId/entitlements` | Map feature to plan |
+| GET | `/api/v1/plans/:planId/entitlements` | List plan entitlements |
+| GET | `/api/v1/plans/:planId/entitlements/:id` | Get entitlement |
+| PATCH | `/api/v1/plans/:planId/entitlements/:id` | Update entitlement |
+| DELETE | `/api/v1/plans/:planId/entitlements/:id` | Remove entitlement |
+
+#### Subscriptions
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/v1/subscriptions` | Subscribe tenant to plan |
+| GET | `/api/v1/subscriptions/active` | Get active subscription |
+| GET | `/api/v1/subscriptions` | List subscription history |
+| POST | `/api/v1/subscriptions/:id/cancel` | Cancel subscription |
+
+#### Entitlement Checks (the hot path)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/entitlements/:featureKey/check` | Check if tenant can use feature |
+| POST | `/api/v1/entitlements/:featureKey/consume` | Consume units of feature |

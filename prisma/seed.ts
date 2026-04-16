@@ -462,9 +462,9 @@ async function main(): Promise<void> {
   //
   // Global catalog of platform capabilities.
   // Feature types:
-  //   BOOLEAN — on/off gating
-  //   QUOTA   — numeric limit with reset period
-  //   METERED — usage-based billing
+  //   BOOLEAN - on/off gating
+  //   QUOTA   - numeric limit with reset period
+  //   METERED - usage-based billing
   // =========================================================
 
   console.log('\n--- Features ---');
@@ -802,7 +802,7 @@ async function main(): Promise<void> {
           ? `${e.limit} ${e.limitBehavior}${e.overagePrice ? ` + $${(e.overagePrice / 10000).toFixed(4)}/unit` : ''}`
           : e.includedAmount !== undefined
             ? `${e.includedAmount} free + $${(e.overagePrice! / 10000).toFixed(4)}/unit`
-            : '—';
+            : '-';
 
     console.log(`  ${e.planLabel} → ${e.featureLookupKey}: ${summary}`);
   }
