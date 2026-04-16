@@ -11,6 +11,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { ApiKeysModule } from '@modules/api-keys';
 import { AuthModule } from '@modules/auth';
+import { EntitlementsModule } from '@modules/entitlements';
 import { FeaturesModule } from '@modules/features';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
@@ -45,6 +46,7 @@ import { PrismaModule } from './prisma';
     PlansModule,
     FeaturesModule,
     PlanPricesModule,
+    EntitlementsModule,
   ],
   controllers: [],
   providers: [

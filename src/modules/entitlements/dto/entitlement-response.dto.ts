@@ -3,6 +3,8 @@
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+import { FeatureType, LimitBehavior, ResetPeriod } from '@prisma/client';
+
 class EntitlementFeatureDto {
   @ApiProperty({ example: 'b1ccfb75-...' })
   id!: string;
@@ -13,7 +15,7 @@ class EntitlementFeatureDto {
   @ApiProperty({ example: 'api_calls' })
   lookupKey!: string;
 
-  @ApiProperty({ enum: ['BOOLEAN', 'QUOTA', 'METERED'], example: 'QUOTA' })
+  @ApiProperty({ enum: FeatureType, example: 'QUOTA' })
   type!: string;
 
   @ApiPropertyOptional({ example: 'calls', nullable: true })
@@ -37,7 +39,7 @@ export class EntitlementResponseDto {
   limit!: number | null;
 
   @ApiPropertyOptional({
-    enum: ['HARD', 'SOFT'],
+    enum: LimitBehavior,
     example: 'SOFT',
     nullable: true,
   })
@@ -54,7 +56,7 @@ export class EntitlementResponseDto {
   includedAmount!: number | null;
 
   @ApiPropertyOptional({
-    enum: ['MONTHLY', 'ANNUALLY', 'NEVER'],
+    enum: ResetPeriod,
     example: 'MONTHLY',
     nullable: true,
   })

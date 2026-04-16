@@ -96,4 +96,25 @@ export const ERRORS = {
       `Plan "${planSlug}" already has an active ${interval} price in ${currency}`,
     NOT_FOUND: 'Price not found or does not belong to this plan',
   },
+  /**
+   * Entitlement related error messages
+   */
+  ENTITLEMENT: {
+    ALREADY_EXISTS: (planSlug: string, featureKey: string) =>
+      `Plan "${planSlug}" already has an entitlement for feature "${featureKey}"`,
+    NOT_FOUND: 'Entitlement not found or does not belong to this plan',
+    PLAN_NOT_ACTIVE: (planSlug: string) =>
+      `Plan "${planSlug}" is not active - cannot add entitlements to archived plans`,
+    FEATURE_NOT_ACTIVE: (featureKey: string) =>
+      `Feature "${featureKey}" is not active - cannot use archived features`,
+    INVALID_BOOLEAN_FIELDS:
+      'BOOLEAN features only accept "value". Do not set limit, overagePrice, or includedAmount',
+    QUOTA_REQUIRES_LIMIT: 'QUOTA features require "limit" and "resetPeriod"',
+    INVALID_QUOTA_FIELDS:
+      'QUOTA features do not accept "value" or "includedAmount"',
+    METERED_REQUIRES_PRICE:
+      'METERED features require "overagePrice" and "resetPeriod"',
+    INVALID_METERED_FIELDS:
+      'METERED features do not accept "value", "limit", or "limitBehavior"',
+  },
 } as const;
