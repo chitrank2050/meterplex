@@ -871,6 +871,8 @@ model Subscription {
 
   /// Relations
   entitlementSnapshots EntitlementSnapshot[]
+  usageEvents          UsageEvent[]
+  usageAggregates      UsageAggregate[]      @relation("UsageAggregateSubscription")
 
   @@index([tenantId])
   @@index([planId])
@@ -931,4 +933,381 @@ model EntitlementSnapshot {
   @@index([subscriptionId])
   @@index([featureLookupKey])
   @@map("entitlement_snapshots")
+}
+
+// =============================================================
+// Enums - Usage Pipeline
+// =============================================================
+
+/// Lifecycle of an outbox row.
+/// PENDING:   Waiting to be published to Kafka by the publisher worker.
+/// PUBLISHED: Successfully sent to Kafka. Ready for cleanup after retention period.
+/// FAILED:    Exceeded max retries. Moved to dead_letter_events for investigation.
+enum OutboxStatus {
+  PENDING
+  PUBLISHED
+  FAILED
+
+  @@map("outbox_status")
+}
+
+/// Status of a usage event in the pipeline.
+/// PENDING:    Received, awaiting publish via outbox.
+/// VALIDATED:  Passed validation in usage.raw consumer.
+/// AGGREGATED: Counted in usage_aggregates table.
+/// REJECTED:   Failed validation, sent to dead letter queue.
+/// DUPLICATE:  Duplicate event_id detected, processed only once.
+enum UsageEventStatus {
+  PENDING
+  VALIDATED
+  AGGREGATED
+  REJECTED
+  DUPLICATE
+
+  @@map("usage_event_status")
+}
+
+/// Stage at which an event failed (for dead letter triage).
+enum DeadLetterStage {
+  INGESTION
+  PUBLISHING
+  VALIDATION
+  AGGREGATION
+  UNKNOWN
+
+  @@map("dead_letter_stage")
+}
+
+/// Status of a dead letter event.
+/// FAILED:    Initial state. Event failed processing.
+/// RETRYING:  Manually re-queued. Awaiting reprocessing.
+/// RESOLVED:  Successfully reprocessed after retry.
+/// DISCARDED: Manually discarded by an admin (won't retry).
+enum DeadLetterStatus {
+  FAILED
+  RETRYING
+  RESOLVED
+  DISCARDED
+
+  @@map("dead_letter_status")
+}
+
+// =============================================================
+// UsageEvent - Raw usage events as received from clients.
+//
+// This is the immutable, append-only record of every usage
+// event submitted to the platform. Source of truth for billing
+// reconciliation, audit, and replay.
+//
+// Design decisions:
+//   - eventId is client-provided UUID (idempotency key). Unique
+//     constraint prevents double-counting on client retry.
+//   - tenantId stored as plain UUID, NOT a foreign key. Like
+//     audit_logs, this table must survive tenant deletion for
+//     billing/compliance reasons.
+//   - amount is INT (not Decimal) for performance. METERED features
+//     that need fractional amounts will use micro-units (e.g.,
+//     1 GB stored as 1024 MB units).
+//   - timestamp is when the EVENT happened (client-provided).
+//     receivedAt is when WE got it (server time). Both kept for
+//     forensics - clock skew, replay, late events.
+//   - status tracks pipeline progression for observability.
+//   - metadata is freeform JSONB for client context (endpoint,
+//     user agent, request IP, etc.) - useful for debugging and
+//     analytics, not required for billing.
+//
+// Indexes:
+//   - (tenantId, featureLookupKey, timestamp): supports usage queries
+//     "show me all api_calls events for Acme last month"
+//   - (status): supports pipeline observability and reprocessing
+//   - eventId UNIQUE: idempotency enforcement at the DB level
+// =============================================================
+
+model UsageEvent {
+  /// UUID v4 primary key. Server-generated.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Client-provided idempotency key. UNIQUE - same eventId from
+  /// a retry results in this row already existing, no double-count.
+  eventId String @unique @map("event_id") @db.VarChar(255)
+
+  /// Which tenant this event belongs to.
+  /// Plain string, not FK - survives tenant deletion.
+  tenantId String @map("tenant_id") @db.Uuid
+
+  /// Which subscription was active when this event was processed.
+  /// Snapshot for billing - even if the subscription changes later,
+  /// we know which one was billed for this event.
+  subscriptionId String?       @map("subscription_id") @db.Uuid
+  /// Which subscription was active when this event was processed.
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+
+  /// Feature being consumed. Denormalized (lookup key, not FK)
+  /// for fast queries without JOIN to features table.
+  featureLookupKey String @map("feature_lookup_key") @db.VarChar(100)
+
+  /// Number of units consumed. Integer for billing precision.
+  /// Fractional amounts use micro-units (e.g., MB instead of GB).
+  amount Int
+
+  /// When the event happened (client-provided).
+  /// Used for billing period assignment and rate limiting.
+  timestamp DateTime
+
+  /// When the server received the event (server-provided).
+  /// Used for pipeline latency monitoring and late-event detection.
+  receivedAt DateTime @default(now()) @map("received_at")
+
+  /// Current pipeline status.
+  status UsageEventStatus @default(PENDING)
+
+  /// Reason for rejection if status = REJECTED. Null otherwise.
+  rejectionReason String? @map("rejection_reason") @db.VarChar(500)
+
+  /// Freeform metadata from the client.
+  /// Example: { "endpoint": "/v1/widgets", "userAgent": "..." }
+  metadata Json @default("{}") @db.JsonB
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Indexes for common query patterns
+  @@index([tenantId, featureLookupKey, timestamp])
+  @@index([status])
+  @@index([subscriptionId])
+  @@map("usage_events")
+}
+
+// =============================================================
+// OutboxEvent - Transactional outbox for guaranteed Kafka publishing.
+//
+// THE CRITICAL TABLE. Solves the dual-write problem:
+//
+//   Without outbox:
+//     1. INSERT into usage_events     ← succeeds
+//     2. PUBLISH to Kafka             ← fails (network blip)
+//     Result: event in DB, never published. Customer never billed.
+//
+//   With outbox:
+//     1. INSERT into usage_events     ┐
+//     2. INSERT into outbox            │ ← single Postgres transaction
+//                                     ┘   both commit or both rollback
+//     3. Background worker drains outbox to Kafka with retry
+//     Result: GUARANTEED at-least-once delivery
+//
+// Design decisions:
+//   - topic + payload structure mimics Kafka message format. The
+//     publisher worker reads these and publishes verbatim.
+//   - aggregateType + aggregateId support per-aggregate ordering
+//     (Kafka partitions by aggregateId). Events for the same
+//     tenant land on the same partition = ordered processing.
+//   - status tracks lifecycle. SELECT WHERE status = PENDING
+//     ORDER BY created_at LIMIT 100 is the publisher's main query.
+//   - retryCount + nextRetryAt support exponential backoff on
+//     publish failures.
+//   - publishedAt records when Kafka acknowledged. Supports
+//     latency monitoring and cleanup of old PUBLISHED rows.
+//
+// Indexes:
+//   - (status, nextRetryAt): supports the publisher worker query
+//     "give me PENDING rows ready to retry, oldest first"
+//   - (createdAt): supports retention/cleanup queries
+// =============================================================
+
+model OutboxEvent {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Kafka topic to publish to. e.g., "usage.raw", "billing.invoice-created"
+  topic String @db.VarChar(255)
+
+  /// What kind of aggregate this event relates to.
+  /// e.g., "usage_event", "subscription", "invoice"
+  /// Used by consumers to route to the right handler.
+  aggregateType String @map("aggregate_type") @db.VarChar(100)
+
+  /// The aggregate's ID. e.g., the usage_event.id, subscription.id
+  /// Used as the Kafka message key → guarantees ordering per aggregate.
+  aggregateId String @map("aggregate_id") @db.VarChar(255)
+
+  /// The full event payload. Published as the Kafka message value.
+  payload Json @db.JsonB
+
+  /// Current lifecycle status.
+  status OutboxStatus @default(PENDING)
+
+  /// Number of publish attempts so far.
+  retryCount Int @default(0) @map("retry_count")
+
+  /// When the next retry attempt is scheduled (exponential backoff).
+  /// NULL for fresh PENDING rows (publish immediately).
+  nextRetryAt DateTime? @map("next_retry_at")
+
+  /// When Kafka successfully acknowledged the publish. NULL if not yet published.
+  publishedAt DateTime? @map("published_at")
+
+  /// Last error message if status = FAILED or retrying.
+  lastError String? @map("last_error") @db.VarChar(1000)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Publisher worker query: WHERE status='PENDING' AND (nextRetryAt IS NULL OR nextRetryAt <= NOW())
+  @@index([status, nextRetryAt])
+  @@index([createdAt])
+  @@map("outbox_events")
+}
+
+// =============================================================
+// UsageAggregate - Rolled-up counters per tenant, feature, period.
+//
+// Replaces Phase 2's in-memory Map<>. This is what
+// EntitlementCheckService reads to answer "how much has Acme
+// used this month?" without scanning millions of usage_events rows.
+//
+// Design decisions:
+//   - One row per (tenantId, featureLookupKey, periodKey)
+//     combination. UNIQUE constraint enforces this.
+//   - periodKey is derived from the event's reset period:
+//       MONTHLY:  "2026-04"
+//       ANNUALLY: "2026"
+//       NEVER:    "lifetime"
+//   - amount is INT, atomically incremented via INSERT ... ON
+//     CONFLICT DO UPDATE SET amount = amount + EXCLUDED.amount.
+//     This is Postgres's atomic upsert - no race conditions.
+//   - subscriptionId snapshot. If a tenant changes plans mid-period,
+//     usage stays attached to the subscription that was active when
+//     the event happened.
+//   - Redis caches this table with 60s TTL on the read path.
+//     Writes invalidate the cache.
+//
+// Indexes:
+//   - UNIQUE(tenantId, featureLookupKey, periodKey, subscriptionId):
+//     enforces single-row-per-bucket invariant + lookup speed
+//   - (subscriptionId): supports billing period rollups
+// =============================================================
+
+model UsageAggregate {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Tenant this counter belongs to.
+  tenantId String @map("tenant_id") @db.Uuid
+
+  /// Subscription that was active when this period started.
+  /// NULL only for events with no active subscription (edge case).
+  subscriptionId String?       @map("subscription_id") @db.Uuid
+  /// Subscription that was active when this period started.
+  subscription   Subscription? @relation("UsageAggregateSubscription", fields: [subscriptionId], references: [id], onDelete: SetNull)
+
+  /// Feature being counted. Denormalized lookup key.
+  featureLookupKey String @map("feature_lookup_key") @db.VarChar(100)
+
+  /// Period bucket: "2026-04" (monthly), "2026" (annual), "lifetime" (never).
+  /// Computed from event timestamp + feature reset period.
+  periodKey String @map("period_key") @db.VarChar(20)
+
+  /// Sum of amounts for all events in this bucket.
+  /// Atomically incremented via Postgres upsert.
+  amount Int @default(0)
+
+  /// When the period starts (inclusive). Used for time-range queries.
+  periodStart DateTime @map("period_start")
+
+  /// When the period ends (exclusive). Used for time-range queries.
+  periodEnd DateTime @map("period_end")
+
+  /// Timestamp of the most recent event aggregated into this row.
+  /// Used for staleness detection and Redis cache invalidation.
+  lastEventAt DateTime? @map("last_event_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Critical: enforces one row per (tenant, feature, period, subscription).
+  /// This is what makes the upsert atomic.
+  @@unique([tenantId, featureLookupKey, periodKey, subscriptionId])
+  @@index([subscriptionId])
+  @@index([tenantId, featureLookupKey])
+  @@map("usage_aggregates")
+}
+
+// =============================================================
+// DeadLetterEvent - Failed events for investigation and retry.
+//
+// Every billing platform needs a place to triage failures.
+// Lost events = lost revenue. This table is the operational
+// dashboard for the billing/ops team.
+//
+// Design decisions:
+//   - originalPayload preserves the raw event exactly as it failed.
+//     Critical for debugging "why did this fail?" weeks later.
+//   - failureStage tells you which pipeline component rejected it
+//     (validation, aggregation, etc.) - speeds up triage.
+//   - failureReason is the human-readable error message.
+//   - retryCount tracks how many manual retries have been attempted.
+//   - status supports the manual retry workflow:
+//       FAILED → admin clicks retry → RETRYING
+//       → eventually RESOLVED or back to FAILED
+//   - resolvedAt + resolvedBy support audit ("who fixed this?")
+//
+// No foreign keys - must survive deletion of source records.
+// =============================================================
+
+model DeadLetterEvent {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// Reference to the source usage event (if applicable).
+  /// NULL for failures that occurred before usage_events row was created.
+  sourceEventId String? @map("source_event_id") @db.VarChar(255)
+
+  /// Tenant this event belonged to (for filtering in admin UI).
+  tenantId String? @map("tenant_id") @db.Uuid
+
+  /// The Kafka topic where the failure occurred.
+  /// e.g., "usage.raw", "billing.invoice-created"
+  topic String @db.VarChar(255)
+
+  /// Where in the pipeline the failure happened.
+  failureStage DeadLetterStage @map("failure_stage")
+
+  /// Human-readable failure reason.
+  /// e.g., "Tenant not found", "Feature 'foobar' not in plan"
+  failureReason String @map("failure_reason") @db.VarChar(1000)
+
+  /// The full event payload as it was at time of failure.
+  /// Published verbatim back to the topic on manual retry.
+  originalPayload Json @map("original_payload") @db.JsonB
+
+  /// Stack trace or detailed error info (for debugging).
+  errorDetails String? @map("error_details") @db.Text
+
+  /// Number of manual retry attempts.
+  retryCount Int @default(0) @map("retry_count")
+
+  /// Current lifecycle state.
+  status DeadLetterStatus @default(FAILED)
+
+  /// When the event was first received and failed.
+  firstFailedAt DateTime @default(now()) @map("first_failed_at")
+
+  /// When the most recent retry was attempted (manual or auto).
+  lastAttemptedAt DateTime? @map("last_attempted_at")
+
+  /// When the event was successfully reprocessed (status = RESOLVED).
+  resolvedAt DateTime? @map("resolved_at")
+
+  /// User ID of the admin who resolved/discarded this event.
+  resolvedBy String? @map("resolved_by") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Indexes for admin UI filtering
+  @@index([status])
+  @@index([tenantId])
+  @@index([failureStage])
+  @@index([firstFailedAt])
+  @@map("dead_letter_events")
 }
