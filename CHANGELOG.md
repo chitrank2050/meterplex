@@ -2,6 +2,25 @@
 
 All notable changes to Meterplex API.
 
+## [0.5.0] - 2026-04-16
+
+### Features
+
+- Implement entitlement module DTOs and update eslint ignore configuration
+- Implement entitlements module to manage plan-feature mappings and access rules
+- Implement subscription module DTOs for creation and response handling
+- Implement Subscriptions module with CRUD operations and tenant-scoped subscription management
+- Implement EntitlementCheckModule for runtime feature gating and usage consumption
+- Seed database with subscription plans, pricing, features, and entitlements
+- Implement plans, features, entitlements, and subscription management system
+
+### Maintenance
+
+- Add Bruno collection for all Phase 2 endpoints
+- Update linting & formatting (#26)
+- Update postgres docker tag to v18 (#29)
+- Update dependencies in pnpm-lock.yaml
+
 ## [0.4.5] - 2026-04-12
 
 ### Documentation
