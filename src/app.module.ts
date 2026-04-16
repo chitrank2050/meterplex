@@ -15,6 +15,7 @@ import { EntitlementsModule } from '@modules/entitlements';
 import { FeaturesModule } from '@modules/features';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
+import { SubscriptionsModule } from '@modules/subscriptions';
 import { TenantsModule } from '@modules/tenants';
 import { UsersModule } from '@modules/users';
 
@@ -47,6 +48,7 @@ import { PrismaModule } from './prisma';
     FeaturesModule,
     PlanPricesModule,
     EntitlementsModule,
+    SubscriptionsModule,
   ],
   controllers: [],
   providers: [

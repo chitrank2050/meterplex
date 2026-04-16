@@ -117,4 +117,17 @@ export const ERRORS = {
     INVALID_METERED_FIELDS:
       'METERED features do not accept "value", "limit", or "limitBehavior"',
   },
+  /**
+   * Subscription related error messages
+   */
+  SUBSCRIPTION: {
+    PLAN_NOT_ACTIVE: (planSlug: string) =>
+      `Plan "${planSlug}" is not active - cannot subscribe to archived plans`,
+    PRICE_NOT_FOUND:
+      'Price not found, does not belong to this plan, or is inactive',
+    NO_ACTIVE_SUBSCRIPTION: (tenantId: string) =>
+      `No active subscription found for tenant "${tenantId}"`,
+    NOT_FOUND: 'Subscription not found or does not belong to this tenant',
+    ALREADY_CANCELLED: 'Subscription is already cancelled',
+  },
 } as const;
