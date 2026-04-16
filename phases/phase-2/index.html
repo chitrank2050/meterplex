@@ -12,13 +12,13 @@
         <meta name="author" content="Chitrank Agnihotri">
       
       
-        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/phases/phase-1/">
+        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/phases/phase-2/">
       
       
-        <link rel="prev" href="../phase-0/">
+        <link rel="prev" href="../phase-1/">
       
       
-        <link rel="next" href="../phase-2/">
+        <link rel="next" href="../../changelog/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Phase 1 - Identity and Access - Meterplex Docs</title>
+        <title>Phase 2 - Plans and Entitlements - Meterplex Docs</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#phase-1-multi-tenant-identity-and-access" class="md-skip">
+        <a href="#phase-2-plans-features-entitlements-and-subscriptions" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 1 - Identity and Access
+              Phase 2 - Plans and Entitlements
             
           </span>
         </div>
@@ -836,6 +836,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1 - Identity and Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -855,7 +883,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 - Identity and Access
+    Phase 2 - Plans and Entitlements
   
 
     
@@ -873,7 +901,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1 - Identity and Access
+    Phase 2 - Plans and Entitlements
   
 
     
@@ -933,10 +961,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
+  <a href="#pricing-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authentication
+        Pricing model
       
     </span>
   </a>
@@ -944,10 +972,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authorization-rbac" class="md-nav__link">
+  <a href="#feature-types" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authorization (RBAC)
+        Feature types
       
     </span>
   </a>
@@ -955,10 +983,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenant-isolation" class="md-nav__link">
+  <a href="#entitlement-field-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tenant isolation
+        Entitlement field rules
       
     </span>
   </a>
@@ -966,10 +994,54 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#password-management" class="md-nav__link">
+  <a href="#limit-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Password management
+        Limit behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overage-pricing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overage pricing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlement-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlement snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subscription-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscription lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-entitlement-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime entitlement evaluation
       
     </span>
   </a>
@@ -994,10 +1066,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#auth-public" class="md-nav__link">
+  <a href="#plans-public-read-authenticated-write" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (public)
+        Plans (public read, authenticated write)
       
     </span>
   </a>
@@ -1005,10 +1077,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#auth-protected" class="md-nav__link">
+  <a href="#plan-prices-nested-under-plans" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (protected)
+        Plan Prices (nested under plans)
       
     </span>
   </a>
@@ -1016,10 +1088,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenants-protected" class="md-nav__link">
+  <a href="#features-authenticated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tenants (protected)
+        Features (authenticated)
       
     </span>
   </a>
@@ -1027,10 +1099,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#users-protected" class="md-nav__link">
+  <a href="#entitlements-nested-under-plans" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Users (protected)
+        Entitlements (nested under plans)
       
     </span>
   </a>
@@ -1038,10 +1110,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#api-keys-protected" class="md-nav__link">
+  <a href="#subscriptions-tenant-scoped-owneradmin-only-for-writes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API Keys (protected)
+        Subscriptions (tenant-scoped, OWNER/ADMIN only for writes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlement-checks-tenant-scoped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlement Checks (tenant-scoped)
       
     </span>
   </a>
@@ -1087,30 +1170,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-phase-1-audit-log-interceptor" class="md-nav__link">
+  <a href="#limitations-carried-into-next-phases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Post-Phase 1: Audit Log Interceptor
+        Limitations carried into next phases
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Post-Phase 1: Audit Log Interceptor">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Migration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1118,34 +1184,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../phase-2/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 2 - Plans and Entitlements
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1246,10 +1284,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
+  <a href="#pricing-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authentication
+        Pricing model
       
     </span>
   </a>
@@ -1257,10 +1295,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authorization-rbac" class="md-nav__link">
+  <a href="#feature-types" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authorization (RBAC)
+        Feature types
       
     </span>
   </a>
@@ -1268,10 +1306,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenant-isolation" class="md-nav__link">
+  <a href="#entitlement-field-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tenant isolation
+        Entitlement field rules
       
     </span>
   </a>
@@ -1279,10 +1317,54 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#password-management" class="md-nav__link">
+  <a href="#limit-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Password management
+        Limit behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overage-pricing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overage pricing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlement-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlement snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subscription-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscription lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-entitlement-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime entitlement evaluation
       
     </span>
   </a>
@@ -1307,10 +1389,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#auth-public" class="md-nav__link">
+  <a href="#plans-public-read-authenticated-write" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (public)
+        Plans (public read, authenticated write)
       
     </span>
   </a>
@@ -1318,10 +1400,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#auth-protected" class="md-nav__link">
+  <a href="#plan-prices-nested-under-plans" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (protected)
+        Plan Prices (nested under plans)
       
     </span>
   </a>
@@ -1329,10 +1411,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenants-protected" class="md-nav__link">
+  <a href="#features-authenticated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tenants (protected)
+        Features (authenticated)
       
     </span>
   </a>
@@ -1340,10 +1422,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#users-protected" class="md-nav__link">
+  <a href="#entitlements-nested-under-plans" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Users (protected)
+        Entitlements (nested under plans)
       
     </span>
   </a>
@@ -1351,10 +1433,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#api-keys-protected" class="md-nav__link">
+  <a href="#subscriptions-tenant-scoped-owneradmin-only-for-writes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API Keys (protected)
+        Subscriptions (tenant-scoped, OWNER/ADMIN only for writes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entitlement-checks-tenant-scoped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlement Checks (tenant-scoped)
       
     </span>
   </a>
@@ -1400,30 +1493,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-phase-1-audit-log-interceptor" class="md-nav__link">
+  <a href="#limitations-carried-into-next-phases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Post-Phase 1: Audit Log Interceptor
+        Limitations carried into next phases
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Post-Phase 1: Audit Log Interceptor">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Migration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1447,104 +1523,143 @@
   
 
 
-<h1 id="phase-1-multi-tenant-identity-and-access">Phase 1 - Multi-tenant identity and access<a class="headerlink" href="#phase-1-multi-tenant-identity-and-access" title="Permanent link">&para;</a></h1>
-<p><strong>Goal:</strong> Support organizations using the platform with authentication, authorization, and tenant isolation.</p>
+<h1 id="phase-2-plans-features-entitlements-and-subscriptions">Phase 2 - Plans, Features, Entitlements, and Subscriptions<a class="headerlink" href="#phase-2-plans-features-entitlements-and-subscriptions" title="Permanent link">&para;</a></h1>
+<p><strong>Goal:</strong> Decide what a customer is allowed to do. Define plans, map features to plans with access rules, subscribe tenants, and check entitlements at runtime.</p>
 <p><strong>Status:</strong> ✅ Complete</p>
-<hr />
 <h2 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<p>Phase 1 is complete. Here's what you built:</p>
+<p>Phase 2 is complete. Here's what you built:</p>
 <ul>
-<li>Multi-tenant user model with RBAC (4 roles)</li>
-<li>JWT authentication with access + refresh token rotation</li>
-<li>Password reset and change flows</li>
-<li>Stripe-style API keys with hash-only storage</li>
-<li>Tenant isolation proven at every layer (query, guard, API)</li>
-<li>Seed script with 5 users across 3 tenants with different roles</li>
-<li>All endpoints properly guarded</li>
+<li>Plans with multi-interval, multi-currency pricing (Stripe Product/Price pattern)</li>
+<li>Feature catalog with three types: BOOLEAN, QUOTA, METERED</li>
+<li>Entitlement bridge with per-type field validation and HARD/SOFT limit enforcement</li>
+<li>Subscriptions that snapshot entitlements at subscribe time (existing subscribers protected from plan changes)</li>
+<li>Runtime entitlement check + consume endpoints - the hot path that gates every API request</li>
+<li>Seed data: 3 plans, 6 prices, 8 features, 24 entitlements, 3 tenant subscriptions</li>
 </ul>
 <h2 id="what-was-built">What was built<a class="headerlink" href="#what-was-built" title="Permanent link">&para;</a></h2>
 <h3 id="data-model">Data model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
-<p><img alt="Phase 1 ERD" src="../../architecture/phase-1-erd.png" /></p>
-<p>Four new tables added to the Tenant model from Phase 0:</p>
+<p><img alt="Phase 2 ERD" src="../../architecture/phase-2-erd.png" /></p>
+<p>Six new tables added to the Phase 1 schema:</p>
 <ul>
-<li><strong>users</strong> - global accounts with bcrypt-hashed passwords</li>
-<li><strong>memberships</strong> - join table connecting users to tenants with roles</li>
-<li><strong>api_keys</strong> - server-to-server authentication tokens (SHA-256 hashed)</li>
-<li><strong>refresh_tokens</strong> - stateful token tracking for session management</li>
-<li><strong>password_reset_tokens</strong> - single-use tokens for forgot-password flow</li>
+<li><strong>plans</strong> - what you sell ("Starter", "Pro", "Enterprise"). Status, slug, display order, metadata. No pricing.</li>
+<li><strong>plan_prices</strong> - pricing per plan, per interval, per currency. Multiple prices per plan. Amount in smallest currency unit (cents).</li>
+<li><strong>features</strong> - global catalog of capabilities. lookup_key for stable code references, type (BOOLEAN/QUOTA/METERED), unit.</li>
+<li><strong>entitlements</strong> - bridge between Plan and Feature. Defines value, limit, behavior, overage price, included amount, reset period. Fields flex by feature type.</li>
+<li><strong>subscriptions</strong> - tenant binding to plan + price. One active subscription per tenant. Status, billing period, billing anchor, trial, cancellation timestamp.</li>
+<li><strong>entitlement_snapshots</strong> - frozen copy of entitlements at subscribe time. Denormalizes feature_lookup_key and feature_type for fast lookup on the hot path.</li>
 </ul>
-<h3 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h3>
-<p>Two authentication mechanisms for two audiences:</p>
+<p>See <a href="../../architecture/phase-2-plans-and-entitlements/">Plans and Entitlements architecture</a> for the full schema, design decisions, and entitlement check flow.</p>
+<h3 id="pricing-model">Pricing model<a class="headerlink" href="#pricing-model" title="Permanent link">&para;</a></h3>
+<p>The Stripe Product/Price separation pattern:</p>
 <ul>
-<li><strong>JWT (access + refresh tokens)</strong> - for dashboard/admin users via browser</li>
-<li>Access token: 15 min, stateless, no DB lookup per request</li>
-<li>Refresh token: 7 days, stateful (hashed in DB), token rotation on each refresh</li>
-<li>Separate signing secrets for access and refresh tokens</li>
-<li><strong>API keys</strong> - for server-to-server access (Stripe-style <code>mp_live_...</code> keys)</li>
-<li>Raw key shown once at creation, SHA-256 hash stored</li>
-<li>Key prefix stored for identification without exposure</li>
-<li>Supports expiration and revocation</li>
+<li><strong>Plan</strong> = product identity ("Pro"). Immutable name and slug.</li>
+<li><strong>PlanPrice</strong> = how much it costs ($99/mo, $948/yr, €89/mo). Multiple prices per plan, archivable.</li>
 </ul>
-<h3 id="authorization-rbac">Authorization (RBAC)<a class="headerlink" href="#authorization-rbac" title="Permanent link">&para;</a></h3>
-<p>Four roles enforced via guards:</p>
+<p>Changing pricing means archiving the old price and creating a new one. The plan stays unchanged, existing subscribers keep their old price until renewal.</p>
+<p>Amount is stored in the smallest currency unit as an integer:</p>
+<ul>
+<li>$99.00 = 9900 cents</li>
+<li>€89.50 = 8950 cents</li>
+</ul>
+<p>This avoids floating-point rounding errors in billing math.</p>
+<h3 id="feature-types">Feature types<a class="headerlink" href="#feature-types" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Role</th>
-<th>Manage users</th>
-<th>Manage billing</th>
-<th>Use APIs</th>
-<th>Delete tenant</th>
+<th>Type</th>
+<th>Gating</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>OWNER</td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
+<td>BOOLEAN</td>
+<td>On/off</td>
+<td>SSO, webhooks, priority support</td>
 </tr>
 <tr>
-<td>ADMIN</td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>❌</td>
+<td>QUOTA</td>
+<td>Numeric limit per period</td>
+<td>50,000 API calls/month, 10 team seats</td>
 </tr>
 <tr>
-<td>DEVELOPER</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-</tr>
-<tr>
-<td>BILLING</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>❌</td>
+<td>METERED</td>
+<td>Usage-based billing</td>
+<td>Storage at $0.02/GB, tokens at $0.001/call</td>
 </tr>
 </tbody>
 </table>
-<h3 id="tenant-isolation">Tenant isolation<a class="headerlink" href="#tenant-isolation" title="Permanent link">&para;</a></h3>
+<h3 id="entitlement-field-rules">Entitlement field rules<a class="headerlink" href="#entitlement-field-rules" title="Permanent link">&para;</a></h3>
+<p>Entitlement fields are validated against the feature type at create and update time:</p>
 <ul>
-<li>Users see only tenants they belong to (query-level filtering)</li>
-<li><code>TenantGuard</code> validates <code>x-tenant-id</code> header + membership on every scoped request</li>
-<li><code>RolesGuard</code> checks user's role within the specific tenant</li>
-<li>API keys are scoped to a single tenant - no cross-tenant access</li>
+<li><strong>BOOLEAN</strong> → <code>value</code> required. <code>limit</code>, <code>overagePrice</code>, <code>includedAmount</code> rejected.</li>
+<li><strong>QUOTA</strong> → <code>limit</code> and <code>resetPeriod</code> required. <code>value</code> and <code>includedAmount</code> rejected. <code>limitBehavior</code> defaults to HARD. <code>overagePrice</code> only valid for SOFT.</li>
+<li><strong>METERED</strong> → <code>overagePrice</code> and <code>resetPeriod</code> required. <code>value</code>, <code>limit</code>, <code>limitBehavior</code> rejected. <code>includedAmount</code> optional.</li>
 </ul>
-<h3 id="password-management">Password management<a class="headerlink" href="#password-management" title="Permanent link">&para;</a></h3>
+<h3 id="limit-behavior">Limit behavior<a class="headerlink" href="#limit-behavior" title="Permanent link">&para;</a></h3>
+<p>For QUOTA features:</p>
 <ul>
-<li><strong>Registration</strong> - creates user + tenant + OWNER membership in one transaction</li>
-<li><strong>Login</strong> - validates credentials, returns access + refresh tokens</li>
-<li><strong>Forgot password</strong> - generates crypto-random reset token (15 min, single-use)</li>
-<li><strong>Reset password</strong> - validates token, updates password, revokes all sessions</li>
-<li><strong>Change password</strong> - requires current password, revokes other sessions</li>
+<li><strong>HARD</strong> - request blocked when limit exceeded. Returns 403 "Quota exceeded".</li>
+<li><strong>SOFT</strong> - request allowed past the limit, flagged as overage. Charged at <code>overagePrice</code> per unit.</li>
 </ul>
+<p>The same feature can be HARD on Starter (block at 1,000) and SOFT on Pro (allow overage beyond 50,000, charge $0.001/call). The behavior is on the entitlement, not the feature.</p>
+<h3 id="overage-pricing">Overage pricing<a class="headerlink" href="#overage-pricing" title="Permanent link">&para;</a></h3>
+<p>Stored in micro-cents (1/10000th of currency unit) to handle sub-cent pricing:</p>
+<table>
+<thead>
+<tr>
+<th>Real price</th>
+<th>Micro-cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$0.001/call</td>
+<td>10</td>
+</tr>
+<tr>
+<td>$0.02/GB</td>
+<td>200</td>
+</tr>
+<tr>
+<td>$0.50/seat</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>$10/seat</td>
+<td>100000</td>
+</tr>
+</tbody>
+</table>
+<p>Formula: <code>micro_cents = real_price_in_dollars × 10,000</code></p>
+<h3 id="entitlement-snapshots">Entitlement snapshots<a class="headerlink" href="#entitlement-snapshots" title="Permanent link">&para;</a></h3>
+<p>The critical pattern: when a tenant subscribes, the plan's entitlements are frozen as snapshots on the subscription. If the plan's limits change later, existing subscribers keep their original limits until renewal.</p>
+<p>The snapshot includes denormalized <code>feature_lookup_key</code> and <code>feature_type</code> so the entitlement check service can answer "does this tenant have access to feature X?" in a single indexed query without a JOIN to the features table.</p>
+<h3 id="subscription-lifecycle">Subscription lifecycle<a class="headerlink" href="#subscription-lifecycle" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>TRIALING → ACTIVE → PAST_DUE → CANCELLED
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                  → PAUSED → ACTIVE
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                  → CANCELLED
+</code></pre></div>
+<p>One active subscription per tenant. Upgrades create a new subscription and cancel the old one - clean audit trail, every subscription is an immutable point-in-time contract.</p>
+<p>Cancellation sets <code>cancelledAt</code> but the subscription stays ACTIVE until <code>currentPeriodEnd</code> (cancel-at-end-of-period behavior).</p>
+<h3 id="runtime-entitlement-evaluation">Runtime entitlement evaluation<a class="headerlink" href="#runtime-entitlement-evaluation" title="Permanent link">&para;</a></h3>
+<p>Two hot-path endpoints gate every feature usage:</p>
+<p><strong><code>GET /api/v1/entitlements/:featureKey/check</code></strong> - answers "can this tenant use feature X?"</p>
+<p>Response shape varies by feature type:</p>
+<ul>
+<li>BOOLEAN: <code>{ allowed, type, reason }</code></li>
+<li>QUOTA: <code>{ allowed, type, limit, used, remaining, resetAt, reason }</code></li>
+<li>METERED: <code>{ allowed, type, includedAmount, used, overage, resetAt }</code></li>
+</ul>
+<p><strong><code>POST /api/v1/entitlements/:featureKey/consume</code></strong> - increment usage counter:</p>
+<ul>
+<li>HARD quota: returns 403 if <code>used + amount &gt; limit</code></li>
+<li>SOFT quota: allows, flags as overage</li>
+<li>METERED: always allows, tracked for billing</li>
+</ul>
+<p>Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 replaces this with Redis + Kafka for scale and durability.</p>
 <h2 id="api-endpoints">API endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
-<h3 id="auth-public">Auth (public)<a class="headerlink" href="#auth-public" title="Permanent link">&para;</a></h3>
+<h3 id="plans-public-read-authenticated-write">Plans (public read, authenticated write)<a class="headerlink" href="#plans-public-read-authenticated-write" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1556,64 +1671,133 @@
 <tbody>
 <tr>
 <td>POST</td>
-<td>/auth/register</td>
-<td>Create user + tenant, return tokens</td>
+<td>/plans</td>
+<td>Create a plan</td>
 </tr>
-<tr>
-<td>POST</td>
-<td>/auth/login</td>
-<td>Validate credentials, return tokens</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/auth/refresh</td>
-<td>Exchange refresh token for new pair</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/auth/forgot-password</td>
-<td>Generate reset token</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/auth/reset-password</td>
-<td>Reset password with token</td>
-</tr>
-</tbody>
-</table>
-<h3 id="auth-protected">Auth (protected)<a class="headerlink" href="#auth-protected" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>GET</td>
-<td>/auth/me</td>
-<td>Current user profile</td>
+<td>/plans</td>
+<td>List plans (skip ARCHIVED by default)</td>
 </tr>
 <tr>
-<td>POST</td>
-<td>/auth/change-password</td>
-<td>Change password</td>
+<td>GET</td>
+<td>/plans/slug/:slug</td>
+<td>Get plan by slug</td>
 </tr>
 <tr>
-<td>POST</td>
-<td>/auth/logout</td>
-<td>Revoke refresh token</td>
+<td>GET</td>
+<td>/plans/:id</td>
+<td>Get plan by UUID</td>
 </tr>
 <tr>
-<td>POST</td>
-<td>/auth/logout-all</td>
-<td>Revoke all sessions</td>
+<td>PATCH</td>
+<td>/plans/:id</td>
+<td>Update plan (slug immutable)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="tenants-protected">Tenants (protected)<a class="headerlink" href="#tenants-protected" title="Permanent link">&para;</a></h3>
+<h3 id="plan-prices-nested-under-plans">Plan Prices (nested under plans)<a class="headerlink" href="#plan-prices-nested-under-plans" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/plans/:planId/prices</td>
+<td>Add a price to a plan</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/plans/:planId/prices</td>
+<td>List prices for a plan</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/plans/:planId/prices/:id</td>
+<td>Deactivate a price</td>
+</tr>
+</tbody>
+</table>
+<h3 id="features-authenticated">Features (authenticated)<a class="headerlink" href="#features-authenticated" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/features</td>
+<td>Create a feature</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/features</td>
+<td>List features</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/features/key/:lookupKey</td>
+<td>Get feature by lookup key</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/features/:id</td>
+<td>Get feature by UUID</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/features/:id</td>
+<td>Update feature (lookup_key and type immutable)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entitlements-nested-under-plans">Entitlements (nested under plans)<a class="headerlink" href="#entitlements-nested-under-plans" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/plans/:planId/entitlements</td>
+<td>Map a feature to a plan</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/plans/:planId/entitlements</td>
+<td>List plan's entitlements</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/plans/:planId/entitlements/:id</td>
+<td>Get entitlement details</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/plans/:planId/entitlements/:id</td>
+<td>Update entitlement rules</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/plans/:planId/entitlements/:id</td>
+<td>Remove feature from plan</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscriptions-tenant-scoped-owneradmin-only-for-writes">Subscriptions (tenant-scoped, OWNER/ADMIN only for writes)<a class="headerlink" href="#subscriptions-tenant-scoped-owneradmin-only-for-writes" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1626,107 +1810,49 @@
 <tbody>
 <tr>
 <td>POST</td>
-<td>/tenants</td>
-<td>JWT</td>
-<td>Create tenant (user becomes OWNER)</td>
+<td>/subscriptions</td>
+<td>JWT + Tenant + OWNER/ADMIN</td>
+<td>Subscribe to a plan</td>
 </tr>
 <tr>
 <td>GET</td>
-<td>/tenants</td>
-<td>JWT</td>
-<td>List user's tenants</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/tenants/slug/:slug</td>
-<td>JWT</td>
-<td>Look up by slug</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/tenants/:id</td>
+<td>/subscriptions/active</td>
 <td>JWT + Tenant</td>
-<td>Get tenant details</td>
+<td>Get current active subscription</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td>/tenants/:id</td>
+<td>GET</td>
+<td>/subscriptions</td>
+<td>JWT + Tenant</td>
+<td>List subscription history</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/subscriptions/:id/cancel</td>
 <td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Update tenant</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>/tenants/:id</td>
-<td>JWT + Tenant + OWNER</td>
-<td>Cancel tenant</td>
+<td>Cancel subscription</td>
 </tr>
 </tbody>
 </table>
-<h3 id="users-protected">Users (protected)<a class="headerlink" href="#users-protected" title="Permanent link">&para;</a></h3>
+<h3 id="entitlement-checks-tenant-scoped">Entitlement Checks (tenant-scoped)<a class="headerlink" href="#entitlement-checks-tenant-scoped" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Method</th>
 <th>Path</th>
-<th>Guards</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td>/users</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Create user in tenant</td>
-</tr>
-<tr>
 <td>GET</td>
-<td>/users/me</td>
-<td>JWT</td>
-<td>Own profile</td>
+<td>/entitlements/:featureKey/check</td>
+<td>Can this tenant use feature X?</td>
 </tr>
-<tr>
-<td>GET</td>
-<td>/users/:id</td>
-<td>JWT</td>
-<td>User by ID</td>
-</tr>
-<tr>
-<td>PATCH</td>
-<td>/users/:id</td>
-<td>JWT</td>
-<td>Update profile</td>
-</tr>
-</tbody>
-</table>
-<h3 id="api-keys-protected">API Keys (protected)<a class="headerlink" href="#api-keys-protected" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Path</th>
-<th>Guards</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>POST</td>
-<td>/api-keys</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Create key (shown once)</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/api-keys</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>List keys</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>/api-keys/:id</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Revoke key</td>
+<td>/entitlements/:featureKey/consume</td>
+<td>Consume units of a feature</td>
 </tr>
 </tbody>
 </table>
@@ -1740,110 +1866,135 @@
 </thead>
 <tbody>
 <tr>
-<td>Multi-tenant users (one login, many orgs)</td>
-<td>Matches Slack/GitHub model, more flexible than single-tenant</td>
+<td>Plan/Price separation</td>
+<td>Stripe pattern. Change pricing without recreating plans</td>
 </tr>
 <tr>
-<td>Memberships as join table</td>
-<td>Users can have different roles in different tenants</td>
+<td>Features as global catalog</td>
+<td>Same feature, different rules per plan</td>
 </tr>
 <tr>
-<td>Fixed roles (enum) over dynamic RBAC</td>
-<td>Four roles is sufficient for a billing platform, no over-engineering</td>
+<td>Entitlement snapshots on subscribe</td>
+<td>Plan changes don't break existing subscribers</td>
 </tr>
 <tr>
-<td>Dual JWT tokens (access + refresh)</td>
-<td>Short-lived access limits stolen token damage, refresh enables session management</td>
+<td>Micro-cents for overage pricing</td>
+<td>Avoids floating-point math for sub-cent rates</td>
 </tr>
 <tr>
-<td>Separate secrets for access and refresh</td>
-<td>Compromising one doesn't compromise the other</td>
+<td>limit_behavior on entitlement, not feature</td>
+<td>Same feature can be HARD on Starter, SOFT on Pro</td>
 </tr>
 <tr>
-<td>Token rotation on refresh</td>
-<td>Detects stolen refresh tokens via reuse detection</td>
+<td>lookup_key for features</td>
+<td>Stable code-facing identifier. Code references "api_calls", not a UUID</td>
 </tr>
 <tr>
-<td>API keys as SHA-256 hashes</td>
-<td>Same pattern as Stripe - database breach doesn't expose keys</td>
+<td>Denormalized snapshots</td>
+<td>Avoids JOIN on entitlement check (the hot path)</td>
 </tr>
 <tr>
-<td>Soft-delete on tenants</td>
-<td>Billing compliance requires data retention</td>
+<td>One active subscription per tenant</td>
+<td>Clean audit trail. Upgrades cancel old, create new</td>
 </tr>
 <tr>
-<td>Password reset via DB tokens (not JWT)</td>
-<td>Audit trail, single-use enforcement, explicit revocation</td>
+<td>billing_anchor capped at 28</td>
+<td>Avoids February edge case</td>
 </tr>
 <tr>
-<td>x-tenant-id header over URL param</td>
-<td>Keeps routes clean, matches Stripe's Connected Accounts pattern</td>
+<td>Separate EntitlementCheck module</td>
+<td>Admin CRUD vs runtime checks have different access patterns</td>
+</tr>
+<tr>
+<td>In-memory usage counters (Phase 2)</td>
+<td>Phase 3 replaces with Redis + Kafka for scale</td>
 </tr>
 </tbody>
 </table>
 <h2 id="seed-data">Seed data<a class="headerlink" href="#seed-data" title="Permanent link">&para;</a></h2>
-<p>All passwords: <code>DevPass123</code></p>
+<p>Three plans with tiered features. All passwords: <code>DevPass123</code>.</p>
 <table>
 <thead>
 <tr>
-<th>User</th>
-<th>Acme Corp</th>
-<th>Globex</th>
-<th>Stark</th>
+<th>Feature</th>
+<th>Starter ($29/mo)</th>
+<th>Pro ($99/mo)</th>
+<th>Enterprise ($499/mo)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#108;&#105;&#99;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#97;&#108;&#105;&#99;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td>OWNER</td>
-<td>ADMIN</td>
-<td>-</td>
+<td>API Access</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
 </tr>
 <tr>
-<td><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#111;&#98;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#98;&#111;&#98;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td>DEVELOPER</td>
-<td>OWNER</td>
-<td>-</td>
+<td>API Calls</td>
+<td>1,000/mo HARD</td>
+<td>50,000/mo SOFT ($0.001)</td>
+<td>500,000/mo SOFT ($0.0005)</td>
 </tr>
 <tr>
-<td><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#99;&#97;&#114;&#111;&#108;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#99;&#97;&#114;&#111;&#108;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td>BILLING</td>
-<td>-</td>
-<td>OWNER</td>
+<td>Storage</td>
+<td>1 GB + $0.05/GB</td>
+<td>10 GB + $0.02/GB</td>
+<td>100 GB + $0.01/GB</td>
 </tr>
 <tr>
-<td><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#97;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#100;&#97;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td>DEVELOPER</td>
-<td>DEVELOPER</td>
-<td>-</td>
+<td>SSO</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
 </tr>
 <tr>
-<td><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#101;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td>-</td>
-<td>BILLING</td>
-<td>ADMIN</td>
+<td>Webhooks</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Priority Support</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Team Seats</td>
+<td>3 HARD</td>
+<td>10 SOFT ($10/seat)</td>
+<td>50 SOFT ($8/seat)</td>
+</tr>
+<tr>
+<td>Analytics Export</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
 </tr>
 </tbody>
 </table>
+<p>Dev tenant subscriptions:</p>
+<ul>
+<li>Acme Corp → Pro (monthly)</li>
+<li>Globex Industries → Starter (monthly)</li>
+<li>Stark Enterprises → Enterprise (annual)</li>
+</ul>
 <h2 id="gotchas-encountered">Gotchas encountered<a class="headerlink" href="#gotchas-encountered" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>JWT hash collision</strong> - two tokens signed at the same second with identical payload produce the same hash. Fixed by adding <code>jti</code> (JWT ID) claim with random bytes.</li>
-<li><strong><code>@nestjs/jwt</code> type mismatch</strong> - <code>expiresIn</code> accepts <code>string | number</code> at runtime but TypeScript overloads reject strings. Fixed by converting duration to seconds.</li>
-<li><strong>Route ordering matters</strong> - <code>/tenants/me/context</code> must be defined before <code>/tenants/:id</code> or NestJS interprets "me" as a UUID parameter.</li>
-<li><strong>Guard chain order</strong> - <code>JwtAuthGuard</code> must run before <code>TenantGuard</code> and <code>RolesGuard</code> because they depend on <code>request.user</code> being set.</li>
+<li><strong>Snapshot mismatch on existing subscriptions</strong> - when seed re-ran on a tenant with an existing subscription created before all entitlements existed, the old snapshots were preserved. Fix: cancel and re-subscribe to refresh snapshots from current plan definition.</li>
+<li><strong>Resource detection in audit interceptor</strong> - needed to add <code>plans</code>, <code>features</code>, <code>entitlements</code>, <code>subscriptions</code> to <code>PATH_TO_RESOURCE</code> map, otherwise audit logs would record resource names as the raw URL segment instead of normalized names.</li>
+<li><strong>Route ordering for <code>/subscriptions/active</code></strong> - must be defined before <code>/:id</code> route or NestJS interprets "active" as a UUID parameter.</li>
+<li><strong>Field validation per feature type</strong> - without validating that BOOLEAN entitlements only accept <code>value</code> (and reject <code>limit</code>/<code>overagePrice</code>/<code>includedAmount</code>), the database would happily store nonsensical combinations. Per-type validation is essential.</li>
+<li><strong>Timezone handling on resetAt</strong> - quota reset dates use local server time then serialize as UTC. Production needs explicit UTC boundaries to avoid month-end edge cases.</li>
+<li><strong>Race condition on HARD limit consume</strong> - two concurrent consume calls at <code>used=9</code> both pass the <code>9 &lt; 10</code> check and both succeed. Acceptable for Phase 2 dev; Phase 3 addresses with Redis atomic operations.</li>
 </ol>
-<h2 id="post-phase-1-audit-log-interceptor">Post-Phase 1: Audit Log Interceptor<a class="headerlink" href="#post-phase-1-audit-log-interceptor" title="Permanent link">&para;</a></h2>
-<p>Added as a cross-cutting concern before Phase 2 begins. Every mutation (POST, PATCH, PUT, DELETE) is recorded to an immutable <code>audit_logs</code> table in Postgres.</p>
-<p><strong>What it captures:</strong> actor (user or API key), action (create/update/delete), resource type and ID, tenant, JSONB changes payload, IP address, user agent, and correlation ID.</p>
-<p><strong>What it skips:</strong> GET requests, health checks, auth endpoints, and routes with <code>@SkipAudit()</code>.</p>
-<p><strong>How it works:</strong> Global NestJS interceptor using RxJS <code>tap()</code>. Runs after the handler completes. Fire-and-forget - audit failures are logged to stdout but never block the response.</p>
-<p><strong>Sensitive fields stripped:</strong> passwords, tokens, key material are automatically sanitized from the changes payload before storage.</p>
-<p>See <a href="../../architecture/audit-log/">Audit Log documentation</a> for the full schema, query examples, and extension guide.</p>
-<h3 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- 20260409103239_add_audit_logs</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="ss">&quot;audit_logs&quot;</span><span class="w"> </span><span class="p">(...)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">-- Indexes: tenant_id, actor_id, (resource, resource_id), created_at</span>
-</code></pre></div>
+<h2 id="limitations-carried-into-next-phases">Limitations carried into next phases<a class="headerlink" href="#limitations-carried-into-next-phases" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>In-memory usage counters</strong> reset on server restart. Phase 3 → Redis.</li>
+<li><strong>No race condition protection</strong> on HARD limit. Phase 3 → atomic Redis ops.</li>
+<li><strong>SOFT quota overage tracked but not billed</strong>. Phase 4 → invoice generation from overage.</li>
+<li><strong>No platform admin role</strong> - currently any authenticated user can create/modify global plans and features. Marked as TODO; will add <code>isPlatformAdmin</code> on User in a later phase.</li>
+</ul>
 
 
 
