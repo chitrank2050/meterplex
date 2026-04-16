@@ -2,6 +2,22 @@
 
 All notable changes to Meterplex API.
 
+## [0.5.1] - 2026-04-16
+
+### Build
+
+- Bump globals from 16.5.0 to 17.5.0 (#40)
+
+### Features
+
+- Schema for usage events, outbox, aggregates, and dead letter queue
+
+### Maintenance
+
+- Update apache/kafka docker tag to v4 (#23)
+- Update pnpm to v9.15.9 (#22)
+- Upgrade pnpm/action-setup to v6 and update lockfile
+
 ## [0.5.0] - 2026-04-16
 
 ### Features
