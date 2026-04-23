@@ -32,7 +32,7 @@ CREATE TABLE "audit_logs" (
 ### Column reference
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | `id` | UUID | Primary key, auto-generated |
 | `tenant_id` | UUID | Which tenant was affected. Not a foreign key - survives tenant deletion |
 | `actor_id` | VARCHAR(255) | User UUID or API key UUID of who performed the action |
@@ -49,7 +49,7 @@ CREATE TABLE "audit_logs" (
 ### Indexes
 
 | Index | Columns | Use case |
-|-------|---------|----------|
+| :--- | :--- | :--- |
 | `audit_logs_tenant_id_idx` | `tenant_id` | "Show all activity in Acme Corp" |
 | `audit_logs_actor_id_idx` | `actor_id` | "Show everything Alice did" |
 | `audit_logs_resource_resource_id_idx` | `resource, resource_id` | "Show the history of this specific API key" |
@@ -92,7 +92,7 @@ Audit logging is important but not critical-path. If the database write fails (P
 ## What gets audited
 
 | HTTP Method | Audit Action | Audited? |
-|-------------|-------------|----------|
+| :--- | :--- | :--- |
 | `POST` | `CREATE` | Yes |
 | `PATCH` | `UPDATE` | Yes |
 | `PUT` | `UPDATE` | Yes |
@@ -104,7 +104,7 @@ Audit logging is important but not critical-path. If the database write fails (P
 ## What gets skipped
 
 | Path pattern | Reason |
-|-------------|--------|
+| :--- | :--- |
 | `/health` | Infrastructure check, not a business operation |
 | `/api/v1/auth/*` | Auth endpoints (login, register, refresh, etc.) have their own security logging |
 | Routes with `@SkipAudit()` | Explicit opt-out per handler |
@@ -116,7 +116,7 @@ Audit logging is important but not critical-path. If the database write fails (P
 ### Actor detection
 
 | Source | Actor Type | How it's detected |
-|--------|-----------|-------------------|
+| :--- | :--- | :--- |
 | JWT-authenticated user | `USER` | `request.user.id` set by `JwtAuthGuard` |
 | API key | `API_KEY` | `request.apiKeyId` set by `ApiKeyAuthGuard` |
 | Neither | `SYSTEM` | Fallback - shouldn't happen on guarded routes |
@@ -126,7 +126,7 @@ Audit logging is important but not critical-path. If the database write fails (P
 The resource type is inferred from the URL path. The interceptor maps the first segment after `/api/v1/` to a normalized resource name:
 
 | URL path | Resource |
-|----------|----------|
+| :--- | :--- |
 | `/api/v1/tenants` | `tenant` |
 | `/api/v1/tenants/:id` | `tenant` |
 | `/api/v1/users` | `user` |

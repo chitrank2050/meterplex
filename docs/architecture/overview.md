@@ -83,7 +83,7 @@ Client Response
 ## Infrastructure
 
 | Service | Container | Port | Purpose |
-|---------|-----------|------|---------|
+| :--- | :--- | :--- | :--- |
 | PostgreSQL 17 | meterplex-postgres | 5432 | Primary data store |
 | Apache Kafka 3.9 | meterplex-kafka | 9092 | Event streaming |
 | Redis 7 | meterplex-redis | 6379 | Cache and rate limiting |

@@ -3,7 +3,7 @@
 ## Prerequisites
 
 | Tool | Minimum Version | Check Command |
-|------|----------------|---------------|
+| :--- | :--- | :--- |
 | Node.js | 20.0.0 | `node --version` |
 | pnpm | 9.0.0 | `pnpm --version` |
 | Docker | 24.0.0 | `docker --version` |
@@ -120,7 +120,7 @@ See `src/config/env.validation.ts` for the validation schema.
 ### Import Aliases
 
 | Alias | Resolves To |
-|-------|-------------|
+| :--- | :--- |
 | `@common/*` | `src/common/*` |
 | `@config/*` | `src/config/*` |
 | `@modules/*` | `src/modules/*` |

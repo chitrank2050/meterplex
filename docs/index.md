@@ -7,7 +7,7 @@
 ## Quick Links
 
 | Section | What you'll find |
-|---------|-----------------|
+| :--- | :--- |
 | [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions. |
 | [Development](development/setup.md) | Setup guide, daily workflow, conventions, troubleshooting. |
 | [API](api/overview.md) | API design decisions, versioning, error format, authentication. |
@@ -35,16 +35,16 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 ## Current Status
 
 | Phase | Focus | Status |
-|-------|-------|--------|
+| :--- | :--- | :--- |
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
 | 1 | Multi-tenant identity and access (auth, tenants, users, API keys) | ✅ Complete |
 | 2 | Plans, entitlements, and quotas | ✅ Complete |
 | 3 | Usage ingestion, outbox pattern, Kafka pipeline | 🔜 Next |
-| 4 | Billing ledger and invoices |  |
-| 5 | Payments and webhooks |  |
-| 6 | Admin, audit log, reconciliation |  |
-| 7 | Observability (Grafana, Loki, OpenTelemetry) |  |
-| 8 | Scale, hardening, load testing |  |
+| 4 | Billing ledger and invoices | |
+| 5 | Payments and webhooks | |
+| 6 | Admin, audit log, reconciliation | |
+| 7 | Observability (Grafana, Loki, OpenTelemetry) | |
+| 8 | Scale, hardening, load testing | |
 
 ---
 
@@ -53,7 +53,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 ### Auth
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/auth/register` | Register user + create tenant |
 | POST | `/api/v1/auth/login` | Login, get JWT + refresh token |
 | POST | `/api/v1/auth/refresh` | Refresh access token |
@@ -67,7 +67,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 ### Tenants
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/tenants` | Create a tenant |
 | GET | `/api/v1/tenants` | List tenants for current user |
 | GET | `/api/v1/tenants/:id` | Get tenant by ID |
@@ -78,7 +78,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 ### Users
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/users` | Create user in tenant |
 | GET | `/api/v1/users/:id` | Get user by ID |
 | PATCH | `/api/v1/users/:id` | Update user profile |
@@ -86,7 +86,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 ### API Keys
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/api-keys` | Create API key (shown once) |
 | GET | `/api/v1/api-keys` | List keys for tenant |
 | DELETE | `/api/v1/api-keys/:id` | Revoke API key |
@@ -98,7 +98,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 #### Plans
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/plans` | Create a plan |
 | GET | `/api/v1/plans` | List plans |
 | GET | `/api/v1/plans/:id` | Get plan by ID |
@@ -108,7 +108,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 #### Plan Prices
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/plans/:planId/prices` | Add price to plan |
 | GET | `/api/v1/plans/:planId/prices` | List prices |
 | PATCH | `/api/v1/plans/:planId/prices/:id` | Deactivate price |
@@ -116,7 +116,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 #### Features
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/features` | Create feature |
 | GET | `/api/v1/features` | List features |
 | GET | `/api/v1/features/:id` | Get feature by ID |
@@ -126,7 +126,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 #### Entitlements
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/plans/:planId/entitlements` | Map feature to plan |
 | GET | `/api/v1/plans/:planId/entitlements` | List plan entitlements |
 | GET | `/api/v1/plans/:planId/entitlements/:id` | Get entitlement |
@@ -136,7 +136,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 #### Subscriptions
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | `/api/v1/subscriptions` | Subscribe tenant to plan |
 | GET | `/api/v1/subscriptions/active` | Get active subscription |
 | GET | `/api/v1/subscriptions` | List subscription history |
@@ -145,6 +145,6 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 #### Entitlement Checks (the hot path)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | GET | `/api/v1/entitlements/:featureKey/check` | Check if tenant can use feature |
 | POST | `/api/v1/entitlements/:featureKey/consume` | Consume units of feature |

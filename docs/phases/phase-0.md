@@ -51,7 +51,7 @@
 ## Key Decisions
 
 | Decision | Why |
-|----------|-----|
+| :--- | :--- |
 | Modular monolith over microservices | Domain boundaries unproven. Extract modules when scale demands it |
 | Prisma over TypeORM | Stronger types, better migration tooling, schema-first approach |
 | pnpm over npm | Faster installs, strict dependency resolution, smaller disk usage |

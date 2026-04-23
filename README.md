@@ -55,7 +55,7 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 ## Tech Stack
 
 | Layer | Technology | Purpose |
-|-------|-----------|---------|
+| :--- | :--- | :--- |
 | Framework | NestJS 11 | Modular backend framework |
 | Language | TypeScript 5.7 (strict mode) | Type safety |
 | Database | PostgreSQL 17 | Primary data store |
@@ -135,7 +135,7 @@ meterplex/
 ## Available Scripts
 
 | Script | Description |
-|--------|-------------|
+| :--- | :--- |
 | `pnpm start:dev` | Start with hot reload |
 | `pnpm start:prod` | Start production build |
 | `pnpm build` | Compile TypeScript |
@@ -154,7 +154,7 @@ meterplex/
 ## API Endpoints
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | GET | `/health` | Infrastructure health check |
 | - | `/api/docs` | Swagger UI (development only) |
 
@@ -174,7 +174,7 @@ Detailed documentation is available in the [`docs/`](./docs) folder and on GitHu
 ## Development Phases
 
 | Phase | Focus | Status |
-|-------|-------|--------|
+| :--- | :--- | :--- |
 | 0 | Project setup, infrastructure, foundations | ✅ Complete |
 | 1 | Auth, tenants, users, plans, subscriptions | ✅ Complete |
 | 2 | Entitlements and usage tracking | 🔜 Next |

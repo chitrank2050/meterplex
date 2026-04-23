@@ -50,7 +50,7 @@ Two authentication mechanisms for two audiences:
 Four roles enforced via guards:
 
 | Role | Manage users | Manage billing | Use APIs | Delete tenant |
-|------|-------------|----------------|----------|---------------|
+| :--- | :--- | :--- | :--- | :--- |
 | OWNER | ✅ | ✅ | ✅ | ✅ |
 | ADMIN | ✅ | ✅ | ✅ | ❌ |
 | DEVELOPER | ❌ | ❌ | ✅ | ❌ |
@@ -76,7 +76,7 @@ Four roles enforced via guards:
 ### Auth (public)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | /auth/register | Create user + tenant, return tokens |
 | POST | /auth/login | Validate credentials, return tokens |
 | POST | /auth/refresh | Exchange refresh token for new pair |
@@ -86,7 +86,7 @@ Four roles enforced via guards:
 ### Auth (protected)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | GET | /auth/me | Current user profile |
 | POST | /auth/change-password | Change password |
 | POST | /auth/logout | Revoke refresh token |
@@ -95,7 +95,7 @@ Four roles enforced via guards:
 ### Tenants (protected)
 
 | Method | Path | Guards | Description |
-|--------|------|--------|-------------|
+| :--- | :--- | :--- | :--- |
 | POST | /tenants | JWT | Create tenant (user becomes OWNER) |
 | GET | /tenants | JWT | List user's tenants |
 | GET | /tenants/slug/:slug | JWT | Look up by slug |
@@ -106,7 +106,7 @@ Four roles enforced via guards:
 ### Users (protected)
 
 | Method | Path | Guards | Description |
-|--------|------|--------|-------------|
+| :--- | :--- | :--- | :--- |
 | POST | /users | JWT + Tenant + OWNER/ADMIN | Create user in tenant |
 | GET | /users/me | JWT | Own profile |
 | GET | /users/:id | JWT | User by ID |
@@ -115,7 +115,7 @@ Four roles enforced via guards:
 ### API Keys (protected)
 
 | Method | Path | Guards | Description |
-|--------|------|--------|-------------|
+| :--- | :--- | :--- | :--- |
 | POST | /api-keys | JWT + Tenant + OWNER/ADMIN | Create key (shown once) |
 | GET | /api-keys | JWT + Tenant + OWNER/ADMIN | List keys |
 | DELETE | /api-keys/:id | JWT + Tenant + OWNER/ADMIN | Revoke key |
@@ -123,7 +123,7 @@ Four roles enforced via guards:
 ## Key decisions
 
 | Decision | Why |
-|----------|-----|
+| :--- | :--- |
 | Multi-tenant users (one login, many orgs) | Matches Slack/GitHub model, more flexible than single-tenant |
 | Memberships as join table | Users can have different roles in different tenants |
 | Fixed roles (enum) over dynamic RBAC | Four roles is sufficient for a billing platform, no over-engineering |
@@ -140,7 +140,7 @@ Four roles enforced via guards:
 All passwords: `DevPass123`
 
 | User | Acme Corp | Globex | Stark |
-|------|-----------|--------|-------|
+| :--- | :--- | :--- | :--- |
 | <alice@meterplex.dev> | OWNER | ADMIN | - |
 | <bob@meterplex.dev> | DEVELOPER | OWNER | - |
 | <carol@meterplex.dev> | BILLING | - | OWNER |

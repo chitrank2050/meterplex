@@ -13,7 +13,7 @@
 Phase 2 adds 6 new tables to the existing Phase 1 schema:
 
 | Table | Purpose | Relates to |
-|-------|---------|------------|
+| :--- | :--- | :--- |
 | `plans` | What you sell: "Starter", "Pro", "Enterprise" | plan_prices, entitlements, subscriptions |
 | `plan_prices` | How much it costs: $99/mo, $948/yr | plans, subscriptions |
 | `features` | Global catalog of capabilities: "API Calls", "SSO" | entitlements |
@@ -40,7 +40,7 @@ Tenant ──1:N──▶ Subscription ──N:1──▶ Plan ──1:N──�
 The product identity. Does NOT contain pricing - that's in `plan_prices`.
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | id | UUID PK | Auto-generated |
 | name | VARCHAR(255) | "Starter", "Pro", "Enterprise" |
 | slug | VARCHAR(100) UNIQUE | URL-safe identifier: "pro" → `/api/v1/plans/pro` |
@@ -57,7 +57,7 @@ The product identity. Does NOT contain pricing - that's in `plan_prices`.
 Multiple prices per plan. Same plan, different intervals and currencies.
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | id | UUID PK | Auto-generated |
 | plan_id | UUID FK → plans | Which plan this price belongs to |
 | interval | ENUM(MONTHLY, ANNUALLY) | Billing frequency |
@@ -74,7 +74,7 @@ Multiple prices per plan. Same plan, different intervals and currencies.
 The global catalog of things your platform can do. Features exist independently of plans.
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | id | UUID PK | Auto-generated |
 | name | VARCHAR(255) | "API Calls", "SSO", "Storage", "Webhooks" |
 | lookup_key | VARCHAR(100) UNIQUE | Stable code identifier: "api_calls", "sso", "storage" |
@@ -95,7 +95,7 @@ The lookup_key is immutable after creation - changing it would break all code th
 **Feature types explained:**
 
 | Type | What it controls | Example |
-|------|-----------------|---------|
+| :--- | :--- | :--- |
 | BOOLEAN | On/off access | SSO, webhooks, priority support |
 | QUOTA | Numeric limit per period | 50,000 API calls/month, 5 team seats |
 | METERED | Usage-based billing | Storage at $0.02/GB, tokens at $0.001/call |
@@ -105,7 +105,7 @@ The lookup_key is immutable after creation - changing it would break all code th
 The bridge between Plan and Feature. "The Pro plan grants 50,000 API calls/month."
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | id | UUID PK | Auto-generated |
 | plan_id | UUID FK → plans | Which plan grants this |
 | feature_id | UUID FK → features | Which feature is granted |
@@ -123,7 +123,7 @@ The bridge between Plan and Feature. "The Pro plan grants 50,000 API calls/month
 **Overage price in micro-cents:** Sub-cent pricing is common in API billing. $0.001/API call can't be stored as cents (0.1 cents is not an integer). Micro-cents solve this:
 
 | Real price | Micro-cents | Calculation |
-|-----------|-------------|-------------|
+| :--- | :--- | :--- |
 | $0.001/call | 10 | $0.001 × 10,000 = 10 |
 | $0.02/GB | 200 | $0.02 × 10,000 = 200 |
 | $0.50/seat | 5000 | $0.50 × 10,000 = 5000 |
@@ -170,7 +170,7 @@ included_amount: 10, overage_price: 200, reset_period: MONTHLY
 Binds a tenant to a plan + price. One active subscription per tenant at a time.
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | id | UUID PK | Auto-generated |
 | tenant_id | UUID FK → tenants | Which tenant holds this subscription |
 | plan_id | UUID FK → plans | Which plan they're on |
@@ -199,7 +199,7 @@ TRIALING → ACTIVE → PAST_DUE → CANCELLED
 Frozen copy of entitlements at the moment a tenant subscribes.
 
 | Column | Type | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | id | UUID PK | Auto-generated |
 | subscription_id | UUID FK → subscriptions | Which subscription this belongs to |
 | feature_lookup_key | VARCHAR(100) | Denormalized from features.lookup_key |
@@ -292,7 +292,7 @@ Three plans with features and entitlements:
 ### Plans
 
 | Plan | Slug | Price (monthly) | Price (annual) |
-|------|------|----------------|----------------|
+| :--- | :--- | :--- | :--- |
 | Starter | starter | $29/mo | $278/yr ($23.17/mo) |
 | Pro | pro | $99/mo | $948/yr ($79/mo) |
 | Enterprise | enterprise | $499/mo | $4,788/yr ($399/mo) |
@@ -300,7 +300,7 @@ Three plans with features and entitlements:
 ### Features
 
 | Feature | Lookup Key | Type | Unit |
-|---------|-----------|------|------|
+| :--- | :--- | :--- | :--- |
 | API Access | api_access | BOOLEAN | - |
 | API Calls | api_calls | QUOTA | calls |
 | Storage | storage | METERED | GB |
@@ -313,7 +313,7 @@ Three plans with features and entitlements:
 ### Entitlements (Plan × Feature matrix)
 
 | Feature | Starter | Pro | Enterprise |
-|---------|---------|-----|------------|
+| :--- | :--- | :--- | :--- |
 | API Access | ✅ true | ✅ true | ✅ true |
 | API Calls | 1,000/mo HARD | 50,000/mo SOFT ($0.001/call) | 500,000/mo SOFT ($0.0005/call) |
 | Storage | 1 GB included, $0.05/GB | 10 GB included, $0.02/GB | 100 GB included, $0.01/GB |
@@ -326,7 +326,7 @@ Three plans with features and entitlements:
 ### Subscriptions (dev tenants)
 
 | Tenant | Plan | Interval |
-|--------|------|----------|
+| :--- | :--- | :--- |
 | Acme Corp | Pro | Monthly |
 | Globex Industries | Starter | Monthly |
 | Stark Enterprises | Enterprise | Annually |
@@ -336,7 +336,7 @@ Three plans with features and entitlements:
 ## Key design decisions
 
 | Decision | Why |
-|----------|-----|
+| :--- | :--- |
 | Plan/Price separation | Stripe pattern. Change pricing without creating new plans |
 | Features as global catalog | Decouple capabilities from plans. Same feature, different limits per plan |
 | Entitlement as the bridge | Single place to define "Plan X gets Feature Y with these rules" |

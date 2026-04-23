@@ -51,7 +51,7 @@ This avoids floating-point rounding errors in billing math.
 ### Feature types
 
 | Type | Gating | Example |
-|------|--------|---------|
+| :--- | :--- | :--- |
 | BOOLEAN | On/off | SSO, webhooks, priority support |
 | QUOTA | Numeric limit per period | 50,000 API calls/month, 10 team seats |
 | METERED | Usage-based billing | Storage at $0.02/GB, tokens at $0.001/call |
@@ -78,7 +78,7 @@ The same feature can be HARD on Starter (block at 1,000) and SOFT on Pro (allow 
 Stored in micro-cents (1/10000th of currency unit) to handle sub-cent pricing:
 
 | Real price | Micro-cents |
-|-----------|-------------|
+| :--- | :--- |
 | $0.001/call | 10 |
 | $0.02/GB | 200 |
 | $0.50/seat | 5000 |
@@ -129,7 +129,7 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 ### Plans (public read, authenticated write)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | /plans | Create a plan |
 | GET | /plans | List plans (skip ARCHIVED by default) |
 | GET | /plans/slug/:slug | Get plan by slug |
@@ -139,7 +139,7 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 ### Plan Prices (nested under plans)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | /plans/:planId/prices | Add a price to a plan |
 | GET | /plans/:planId/prices | List prices for a plan |
 | PATCH | /plans/:planId/prices/:id | Deactivate a price |
@@ -147,7 +147,7 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 ### Features (authenticated)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | /features | Create a feature |
 | GET | /features | List features |
 | GET | /features/key/:lookupKey | Get feature by lookup key |
@@ -157,7 +157,7 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 ### Entitlements (nested under plans)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | POST | /plans/:planId/entitlements | Map a feature to a plan |
 | GET | /plans/:planId/entitlements | List plan's entitlements |
 | GET | /plans/:planId/entitlements/:id | Get entitlement details |
@@ -167,7 +167,7 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 ### Subscriptions (tenant-scoped, OWNER/ADMIN only for writes)
 
 | Method | Path | Guards | Description |
-|--------|------|--------|-------------|
+| :--- | :--- | :--- | :--- |
 | POST | /subscriptions | JWT + Tenant + OWNER/ADMIN | Subscribe to a plan |
 | GET | /subscriptions/active | JWT + Tenant | Get current active subscription |
 | GET | /subscriptions | JWT + Tenant | List subscription history |
@@ -176,14 +176,14 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 ### Entitlement Checks (tenant-scoped)
 
 | Method | Path | Description |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | GET | /entitlements/:featureKey/check | Can this tenant use feature X? |
 | POST | /entitlements/:featureKey/consume | Consume units of a feature |
 
 ## Key decisions
 
 | Decision | Why |
-|----------|-----|
+| :--- | :--- |
 | Plan/Price separation | Stripe pattern. Change pricing without recreating plans |
 | Features as global catalog | Same feature, different rules per plan |
 | Entitlement snapshots on subscribe | Plan changes don't break existing subscribers |
@@ -201,7 +201,7 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 Three plans with tiered features. All passwords: `DevPass123`.
 
 | Feature | Starter ($29/mo) | Pro ($99/mo) | Enterprise ($499/mo) |
-|---------|------------------|--------------|----------------------|
+| :--- | :--- | :--- | :--- |
 | API Access | ✅ | ✅ | ✅ |
 | API Calls | 1,000/mo HARD | 50,000/mo SOFT ($0.001) | 500,000/mo SOFT ($0.0005) |
 | Storage | 1 GB + $0.05/GB | 10 GB + $0.02/GB | 100 GB + $0.01/GB |

@@ -53,7 +53,7 @@ Keys are created via `POST /api/v1/api-keys`. The raw key is shown once at creat
 Users have a role within each tenant via the memberships table:
 
 | Role | Manage Users | Manage Billing | Use APIs | Delete Tenant |
-|------|:---:|:---:|:---:|:---:|
+| :--- | :---: | :---: | :---: | :---: |
 | OWNER | ✅ | ✅ | ✅ | ✅ |
 | ADMIN | ✅ | ❌ | ✅ | ❌ |
 | DEVELOPER | ❌ | ❌ | ✅ | ❌ |
@@ -75,7 +75,7 @@ Every error from the API has this exact shape:
 ```
 
 | Field | Type | Description |
-|-------|------|-------------|
+| :--- | :--- | :--- |
 | `statusCode` | number | HTTP status code |
 | `message` | string or string[] | Human-readable error. Validation errors return an array of messages |
 | `error` | string | HTTP status name |
