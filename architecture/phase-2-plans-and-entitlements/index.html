@@ -1435,41 +1435,41 @@
 <table>
 <thead>
 <tr>
-<th>Table</th>
-<th>Purpose</th>
-<th>Relates to</th>
+<th style="text-align: left;">Table</th>
+<th style="text-align: left;">Purpose</th>
+<th style="text-align: left;">Relates to</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>plans</code></td>
-<td>What you sell: "Starter", "Pro", "Enterprise"</td>
-<td>plan_prices, entitlements, subscriptions</td>
+<td style="text-align: left;"><code>plans</code></td>
+<td style="text-align: left;">What you sell: "Starter", "Pro", "Enterprise"</td>
+<td style="text-align: left;">plan_prices, entitlements, subscriptions</td>
 </tr>
 <tr>
-<td><code>plan_prices</code></td>
-<td>How much it costs: $99/mo, $948/yr</td>
-<td>plans, subscriptions</td>
+<td style="text-align: left;"><code>plan_prices</code></td>
+<td style="text-align: left;">How much it costs: $99/mo, $948/yr</td>
+<td style="text-align: left;">plans, subscriptions</td>
 </tr>
 <tr>
-<td><code>features</code></td>
-<td>Global catalog of capabilities: "API Calls", "SSO"</td>
-<td>entitlements</td>
+<td style="text-align: left;"><code>features</code></td>
+<td style="text-align: left;">Global catalog of capabilities: "API Calls", "SSO"</td>
+<td style="text-align: left;">entitlements</td>
 </tr>
 <tr>
-<td><code>entitlements</code></td>
-<td>Bridge: Plan + Feature = access rule</td>
-<td>plans, features</td>
+<td style="text-align: left;"><code>entitlements</code></td>
+<td style="text-align: left;">Bridge: Plan + Feature = access rule</td>
+<td style="text-align: left;">plans, features</td>
 </tr>
 <tr>
-<td><code>subscriptions</code></td>
-<td>Tenant → Plan binding with billing period</td>
-<td>tenants, plans, plan_prices, entitlement_snapshots</td>
+<td style="text-align: left;"><code>subscriptions</code></td>
+<td style="text-align: left;">Tenant → Plan binding with billing period</td>
+<td style="text-align: left;">tenants, plans, plan_prices, entitlement_snapshots</td>
 </tr>
 <tr>
-<td><code>entitlement_snapshots</code></td>
-<td>Frozen copy of entitlements at subscribe time</td>
-<td>subscriptions</td>
+<td style="text-align: left;"><code>entitlement_snapshots</code></td>
+<td style="text-align: left;">Frozen copy of entitlements at subscribe time</td>
+<td style="text-align: left;">subscriptions</td>
 </tr>
 </tbody>
 </table>
@@ -1487,51 +1487,51 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>UUID PK</td>
-<td>Auto-generated</td>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">UUID PK</td>
+<td style="text-align: left;">Auto-generated</td>
 </tr>
 <tr>
-<td>name</td>
-<td>VARCHAR(255)</td>
-<td>"Starter", "Pro", "Enterprise"</td>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">VARCHAR(255)</td>
+<td style="text-align: left;">"Starter", "Pro", "Enterprise"</td>
 </tr>
 <tr>
-<td>slug</td>
-<td>VARCHAR(100) UNIQUE</td>
-<td>URL-safe identifier: "pro" → <code>/api/v1/plans/pro</code></td>
+<td style="text-align: left;">slug</td>
+<td style="text-align: left;">VARCHAR(100) UNIQUE</td>
+<td style="text-align: left;">URL-safe identifier: "pro" → <code>/api/v1/plans/pro</code></td>
 </tr>
 <tr>
-<td>description</td>
-<td>TEXT</td>
-<td>Optional marketing copy for pricing pages</td>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">TEXT</td>
+<td style="text-align: left;">Optional marketing copy for pricing pages</td>
 </tr>
 <tr>
-<td>status</td>
-<td>ENUM(ACTIVE, ARCHIVED)</td>
-<td>ARCHIVED = no new subscriptions, existing ones continue</td>
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">ENUM(ACTIVE, ARCHIVED)</td>
+<td style="text-align: left;">ARCHIVED = no new subscriptions, existing ones continue</td>
 </tr>
 <tr>
-<td>is_public</td>
-<td>BOOLEAN</td>
-<td>Show on pricing page? False = hidden/enterprise plans</td>
+<td style="text-align: left;">is_public</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">Show on pricing page? False = hidden/enterprise plans</td>
 </tr>
 <tr>
-<td>display_order</td>
-<td>INT</td>
-<td>Sorting on pricing pages. Starter=1, Pro=2, Enterprise=3</td>
+<td style="text-align: left;">display_order</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">Sorting on pricing pages. Starter=1, Pro=2, Enterprise=3</td>
 </tr>
 <tr>
-<td>metadata</td>
-<td>JSONB</td>
-<td>Custom attributes: <code>{ "trialDays": 14, "supportTier": "priority" }</code></td>
+<td style="text-align: left;">metadata</td>
+<td style="text-align: left;">JSONB</td>
+<td style="text-align: left;">Custom attributes: <code>{ "trialDays": 14, "supportTier": "priority" }</code></td>
 </tr>
 </tbody>
 </table>
@@ -1541,41 +1541,41 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>UUID PK</td>
-<td>Auto-generated</td>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">UUID PK</td>
+<td style="text-align: left;">Auto-generated</td>
 </tr>
 <tr>
-<td>plan_id</td>
-<td>UUID FK → plans</td>
-<td>Which plan this price belongs to</td>
+<td style="text-align: left;">plan_id</td>
+<td style="text-align: left;">UUID FK → plans</td>
+<td style="text-align: left;">Which plan this price belongs to</td>
 </tr>
 <tr>
-<td>interval</td>
-<td>ENUM(MONTHLY, ANNUALLY)</td>
-<td>Billing frequency</td>
+<td style="text-align: left;">interval</td>
+<td style="text-align: left;">ENUM(MONTHLY, ANNUALLY)</td>
+<td style="text-align: left;">Billing frequency</td>
 </tr>
 <tr>
-<td>amount</td>
-<td>INT</td>
-<td>Price in smallest currency unit. $99.00 = 9900 cents</td>
+<td style="text-align: left;">amount</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">Price in smallest currency unit. $99.00 = 9900 cents</td>
 </tr>
 <tr>
-<td>currency</td>
-<td>VARCHAR(3)</td>
-<td>ISO 4217 lowercase: "usd", "eur", "gbp"</td>
+<td style="text-align: left;">currency</td>
+<td style="text-align: left;">VARCHAR(3)</td>
+<td style="text-align: left;">ISO 4217 lowercase: "usd", "eur", "gbp"</td>
 </tr>
 <tr>
-<td>is_active</td>
-<td>BOOLEAN</td>
-<td>Can this price be used for new subscriptions?</td>
+<td style="text-align: left;">is_active</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">Can this price be used for new subscriptions?</td>
 </tr>
 </tbody>
 </table>
@@ -1586,51 +1586,51 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>UUID PK</td>
-<td>Auto-generated</td>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">UUID PK</td>
+<td style="text-align: left;">Auto-generated</td>
 </tr>
 <tr>
-<td>name</td>
-<td>VARCHAR(255)</td>
-<td>"API Calls", "SSO", "Storage", "Webhooks"</td>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">VARCHAR(255)</td>
+<td style="text-align: left;">"API Calls", "SSO", "Storage", "Webhooks"</td>
 </tr>
 <tr>
-<td>lookup_key</td>
-<td>VARCHAR(100) UNIQUE</td>
-<td>Stable code identifier: "api_calls", "sso", "storage"</td>
+<td style="text-align: left;">lookup_key</td>
+<td style="text-align: left;">VARCHAR(100) UNIQUE</td>
+<td style="text-align: left;">Stable code identifier: "api_calls", "sso", "storage"</td>
 </tr>
 <tr>
-<td>type</td>
-<td>ENUM(BOOLEAN, QUOTA, METERED)</td>
-<td>How this feature is gated</td>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">ENUM(BOOLEAN, QUOTA, METERED)</td>
+<td style="text-align: left;">How this feature is gated</td>
 </tr>
 <tr>
-<td>unit</td>
-<td>VARCHAR(50)</td>
-<td>Measurement unit: "calls", "GB", "seats". Null for BOOLEAN</td>
+<td style="text-align: left;">unit</td>
+<td style="text-align: left;">VARCHAR(50)</td>
+<td style="text-align: left;">Measurement unit: "calls", "GB", "seats". Null for BOOLEAN</td>
 </tr>
 <tr>
-<td>description</td>
-<td>TEXT</td>
-<td>Documentation/pricing page description</td>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">TEXT</td>
+<td style="text-align: left;">Documentation/pricing page description</td>
 </tr>
 <tr>
-<td>status</td>
-<td>ENUM(ACTIVE, ARCHIVED)</td>
-<td>ARCHIVED features can't be added to new entitlements</td>
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">ENUM(ACTIVE, ARCHIVED)</td>
+<td style="text-align: left;">ARCHIVED features can't be added to new entitlements</td>
 </tr>
 <tr>
-<td>metadata</td>
-<td>JSONB</td>
-<td>Custom attributes</td>
+<td style="text-align: left;">metadata</td>
+<td style="text-align: left;">JSONB</td>
+<td style="text-align: left;">Custom attributes</td>
 </tr>
 </tbody>
 </table>
@@ -1642,26 +1642,26 @@
 <table>
 <thead>
 <tr>
-<th>Type</th>
-<th>What it controls</th>
-<th>Example</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">What it controls</th>
+<th style="text-align: left;">Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>BOOLEAN</td>
-<td>On/off access</td>
-<td>SSO, webhooks, priority support</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">On/off access</td>
+<td style="text-align: left;">SSO, webhooks, priority support</td>
 </tr>
 <tr>
-<td>QUOTA</td>
-<td>Numeric limit per period</td>
-<td>50,000 API calls/month, 5 team seats</td>
+<td style="text-align: left;">QUOTA</td>
+<td style="text-align: left;">Numeric limit per period</td>
+<td style="text-align: left;">50,000 API calls/month, 5 team seats</td>
 </tr>
 <tr>
-<td>METERED</td>
-<td>Usage-based billing</td>
-<td>Storage at $0.02/GB, tokens at $0.001/call</td>
+<td style="text-align: left;">METERED</td>
+<td style="text-align: left;">Usage-based billing</td>
+<td style="text-align: left;">Storage at $0.02/GB, tokens at $0.001/call</td>
 </tr>
 </tbody>
 </table>
@@ -1670,56 +1670,56 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>UUID PK</td>
-<td>Auto-generated</td>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">UUID PK</td>
+<td style="text-align: left;">Auto-generated</td>
 </tr>
 <tr>
-<td>plan_id</td>
-<td>UUID FK → plans</td>
-<td>Which plan grants this</td>
+<td style="text-align: left;">plan_id</td>
+<td style="text-align: left;">UUID FK → plans</td>
+<td style="text-align: left;">Which plan grants this</td>
 </tr>
 <tr>
-<td>feature_id</td>
-<td>UUID FK → features</td>
-<td>Which feature is granted</td>
+<td style="text-align: left;">feature_id</td>
+<td style="text-align: left;">UUID FK → features</td>
+<td style="text-align: left;">Which feature is granted</td>
 </tr>
 <tr>
-<td>value</td>
-<td>BOOLEAN</td>
-<td>For BOOLEAN features: true=granted, false=denied</td>
+<td style="text-align: left;">value</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">For BOOLEAN features: true=granted, false=denied</td>
 </tr>
 <tr>
-<td>limit</td>
-<td>INT</td>
-<td>For QUOTA features: numeric limit per reset period</td>
+<td style="text-align: left;">limit</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">For QUOTA features: numeric limit per reset period</td>
 </tr>
 <tr>
-<td>limit_behavior</td>
-<td>ENUM(HARD, SOFT)</td>
-<td>HARD=block at limit, SOFT=allow overage + charge</td>
+<td style="text-align: left;">limit_behavior</td>
+<td style="text-align: left;">ENUM(HARD, SOFT)</td>
+<td style="text-align: left;">HARD=block at limit, SOFT=allow overage + charge</td>
 </tr>
 <tr>
-<td>overage_price</td>
-<td>INT</td>
-<td>Per-unit charge beyond limit/included amount (micro-cents)</td>
+<td style="text-align: left;">overage_price</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">Per-unit charge beyond limit/included amount (micro-cents)</td>
 </tr>
 <tr>
-<td>included_amount</td>
-<td>INT</td>
-<td>For METERED: free units before overage kicks in</td>
+<td style="text-align: left;">included_amount</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">For METERED: free units before overage kicks in</td>
 </tr>
 <tr>
-<td>reset_period</td>
-<td>ENUM(MONTHLY, ANNUALLY, NEVER)</td>
-<td>When quota counters reset</td>
+<td style="text-align: left;">reset_period</td>
+<td style="text-align: left;">ENUM(MONTHLY, ANNUALLY, NEVER)</td>
+<td style="text-align: left;">When quota counters reset</td>
 </tr>
 </tbody>
 </table>
@@ -1729,31 +1729,31 @@
 <table>
 <thead>
 <tr>
-<th>Real price</th>
-<th>Micro-cents</th>
-<th>Calculation</th>
+<th style="text-align: left;">Real price</th>
+<th style="text-align: left;">Micro-cents</th>
+<th style="text-align: left;">Calculation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>$0.001/call</td>
-<td>10</td>
-<td>$0.001 × 10,000 = 10</td>
+<td style="text-align: left;">$0.001/call</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">$0.001 × 10,000 = 10</td>
 </tr>
 <tr>
-<td>$0.02/GB</td>
-<td>200</td>
-<td>$0.02 × 10,000 = 200</td>
+<td style="text-align: left;">$0.02/GB</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">$0.02 × 10,000 = 200</td>
 </tr>
 <tr>
-<td>$0.50/seat</td>
-<td>5000</td>
-<td>$0.50 × 10,000 = 5000</td>
+<td style="text-align: left;">$0.50/seat</td>
+<td style="text-align: left;">5000</td>
+<td style="text-align: left;">$0.50 × 10,000 = 5000</td>
 </tr>
 <tr>
-<td>$1.00/unit</td>
-<td>10000</td>
-<td>$1.00 × 10,000 = 10,000</td>
+<td style="text-align: left;">$1.00/unit</td>
+<td style="text-align: left;">10000</td>
+<td style="text-align: left;">$1.00 × 10,000 = 10,000</td>
 </tr>
 </tbody>
 </table>
@@ -1783,61 +1783,61 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>UUID PK</td>
-<td>Auto-generated</td>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">UUID PK</td>
+<td style="text-align: left;">Auto-generated</td>
 </tr>
 <tr>
-<td>tenant_id</td>
-<td>UUID FK → tenants</td>
-<td>Which tenant holds this subscription</td>
+<td style="text-align: left;">tenant_id</td>
+<td style="text-align: left;">UUID FK → tenants</td>
+<td style="text-align: left;">Which tenant holds this subscription</td>
 </tr>
 <tr>
-<td>plan_id</td>
-<td>UUID FK → plans</td>
-<td>Which plan they're on</td>
+<td style="text-align: left;">plan_id</td>
+<td style="text-align: left;">UUID FK → plans</td>
+<td style="text-align: left;">Which plan they're on</td>
 </tr>
 <tr>
-<td>price_id</td>
-<td>UUID FK → plan_prices</td>
-<td>Which price they're paying</td>
+<td style="text-align: left;">price_id</td>
+<td style="text-align: left;">UUID FK → plan_prices</td>
+<td style="text-align: left;">Which price they're paying</td>
 </tr>
 <tr>
-<td>status</td>
-<td>ENUM(ACTIVE, TRIALING, PAST_DUE, CANCELLED, PAUSED)</td>
-<td>Current lifecycle state</td>
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">ENUM(ACTIVE, TRIALING, PAST_DUE, CANCELLED, PAUSED)</td>
+<td style="text-align: left;">Current lifecycle state</td>
 </tr>
 <tr>
-<td>current_period_start</td>
-<td>TIMESTAMP</td>
-<td>Start of current billing period</td>
+<td style="text-align: left;">current_period_start</td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: left;">Start of current billing period</td>
 </tr>
 <tr>
-<td>current_period_end</td>
-<td>TIMESTAMP</td>
-<td>End of current billing period (next charge date)</td>
+<td style="text-align: left;">current_period_end</td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: left;">End of current billing period (next charge date)</td>
 </tr>
 <tr>
-<td>billing_anchor</td>
-<td>INT (1-28)</td>
-<td>Day-of-month for recurring charges</td>
+<td style="text-align: left;">billing_anchor</td>
+<td style="text-align: left;">INT (1-28)</td>
+<td style="text-align: left;">Day-of-month for recurring charges</td>
 </tr>
 <tr>
-<td>trial_ends_at</td>
-<td>TIMESTAMP</td>
-<td>When trial expires. Null if no trial</td>
+<td style="text-align: left;">trial_ends_at</td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: left;">When trial expires. Null if no trial</td>
 </tr>
 <tr>
-<td>cancelled_at</td>
-<td>TIMESTAMP</td>
-<td>When cancellation was requested. Null if active</td>
+<td style="text-align: left;">cancelled_at</td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: left;">When cancellation was requested. Null if active</td>
 </tr>
 </tbody>
 </table>
@@ -1853,61 +1853,61 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>UUID PK</td>
-<td>Auto-generated</td>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">UUID PK</td>
+<td style="text-align: left;">Auto-generated</td>
 </tr>
 <tr>
-<td>subscription_id</td>
-<td>UUID FK → subscriptions</td>
-<td>Which subscription this belongs to</td>
+<td style="text-align: left;">subscription_id</td>
+<td style="text-align: left;">UUID FK → subscriptions</td>
+<td style="text-align: left;">Which subscription this belongs to</td>
 </tr>
 <tr>
-<td>feature_lookup_key</td>
-<td>VARCHAR(100)</td>
-<td>Denormalized from features.lookup_key</td>
+<td style="text-align: left;">feature_lookup_key</td>
+<td style="text-align: left;">VARCHAR(100)</td>
+<td style="text-align: left;">Denormalized from features.lookup_key</td>
 </tr>
 <tr>
-<td>feature_type</td>
-<td>ENUM(BOOLEAN, QUOTA, METERED)</td>
-<td>Denormalized from features.type</td>
+<td style="text-align: left;">feature_type</td>
+<td style="text-align: left;">ENUM(BOOLEAN, QUOTA, METERED)</td>
+<td style="text-align: left;">Denormalized from features.type</td>
 </tr>
 <tr>
-<td>value</td>
-<td>BOOLEAN</td>
-<td>Snapshot of entitlement value</td>
+<td style="text-align: left;">value</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">Snapshot of entitlement value</td>
 </tr>
 <tr>
-<td>limit</td>
-<td>INT</td>
-<td>Snapshot of entitlement limit</td>
+<td style="text-align: left;">limit</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">Snapshot of entitlement limit</td>
 </tr>
 <tr>
-<td>limit_behavior</td>
-<td>ENUM(HARD, SOFT)</td>
-<td>Snapshot of limit behavior</td>
+<td style="text-align: left;">limit_behavior</td>
+<td style="text-align: left;">ENUM(HARD, SOFT)</td>
+<td style="text-align: left;">Snapshot of limit behavior</td>
 </tr>
 <tr>
-<td>overage_price</td>
-<td>INT</td>
-<td>Snapshot of overage price (micro-cents)</td>
+<td style="text-align: left;">overage_price</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">Snapshot of overage price (micro-cents)</td>
 </tr>
 <tr>
-<td>included_amount</td>
-<td>INT</td>
-<td>Snapshot of included amount</td>
+<td style="text-align: left;">included_amount</td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: left;">Snapshot of included amount</td>
 </tr>
 <tr>
-<td>reset_period</td>
-<td>ENUM(MONTHLY, ANNUALLY, NEVER)</td>
-<td>Snapshot of reset period</td>
+<td style="text-align: left;">reset_period</td>
+<td style="text-align: left;">ENUM(MONTHLY, ANNUALLY, NEVER)</td>
+<td style="text-align: left;">Snapshot of reset period</td>
 </tr>
 </tbody>
 </table>
@@ -1976,30 +1976,30 @@
 <table>
 <thead>
 <tr>
-<th>Plan</th>
-<th>Slug</th>
-<th>Price (monthly)</th>
-<th>Price (annual)</th>
+<th style="text-align: left;">Plan</th>
+<th style="text-align: left;">Slug</th>
+<th style="text-align: left;">Price (monthly)</th>
+<th style="text-align: left;">Price (annual)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Starter</td>
-<td>starter</td>
-<td>$29/mo</td>
-<td>$278/yr ($23.17/mo)</td>
+<td style="text-align: left;">Starter</td>
+<td style="text-align: left;">starter</td>
+<td style="text-align: left;">$29/mo</td>
+<td style="text-align: left;">$278/yr ($23.17/mo)</td>
 </tr>
 <tr>
-<td>Pro</td>
-<td>pro</td>
-<td>$99/mo</td>
-<td>$948/yr ($79/mo)</td>
+<td style="text-align: left;">Pro</td>
+<td style="text-align: left;">pro</td>
+<td style="text-align: left;">$99/mo</td>
+<td style="text-align: left;">$948/yr ($79/mo)</td>
 </tr>
 <tr>
-<td>Enterprise</td>
-<td>enterprise</td>
-<td>$499/mo</td>
-<td>$4,788/yr ($399/mo)</td>
+<td style="text-align: left;">Enterprise</td>
+<td style="text-align: left;">enterprise</td>
+<td style="text-align: left;">$499/mo</td>
+<td style="text-align: left;">$4,788/yr ($399/mo)</td>
 </tr>
 </tbody>
 </table>
@@ -2007,60 +2007,60 @@
 <table>
 <thead>
 <tr>
-<th>Feature</th>
-<th>Lookup Key</th>
-<th>Type</th>
-<th>Unit</th>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Lookup Key</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Unit</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>API Access</td>
-<td>api_access</td>
-<td>BOOLEAN</td>
-<td>-</td>
+<td style="text-align: left;">API Access</td>
+<td style="text-align: left;">api_access</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr>
-<td>API Calls</td>
-<td>api_calls</td>
-<td>QUOTA</td>
-<td>calls</td>
+<td style="text-align: left;">API Calls</td>
+<td style="text-align: left;">api_calls</td>
+<td style="text-align: left;">QUOTA</td>
+<td style="text-align: left;">calls</td>
 </tr>
 <tr>
-<td>Storage</td>
-<td>storage</td>
-<td>METERED</td>
-<td>GB</td>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">storage</td>
+<td style="text-align: left;">METERED</td>
+<td style="text-align: left;">GB</td>
 </tr>
 <tr>
-<td>SSO</td>
-<td>sso</td>
-<td>BOOLEAN</td>
-<td>-</td>
+<td style="text-align: left;">SSO</td>
+<td style="text-align: left;">sso</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr>
-<td>Webhooks</td>
-<td>webhooks</td>
-<td>BOOLEAN</td>
-<td>-</td>
+<td style="text-align: left;">Webhooks</td>
+<td style="text-align: left;">webhooks</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr>
-<td>Priority Support</td>
-<td>priority_support</td>
-<td>BOOLEAN</td>
-<td>-</td>
+<td style="text-align: left;">Priority Support</td>
+<td style="text-align: left;">priority_support</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">-</td>
 </tr>
 <tr>
-<td>Team Seats</td>
-<td>team_seats</td>
-<td>QUOTA</td>
-<td>seats</td>
+<td style="text-align: left;">Team Seats</td>
+<td style="text-align: left;">team_seats</td>
+<td style="text-align: left;">QUOTA</td>
+<td style="text-align: left;">seats</td>
 </tr>
 <tr>
-<td>Analytics Export</td>
-<td>analytics_export</td>
-<td>BOOLEAN</td>
-<td>-</td>
+<td style="text-align: left;">Analytics Export</td>
+<td style="text-align: left;">analytics_export</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">-</td>
 </tr>
 </tbody>
 </table>
@@ -2068,60 +2068,60 @@
 <table>
 <thead>
 <tr>
-<th>Feature</th>
-<th>Starter</th>
-<th>Pro</th>
-<th>Enterprise</th>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Starter</th>
+<th style="text-align: left;">Pro</th>
+<th style="text-align: left;">Enterprise</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>API Access</td>
-<td>✅ true</td>
-<td>✅ true</td>
-<td>✅ true</td>
+<td style="text-align: left;">API Access</td>
+<td style="text-align: left;">✅ true</td>
+<td style="text-align: left;">✅ true</td>
+<td style="text-align: left;">✅ true</td>
 </tr>
 <tr>
-<td>API Calls</td>
-<td>1,000/mo HARD</td>
-<td>50,000/mo SOFT ($0.001/call)</td>
-<td>500,000/mo SOFT ($0.0005/call)</td>
+<td style="text-align: left;">API Calls</td>
+<td style="text-align: left;">1,000/mo HARD</td>
+<td style="text-align: left;">50,000/mo SOFT ($0.001/call)</td>
+<td style="text-align: left;">500,000/mo SOFT ($0.0005/call)</td>
 </tr>
 <tr>
-<td>Storage</td>
-<td>1 GB included, $0.05/GB</td>
-<td>10 GB included, $0.02/GB</td>
-<td>100 GB included, $0.01/GB</td>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">1 GB included, $0.05/GB</td>
+<td style="text-align: left;">10 GB included, $0.02/GB</td>
+<td style="text-align: left;">100 GB included, $0.01/GB</td>
 </tr>
 <tr>
-<td>SSO</td>
-<td>❌ false</td>
-<td>❌ false</td>
-<td>✅ true</td>
+<td style="text-align: left;">SSO</td>
+<td style="text-align: left;">❌ false</td>
+<td style="text-align: left;">❌ false</td>
+<td style="text-align: left;">✅ true</td>
 </tr>
 <tr>
-<td>Webhooks</td>
-<td>❌ false</td>
-<td>✅ true</td>
-<td>✅ true</td>
+<td style="text-align: left;">Webhooks</td>
+<td style="text-align: left;">❌ false</td>
+<td style="text-align: left;">✅ true</td>
+<td style="text-align: left;">✅ true</td>
 </tr>
 <tr>
-<td>Priority Support</td>
-<td>❌ false</td>
-<td>❌ false</td>
-<td>✅ true</td>
+<td style="text-align: left;">Priority Support</td>
+<td style="text-align: left;">❌ false</td>
+<td style="text-align: left;">❌ false</td>
+<td style="text-align: left;">✅ true</td>
 </tr>
 <tr>
-<td>Team Seats</td>
-<td>3 seats HARD</td>
-<td>10 seats SOFT ($10/seat)</td>
-<td>50 seats SOFT ($8/seat)</td>
+<td style="text-align: left;">Team Seats</td>
+<td style="text-align: left;">3 seats HARD</td>
+<td style="text-align: left;">10 seats SOFT ($10/seat)</td>
+<td style="text-align: left;">50 seats SOFT ($8/seat)</td>
 </tr>
 <tr>
-<td>Analytics Export</td>
-<td>❌ false</td>
-<td>✅ true</td>
-<td>✅ true</td>
+<td style="text-align: left;">Analytics Export</td>
+<td style="text-align: left;">❌ false</td>
+<td style="text-align: left;">✅ true</td>
+<td style="text-align: left;">✅ true</td>
 </tr>
 </tbody>
 </table>
@@ -2129,26 +2129,26 @@
 <table>
 <thead>
 <tr>
-<th>Tenant</th>
-<th>Plan</th>
-<th>Interval</th>
+<th style="text-align: left;">Tenant</th>
+<th style="text-align: left;">Plan</th>
+<th style="text-align: left;">Interval</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Acme Corp</td>
-<td>Pro</td>
-<td>Monthly</td>
+<td style="text-align: left;">Acme Corp</td>
+<td style="text-align: left;">Pro</td>
+<td style="text-align: left;">Monthly</td>
 </tr>
 <tr>
-<td>Globex Industries</td>
-<td>Starter</td>
-<td>Monthly</td>
+<td style="text-align: left;">Globex Industries</td>
+<td style="text-align: left;">Starter</td>
+<td style="text-align: left;">Monthly</td>
 </tr>
 <tr>
-<td>Stark Enterprises</td>
-<td>Enterprise</td>
-<td>Annually</td>
+<td style="text-align: left;">Stark Enterprises</td>
+<td style="text-align: left;">Enterprise</td>
+<td style="text-align: left;">Annually</td>
 </tr>
 </tbody>
 </table>
@@ -2157,50 +2157,50 @@
 <table>
 <thead>
 <tr>
-<th>Decision</th>
-<th>Why</th>
+<th style="text-align: left;">Decision</th>
+<th style="text-align: left;">Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Plan/Price separation</td>
-<td>Stripe pattern. Change pricing without creating new plans</td>
+<td style="text-align: left;">Plan/Price separation</td>
+<td style="text-align: left;">Stripe pattern. Change pricing without creating new plans</td>
 </tr>
 <tr>
-<td>Features as global catalog</td>
-<td>Decouple capabilities from plans. Same feature, different limits per plan</td>
+<td style="text-align: left;">Features as global catalog</td>
+<td style="text-align: left;">Decouple capabilities from plans. Same feature, different limits per plan</td>
 </tr>
 <tr>
-<td>Entitlement as the bridge</td>
-<td>Single place to define "Plan X gets Feature Y with these rules"</td>
+<td style="text-align: left;">Entitlement as the bridge</td>
+<td style="text-align: left;">Single place to define "Plan X gets Feature Y with these rules"</td>
 </tr>
 <tr>
-<td>Entitlement snapshots</td>
-<td>Existing subscribers keep their contracted limits when plan changes</td>
+<td style="text-align: left;">Entitlement snapshots</td>
+<td style="text-align: left;">Existing subscribers keep their contracted limits when plan changes</td>
 </tr>
 <tr>
-<td>Micro-cents for overage pricing</td>
-<td>Avoids floating-point math for sub-cent pricing ($0.001/call)</td>
+<td style="text-align: left;">Micro-cents for overage pricing</td>
+<td style="text-align: left;">Avoids floating-point math for sub-cent pricing ($0.001/call)</td>
 </tr>
 <tr>
-<td>limit_behavior on entitlement</td>
-<td>Same feature can be HARD on Starter and SOFT on Pro</td>
+<td style="text-align: left;">limit_behavior on entitlement</td>
+<td style="text-align: left;">Same feature can be HARD on Starter and SOFT on Pro</td>
 </tr>
 <tr>
-<td>lookup_key on features</td>
-<td>Stable code-facing identifier. Code checks "api_calls", not a UUID</td>
+<td style="text-align: left;">lookup_key on features</td>
+<td style="text-align: left;">Stable code-facing identifier. Code checks "api_calls", not a UUID</td>
 </tr>
 <tr>
-<td>Denormalized snapshots</td>
-<td>Avoids JOIN on the hot path (entitlement check per request)</td>
+<td style="text-align: left;">Denormalized snapshots</td>
+<td style="text-align: left;">Avoids JOIN on the hot path (entitlement check per request)</td>
 </tr>
 <tr>
-<td>One active subscription per tenant</td>
-<td>Clean audit trail. Upgrades create new subscription, cancel old</td>
+<td style="text-align: left;">One active subscription per tenant</td>
+<td style="text-align: left;">Clean audit trail. Upgrades create new subscription, cancel old</td>
 </tr>
 <tr>
-<td>billing_anchor capped at 28</td>
-<td>Avoids February edge case (28/29/30/31 days)</td>
+<td style="text-align: left;">billing_anchor capped at 28</td>
+<td style="text-align: left;">Avoids February edge case (28/29/30/31 days)</td>
 </tr>
 </tbody>
 </table>

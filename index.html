@@ -1376,26 +1376,26 @@
 <table>
 <thead>
 <tr>
-<th>Section</th>
-<th>What you'll find</th>
+<th style="text-align: left;">Section</th>
+<th style="text-align: left;">What you'll find</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="architecture/overview/">Architecture</a></td>
-<td>System design, module boundaries, data flow, infrastructure decisions.</td>
+<td style="text-align: left;"><a href="architecture/overview/">Architecture</a></td>
+<td style="text-align: left;">System design, module boundaries, data flow, infrastructure decisions.</td>
 </tr>
 <tr>
-<td><a href="development/setup/">Development</a></td>
-<td>Setup guide, daily workflow, conventions, troubleshooting.</td>
+<td style="text-align: left;"><a href="development/setup/">Development</a></td>
+<td style="text-align: left;">Setup guide, daily workflow, conventions, troubleshooting.</td>
 </tr>
 <tr>
-<td><a href="api/overview/">API</a></td>
-<td>API design decisions, versioning, error format, authentication.</td>
+<td style="text-align: left;"><a href="api/overview/">API</a></td>
+<td style="text-align: left;">API design decisions, versioning, error format, authentication.</td>
 </tr>
 <tr>
-<td><a href="phases/phase-0/">Build Phases</a></td>
-<td>Detailed log of each development phase - what was built, why, and lessons learned.</td>
+<td style="text-align: left;"><a href="phases/phase-0/">Build Phases</a></td>
+<td style="text-align: left;">Detailed log of each development phase - what was built, why, and lessons learned.</td>
 </tr>
 </tbody>
 </table>
@@ -1416,56 +1416,56 @@
 <table>
 <thead>
 <tr>
-<th>Phase</th>
-<th>Focus</th>
-<th>Status</th>
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">Focus</th>
+<th style="text-align: left;">Status</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0</td>
-<td>Project setup, infrastructure, foundations</td>
-<td>✅ Complete</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">Project setup, infrastructure, foundations</td>
+<td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr>
-<td>1</td>
-<td>Multi-tenant identity and access (auth, tenants, users, API keys)</td>
-<td>✅ Complete</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Multi-tenant identity and access (auth, tenants, users, API keys)</td>
+<td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr>
-<td>2</td>
-<td>Plans, entitlements, and quotas</td>
-<td>✅ Complete</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Plans, entitlements, and quotas</td>
+<td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr>
-<td>3</td>
-<td>Usage ingestion, outbox pattern, Kafka pipeline</td>
-<td>🔜 Next</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Usage ingestion, outbox pattern, Kafka pipeline</td>
+<td style="text-align: left;">🔜 Next</td>
 </tr>
 <tr>
-<td>4</td>
-<td>Billing ledger and invoices</td>
-<td></td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Billing ledger and invoices</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td>5</td>
-<td>Payments and webhooks</td>
-<td></td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Payments and webhooks</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td>6</td>
-<td>Admin, audit log, reconciliation</td>
-<td></td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Admin, audit log, reconciliation</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td>7</td>
-<td>Observability (Grafana, Loki, OpenTelemetry)</td>
-<td></td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Observability (Grafana, Loki, OpenTelemetry)</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr>
-<td>8</td>
-<td>Scale, hardening, load testing</td>
-<td></td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Scale, hardening, load testing</td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
@@ -1475,56 +1475,56 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/register</code></td>
-<td>Register user + create tenant</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/register</code></td>
+<td style="text-align: left;">Register user + create tenant</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/login</code></td>
-<td>Login, get JWT + refresh token</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/login</code></td>
+<td style="text-align: left;">Login, get JWT + refresh token</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/refresh</code></td>
-<td>Refresh access token</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/refresh</code></td>
+<td style="text-align: left;">Refresh access token</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/auth/me</code></td>
-<td>Get current user profile</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/auth/me</code></td>
+<td style="text-align: left;">Get current user profile</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/change-password</code></td>
-<td>Change password, revoke other sessions</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/change-password</code></td>
+<td style="text-align: left;">Change password, revoke other sessions</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/forgot-password</code></td>
-<td>Request password reset token</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/forgot-password</code></td>
+<td style="text-align: left;">Request password reset token</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/reset-password</code></td>
-<td>Reset password with token</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/reset-password</code></td>
+<td style="text-align: left;">Reset password with token</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/logout</code></td>
-<td>Revoke a refresh token</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/logout</code></td>
+<td style="text-align: left;">Revoke a refresh token</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/auth/revoke-all</code></td>
-<td>Revoke all sessions</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/auth/revoke-all</code></td>
+<td style="text-align: left;">Revoke all sessions</td>
 </tr>
 </tbody>
 </table>
@@ -1532,41 +1532,41 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/tenants</code></td>
-<td>Create a tenant</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/tenants</code></td>
+<td style="text-align: left;">Create a tenant</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/tenants</code></td>
-<td>List tenants for current user</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/tenants</code></td>
+<td style="text-align: left;">List tenants for current user</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/tenants/:id</code></td>
-<td>Get tenant by ID</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/tenants/:id</code></td>
+<td style="text-align: left;">Get tenant by ID</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/tenants/slug/:slug</code></td>
-<td>Get tenant by slug</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/tenants/slug/:slug</code></td>
+<td style="text-align: left;">Get tenant by slug</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td><code>/api/v1/tenants/:id</code></td>
-<td>Update tenant</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;"><code>/api/v1/tenants/:id</code></td>
+<td style="text-align: left;">Update tenant</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/tenants/me/context</code></td>
-<td>Get current tenant context</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/tenants/me/context</code></td>
+<td style="text-align: left;">Get current tenant context</td>
 </tr>
 </tbody>
 </table>
@@ -1574,26 +1574,26 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/users</code></td>
-<td>Create user in tenant</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/users</code></td>
+<td style="text-align: left;">Create user in tenant</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/users/:id</code></td>
-<td>Get user by ID</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/users/:id</code></td>
+<td style="text-align: left;">Get user by ID</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td><code>/api/v1/users/:id</code></td>
-<td>Update user profile</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;"><code>/api/v1/users/:id</code></td>
+<td style="text-align: left;">Update user profile</td>
 </tr>
 </tbody>
 </table>
@@ -1601,26 +1601,26 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/api-keys</code></td>
-<td>Create API key (shown once)</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/api-keys</code></td>
+<td style="text-align: left;">Create API key (shown once)</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/api-keys</code></td>
-<td>List keys for tenant</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/api-keys</code></td>
+<td style="text-align: left;">List keys for tenant</td>
 </tr>
 <tr>
-<td>DELETE</td>
-<td><code>/api/v1/api-keys/:id</code></td>
-<td>Revoke API key</td>
+<td style="text-align: left;">DELETE</td>
+<td style="text-align: left;"><code>/api/v1/api-keys/:id</code></td>
+<td style="text-align: left;">Revoke API key</td>
 </tr>
 </tbody>
 </table>
@@ -1630,36 +1630,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/plans</code></td>
-<td>Create a plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/plans</code></td>
+<td style="text-align: left;">Create a plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/plans</code></td>
-<td>List plans</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/plans</code></td>
+<td style="text-align: left;">List plans</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/plans/:id</code></td>
-<td>Get plan by ID</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/plans/:id</code></td>
+<td style="text-align: left;">Get plan by ID</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/plans/slug/:slug</code></td>
-<td>Get plan by slug</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/plans/slug/:slug</code></td>
+<td style="text-align: left;">Get plan by slug</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td><code>/api/v1/plans/:id</code></td>
-<td>Update plan</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;"><code>/api/v1/plans/:id</code></td>
+<td style="text-align: left;">Update plan</td>
 </tr>
 </tbody>
 </table>
@@ -1667,26 +1667,26 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/plans/:planId/prices</code></td>
-<td>Add price to plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/prices</code></td>
+<td style="text-align: left;">Add price to plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/plans/:planId/prices</code></td>
-<td>List prices</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/prices</code></td>
+<td style="text-align: left;">List prices</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td><code>/api/v1/plans/:planId/prices/:id</code></td>
-<td>Deactivate price</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/prices/:id</code></td>
+<td style="text-align: left;">Deactivate price</td>
 </tr>
 </tbody>
 </table>
@@ -1694,36 +1694,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/features</code></td>
-<td>Create feature</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/features</code></td>
+<td style="text-align: left;">Create feature</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/features</code></td>
-<td>List features</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/features</code></td>
+<td style="text-align: left;">List features</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/features/:id</code></td>
-<td>Get feature by ID</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/features/:id</code></td>
+<td style="text-align: left;">Get feature by ID</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/features/key/:lookupKey</code></td>
-<td>Get feature by lookup key</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/features/key/:lookupKey</code></td>
+<td style="text-align: left;">Get feature by lookup key</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td><code>/api/v1/features/:id</code></td>
-<td>Update feature</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;"><code>/api/v1/features/:id</code></td>
+<td style="text-align: left;">Update feature</td>
 </tr>
 </tbody>
 </table>
@@ -1731,36 +1731,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/plans/:planId/entitlements</code></td>
-<td>Map feature to plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/entitlements</code></td>
+<td style="text-align: left;">Map feature to plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/plans/:planId/entitlements</code></td>
-<td>List plan entitlements</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/entitlements</code></td>
+<td style="text-align: left;">List plan entitlements</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/plans/:planId/entitlements/:id</code></td>
-<td>Get entitlement</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/entitlements/:id</code></td>
+<td style="text-align: left;">Get entitlement</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td><code>/api/v1/plans/:planId/entitlements/:id</code></td>
-<td>Update entitlement</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/entitlements/:id</code></td>
+<td style="text-align: left;">Update entitlement</td>
 </tr>
 <tr>
-<td>DELETE</td>
-<td><code>/api/v1/plans/:planId/entitlements/:id</code></td>
-<td>Remove entitlement</td>
+<td style="text-align: left;">DELETE</td>
+<td style="text-align: left;"><code>/api/v1/plans/:planId/entitlements/:id</code></td>
+<td style="text-align: left;">Remove entitlement</td>
 </tr>
 </tbody>
 </table>
@@ -1768,31 +1768,31 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/subscriptions</code></td>
-<td>Subscribe tenant to plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/subscriptions</code></td>
+<td style="text-align: left;">Subscribe tenant to plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/subscriptions/active</code></td>
-<td>Get active subscription</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/subscriptions/active</code></td>
+<td style="text-align: left;">Get active subscription</td>
 </tr>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/subscriptions</code></td>
-<td>List subscription history</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/subscriptions</code></td>
+<td style="text-align: left;">List subscription history</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/subscriptions/:id/cancel</code></td>
-<td>Cancel subscription</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/subscriptions/:id/cancel</code></td>
+<td style="text-align: left;">Cancel subscription</td>
 </tr>
 </tbody>
 </table>
@@ -1800,21 +1800,21 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GET</td>
-<td><code>/api/v1/entitlements/:featureKey/check</code></td>
-<td>Check if tenant can use feature</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/v1/entitlements/:featureKey/check</code></td>
+<td style="text-align: left;">Check if tenant can use feature</td>
 </tr>
 <tr>
-<td>POST</td>
-<td><code>/api/v1/entitlements/:featureKey/consume</code></td>
-<td>Consume units of feature</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/entitlements/:featureKey/consume</code></td>
+<td style="text-align: left;">Consume units of feature</td>
 </tr>
 </tbody>
 </table>

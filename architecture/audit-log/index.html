@@ -1739,71 +1739,71 @@
 <table>
 <thead>
 <tr>
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td>UUID</td>
-<td>Primary key, auto-generated</td>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;">UUID</td>
+<td style="text-align: left;">Primary key, auto-generated</td>
 </tr>
 <tr>
-<td><code>tenant_id</code></td>
-<td>UUID</td>
-<td>Which tenant was affected. Not a foreign key - survives tenant deletion</td>
+<td style="text-align: left;"><code>tenant_id</code></td>
+<td style="text-align: left;">UUID</td>
+<td style="text-align: left;">Which tenant was affected. Not a foreign key - survives tenant deletion</td>
 </tr>
 <tr>
-<td><code>actor_id</code></td>
-<td>VARCHAR(255)</td>
-<td>User UUID or API key UUID of who performed the action</td>
+<td style="text-align: left;"><code>actor_id</code></td>
+<td style="text-align: left;">VARCHAR(255)</td>
+<td style="text-align: left;">User UUID or API key UUID of who performed the action</td>
 </tr>
 <tr>
-<td><code>actor_type</code></td>
-<td>ENUM</td>
-<td><code>USER</code> (JWT auth), <code>API_KEY</code> (server-to-server), or <code>SYSTEM</code> (internal ops)</td>
+<td style="text-align: left;"><code>actor_type</code></td>
+<td style="text-align: left;">ENUM</td>
+<td style="text-align: left;"><code>USER</code> (JWT auth), <code>API_KEY</code> (server-to-server), or <code>SYSTEM</code> (internal ops)</td>
 </tr>
 <tr>
-<td><code>action</code></td>
-<td>ENUM</td>
-<td><code>CREATE</code>, <code>UPDATE</code>, or <code>DELETE</code></td>
+<td style="text-align: left;"><code>action</code></td>
+<td style="text-align: left;">ENUM</td>
+<td style="text-align: left;"><code>CREATE</code>, <code>UPDATE</code>, or <code>DELETE</code></td>
 </tr>
 <tr>
-<td><code>resource</code></td>
-<td>VARCHAR(100)</td>
-<td>Resource type: <code>tenant</code>, <code>user</code>, <code>api_key</code>, <code>membership</code>, etc.</td>
+<td style="text-align: left;"><code>resource</code></td>
+<td style="text-align: left;">VARCHAR(100)</td>
+<td style="text-align: left;">Resource type: <code>tenant</code>, <code>user</code>, <code>api_key</code>, <code>membership</code>, etc.</td>
 </tr>
 <tr>
-<td><code>resource_id</code></td>
-<td>VARCHAR(255)</td>
-<td>UUID of the specific record that was affected</td>
+<td style="text-align: left;"><code>resource_id</code></td>
+<td style="text-align: left;">VARCHAR(255)</td>
+<td style="text-align: left;">UUID of the specific record that was affected</td>
 </tr>
 <tr>
-<td><code>changes</code></td>
-<td>JSONB</td>
-<td>What changed - shape varies by action type (see below)</td>
+<td style="text-align: left;"><code>changes</code></td>
+<td style="text-align: left;">JSONB</td>
+<td style="text-align: left;">What changed - shape varies by action type (see below)</td>
 </tr>
 <tr>
-<td><code>ip_address</code></td>
-<td>VARCHAR(45)</td>
-<td>Client IP. Supports IPv4 and IPv6</td>
+<td style="text-align: left;"><code>ip_address</code></td>
+<td style="text-align: left;">VARCHAR(45)</td>
+<td style="text-align: left;">Client IP. Supports IPv4 and IPv6</td>
 </tr>
 <tr>
-<td><code>user_agent</code></td>
-<td>VARCHAR(500)</td>
-<td>Client user agent string (truncated to 500 chars)</td>
+<td style="text-align: left;"><code>user_agent</code></td>
+<td style="text-align: left;">VARCHAR(500)</td>
+<td style="text-align: left;">Client user agent string (truncated to 500 chars)</td>
 </tr>
 <tr>
-<td><code>correlation_id</code></td>
-<td>VARCHAR(36)</td>
-<td>Links to the request log via <code>x-correlation-id</code> header</td>
+<td style="text-align: left;"><code>correlation_id</code></td>
+<td style="text-align: left;">VARCHAR(36)</td>
+<td style="text-align: left;">Links to the request log via <code>x-correlation-id</code> header</td>
 </tr>
 <tr>
-<td><code>created_at</code></td>
-<td>TIMESTAMP</td>
-<td>When the action occurred. Immutable - no <code>updated_at</code></td>
+<td style="text-align: left;"><code>created_at</code></td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: left;">When the action occurred. Immutable - no <code>updated_at</code></td>
 </tr>
 </tbody>
 </table>
@@ -1811,31 +1811,31 @@
 <table>
 <thead>
 <tr>
-<th>Index</th>
-<th>Columns</th>
-<th>Use case</th>
+<th style="text-align: left;">Index</th>
+<th style="text-align: left;">Columns</th>
+<th style="text-align: left;">Use case</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>audit_logs_tenant_id_idx</code></td>
-<td><code>tenant_id</code></td>
-<td>"Show all activity in Acme Corp"</td>
+<td style="text-align: left;"><code>audit_logs_tenant_id_idx</code></td>
+<td style="text-align: left;"><code>tenant_id</code></td>
+<td style="text-align: left;">"Show all activity in Acme Corp"</td>
 </tr>
 <tr>
-<td><code>audit_logs_actor_id_idx</code></td>
-<td><code>actor_id</code></td>
-<td>"Show everything Alice did"</td>
+<td style="text-align: left;"><code>audit_logs_actor_id_idx</code></td>
+<td style="text-align: left;"><code>actor_id</code></td>
+<td style="text-align: left;">"Show everything Alice did"</td>
 </tr>
 <tr>
-<td><code>audit_logs_resource_resource_id_idx</code></td>
-<td><code>resource, resource_id</code></td>
-<td>"Show the history of this specific API key"</td>
+<td style="text-align: left;"><code>audit_logs_resource_resource_id_idx</code></td>
+<td style="text-align: left;"><code>resource, resource_id</code></td>
+<td style="text-align: left;">"Show the history of this specific API key"</td>
 </tr>
 <tr>
-<td><code>audit_logs_created_at_idx</code></td>
-<td><code>created_at</code></td>
-<td>"Show activity from the last 24 hours"</td>
+<td style="text-align: left;"><code>audit_logs_created_at_idx</code></td>
+<td style="text-align: left;"><code>created_at</code></td>
+<td style="text-align: left;">"Show activity from the last 24 hours"</td>
 </tr>
 </tbody>
 </table>
@@ -1867,46 +1867,46 @@
 <table>
 <thead>
 <tr>
-<th>HTTP Method</th>
-<th>Audit Action</th>
-<th>Audited?</th>
+<th style="text-align: left;">HTTP Method</th>
+<th style="text-align: left;">Audit Action</th>
+<th style="text-align: left;">Audited?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>POST</code></td>
-<td><code>CREATE</code></td>
-<td>Yes</td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>CREATE</code></td>
+<td style="text-align: left;">Yes</td>
 </tr>
 <tr>
-<td><code>PATCH</code></td>
-<td><code>UPDATE</code></td>
-<td>Yes</td>
+<td style="text-align: left;"><code>PATCH</code></td>
+<td style="text-align: left;"><code>UPDATE</code></td>
+<td style="text-align: left;">Yes</td>
 </tr>
 <tr>
-<td><code>PUT</code></td>
-<td><code>UPDATE</code></td>
-<td>Yes</td>
+<td style="text-align: left;"><code>PUT</code></td>
+<td style="text-align: left;"><code>UPDATE</code></td>
+<td style="text-align: left;">Yes</td>
 </tr>
 <tr>
-<td><code>DELETE</code></td>
-<td><code>DELETE</code></td>
-<td>Yes</td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;">Yes</td>
 </tr>
 <tr>
-<td><code>GET</code></td>
-<td>-</td>
-<td>No (reads don't mutate)</td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">No (reads don't mutate)</td>
 </tr>
 <tr>
-<td><code>HEAD</code></td>
-<td>-</td>
-<td>No</td>
+<td style="text-align: left;"><code>HEAD</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">No</td>
 </tr>
 <tr>
-<td><code>OPTIONS</code></td>
-<td>-</td>
-<td>No</td>
+<td style="text-align: left;"><code>OPTIONS</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">No</td>
 </tr>
 </tbody>
 </table>
@@ -1914,22 +1914,22 @@
 <table>
 <thead>
 <tr>
-<th>Path pattern</th>
-<th>Reason</th>
+<th style="text-align: left;">Path pattern</th>
+<th style="text-align: left;">Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>/health</code></td>
-<td>Infrastructure check, not a business operation</td>
+<td style="text-align: left;"><code>/health</code></td>
+<td style="text-align: left;">Infrastructure check, not a business operation</td>
 </tr>
 <tr>
-<td><code>/api/v1/auth/*</code></td>
-<td>Auth endpoints (login, register, refresh, etc.) have their own security logging</td>
+<td style="text-align: left;"><code>/api/v1/auth/*</code></td>
+<td style="text-align: left;">Auth endpoints (login, register, refresh, etc.) have their own security logging</td>
 </tr>
 <tr>
-<td>Routes with <code>@SkipAudit()</code></td>
-<td>Explicit opt-out per handler</td>
+<td style="text-align: left;">Routes with <code>@SkipAudit()</code></td>
+<td style="text-align: left;">Explicit opt-out per handler</td>
 </tr>
 </tbody>
 </table>
@@ -1939,26 +1939,26 @@
 <table>
 <thead>
 <tr>
-<th>Source</th>
-<th>Actor Type</th>
-<th>How it's detected</th>
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Actor Type</th>
+<th style="text-align: left;">How it's detected</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>JWT-authenticated user</td>
-<td><code>USER</code></td>
-<td><code>request.user.id</code> set by <code>JwtAuthGuard</code></td>
+<td style="text-align: left;">JWT-authenticated user</td>
+<td style="text-align: left;"><code>USER</code></td>
+<td style="text-align: left;"><code>request.user.id</code> set by <code>JwtAuthGuard</code></td>
 </tr>
 <tr>
-<td>API key</td>
-<td><code>API_KEY</code></td>
-<td><code>request.apiKeyId</code> set by <code>ApiKeyAuthGuard</code></td>
+<td style="text-align: left;">API key</td>
+<td style="text-align: left;"><code>API_KEY</code></td>
+<td style="text-align: left;"><code>request.apiKeyId</code> set by <code>ApiKeyAuthGuard</code></td>
 </tr>
 <tr>
-<td>Neither</td>
-<td><code>SYSTEM</code></td>
-<td>Fallback - shouldn't happen on guarded routes</td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;"><code>SYSTEM</code></td>
+<td style="text-align: left;">Fallback - shouldn't happen on guarded routes</td>
 </tr>
 </tbody>
 </table>
@@ -1967,34 +1967,34 @@
 <table>
 <thead>
 <tr>
-<th>URL path</th>
-<th>Resource</th>
+<th style="text-align: left;">URL path</th>
+<th style="text-align: left;">Resource</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>/api/v1/tenants</code></td>
-<td><code>tenant</code></td>
+<td style="text-align: left;"><code>/api/v1/tenants</code></td>
+<td style="text-align: left;"><code>tenant</code></td>
 </tr>
 <tr>
-<td><code>/api/v1/tenants/:id</code></td>
-<td><code>tenant</code></td>
+<td style="text-align: left;"><code>/api/v1/tenants/:id</code></td>
+<td style="text-align: left;"><code>tenant</code></td>
 </tr>
 <tr>
-<td><code>/api/v1/users</code></td>
-<td><code>user</code></td>
+<td style="text-align: left;"><code>/api/v1/users</code></td>
+<td style="text-align: left;"><code>user</code></td>
 </tr>
 <tr>
-<td><code>/api/v1/users/:id</code></td>
-<td><code>user</code></td>
+<td style="text-align: left;"><code>/api/v1/users/:id</code></td>
+<td style="text-align: left;"><code>user</code></td>
 </tr>
 <tr>
-<td><code>/api/v1/api-keys</code></td>
-<td><code>api_key</code></td>
+<td style="text-align: left;"><code>/api/v1/api-keys</code></td>
+<td style="text-align: left;"><code>api_key</code></td>
 </tr>
 <tr>
-<td><code>/api/v1/api-keys/:id</code></td>
-<td><code>api_key</code></td>
+<td style="text-align: left;"><code>/api/v1/api-keys/:id</code></td>
+<td style="text-align: left;"><code>api_key</code></td>
 </tr>
 </tbody>
 </table>

@@ -1566,26 +1566,26 @@
 <table>
 <thead>
 <tr>
-<th>Type</th>
-<th>Gating</th>
-<th>Example</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Gating</th>
+<th style="text-align: left;">Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>BOOLEAN</td>
-<td>On/off</td>
-<td>SSO, webhooks, priority support</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">On/off</td>
+<td style="text-align: left;">SSO, webhooks, priority support</td>
 </tr>
 <tr>
-<td>QUOTA</td>
-<td>Numeric limit per period</td>
-<td>50,000 API calls/month, 10 team seats</td>
+<td style="text-align: left;">QUOTA</td>
+<td style="text-align: left;">Numeric limit per period</td>
+<td style="text-align: left;">50,000 API calls/month, 10 team seats</td>
 </tr>
 <tr>
-<td>METERED</td>
-<td>Usage-based billing</td>
-<td>Storage at $0.02/GB, tokens at $0.001/call</td>
+<td style="text-align: left;">METERED</td>
+<td style="text-align: left;">Usage-based billing</td>
+<td style="text-align: left;">Storage at $0.02/GB, tokens at $0.001/call</td>
 </tr>
 </tbody>
 </table>
@@ -1608,26 +1608,26 @@
 <table>
 <thead>
 <tr>
-<th>Real price</th>
-<th>Micro-cents</th>
+<th style="text-align: left;">Real price</th>
+<th style="text-align: left;">Micro-cents</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>$0.001/call</td>
-<td>10</td>
+<td style="text-align: left;">$0.001/call</td>
+<td style="text-align: left;">10</td>
 </tr>
 <tr>
-<td>$0.02/GB</td>
-<td>200</td>
+<td style="text-align: left;">$0.02/GB</td>
+<td style="text-align: left;">200</td>
 </tr>
 <tr>
-<td>$0.50/seat</td>
-<td>5000</td>
+<td style="text-align: left;">$0.50/seat</td>
+<td style="text-align: left;">5000</td>
 </tr>
 <tr>
-<td>$10/seat</td>
-<td>100000</td>
+<td style="text-align: left;">$10/seat</td>
+<td style="text-align: left;">100000</td>
 </tr>
 </tbody>
 </table>
@@ -1663,36 +1663,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td>/plans</td>
-<td>Create a plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/plans</td>
+<td style="text-align: left;">Create a plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/plans</td>
-<td>List plans (skip ARCHIVED by default)</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/plans</td>
+<td style="text-align: left;">List plans (skip ARCHIVED by default)</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/plans/slug/:slug</td>
-<td>Get plan by slug</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/plans/slug/:slug</td>
+<td style="text-align: left;">Get plan by slug</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/plans/:id</td>
-<td>Get plan by UUID</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/plans/:id</td>
+<td style="text-align: left;">Get plan by UUID</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td>/plans/:id</td>
-<td>Update plan (slug immutable)</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;">/plans/:id</td>
+<td style="text-align: left;">Update plan (slug immutable)</td>
 </tr>
 </tbody>
 </table>
@@ -1700,26 +1700,26 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td>/plans/:planId/prices</td>
-<td>Add a price to a plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/plans/:planId/prices</td>
+<td style="text-align: left;">Add a price to a plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/plans/:planId/prices</td>
-<td>List prices for a plan</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/plans/:planId/prices</td>
+<td style="text-align: left;">List prices for a plan</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td>/plans/:planId/prices/:id</td>
-<td>Deactivate a price</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;">/plans/:planId/prices/:id</td>
+<td style="text-align: left;">Deactivate a price</td>
 </tr>
 </tbody>
 </table>
@@ -1727,36 +1727,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td>/features</td>
-<td>Create a feature</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/features</td>
+<td style="text-align: left;">Create a feature</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/features</td>
-<td>List features</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/features</td>
+<td style="text-align: left;">List features</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/features/key/:lookupKey</td>
-<td>Get feature by lookup key</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/features/key/:lookupKey</td>
+<td style="text-align: left;">Get feature by lookup key</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/features/:id</td>
-<td>Get feature by UUID</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/features/:id</td>
+<td style="text-align: left;">Get feature by UUID</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td>/features/:id</td>
-<td>Update feature (lookup_key and type immutable)</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;">/features/:id</td>
+<td style="text-align: left;">Update feature (lookup_key and type immutable)</td>
 </tr>
 </tbody>
 </table>
@@ -1764,36 +1764,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td>/plans/:planId/entitlements</td>
-<td>Map a feature to a plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/plans/:planId/entitlements</td>
+<td style="text-align: left;">Map a feature to a plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/plans/:planId/entitlements</td>
-<td>List plan's entitlements</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/plans/:planId/entitlements</td>
+<td style="text-align: left;">List plan's entitlements</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/plans/:planId/entitlements/:id</td>
-<td>Get entitlement details</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/plans/:planId/entitlements/:id</td>
+<td style="text-align: left;">Get entitlement details</td>
 </tr>
 <tr>
-<td>PATCH</td>
-<td>/plans/:planId/entitlements/:id</td>
-<td>Update entitlement rules</td>
+<td style="text-align: left;">PATCH</td>
+<td style="text-align: left;">/plans/:planId/entitlements/:id</td>
+<td style="text-align: left;">Update entitlement rules</td>
 </tr>
 <tr>
-<td>DELETE</td>
-<td>/plans/:planId/entitlements/:id</td>
-<td>Remove feature from plan</td>
+<td style="text-align: left;">DELETE</td>
+<td style="text-align: left;">/plans/:planId/entitlements/:id</td>
+<td style="text-align: left;">Remove feature from plan</td>
 </tr>
 </tbody>
 </table>
@@ -1801,36 +1801,36 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Guards</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Guards</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>POST</td>
-<td>/subscriptions</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Subscribe to a plan</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/subscriptions</td>
+<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
+<td style="text-align: left;">Subscribe to a plan</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/subscriptions/active</td>
-<td>JWT + Tenant</td>
-<td>Get current active subscription</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/subscriptions/active</td>
+<td style="text-align: left;">JWT + Tenant</td>
+<td style="text-align: left;">Get current active subscription</td>
 </tr>
 <tr>
-<td>GET</td>
-<td>/subscriptions</td>
-<td>JWT + Tenant</td>
-<td>List subscription history</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/subscriptions</td>
+<td style="text-align: left;">JWT + Tenant</td>
+<td style="text-align: left;">List subscription history</td>
 </tr>
 <tr>
-<td>POST</td>
-<td>/subscriptions/:id/cancel</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Cancel subscription</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/subscriptions/:id/cancel</td>
+<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
+<td style="text-align: left;">Cancel subscription</td>
 </tr>
 </tbody>
 </table>
@@ -1838,21 +1838,21 @@
 <table>
 <thead>
 <tr>
-<th>Method</th>
-<th>Path</th>
-<th>Description</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GET</td>
-<td>/entitlements/:featureKey/check</td>
-<td>Can this tenant use feature X?</td>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;">/entitlements/:featureKey/check</td>
+<td style="text-align: left;">Can this tenant use feature X?</td>
 </tr>
 <tr>
-<td>POST</td>
-<td>/entitlements/:featureKey/consume</td>
-<td>Consume units of a feature</td>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;">/entitlements/:featureKey/consume</td>
+<td style="text-align: left;">Consume units of a feature</td>
 </tr>
 </tbody>
 </table>
@@ -1860,54 +1860,54 @@
 <table>
 <thead>
 <tr>
-<th>Decision</th>
-<th>Why</th>
+<th style="text-align: left;">Decision</th>
+<th style="text-align: left;">Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Plan/Price separation</td>
-<td>Stripe pattern. Change pricing without recreating plans</td>
+<td style="text-align: left;">Plan/Price separation</td>
+<td style="text-align: left;">Stripe pattern. Change pricing without recreating plans</td>
 </tr>
 <tr>
-<td>Features as global catalog</td>
-<td>Same feature, different rules per plan</td>
+<td style="text-align: left;">Features as global catalog</td>
+<td style="text-align: left;">Same feature, different rules per plan</td>
 </tr>
 <tr>
-<td>Entitlement snapshots on subscribe</td>
-<td>Plan changes don't break existing subscribers</td>
+<td style="text-align: left;">Entitlement snapshots on subscribe</td>
+<td style="text-align: left;">Plan changes don't break existing subscribers</td>
 </tr>
 <tr>
-<td>Micro-cents for overage pricing</td>
-<td>Avoids floating-point math for sub-cent rates</td>
+<td style="text-align: left;">Micro-cents for overage pricing</td>
+<td style="text-align: left;">Avoids floating-point math for sub-cent rates</td>
 </tr>
 <tr>
-<td>limit_behavior on entitlement, not feature</td>
-<td>Same feature can be HARD on Starter, SOFT on Pro</td>
+<td style="text-align: left;">limit_behavior on entitlement, not feature</td>
+<td style="text-align: left;">Same feature can be HARD on Starter, SOFT on Pro</td>
 </tr>
 <tr>
-<td>lookup_key for features</td>
-<td>Stable code-facing identifier. Code references "api_calls", not a UUID</td>
+<td style="text-align: left;">lookup_key for features</td>
+<td style="text-align: left;">Stable code-facing identifier. Code references "api_calls", not a UUID</td>
 </tr>
 <tr>
-<td>Denormalized snapshots</td>
-<td>Avoids JOIN on entitlement check (the hot path)</td>
+<td style="text-align: left;">Denormalized snapshots</td>
+<td style="text-align: left;">Avoids JOIN on entitlement check (the hot path)</td>
 </tr>
 <tr>
-<td>One active subscription per tenant</td>
-<td>Clean audit trail. Upgrades cancel old, create new</td>
+<td style="text-align: left;">One active subscription per tenant</td>
+<td style="text-align: left;">Clean audit trail. Upgrades cancel old, create new</td>
 </tr>
 <tr>
-<td>billing_anchor capped at 28</td>
-<td>Avoids February edge case</td>
+<td style="text-align: left;">billing_anchor capped at 28</td>
+<td style="text-align: left;">Avoids February edge case</td>
 </tr>
 <tr>
-<td>Separate EntitlementCheck module</td>
-<td>Admin CRUD vs runtime checks have different access patterns</td>
+<td style="text-align: left;">Separate EntitlementCheck module</td>
+<td style="text-align: left;">Admin CRUD vs runtime checks have different access patterns</td>
 </tr>
 <tr>
-<td>In-memory usage counters (Phase 2)</td>
-<td>Phase 3 replaces with Redis + Kafka for scale</td>
+<td style="text-align: left;">In-memory usage counters (Phase 2)</td>
+<td style="text-align: left;">Phase 3 replaces with Redis + Kafka for scale</td>
 </tr>
 </tbody>
 </table>
@@ -1916,60 +1916,60 @@
 <table>
 <thead>
 <tr>
-<th>Feature</th>
-<th>Starter ($29/mo)</th>
-<th>Pro ($99/mo)</th>
-<th>Enterprise ($499/mo)</th>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Starter ($29/mo)</th>
+<th style="text-align: left;">Pro ($99/mo)</th>
+<th style="text-align: left;">Enterprise ($499/mo)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>API Access</td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
+<td style="text-align: left;">API Access</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
 </tr>
 <tr>
-<td>API Calls</td>
-<td>1,000/mo HARD</td>
-<td>50,000/mo SOFT ($0.001)</td>
-<td>500,000/mo SOFT ($0.0005)</td>
+<td style="text-align: left;">API Calls</td>
+<td style="text-align: left;">1,000/mo HARD</td>
+<td style="text-align: left;">50,000/mo SOFT ($0.001)</td>
+<td style="text-align: left;">500,000/mo SOFT ($0.0005)</td>
 </tr>
 <tr>
-<td>Storage</td>
-<td>1 GB + $0.05/GB</td>
-<td>10 GB + $0.02/GB</td>
-<td>100 GB + $0.01/GB</td>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">1 GB + $0.05/GB</td>
+<td style="text-align: left;">10 GB + $0.02/GB</td>
+<td style="text-align: left;">100 GB + $0.01/GB</td>
 </tr>
 <tr>
-<td>SSO</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅</td>
+<td style="text-align: left;">SSO</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">✅</td>
 </tr>
 <tr>
-<td>Webhooks</td>
-<td>❌</td>
-<td>✅</td>
-<td>✅</td>
+<td style="text-align: left;">Webhooks</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
 </tr>
 <tr>
-<td>Priority Support</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅</td>
+<td style="text-align: left;">Priority Support</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">✅</td>
 </tr>
 <tr>
-<td>Team Seats</td>
-<td>3 HARD</td>
-<td>10 SOFT ($10/seat)</td>
-<td>50 SOFT ($8/seat)</td>
+<td style="text-align: left;">Team Seats</td>
+<td style="text-align: left;">3 HARD</td>
+<td style="text-align: left;">10 SOFT ($10/seat)</td>
+<td style="text-align: left;">50 SOFT ($8/seat)</td>
 </tr>
 <tr>
-<td>Analytics Export</td>
-<td>❌</td>
-<td>✅</td>
-<td>✅</td>
+<td style="text-align: left;">Analytics Export</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">✅</td>
 </tr>
 </tbody>
 </table>

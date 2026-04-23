@@ -1275,7 +1275,7 @@
 <h2 id="what-was-built">What Was Built<a class="headerlink" href="#what-was-built" title="Permanent link">&para;</a></h2>
 <h3 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Docker Compose</strong> with PostgreSQL 17, Apache Kafka 3.9 (KRaft mode), and Redis 7</li>
+<li><strong>Docker Compose</strong> with PostgreSQL 18, Apache Kafka 4.2 (KRaft mode), and Redis 8</li>
 <li>Health checks on all containers (<code>pg_isready</code>, <code>redis-cli ping</code>, Kafka broker API)</li>
 <li>Named volumes for data persistence across restarts</li>
 <li>Credentials synchronized between Docker Compose and <code>.env</code></li>
@@ -1319,50 +1319,50 @@
 <table>
 <thead>
 <tr>
-<th>Decision</th>
-<th>Why</th>
+<th style="text-align: left;">Decision</th>
+<th style="text-align: left;">Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Modular monolith over microservices</td>
-<td>Domain boundaries unproven. Extract modules when scale demands it</td>
+<td style="text-align: left;">Modular monolith over microservices</td>
+<td style="text-align: left;">Domain boundaries unproven. Extract modules when scale demands it</td>
 </tr>
 <tr>
-<td>Prisma over TypeORM</td>
-<td>Stronger types, better migration tooling, schema-first approach</td>
+<td style="text-align: left;">Prisma over TypeORM</td>
+<td style="text-align: left;">Stronger types, better migration tooling, schema-first approach</td>
 </tr>
 <tr>
-<td>pnpm over npm</td>
-<td>Faster installs, strict dependency resolution, smaller disk usage</td>
+<td style="text-align: left;">pnpm over npm</td>
+<td style="text-align: left;">Faster installs, strict dependency resolution, smaller disk usage</td>
 </tr>
 <tr>
-<td>UUID primary keys</td>
-<td>Safe for distributed systems, no sequential guessing</td>
+<td style="text-align: left;">UUID primary keys</td>
+<td style="text-align: left;">Safe for distributed systems, no sequential guessing</td>
 </tr>
 <tr>
-<td><code>strict: true</code> in TypeScript</td>
-<td>Catches null errors, uninitialized properties, unsafe <code>any</code> usage at compile time</td>
+<td style="text-align: left;"><code>strict: true</code> in TypeScript</td>
+<td style="text-align: left;">Catches null errors, uninitialized properties, unsafe <code>any</code> usage at compile time</td>
 </tr>
 <tr>
-<td>URI versioning over header versioning</td>
-<td>Visible in URLs, works with Swagger, industry standard (Stripe, GitHub)</td>
+<td style="text-align: left;">URI versioning over header versioning</td>
+<td style="text-align: left;">Visible in URLs, works with Swagger, industry standard (Stripe, GitHub)</td>
 </tr>
 <tr>
-<td><code>VERSION_NEUTRAL</code> on health controller</td>
-<td>Load balancers expect <code>/health</code> at a fixed path without version prefix</td>
+<td style="text-align: left;"><code>VERSION_NEUTRAL</code> on health controller</td>
+<td style="text-align: left;">Load balancers expect <code>/health</code> at a fixed path without version prefix</td>
 </tr>
 <tr>
-<td><code>moduleFormat = "cjs"</code> in Prisma</td>
-<td>NestJS compiles to CommonJS; Prisma 7 defaults to ESM. Without this flag, the app crashes</td>
+<td style="text-align: left;"><code>moduleFormat = "cjs"</code> in Prisma</td>
+<td style="text-align: left;">NestJS compiles to CommonJS; Prisma 7 defaults to ESM. Without this flag, the app crashes</td>
 </tr>
 <tr>
-<td>Driver adapter pattern (<code>PrismaPg</code>)</td>
-<td>Prisma 7 requirement - the client no longer manages its own connection</td>
+<td style="text-align: left;">Driver adapter pattern (<code>PrismaPg</code>)</td>
+<td style="text-align: left;">Prisma 7 requirement - the client no longer manages its own connection</td>
 </tr>
 <tr>
-<td><code>tsx</code> over <code>ts-node</code> for seed</td>
-<td><code>ts-node</code> can't resolve <code>.js</code> extension imports in Prisma's generated TypeScript files</td>
+<td style="text-align: left;"><code>tsx</code> over <code>ts-node</code> for seed</td>
+<td style="text-align: left;"><code>ts-node</code> can't resolve <code>.js</code> extension imports in Prisma's generated TypeScript files</td>
 </tr>
 </tbody>
 </table>
