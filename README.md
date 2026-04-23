@@ -6,10 +6,10 @@
   <p>
     <img src="https://img.shields.io/badge/NestJS-11-E0234E?style=flat&logo=nestjs&logoColor=white" alt="NestJS">
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript">
-    <img src="https://img.shields.io/badge/PostgreSQL-17-4169E1?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL">
+    <img src="https://img.shields.io/badge/PostgreSQL-18-4169E1?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL">
     <img src="https://img.shields.io/badge/Prisma-7-2D3748?style=flat&logo=prisma&logoColor=white" alt="Prisma">
-    <img src="https://img.shields.io/badge/Kafka-3.9-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka">
-    <img src="https://img.shields.io/badge/Redis-7-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis">
+    <img src="https://img.shields.io/badge/Kafka-4.2-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka">
+    <img src="https://img.shields.io/badge/Redis-8-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
     <img src="https://img.shields.io/badge/Version-0.5.1-blue" alt="Version">
     <a href="https://chitrank2050.github.io/meterplex/">
@@ -58,10 +58,10 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 | :--- | :--- | :--- |
 | Framework | NestJS 11 | Modular backend framework |
 | Language | TypeScript 5.7 (strict mode) | Type safety |
-| Database | PostgreSQL 17 | Primary data store |
+| Database | PostgreSQL 18 | Primary data store |
 | ORM | Prisma 7 | Type-safe database access |
-| Message Broker | Apache Kafka 3.9 | Event streaming and async processing |
-| Cache | Redis 7 | Caching and rate limiting |
+| Message Broker | Apache Kafka 4.2 | Event streaming and async processing |
+| Cache | Redis 8 | Caching and rate limiting |
 | API Docs | Swagger/OpenAPI | Auto-generated from code |
 | Containers | Docker Compose | Local development infrastructure |
 | API Testing | Bruno | Git-friendly API collections |

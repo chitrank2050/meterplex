@@ -84,9 +84,9 @@ Client Response
 
 | Service | Container | Port | Purpose |
 | :--- | :--- | :--- | :--- |
-| PostgreSQL 17 | meterplex-postgres | 5432 | Primary data store |
-| Apache Kafka 3.9 | meterplex-kafka | 9092 | Event streaming |
-| Redis 7 | meterplex-redis | 6379 | Cache and rate limiting |
+| PostgreSQL 18 | meterplex-postgres | 5432 | Primary data store |
+| Apache Kafka 4.2 | meterplex-kafka | 9092 | Event streaming |
+| Redis 8 | meterplex-redis | 6379 | Cache and rate limiting |
 
 All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).
 

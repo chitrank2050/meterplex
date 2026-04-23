@@ -77,7 +77,7 @@ You have a local Postgres installation competing with Docker. Stop it:
 
 ```bash
 # Homebrew
-brew services stop postgresql@17
+brew services stop postgresql@18
 
 # Postgres.app
 # Quit from menu bar

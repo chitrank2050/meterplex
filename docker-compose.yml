@@ -15,7 +15,7 @@
 
 services:
   # ---------------------------------------------------------
-  # PostgreSQL 17 - Primary data store
+  # PostgreSQL 18 - Primary data store
   #
   # Stores all business data: tenants, plans, subscriptions,
   # usage records, invoices, audit logs.
@@ -41,7 +41,7 @@ services:
     volumes:
       # Persist data across container restarts.
       # Destroyed on `docker compose down -v` (clean slate).
-      - meterplex-postgres-data:/var/lib/postgresql/data
+      - meterplex-postgres-data:/var/lib/postgresql
     healthcheck:
       # pg_isready checks if Postgres accepts connections.
       # Other services wait for this before starting.
@@ -51,7 +51,7 @@ services:
       retries: 5
 
   # ---------------------------------------------------------
-  # Redis 7 - Cache + Rate Limiting
+  # Redis 8 - Cache + Rate Limiting
   #
   # Two jobs:
   #   1. Cache frequently-read data (plan lookups, entitlements)
@@ -90,7 +90,7 @@ services:
   #   - Consumer groups (multiple services read the same stream independently)
   #   - Ordering guarantees per partition (critical for usage metering)
   #
-  # KRaft mode (Kafka 3.7+):
+  # KRaft mode (Kafka 4.2+):
   #   - Removes Zookeeper dependency entirely
   #   - One fewer container to manage
   #   - Faster startup, simpler config

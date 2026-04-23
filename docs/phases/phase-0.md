@@ -8,7 +8,7 @@
 
 ### Infrastructure
 
-- **Docker Compose** with PostgreSQL 17, Apache Kafka 3.9 (KRaft mode), and Redis 7
+- **Docker Compose** with PostgreSQL 18, Apache Kafka 4.2 (KRaft mode), and Redis 8
 - Health checks on all containers (`pg_isready`, `redis-cli ping`, Kafka broker API)
 - Named volumes for data persistence across restarts
 - Credentials synchronized between Docker Compose and `.env`
