@@ -17,14 +17,20 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag to release (e.g. v0.5.3)'
+        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Never cancel a release mid-flight
   cancel-in-progress: false
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   release:
@@ -49,21 +55,22 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Update the changelog file itself
-          pnpm exec git-cliff --config cliff.toml --tag ${{ github.ref_name }} --prepend CHANGELOG.md
+          # Use manual input tag if available, otherwise use ref_name
+          TAG_NAME="${{ github.event.inputs.tag_name || github.ref_name }}"
+          pnpm exec git-cliff --config cliff.toml --tag $TAG_NAME --prepend CHANGELOG.md
           git add CHANGELOG.md
-          git commit -m "chore(release): update CHANGELOG.md for ${{ github.ref_name }} [skip ci]"
+          git commit -m "chore(release): update CHANGELOG.md for $TAG_NAME [skip ci]"
           git push origin main
 
       - name: Create GitHub Release ✨
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.git-cliff.outputs.content }}
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          name: ${{ github.event.inputs.tag_name || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
-          prerelease: ${{ contains(github.ref_name, '-') }}
+          prerelease: ${{ contains(github.event.inputs.tag_name || github.ref_name, '-') }}
 
       # ─── AUTO-DEPLOY DOCS ────────────────────────────────────
       # Since we [skip ci] on the changelog commit, we deploy
