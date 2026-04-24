@@ -135,20 +135,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Scan dependencies with OSV Scanner
+        uses: google/osv-scanner-action@v2.3.5
         with:
-          node-version: 24
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Audit dependencies
-        run: pnpm audit --audit-level=high
+          scan-args: |-
+            --lockfile=pnpm-lock.yaml
 
   secret_scan:
     name: Secret Scan

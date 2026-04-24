@@ -29,7 +29,7 @@ pnpm lint
 pnpm format
 ```
 
-Husky runs lint-staged automatically on commit. If your code has lint errors, the commit will be rejected.
+Lefthook runs lint-staged and secret scanning automatically on commit. If your code has lint errors or staged secrets, the commit will be rejected.
 
 ### Run tests
 

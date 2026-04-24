@@ -64,7 +64,7 @@
     "init": "./scripts/install.sh",
     "nuke": "./scripts/obliviate.sh",
     "clean-setup": "pnpm run nuke && pnpm run init",
-    "prepare": "husky",
+    "prepare": "lefthook install",
     "git-tag": "./scripts/git-tag.sh",
     "git-release": "./scripts/git-release.sh",
     "deps:update": "pnpm update --interactive --latest"
@@ -118,9 +118,8 @@
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^17.5.0",
-    "husky": "^9.1.7",
     "knip": "^6.6.2",
-    "lint-staged": "^16.4.0",
+    "lefthook": "^2.1.6",
     "markdownlint-cli": "^0.48.0",
     "prettier": "^3.4.2",
     "prisma": "^7.7.0",
@@ -140,18 +139,7 @@
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
   },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ],
-    "*.md": [
-      "markdownlint --fix"
-    ]
-  },
+
   "pnpm": {
     "overrides": {
       "handlebars": ">=4.7.9",

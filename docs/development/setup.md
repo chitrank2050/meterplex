@@ -10,6 +10,7 @@
 | Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
 | gitleaks | 8.0.0 | `brew install gitleaks` | `gitleaks version` |
 | knip | — | `pnpm install` (dev dep) | `pnpm lint:knip` |
+| lefthook | — | `pnpm install` (dev dep) | `pnpm lefthook --version` |
 
 ## First-Time Setup
 
@@ -65,8 +66,8 @@ gitleaks scans every staged change before a commit is accepted, blocking any acc
 # macOS
 brew install gitleaks
 
-# Linux
-gitHub Releases: https://github.com/gitleaks/gitleaks/releases
+# Linux (download from GitHub Releases)
+# https://github.com/gitleaks/gitleaks/releases
 
 # Verify
 gitleaks version
@@ -85,7 +86,17 @@ pnpm lint:knip
 # No separate install needed — knip is in devDependencies
 ```
 
----
+### lefthook — Git hooks manager
+
+lefthook replaces Husky and lint-staged. It is a Go binary (fast, no extra runtime) installed as a dev dependency and activated by `pnpm install` via the `prepare` script.
+
+```bash
+# Hooks are auto-installed after pnpm install via the prepare script.
+# To manually re-install:
+pnpm lefthook install
+
+# Hooks registered: pre-commit, commit-msg, pre-push
+```
 
 ## Daily Workflow
 

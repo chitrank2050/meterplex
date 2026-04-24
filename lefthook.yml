@@ -1,0 +1,44 @@
+# Lefthook — Git hooks manager
+# Replaces Husky + lint-staged.
+# Docs: https://lefthook.dev/configuration/
+
+# ─── pre-commit ──────────────────────────────────────────────
+# Runs in sequence: secrets scan first, then per-file linting.
+pre-commit:
+  parallel: false
+  commands:
+    # 1. Block commits that contain secrets/credentials
+    secrets:
+      run: gitleaks protect --staged --redact -v
+
+    # 2. TypeScript files — ESLint fix + Prettier format
+    lint-ts:
+      glob: "*.ts"
+      run: eslint --fix {staged_files} && prettier --write {staged_files}
+      stage_fixed: true
+
+    # 3. Markdown files — markdownlint fix + Prettier format
+    lint-md:
+      glob: "*.md"
+      run: markdownlint --fix {staged_files} && prettier --write {staged_files}
+      stage_fixed: true
+
+    # 4. JSON / YAML — Prettier format only
+    lint-json-yml:
+      glob: "*.{json,yml,yaml}"
+      run: prettier --write {staged_files}
+      stage_fixed: true
+
+# ─── commit-msg ──────────────────────────────────────────────
+# Enforces Conventional Commits format via commitlint.
+commit-msg:
+  commands:
+    commitlint:
+      run: npx --no-install commitlint --edit {1}
+
+# ─── pre-push ────────────────────────────────────────────────
+# Runs unit tests before any push reaches the remote.
+pre-push:
+  commands:
+    tests:
+      run: pnpm test

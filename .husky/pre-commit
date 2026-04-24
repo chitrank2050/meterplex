@@ -1,5 +1,0 @@
-# Scan staged changes for secrets/credentials before committing
-gitleaks protect --staged --redact -v
-
-# Lint staged files
-npx lint-staged
