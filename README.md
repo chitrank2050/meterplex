@@ -101,6 +101,9 @@ The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/
 
 ```text
 meterplex/
+├── .github/             # GitHub Actions workflows & templates
+│   ├── workflows/       # CI/CD, Security, & Maintenance pipelines
+│   └── ISSUE_TEMPLATE/  # Standardized issue templates
 ├── src/
 │   ├── common/              # Cross-cutting concerns
 │   │   ├── constants/       # Error codes, app constants
@@ -125,10 +128,14 @@ meterplex/
 │   ├── schema.prisma        # Database schema (single source of truth)
 │   ├── seed.ts              # Development seed data
 │   └── migrations/          # Prisma migration history
-├── bruno/                   # API testing collection (Bruno)
-├── docs/                    # MkDocs documentation
-├── docker-compose.yml       # Postgres, Kafka, Redis
-└── package.json
+├── bruno/                   # API testing collections
+├── docs/                    # MkDocs documentation source
+├── assets/                  # Logos and static assets
+├── lefthook.yml             # High-performance Git hooks
+├── cliff.toml               # Automated changelog configuration
+├── package.json             # Scripts & dependencies
+├── pnpm-lock.yaml           # Deterministic lockfile
+└── docker-compose.yml       # Postgres, Kafka, Redis
 ```
 
 ## Available Scripts

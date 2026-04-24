@@ -60,7 +60,7 @@ jobs:
         with:
           body: ${{ steps.git-cliff.outputs.content }}
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: ${{ contains(github.ref_name, '-') }}

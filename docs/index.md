@@ -148,3 +148,48 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 | :--- | :--- | :--- |
 | GET | `/api/v1/entitlements/:featureKey/check` | Check if tenant can use feature |
 | POST | `/api/v1/entitlements/:featureKey/consume` | Consume units of feature |
+
+---
+
+## Developer Workflow 🛠️
+
+Meterplex uses a modern, high-performance developer workflow to ensure code quality and automated releases.
+
+### 🥊 Git Hooks (Lefthook)
+
+We use [Lefthook](https://github.com/evilmartians/lefthook) for lightning-fast pre-commit checks. It automatically runs:
+
+- **Linting**: ESLint and Prettier.
+- **Security**: Gitleaks for secret detection.
+- **Testing**: Vitest for relevant unit tests.
+
+### 📝 Commit Standards
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/). This allows us to generate automated changelogs and manage versions easily.
+
+- `feat:` for new features.
+- `fix:` for bug fixes.
+- `chore:` for maintenance or dependencies.
+- `docs:` for documentation changes.
+
+### 🏷️ Automated Releases
+
+Pushing a tag (e.g., `git tag v0.5.3 && git push --tags`) triggers the **Release Workflow**, which:
+
+1. Generates release notes using `git-cliff`.
+2. Updates `CHANGELOG.md` in the repository.
+3. Deploys updated documentation to GitHub Pages.
+4. Creates a GitHub Release.
+
+---
+
+## Automated Maintenance 🤖
+
+To save developer time, the project includes several automated maintenance tasks:
+
+| Feature | Description | Frequency |
+| :--- | :--- | :--- |
+| **OSV Audit** | Scans lockfiles for known vulnerabilities using Google's OSV database. | Every PR/Push |
+| **Secret Scan** | Scans entire git history for leaked credentials using Gitleaks. | Every PR/Push |
+| **Override Pruning** | Proactively checks if `pnpm.overrides` are still needed and opens a PR to remove them. | Weekly |
+| **Renovate** | Automated dependency updates and security patches. | Continuous |
