@@ -1,0 +1,77 @@
+# =============================================================
+# Maintenance - Weekly Dependency & Overrides Check
+#
+# This workflow runs every Sunday to proactively check if your
+# 'pnpm.overrides' are still necessary.
+#
+# How it works:
+# 1. Removes the 'overrides' block from package.json
+# 2. Runs pnpm install and osv-scanner
+# 3. If everything passes, it automatically opens a Pull Request
+#    to remove the redundant overrides for you.
+# =============================================================
+
+name: Maintenance
+
+on:
+  schedule:
+    # Run every Sunday at midnight
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prune_overrides:
+    name: Check Redundant Overrides
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Remove overrides and update lockfile
+        id: check
+        run: |
+          # Use jq to remove the overrides block
+          jq 'del(.pnpm.overrides)' package.json > package.json.tmp && mv package.json.tmp package.json
+
+          # Refresh lockfile
+          pnpm install --no-frozen-lockfile
+
+      - name: Run OSV Scanner
+        uses: google/osv-scanner-action@v2.3.5
+        with:
+          scan-args: |-
+            --lockfile=pnpm-lock.yaml
+
+      - name: Create Pull Request if redundant
+        # This step only runs if the scanner succeeded (exit code 0)
+        # meaning the overrides are no longer needed!
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(deps): prune redundant dependency overrides'
+          branch: maintenance/prune-overrides
+          delete-branch: true
+          title: '🧹 Prune redundant dependency overrides'
+          body: |
+            The weekly maintenance check has detected that your `pnpm.overrides` are no longer necessary.
+
+            Upstream packages have been updated and the security vulnerabilities previously mitigated by these overrides are now resolved in the base versions.
+
+            **Action:** Review and merge this PR to keep your `package.json` clean.
+          labels: |
+            dependencies
+            maintenance
+            automated-pr
