@@ -1,0 +1,20 @@
+# =============================================================
+# Markdownlint Ignore
+#
+# Files and directories to be ignored by markdownlint.
+# =============================================================
+
+# Dependencies and build artifacts
+node_modules/
+dist/
+coverage/
+
+# Auto-generated files
+CHANGELOG.md
+
+# External or third-party documentation
+vendor/
+
+# Temporary files
+.tmp/
+tmp/

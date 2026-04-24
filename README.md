@@ -4,17 +4,16 @@
   <p><strong>Open-source B2B usage metering, entitlements, and billing platform.</strong></p>
 
   <p>
-    <img src="https://img.shields.io/badge/NestJS-11-E0234E?style=flat&logo=nestjs&logoColor=white" alt="NestJS">
-    <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript">
-    <img src="https://img.shields.io/badge/PostgreSQL-18-4169E1?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL">
-    <img src="https://img.shields.io/badge/Prisma-7-2D3748?style=flat&logo=prisma&logoColor=white" alt="Prisma">
-    <img src="https://img.shields.io/badge/Kafka-4.2-231F20?style=flat&logo=apachekafka&logoColor=white" alt="Kafka">
-    <img src="https://img.shields.io/badge/Redis-8-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+    <!-- Project Health & Status -->
+    <a href="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml">
+      <img src="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+    </a>
+    <img src="https://img.shields.io/badge/Security-OSV--Scanner-success" alt="Security: OSV-Scanner">
     <img src="https://img.shields.io/badge/Version-0.5.2-blue" alt="Version">
     <a href="https://chitrank2050.github.io/meterplex/">
       <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
     </a>
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
     <br/>
     <br/>
     <a href="https://ko-fi.com/D1D71U581P" target="_blank">
@@ -52,19 +51,19 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 └─────────────────────────────────────────────────────┘
 ```
 
-## Tech Stack
+### 🛠️ Tech Stack
 
-| Layer | Technology | Purpose |
+| Domain | Technology | Purpose |
 | :--- | :--- | :--- |
-| Framework | NestJS 11 | Modular backend framework |
-| Language | TypeScript 5.7 (strict mode) | Type safety |
-| Database | PostgreSQL 18 | Primary data store |
-| ORM | Prisma 7 | Type-safe database access |
-| Message Broker | Apache Kafka 4.2 | Event streaming and async processing |
-| Cache | Redis 8 | Caching and rate limiting |
-| API Docs | Swagger/OpenAPI | Auto-generated from code |
-| Containers | Docker Compose | Local development infrastructure |
-| API Testing | Bruno | Git-friendly API collections |
+| **Backend** | [NestJS 11](https://nestjs.com/) | Modular backend architecture |
+| **Language** | [TypeScript 5.7](https://www.typescriptlang.org/) | Type-safe development |
+| **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Persistent storage & ORM |
+| **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Event-driven async processing |
+| **Caching** | [Redis 8](https://redis.io/) | Distributed caching & rate limiting |
+| **DevOps** | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard CI/CD automation |
+| **Quality** | [Vitest](https://vitest.dev/), [Lefthook](https://github.com/evilmartians/lefthook) | Unit testing & high-performance git hooks |
+| **Docs** | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) | Technical documentation & changelog |
+| **API Tools** | [Bruno](https://usebruno.com/), [Swagger](https://swagger.io/), [Scalar](https://scalar.com/) | API testing & documentation |
 
 ## Quick Start
 

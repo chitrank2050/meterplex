@@ -2,6 +2,47 @@
 
 All notable changes to Meterplex API.
 
+## [0.5.2] - 2026-04-24
+
+### ⚙️ Maintenance
+
+- Update lockfile dependencies
+- Downgrade pnpm/action-setup to version 5
+- Update dependency @swc/core to v1.15.30 (#57)
+- Update redis docker tag to v8 (#56)
+- Update linting & formatting (#16)
+- Update pg dependency position and upgrade markdownlint-cli to v0.48.0
+- Update markdown tables to use consistent left-aligned formatting
+- Upgrade PostgreSQL to 18, Kafka to 4.2, and Redis to 8 across infrastructure and doc
+- Update dependencies and add deps:update script
+- Update workflow trigger paths and replace husky with lefthook configuration
+- Prune pnpm dependency overrides and add automated maintenance workflow for cleanup
+- Update lefthook configuration for improved pre-commit workflow
+- Update lefthook configuration to optimize pre-commit hook execution
+- Update git-cliff configuration with emojis and additional commit categories
+- Update OSV-Scanner version to v2.3.5 in CI and maintenance workflows
+- Enhance CI/CD workflow documentation and standardize naming with icons
+- Improve workflow maintainability with descriptive comments and updated ignore patterns
+
+### 🐛 Bug Fixes
+
+- Update dependency uuid to v14 (#58)
+
+### 👷 Continuous Integration
+
+- Replace OSV-Scanner action with direct binary execution in CI and maintenance workflows
+- Add zizmor workflow for security analysis of GitHub Actions
+- Add semantic pull request title validation workflow
+
+### 📚 Documentation
+
+- Enhance README with badges and disable automatic documentation deploy workflow
+- Replace em-dashes with hyphens in setup guide and cleanup lefthook configuration
+
+### 🚜 Refactoring
+
+- Replace Husky and lint-staged with Lefthook for git hook management
+
 ## [0.5.1] - 2026-04-16
 
 ### Build
@@ -327,5 +368,3 @@ All notable changes to Meterplex API.
 - Implement husky git hooks, commitlint, and project documentation with MkDocs
 - Setup CI/CD pipelines, Dependabot, funding, and update project documentation
 - Add read permissions to CI workflow for contents access
-
-

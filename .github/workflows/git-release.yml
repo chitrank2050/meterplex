@@ -6,6 +6,8 @@
 #
 # Features:
 #   - Generates categorized release notes using git-cliff.
+#   - Updates CHANGELOG.md in the repository automatically.
+#   - Deploys updated documentation with the new changelog.
 #   - Detects prereleases based on tag name (alpha, beta, rc).
 # =============================================================
 
@@ -34,6 +36,7 @@ jobs:
         with:
           # Full history is required for git-cliff to generate changelogs
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate release notes 📝
         uses: orhun/git-cliff-action@v4
@@ -41,6 +44,16 @@ jobs:
         with:
           config: cliff.toml
           args: --latest --strip all
+
+      - name: Update CHANGELOG.md 📝
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Update the changelog file itself
+          pnpm exec git-cliff --config cliff.toml --tag ${{ github.ref_name }} --prepend CHANGELOG.md
+          git add CHANGELOG.md
+          git commit -m "chore(release): update CHANGELOG.md for ${{ github.ref_name }} [skip ci]"
+          git push origin main
 
       - name: Create GitHub Release ✨
         uses: softprops/action-gh-release@v2
@@ -50,5 +63,21 @@ jobs:
           name: Release ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
-          # Auto-mark as prerelease if tag contains -alpha, -beta, -rc etc.
           prerelease: ${{ contains(github.ref_name, '-') }}
+
+      # ─── AUTO-DEPLOY DOCS ────────────────────────────────────
+      # Since we [skip ci] on the changelog commit, we deploy
+      # the docs here to ensure the live site has the new version.
+      - name: Set up Python 🐍
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install MkDocs Material 🛠️
+        run: pip install mkdocs-material
+
+      - name: Copy changelog to docs 📝
+        run: cp CHANGELOG.md docs/changelog.md
+
+      - name: Deploy to GitHub Pages 🌐
+        run: mkdocs gh-deploy --force
