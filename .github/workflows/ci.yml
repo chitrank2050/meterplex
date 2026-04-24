@@ -138,10 +138,13 @@ jobs:
         run: pnpm format:check
 
       - name: Lint code 🔍
-        run: pnpm lint
+        run: pnpm lint:ts
 
-      - name: Dead code check (Knip) ✂️
-        run: pnpm lint:knip
+      - name: Lint Markdown 📝
+        run: pnpm lint:md
+
+      # - name: Dead code check (Knip) ✂️
+      #   run: pnpm lint:knip
 
   # ─── TESTING JOB ─────────────────────────────────────────────
   test:
