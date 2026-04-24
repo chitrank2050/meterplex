@@ -501,6 +501,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#developer-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Developer Workflow 🛠️
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Developer Workflow 🛠️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-hooks-lefthook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🥊 Git Hooks (Lefthook)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Commit Standards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automated-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏷️ Automated Releases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automated Maintenance 🤖
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1347,6 +1408,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#developer-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Developer Workflow 🛠️
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Developer Workflow 🛠️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-hooks-lefthook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🥊 Git Hooks (Lefthook)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Commit Standards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automated-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏷️ Automated Releases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automated Maintenance 🤖
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1815,6 +1937,66 @@
 <td style="text-align: left;">POST</td>
 <td style="text-align: left;"><code>/api/v1/entitlements/:featureKey/consume</code></td>
 <td style="text-align: left;">Consume units of feature</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="developer-workflow">Developer Workflow 🛠️<a class="headerlink" href="#developer-workflow" title="Permanent link">&para;</a></h2>
+<p>Meterplex uses a modern, high-performance developer workflow to ensure code quality and automated releases.</p>
+<h3 id="git-hooks-lefthook">🥊 Git Hooks (Lefthook)<a class="headerlink" href="#git-hooks-lefthook" title="Permanent link">&para;</a></h3>
+<p>We use <a href="https://github.com/evilmartians/lefthook">Lefthook</a> for lightning-fast pre-commit checks. It automatically runs:</p>
+<ul>
+<li><strong>Linting</strong>: ESLint and Prettier.</li>
+<li><strong>Security</strong>: Gitleaks for secret detection.</li>
+<li><strong>Testing</strong>: Vitest for relevant unit tests.</li>
+</ul>
+<h3 id="commit-standards">📝 Commit Standards<a class="headerlink" href="#commit-standards" title="Permanent link">&para;</a></h3>
+<p>We follow <a href="https://www.conventionalcommits.org/">Conventional Commits</a>. This allows us to generate automated changelogs and manage versions easily.</p>
+<ul>
+<li><code>feat:</code> for new features.</li>
+<li><code>fix:</code> for bug fixes.</li>
+<li><code>chore:</code> for maintenance or dependencies.</li>
+<li><code>docs:</code> for documentation changes.</li>
+</ul>
+<h3 id="automated-releases">🏷️ Automated Releases<a class="headerlink" href="#automated-releases" title="Permanent link">&para;</a></h3>
+<p>Pushing a tag (e.g., <code>git tag v0.5.3 &amp;&amp; git push --tags</code>) triggers the <strong>Release Workflow</strong>, which:</p>
+<ol>
+<li>Generates release notes using <code>git-cliff</code>.</li>
+<li>Updates <code>CHANGELOG.md</code> in the repository.</li>
+<li>Deploys updated documentation to GitHub Pages.</li>
+<li>Creates a GitHub Release.</li>
+</ol>
+<hr />
+<h2 id="automated-maintenance">Automated Maintenance 🤖<a class="headerlink" href="#automated-maintenance" title="Permanent link">&para;</a></h2>
+<p>To save developer time, the project includes several automated maintenance tasks:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>OSV Audit</strong></td>
+<td style="text-align: left;">Scans lockfiles for known vulnerabilities using Google's OSV database.</td>
+<td style="text-align: left;">Every PR/Push</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Secret Scan</strong></td>
+<td style="text-align: left;">Scans entire git history for leaked credentials using Gitleaks.</td>
+<td style="text-align: left;">Every PR/Push</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Override Pruning</strong></td>
+<td style="text-align: left;">Proactively checks if <code>pnpm.overrides</code> are still needed and opens a PR to remove them.</td>
+<td style="text-align: left;">Weekly</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Renovate</strong></td>
+<td style="text-align: left;">Automated dependency updates and security patches.</td>
+<td style="text-align: left;">Continuous</td>
 </tr>
 </tbody>
 </table>
