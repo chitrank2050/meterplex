@@ -28,7 +28,7 @@ on:
       - 'cliff.toml'
       # Git hooks config (local-only)
       - 'commitlint.config.mjs'
-      - '.husky/**'
+      - 'lefthook.yml'
   pull_request:
     branches: [main]
     paths-ignore:
@@ -56,7 +56,7 @@ on:
       - 'cliff.toml'
       # Git hooks config (local-only)
       - 'commitlint.config.mjs'
-      - '.husky/**'
+      - 'lefthook.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
