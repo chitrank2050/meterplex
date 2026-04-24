@@ -9,8 +9,8 @@
 | Docker | 24.0.0 | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version` |
 | Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
 | gitleaks | 8.0.0 | `brew install gitleaks` | `gitleaks version` |
-| knip | — | `pnpm install` (dev dep) | `pnpm lint:knip` |
-| lefthook | — | `pnpm install` (dev dep) | `pnpm lefthook --version` |
+| knip | - | `pnpm install` (dev dep) | `pnpm lint:knip` |
+| lefthook | - | `pnpm install` (dev dep) | `pnpm lefthook --version` |
 
 ## First-Time Setup
 
@@ -58,7 +58,7 @@ docker compose exec postgres psql -U meterplex -d meterplex -c "SELECT name, slu
 
 Two tools are wired into the git hooks and lint scripts. **You must have them available locally or the pre-commit hook will fail.**
 
-### gitleaks — Secret scanning
+### gitleaks - Secret scanning
 
 gitleaks scans every staged change before a commit is accepted, blocking any accidentally included credentials, API keys, or tokens.
 
@@ -75,7 +75,7 @@ gitleaks version
 
 > **Note:** The pre-commit hook runs `gitleaks protect --staged --redact -v`. If gitleaks is not on your `PATH`, the commit will fail with a "command not found" error.
 
-### knip — Dead code & unused dependency detection
+### knip - Dead code & unused dependency detection
 
 knip is a dev dependency installed via `pnpm install`. It finds unused exports, files, and dependencies in the codebase.
 
@@ -83,10 +83,10 @@ knip is a dev dependency installed via `pnpm install`. It finds unused exports, 
 # Run manually
 pnpm lint:knip
 
-# No separate install needed — knip is in devDependencies
+# No separate install needed - knip is in devDependencies
 ```
 
-### lefthook — Git hooks manager
+### lefthook - Git hooks manager
 
 lefthook replaces Husky and lint-staged. It is a Go binary (fast, no extra runtime) installed as a dev dependency and activated by `pnpm install` via the `prepare` script.
 

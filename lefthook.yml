@@ -1,4 +1,4 @@
-# Lefthook — Git hooks manager
+# Lefthook - Git hooks manager
 # Replaces Husky + lint-staged.
 # Docs: https://lefthook.dev/configuration/
 
@@ -11,19 +11,19 @@ pre-commit:
     secrets:
       run: gitleaks protect --staged --redact -v
 
-    # 2. TypeScript files — ESLint fix + Prettier format
+    # 2. TypeScript files - ESLint fix + Prettier format
     lint-ts:
       glob: '*.ts'
       run: pnpm exec eslint --fix {staged_files} && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
-    # 3. Markdown files — markdownlint fix + Prettier format
+    # 3. Markdown files - markdownlint fix + Prettier format
     lint-md:
       glob: '*.md'
       run: pnpm exec markdownlint --fix {staged_files} && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
-    # 4. JSON / YAML — Prettier format only
+    # 4. JSON / YAML - Prettier format only
     lint-json-yml:
       glob: '*.{json,yml,yaml}'
       run: pnpm exec prettier --write {staged_files}
