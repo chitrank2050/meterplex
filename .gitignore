@@ -64,3 +64,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # --- Docker persistent data ---
 # Docker volumes mount here. Not source code.
 docker/data/
+# Tooling
+git-cliff*
+new_notes.md

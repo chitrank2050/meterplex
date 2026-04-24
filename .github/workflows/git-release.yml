@@ -56,14 +56,11 @@ jobs:
           config: cliff.toml
           args: --latest --strip all
 
-      - name: Update CHANGELOG.md locally 📝
-        run: |
-          TAG_NAME="${{ github.event.inputs.tag_name || github.ref_name }}"
-          # Prepend the new release notes to CHANGELOG.md safely
-          echo "${{ steps.git-cliff.outputs.content }}" > new_notes.md
-          echo "" >> new_notes.md
-          cat CHANGELOG.md >> new_notes.md
-          mv new_notes.md CHANGELOG.md
+      - name: Update CHANGELOG.md 📝
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --tag ${{ github.event.inputs.tag_name || github.ref_name }} --output CHANGELOG.md
 
       - name: Create Pull Request for CHANGELOG update 🔀
         uses: peter-evans/create-pull-request@v7
@@ -92,6 +89,8 @@ jobs:
           branch: 'chore/changelog-${{ github.event.inputs.tag_name || github.ref_name }}'
           base: main
           delete-branch: true
+          add-paths: |
+            CHANGELOG.md
 
       - name: Create GitHub Release ✨
         uses: softprops/action-gh-release@v2
