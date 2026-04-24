@@ -47,7 +47,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install pnpm 📦
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       - name: Generate release notes 📝
         uses: orhun/git-cliff-action@v4
@@ -63,7 +63,7 @@ jobs:
           args: --tag ${{ github.event.inputs.tag_name || github.ref_name }} --output CHANGELOG.md
 
       - name: Create Pull Request for CHANGELOG update 🔀
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore(release): update CHANGELOG.md'
@@ -93,7 +93,7 @@ jobs:
             CHANGELOG.md
 
       - name: Create GitHub Release ✨
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body: ${{ steps.git-cliff.outputs.content }}
           tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
