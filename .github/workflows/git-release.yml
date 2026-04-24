@@ -6,8 +6,8 @@
 #
 # Features:
 #   - Generates categorized release notes using git-cliff.
-#   - Updates CHANGELOG.md in the repository automatically.
-#   - Deploys updated documentation with the new changelog.
+#   - Updates CHANGELOG.md via an automated Pull Request.
+#   - Creates a GitHub Release with categorized notes.
 #   - Detects prereleases based on tag name (alpha, beta, rc).
 # =============================================================
 
@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: 'Tag to release (e.g. v0.5.3)'
+        description: 'Tag to release (e.g. v0.1.0)'
         required: true
 
 concurrency:
@@ -29,8 +29,7 @@ concurrency:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
+  pull-requests: write
 
 jobs:
   release:
@@ -54,18 +53,42 @@ jobs:
           config: cliff.toml
           args: --latest --strip all
 
-      - name: Update CHANGELOG.md 📝
+      - name: Update CHANGELOG.md locally 📝
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           TAG_NAME="${{ github.event.inputs.tag_name || github.ref_name }}"
+          # Prepend the new release notes to CHANGELOG.md safely
+          echo "${{ steps.git-cliff.outputs.content }}" > new_notes.md
+          echo "" >> new_notes.md
+          cat CHANGELOG.md >> new_notes.md
+          mv new_notes.md CHANGELOG.md
 
-          # Prepend the new release notes to CHANGELOG.md
-          printf "%s\n\n$(cat CHANGELOG.md)" "${{ steps.git-cliff.outputs.content }}" > CHANGELOG.md
+      - name: Create Pull Request for CHANGELOG update 🔀
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(release): update CHANGELOG.md'
+          title: 'chore(release): update CHANGELOG.md for ${{ github.event.inputs.tag_name || github.ref_name }}'
+          body: |
+            ## What does this PR do?
+            Automated changelog update for version ${{ github.event.inputs.tag_name || github.ref_name }}.
 
-          git add CHANGELOG.md
-          git commit -m "chore(release): update CHANGELOG.md for $TAG_NAME [skip ci]"
-          git push origin main
+            ## Type of change
+            - [x] Documentation
+            - [x] CI/CD or build configuration
+
+            ## How was this tested?
+            - [x] Verified by GitHub Actions Release workflow.
+
+            ## Checklist
+            - [x] My code follows the project conventions
+            - [x] I have updated documentation if needed
+            - [x] `pnpm build` passes
+          labels: |
+            chore
+            release
+          branch: 'chore/changelog-${{ github.event.inputs.tag_name || github.ref_name }}'
+          base: main
+          delete-branch: true
 
       - name: Create GitHub Release ✨
         uses: softprops/action-gh-release@v2
@@ -76,20 +99,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: ${{ contains(github.event.inputs.tag_name || github.ref_name, '-') }}
-
-      # ─── AUTO-DEPLOY DOCS ────────────────────────────────────
-      # Since we [skip ci] on the changelog commit, we deploy
-      # the docs here to ensure the live site has the new version.
-      - name: Set up Python 🐍
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-
-      - name: Install MkDocs Material 🛠️
-        run: pip install mkdocs-material
-
-      - name: Copy changelog to docs 📝
-        run: cp CHANGELOG.md docs/changelog.md
-
-      - name: Deploy to GitHub Pages 🌐
-        run: mkdocs gh-deploy --force
