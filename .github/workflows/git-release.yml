@@ -1,4 +1,15 @@
-name: Github Release
+# =============================================================
+# GitHub Release
+#
+# Automatically creates a GitHub Release when a version tag
+# (v*) is pushed to the repository.
+#
+# Features:
+#   - Generates categorized release notes using git-cliff.
+#   - Detects prereleases based on tag name (alpha, beta, rc).
+# =============================================================
+
+name: GitHub Release 🏷️
 
 on:
   push:
@@ -7,7 +18,6 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Never cancel a release mid-flight
   cancel-in-progress: false
 
 permissions:
@@ -15,22 +25,22 @@ permissions:
 
 jobs:
   release:
-    name: Create GitHub Release
+    name: Create Automated Release 🚀
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out repository 📥
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Generate release notes
+      - name: Generate release notes 📝
         uses: orhun/git-cliff-action@v4
         id: git-cliff
         with:
           config: cliff.toml
           args: --latest --strip all
 
-      - name: Create Release
+      - name: Create GitHub Release ✨
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.git-cliff.outputs.content }}
@@ -38,5 +48,4 @@ jobs:
           name: Release ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
-          # Auto-mark as prerelease if tag contains -alpha, -beta, -rc etc.
           prerelease: ${{ contains(github.ref_name, '-') }}

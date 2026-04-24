@@ -1,23 +1,22 @@
 # =============================================================
-# Maintenance - Weekly Dependency & Overrides Check
+# Weekly Maintenance - Dependency & Overrides Check
 #
 # This workflow runs every Sunday to proactively check if your
 # 'pnpm.overrides' are still necessary.
 #
 # How it works:
 # 1. Removes the 'overrides' block from package.json
-# 2. Runs pnpm install and osv-scanner
+# 2. Runs pnpm install and OSV audit
 # 3. If everything passes, it automatically opens a Pull Request
 #    to remove the redundant overrides for you.
 # =============================================================
 
-name: Maintenance
+name: Weekly Maintenance 🧹
 
 on:
   schedule:
-    # Run every Sunday at midnight
     - cron: '0 0 * * 0'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -25,40 +24,34 @@ permissions:
 
 jobs:
   prune_overrides:
-    name: Check Redundant Overrides
+    name: Prune Redundant Overrides ✂️
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 📥
         uses: actions/checkout@v6
 
-      - name: Install pnpm
+      - name: Install pnpm 📦
         uses: pnpm/action-setup@v5
 
-      - name: Setup Node.js
+      - name: Setup Node.js 🟢
         uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: 'pnpm'
 
-      - name: Remove overrides and update lockfile
+      - name: Remove overrides & update lockfile 🛠️
         id: check
         run: |
-          # Use jq to remove the overrides block
           jq 'del(.pnpm.overrides)' package.json > package.json.tmp && mv package.json.tmp package.json
+          pnpm install --no-frozen-lockfile --prefer-offline
 
-          # Refresh lockfile
-          pnpm install --no-frozen-lockfile
-
-      - name: Run OSV Scanner
+      - name: Run OSV Scanner 🔍
         run: |
-          # Download and run OSV-Scanner binary directly
           curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
           chmod +x osv-scanner
           ./osv-scanner --lockfile=pnpm-lock.yaml
 
-      - name: Create Pull Request if redundant
-        # This step only runs if the scanner succeeded (exit code 0)
-        # meaning the overrides are no longer needed!
+      - name: Create Pull Request if redundant 🚀
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

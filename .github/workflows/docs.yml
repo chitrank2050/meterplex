@@ -1,4 +1,6 @@
 # =============================================================
+# Deploy Documentation
+#
 # Deploy MkDocs to GitHub Pages on push to main.
 #
 # Triggers on:
@@ -9,7 +11,7 @@
 # and deploys to the gh-pages branch.
 # =============================================================
 
-name: Deploy Docs
+name: Deploy Documentation 📚
 
 on:
   push:
@@ -37,33 +39,30 @@ permissions:
 
 jobs:
   deploy:
+    name: Build & Deploy Docs 🚀
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository 📥
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Python
+      - name: Set up Python 🐍
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
 
-      - name: Install MkDocs Material
+      - name: Install MkDocs Material 🛠️
         run: pip install mkdocs-material
 
-      # Copy CHANGELOG.md into docs/ so MkDocs can include it.
-      # The source of truth stays at the root (where git-cliff writes it).
-      # docs/changelog.md is never committed - only exists during CI build.
-      - name: Copy changelog to docs
+      - name: Copy changelog to docs 📝
         run: cp CHANGELOG.md docs/changelog.md
 
-      # Configure git so mkdocs gh-deploy can push to gh-pages branch.
-      - name: Configure git
+      - name: Configure git 🔧
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages 🌐
         run: mkdocs gh-deploy --force
