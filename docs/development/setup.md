@@ -2,12 +2,14 @@
 
 ## Prerequisites
 
-| Tool | Minimum Version | Check Command |
-| :--- | :--- | :--- |
-| Node.js | 20.0.0 | `node --version` |
-| pnpm | 9.0.0 | `pnpm --version` |
-| Docker | 24.0.0 | `docker --version` |
-| Docker Compose | 2.20.0 | `docker compose version` |
+| Tool | Minimum Version | Install | Check Command |
+| :--- | :--- | :--- | :--- |
+| Node.js | 20.0.0 | [nodejs.org](https://nodejs.org) | `node --version` |
+| pnpm | 9.0.0 | `npm i -g pnpm` | `pnpm --version` |
+| Docker | 24.0.0 | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version` |
+| Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
+| gitleaks | 8.0.0 | `brew install gitleaks` | `gitleaks version` |
+| knip | — | `pnpm install` (dev dep) | `pnpm lint:knip` |
 
 ## First-Time Setup
 
@@ -50,6 +52,40 @@ open http://localhost:3000/api/docs
 # Check database has seed data
 docker compose exec postgres psql -U meterplex -d meterplex -c "SELECT name, slug FROM tenants"
 ```
+
+## Developer Tooling
+
+Two tools are wired into the git hooks and lint scripts. **You must have them available locally or the pre-commit hook will fail.**
+
+### gitleaks — Secret scanning
+
+gitleaks scans every staged change before a commit is accepted, blocking any accidentally included credentials, API keys, or tokens.
+
+```bash
+# macOS
+brew install gitleaks
+
+# Linux
+gitHub Releases: https://github.com/gitleaks/gitleaks/releases
+
+# Verify
+gitleaks version
+```
+
+> **Note:** The pre-commit hook runs `gitleaks protect --staged --redact -v`. If gitleaks is not on your `PATH`, the commit will fail with a "command not found" error.
+
+### knip — Dead code & unused dependency detection
+
+knip is a dev dependency installed via `pnpm install`. It finds unused exports, files, and dependencies in the codebase.
+
+```bash
+# Run manually
+pnpm lint:knip
+
+# No separate install needed — knip is in devDependencies
+```
+
+---
 
 ## Daily Workflow
 

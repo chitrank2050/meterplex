@@ -18,6 +18,8 @@ git checkout -b 42-fix-cache-invalidation
 
 Follow the setup guide: [Setup & Installation](https://chitrank2050.github.io/meterplex/development/setup/)
 
+> **Required before your first commit:** Install [gitleaks](https://github.com/gitleaks/gitleaks) (`brew install gitleaks` on macOS). The pre-commit hook scans staged files for secrets and will fail with "command not found" if gitleaks is missing.
+
 ### Make your changes
 
 Follow the existing code style - strict TypeScript, Prettier formatting, ESLint rules.

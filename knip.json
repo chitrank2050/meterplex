@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": ["src/main.ts", "src/**/*.module.ts"],
+  "project": ["src/**/*.ts"],
+  "ignore": [
+    "src/**/*.spec.ts",
+    "src/**/*.e2e-spec.ts",
+    "test/**",
+    "prisma/**",
+    "scripts/**"
+  ],
+  "ignoreDependencies": ["source-map-support", "ts-loader", "tsconfig-paths"],
+  "ignoreExportsUsedInFile": true
+}

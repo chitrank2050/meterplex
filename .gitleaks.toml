@@ -1,0 +1,22 @@
+# Gitleaks Configuration
+# https://github.com/gitleaks/gitleaks
+# Extends the default ruleset with project-specific overrides.
+
+title = "Meterplex Gitleaks Config"
+
+[extend]
+# Use the default gitleaks ruleset as the base
+useDefault = true
+
+[allowlist]
+description = "Global allowlist for known-safe patterns"
+paths = [
+  # Lock files contain hashes that look like secrets
+  '''pnpm-lock\.yaml''',
+  # Test fixtures may contain fake credentials
+  '''test/.*''',
+  # Example env file is intentionally full of placeholders
+  '''\.env\.example''',
+  # Changelog may reference old commit hashes
+  '''CHANGELOG\.md''',
+]

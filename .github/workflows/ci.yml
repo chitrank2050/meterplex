@@ -4,17 +4,59 @@ on:
   push:
     branches: [main]
     paths-ignore:
+      # Documentation
       - 'docs/**'
-      - '.vscode/**'
-      - '.env.example'
       - 'mkdocs.yml'
+      - 'assets/**'
+      # Markdown (community health & repo meta)
+      - '*.md'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - '.github/FUNDING.yml'
+      - '.github/CODEOWNERS'
+      # API client collections
+      - 'bruno/**'
+      # Editor & IDE configs
+      - '.vscode/**'
+      - '.editorconfig'
+      # Environment examples & secrets config
+      - '.env.example'
+      - '.gitleaks.toml'
+      # Dependency management (Renovate handles PRs; not build-relevant)
+      - 'renovate.json'
+      # Changelog & release tooling config
+      - 'cliff.toml'
+      # Git hooks config (local-only)
+      - 'commitlint.config.mjs'
+      - '.husky/**'
   pull_request:
     branches: [main]
     paths-ignore:
+      # Documentation
       - 'docs/**'
-      - '.vscode/**'
-      - '.env.example'
       - 'mkdocs.yml'
+      - 'assets/**'
+      # Markdown (community health & repo meta)
+      - '*.md'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - '.github/FUNDING.yml'
+      - '.github/CODEOWNERS'
+      # API client collections
+      - 'bruno/**'
+      # Editor & IDE configs
+      - '.vscode/**'
+      - '.editorconfig'
+      # Environment examples & secrets config
+      - '.env.example'
+      - '.gitleaks.toml'
+      # Dependency management (Renovate handles PRs; not build-relevant)
+      - 'renovate.json'
+      # Changelog & release tooling config
+      - 'cliff.toml'
+      # Git hooks config (local-only)
+      - 'commitlint.config.mjs'
+      - '.husky/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -61,16 +103,64 @@ jobs:
 
       # Unit tests (run only if there are spec files)
       - name: Run tests
+        id: run_tests
         run: |
           if [ -d "src" ] && find src -name "*.spec.ts" | grep -q "."; then
-            pnpm test
+            pnpm test:cov
+            echo "tests_ran=true" >> "$GITHUB_OUTPUT"
           else
             echo "No unit tests found, skipping."
+            echo "tests_ran=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # E2E tests (uncomment and configure when ready)
+      - name: Upload coverage to Codecov
+        if: steps.run_tests.outputs.tests_ran == 'true'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+
       # - name: Run e2e tests
       #   run: pnpm test:e2e
       #   env:
       #     DATABASE_URL: postgresql://meterplex:meterplex_dev@localhost:5432/meterplex_test?schema=public
       #     NODE_ENV: test
+
+  security_audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit dependencies
+        run: pnpm audit --audit-level=high
+
+  secret_scan:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
