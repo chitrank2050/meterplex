@@ -1,0 +1,50 @@
+# =============================================================
+# Semantic Pull Request - Title Validation
+#
+# Enforces Conventional Commits format on PR titles.
+# This ensures that when we squash-merge, the resulting
+# commit message is ready for git-cliff.
+# =============================================================
+
+name: Semantic Pull Request
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+permissions:
+  pull-requests: read
+
+jobs:
+  validate:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Semantic Pull Request Validation
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Configuration for types allowed
+          types: |
+            feat
+            fix
+            chore
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            revert
+          # If the PR contains only one commit, it can be useful to check that the
+          # commit message also matches.
+          validateSingleCommit: true
+          # For squash-merge strategy, the title is the most important part.
+          ignoreLabels: |
+            bot
+            ignore-semantic-pull-request
