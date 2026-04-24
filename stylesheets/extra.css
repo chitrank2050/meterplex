@@ -1,0 +1,51 @@
+/* Premium UI Overrides for MkDocs Material */
+
+:root {
+  /* Refining the indigo palette */
+  --md-primary-fg-color:        #4338ca;
+  --md-primary-fg-color--light: #6366f1;
+  --md-primary-fg-color--dark:  #3730a3;
+}
+
+/* Modernizing the Sidebar & Navigation */
+.md-nav__link {
+  transition: color 0.25s, background-color 0.25s;
+  border-radius: 0.25rem;
+}
+
+.md-nav__link:hover {
+  color: var(--md-primary-fg-color);
+  background-color: rgba(67, 56, 202, 0.05);
+}
+
+/* Rounded and shadowed code blocks */
+.highlight {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+[data-md-color-scheme="slate"] .highlight {
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Premium Header Tabs */
+.md-tabs {
+  background-color: var(--md-primary-fg-color);
+}
+
+/* Smoother transitions for theme toggling */
+body {
+  transition: background-color 0.5s, color 0.5s;
+}
+
+/* Modern Typography tweaks */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Better spacing for the main content */
+.md-content {
+  line-height: 1.65;
+}
