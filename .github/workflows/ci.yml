@@ -135,11 +135,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Scan dependencies with OSV Scanner
-        uses: google/osv-scanner-action@v2.3.5
-        with:
-          scan-args: |-
-            --lockfile=pnpm-lock.yaml
+      - name: Run OSV Scanner
+        run: |
+          # Download and run OSV-Scanner binary directly
+          curl -L https://github.com/google/osv-scanner/releases/download/v1.9.0/osv-scanner_1.9.0_linux_amd64 -o osv-scanner
+          chmod +x osv-scanner
+          ./osv-scanner --lockfile=pnpm-lock.yaml
 
   secret_scan:
     name: Secret Scan
