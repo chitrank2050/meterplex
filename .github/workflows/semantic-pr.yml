@@ -28,6 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          # Configuration for types allowed
           types: |
             feat
             fix
@@ -40,7 +41,10 @@ jobs:
             build
             ci
             revert
+          # If the PR contains only one commit, it can be useful to check that the
+          # commit message also matches.
           validateSingleCommit: true
+          # For squash-merge strategy, the title is the most important part.
           ignoreLabels: |
             bot
             ignore-semantic-pull-request

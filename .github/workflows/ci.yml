@@ -6,11 +6,8 @@
 #   - Push to main (excluding docs/meta)
 #   - Pull Requests to main
 #
-# Jobs:
-#   - Lint & Hygiene: ESLint, Prettier, Knip
-#   - Build & Test: Vitest + Coverage
-#   - OSV Audit: Google OSV dependency scan
-#   - Secret Scan: Gitleaks history scan
+# Jobs are optimized to run only when relevant files change
+# to save GitHub Actions minutes (Free Tier friendly).
 # =============================================================
 
 name: CI & Security Analysis ⚡️
@@ -19,45 +16,62 @@ on:
   push:
     branches: [main]
     paths-ignore:
+      # Documentation
       - 'docs/**'
       - 'mkdocs.yml'
       - 'assets/**'
+      # Markdown (community health & repo meta)
       - '*.md'
       - '.github/ISSUE_TEMPLATE/**'
       - '.github/PULL_REQUEST_TEMPLATE.md'
       - '.github/FUNDING.yml'
       - '.github/CODEOWNERS'
+      # API client collections
       - 'bruno/**'
+      # Editor & IDE configs
       - '.vscode/**'
       - '.editorconfig'
+      # Environment examples & secrets config
       - '.env.example'
       - '.gitleaks.toml'
+      # Dependency management (Renovate handles PRs; not build-relevant)
       - 'renovate.json'
+      # Changelog & release tooling config
       - 'cliff.toml'
+      # Git hooks config (local-only)
       - 'commitlint.config.mjs'
       - 'lefthook.yml'
   pull_request:
     branches: [main]
     paths-ignore:
+      # Documentation
       - 'docs/**'
       - 'mkdocs.yml'
       - 'assets/**'
+      # Markdown (community health & repo meta)
       - '*.md'
       - '.github/ISSUE_TEMPLATE/**'
       - '.github/PULL_REQUEST_TEMPLATE.md'
       - '.github/FUNDING.yml'
       - '.github/CODEOWNERS'
+      # API client collections
       - 'bruno/**'
+      # Editor & IDE configs
       - '.vscode/**'
       - '.editorconfig'
+      # Environment examples & secrets config
       - '.env.example'
       - '.gitleaks.toml'
+      # Dependency management (Renovate handles PRs; not build-relevant)
       - 'renovate.json'
+      # Changelog & release tooling config
       - 'cliff.toml'
+      # Git hooks config (local-only)
       - 'commitlint.config.mjs'
       - 'lefthook.yml'
 
 concurrency:
+  # Ensure only one CI run per branch/PR at a time
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
@@ -68,9 +82,41 @@ env:
   NODE_VERSION: 24
 
 jobs:
+  # ─── CHANGE DETECTION ────────────────────────────────────────
+  # Determines which jobs actually need to run based on changed files.
+  changes:
+    name: Detect Changes 🔍
+    runs-on: ubuntu-latest
+    outputs:
+      src: ${{ steps.filter.outputs.src }}
+      deps: ${{ steps.filter.outputs.deps }}
+      lint: ${{ steps.filter.outputs.lint }}
+    steps:
+      - name: Checkout 📥
+        uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            src:
+              - 'src/**'
+              - 'test/**'
+              - 'prisma/**'
+              - 'vitest.config.ts'
+            deps:
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+            lint:
+              - '.eslintrc.js'
+              - '.eslintignore'
+              - 'tsconfig.json'
+              - 'knip.json'
+
   # ─── LINTING JOB ─────────────────────────────────────────────
   lint:
     name: Lint & Hygiene 🧹
+    needs: changes
+    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.lint == 'true' || needs.changes.outputs.deps == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 📥
@@ -100,6 +146,8 @@ jobs:
   # ─── TESTING JOB ─────────────────────────────────────────────
   test:
     name: Build & Test 🧪
+    needs: changes
+    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.deps == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 📥
@@ -145,12 +193,15 @@ jobs:
   # ─── SECURITY JOBS ───────────────────────────────────────────
   security_audit:
     name: OSV Audit 🛡️
+    needs: changes
+    if: needs.changes.outputs.deps == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 📥
         uses: actions/checkout@v6
       - name: Run OSV Scanner 🔍
         run: |
+          # Download and run OSV-Scanner binary directly
           curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
           chmod +x osv-scanner
           ./osv-scanner --lockfile=pnpm-lock.yaml
@@ -158,6 +209,7 @@ jobs:
   secret_scan:
     name: Secret Scan 🔑
     runs-on: ubuntu-latest
+    # Secret scan always runs if any non-ignored file changes
     steps:
       - name: Checkout 📥
         uses: actions/checkout@v6
