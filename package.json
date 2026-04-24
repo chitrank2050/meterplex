@@ -65,7 +65,8 @@
     "clean-setup": "pnpm run nuke && pnpm run init",
     "prepare": "husky",
     "git-tag": "./scripts/git-tag.sh",
-    "git-release": "./scripts/git-release.sh"
+    "git-release": "./scripts/git-release.sh",
+    "deps:update": "pnpm update --interactive --latest"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.18",
@@ -78,7 +79,7 @@
     "@nestjs/terminus": "^11.1.1",
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
-    "@scalar/nestjs-api-reference": "^1.1.6",
+    "@scalar/nestjs-api-reference": "^1.1.10",
     "bcryptjs": "^3.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
@@ -127,7 +128,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.7.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.58.0",
     "unplugin-swc": "^1.5.9",
     "vitest": "^4.1.4"
