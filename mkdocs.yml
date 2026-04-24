@@ -1,11 +1,12 @@
 # =============================================================
-# Meterplex - MkDocs Configuration
+# Meterplex - Premium Documentation Configuration
 #
-# Auto deploy:    Push to main → GitHub Actions handles it
+# A "2027-standard" documentation portal using MkDocs Material.
+# Features: Dark Mode, Header Tabs, Modern Typography, and Instant Loading.
 # =============================================================
 
-site_name: Meterplex Docs
-site_description: B2B usage metering, entitlements, and billing platform
+site_name: Meterplex
+site_description: Open-source B2B usage metering, entitlements, and billing platform.
 site_author: Chitrank Agnihotri
 site_url: https://chitrank2050.github.io/meterplex
 repo_url: https://github.com/chitrank2050/meterplex
@@ -14,79 +15,97 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+
+  # Styling & Color Palette
   palette:
-    # Dark mode
+    # Deep Night Mode
     - scheme: slate
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/brightness-4
+        icon: material/weather-night
         name: Switch to light mode
-    # Light mode
+    # Clean Light Mode
     - scheme: default
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-sunny
         name: Switch to dark mode
+
+  # Modern UI Features
   features:
-    - navigation.instant
-    - navigation.tracking
-    - navigation.sections
-    - navigation.expand
-    - navigation.top
-    - search.highlight
-    - search.share
-    - content.code.copy
+    - navigation.instant # No page refreshes
+    - navigation.tracking # URL updates as you scroll
+    - navigation.tabs # Top-level header navigation
+    - navigation.tabs.sticky # Header stays at the top
+    - navigation.sections # Organized sidebar sections
+    - navigation.expand # Auto-expand sections
+    - navigation.path # Breadcrumbs for better orientation
+    - navigation.top # "Back to top" button
+    - search.highlight # Highlight search results
+    - search.share # Shareable search links
+    - content.code.copy # Copy button on code blocks
+    - toc.follow # TOC follows scrolling
+
+  # Icons & Logo
   icon:
     repo: fontawesome/brands/github
+    logo: material/gauge
 
+  # Modern Typography (Inter is the clean standard)
+  font:
+    text: Inter
+    code: Roboto Mono
+
+# Markdown Configuration
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.highlight:
+  - admonition # Info/Warning boxes
+  - pymdownx.details # Collapsible sections
+  - pymdownx.superfences # Nested code blocks & Mermaid
+  - pymdownx.highlight: # Code highlighting
       anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.tabbed:
+  - pymdownx.inlinehilite # Inline code highlighting
+  - pymdownx.tabbed: # Multi-language code tabs
       alternate_style: true
-  - tables
-  - toc:
+  - tables # Markdown tables
+  - toc: # Table of contents
       permalink: true
 
+# Navigation Structure
 nav:
   - Home: index.md
   - Architecture:
       - Overview: architecture/overview.md
       - Audit Log: architecture/audit-log.md
-      - Plans and Entitlements: architecture/phase-2-plans-and-entitlements.md
+      - Plans & Entitlements: architecture/phase-2-plans-and-entitlements.md
   - Development:
-      - Setup: development/setup.md
-  - API:
+      - Setup Guide: development/setup.md
+  - API Reference:
       - Overview: api/overview.md
       - Auth: api/auth.md
       - Users: api/users.md
       - Tenants: api/tenants.md
       - Plans: api/plans.md
       - API Keys: api/api-keys.md
-  - Build Phases:
-      - Phase 0 - Project Setup: phases/phase-0.md
-      - Phase 1 - Identity and Access: phases/phase-1.md
-      - Phase 2 - Plans and Entitlements: phases/phase-2.md
+  - Roadmap:
+      - Build Phases:
+          - 'Phase 0: Project Foundations': phases/phase-0.md
+          - 'Phase 1: Identity & Access': phases/phase-1.md
+          - 'Phase 2: Plans & Entitlements': phases/phase-2.md
   - Changelog: changelog.md
 
-docs_dir: docs
+# Extra Metadata
+extra_css:
+  - stylesheets/extra.css
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/chitrank2050
-      name: GitHub
-    - icon: fontawesome/solid/globe
-      link: https://chitrankagnihotri.com/
-      name: Portfolio
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/chitrank-agnihotri/
-      name: LinkedIn
+    - icon: fontawesome/solid/globe
+      link: https://chitrankagnihotri.com/
 
-copyright: Copyright &copy; 2026 Chitrank Agnihotri
+copyright: Copyright &copy; 2026 Chitrank Agnihotri &bull; Built with MkDocs Material
