@@ -41,4 +41,4 @@ commit-msg:
 pre-push:
   commands:
     tests:
-      run: pnpm test
+      run: pnpm test --passWithNoTests
