@@ -58,9 +58,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Use manual input tag if available, otherwise use ref_name
           TAG_NAME="${{ github.event.inputs.tag_name || github.ref_name }}"
-          pnpm exec git-cliff --config cliff.toml --tag $TAG_NAME --prepend CHANGELOG.md
+
+          # Prepend the new release notes to CHANGELOG.md
+          printf "%s\n\n$(cat CHANGELOG.md)" "${{ steps.git-cliff.outputs.content }}" > CHANGELOG.md
+
           git add CHANGELOG.md
           git commit -m "chore(release): update CHANGELOG.md for $TAG_NAME [skip ci]"
           git push origin main
