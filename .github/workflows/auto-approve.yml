@@ -69,7 +69,7 @@ jobs:
 
           if [ -z "$PR_NUMBER" ]; then
             echo "PR array empty. Searching for PR associated with branch $BRANCH..."
-            PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
+            PR_NUMBER=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --json number --jq '.[0].number')
           fi
 
           if [ -z "$PR_NUMBER" ]; then
@@ -90,7 +90,7 @@ jobs:
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
         run: |
           # Fetch PR status including mergeability and all check states
-          PR_DATA=$(gh pr view "$PR_NUMBER" --json mergeable,statusCheckRollup)
+          PR_DATA=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json mergeable,statusCheckRollup)
           MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
 
           # Check if there are any pending or failing checks in the rollup
