@@ -118,11 +118,15 @@ To maintain velocity while following strict branch protection rules:
 
 ---
 
----
-
 ## 🏗️ 2027 Automation Standards
 
 All workflows in this repository follow our "2027-standard" for security and performance:
+
+* **Node 24 LTS**: The active runtime for all runners and local development.
+* **True Zero-Noise PRs**: Pull Requests contain zero manual boilerplate. Descriptions are automatically generated and categorized using `git-cliff`.
+* **Harden Runner**: Every workflow is isolated using `step-security/harden-runner`.
+* **Prisma Client Caching**: Optimized cross-job caching for database types.
+* **Hands-Free Releases**: Automated changelog generation, PR creation, and auto-merging.
 
 1. **Centralized Identity**: All automated actions (approvals, labels, releases) use a custom **GitHub App** (`chitrank-action`) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.
 2. **Zero-Trust Egress**: Every job includes `harden-runner` to monitor and restrict network traffic, preventing token exfiltration.

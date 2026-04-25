@@ -77,16 +77,9 @@ jobs:
           commit-message: 'chore(release): update CHANGELOG.md'
           title: 'chore(release): update CHANGELOG.md for ${{ github.event.inputs.tag_name || github.ref_name }}'
           body: |
-            ## What does this PR do?
-            Automated changelog update for version ${{ github.event.inputs.tag_name || github.ref_name }}.
-
-            ## Type of change
-            - [x] Documentation
-            - [x] CI/CD or build configuration
-
-            ## Checklist
-            - [x] My code follows the project conventions
-            - [x] `pnpm build` passes
+            <!-- autofill-start -->
+            - chore(release): update CHANGELOG.md
+            <!-- autofill-end -->
           labels: |
             chore
             release
