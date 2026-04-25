@@ -128,21 +128,20 @@ jobs:
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile
 
-      - name: Lint code 🔍
-        run: pnpm lint:ts
-
-      - name: Check formatting ✨
-        run: pnpm format:check
-
-      - name: Lint Markdown 📝
-        run: pnpm lint:md
-
-      - name: Run OSV Audit 🛡️
+      - name: Hygiene & Security Checks 🧪🛡️
         run: |
-          # Download and run OSV-Scanner binary directly
+          # Run independent tasks in parallel
+          pnpm lint:ts & pid1=$!
+          pnpm format:check & pid2=$!
+          pnpm lint:md & pid3=$!
+
+          # Run OSV Audit (also independent)
           curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
           chmod +x osv-scanner
-          ./osv-scanner --lockfile=pnpm-lock.yaml
+          ./osv-scanner --lockfile=pnpm-lock.yaml & pid4=$!
+
+          # Wait for all background processes and capture exit codes
+          wait $pid1 && wait $pid2 && wait $pid3 && wait $pid4
 
   # ─── TESTING JOB ─────────────────────────────────────────────
   test:
