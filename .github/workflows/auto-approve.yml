@@ -86,7 +86,7 @@ jobs:
       - name: Create Bot Token 🤖🔑
         if: steps.guard.outputs.should_run == 'true'
         id: generate_token
-        uses: actions/create-github-app-token@c1a285145b9d317df6ced56c09f521459c0a93c9 # v1.11.1
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 #3.1.1
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
