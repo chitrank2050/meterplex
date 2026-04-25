@@ -8,7 +8,7 @@
 # maintaining high development velocity.
 # =============================================================
 
-name: Auto-Approve Renovate 🤖
+name: Renovate Auto-Merge 🤖🚀
 
 on:
   # zizmor: ignore[dangerous-triggers]
@@ -21,7 +21,7 @@ on:
       - completed
 
 permissions:
-  contents: read
+  contents: write # Required to merge the PR
   pull-requests: write # Required to post an approval review
 
 concurrency:
@@ -29,8 +29,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  auto-approve:
-    name: Auto-Approve 🚦
+  auto-merge:
+    name: Auto-Merge 🚦
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner 🛡️
@@ -104,7 +104,7 @@ jobs:
 
           # Check if there are any pending or failing checks in the rollup
           # We look for any check that is NOT completed successfully or skipped
-          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" || true)
+          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" | grep -v "Auto-Merge" || true)
 
           if [ "$MERGEABLE" != "MERGEABLE" ]; then
             echo "❌ PR has merge conflicts. Skipping approval."
@@ -118,10 +118,14 @@ jobs:
 
           echo "✅ All checks passed and PR is mergeable!"
 
-      - name: Auto-approve PR ✅
+      - name: Auto-approve & Merge PR ✅🚀
         if: steps.verify.conclusion == 'success'
-        uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
-        with:
-          github-token: ${{ steps.generate_token.outputs.token }}
-          pull-request-number: ${{ steps.guard.outputs.pr_number }}
-          review-message: '🤖 Smart Auto-Approval: All checks passed & no conflicts! This is a safe update from Renovate. Merging automatically!'
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+        run: |
+          # Approve the PR
+          gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Merge: All checks passed & no conflicts! This is a safe update from Renovate."
+
+          # Merge the PR (Using bypass authority granted in ruleset)
+          gh pr merge "$PR_NUMBER" --squash --auto --delete-branch
