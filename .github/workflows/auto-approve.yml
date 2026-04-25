@@ -94,15 +94,15 @@ jobs:
           MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
 
           # Check if there are any pending or failing checks in the rollup
-          # We look for any state that isn't SUCCESS or NEUTRAL (skipped)
-          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.state != "SUCCESS" and .state != "NEUTRAL") | .context' | grep -v "Auto-Approve" || true)
+          # We look for any check that is NOT completed successfully or skipped
+          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" || true)
 
           if [ "$MERGEABLE" != "MERGEABLE" ]; then
             echo "❌ PR has merge conflicts. Skipping approval."
             exit 1
           fi
 
-          if [ -n "$STILL_RUNNING_OR_FAILED" ]; then
+          if [ -n "$STILL_RUNNING_OR_FAILED" ] && [ "$STILL_RUNNING_OR_FAILED" != "null" ]; then
             echo "⏳ Other checks are still running or failed: $STILL_RUNNING_OR_FAILED"
             exit 1
           fi
