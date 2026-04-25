@@ -83,6 +83,7 @@ A custom workflow (`maintenance.yml`) that runs weekly to check if any entries i
 | :--- | :--- | :--- | :--- |
 | **CI & Security** | `ci.yml` | Validates code quality, runs tests, checks formatting, and audits security. | Every PR / Push to main |
 | **Action Linting** | `workflow-lint.yml` | Audits our GitHub Actions for security flaws and unpinned versions using `zizmor`. | Changes to workflows |
+| **PR Autofill** | `pr-autofill.yml` | Automatically populates PR descriptions based on commit history. | PR open |
 | **Semantic PR** | `semantic-pr.yml` | Enforces [Conventional Commits](https://www.conventionalcommits.org/) on PR titles to ensure clean history. | PR open / edit / sync |
 | **Auto-Approve** | `auto-approve.yml` | Automatically approves safe dependency updates from Renovate. | PR from Renovate |
 | **Scorecard** | `scorecard.yml` | Tracks repo-level security health and supply chain best practices (OpenSSF). | Weekly / Push to main |

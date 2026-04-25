@@ -149,6 +149,6 @@
   },
   "validate-branch-name": {
     "pattern": "^(main|master|gh-pages)$|^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|renovate)/.+$",
-    "errorMsg": "❌ Invalid branch name. Please use <type>/<description> (e.g., feat/add-api). Allowed types: feat, fix, chore, docs, style, refactor, perf, test, build, ci, revert"
+    "errorMsg": "❌ Invalid branch name. Please use <type>/<description> (e.g., feat/add-api). Allowed types: feat, fix, chore, docs, style, refactor, perf, test, build, ci, revert, renovate"
   }
 }
