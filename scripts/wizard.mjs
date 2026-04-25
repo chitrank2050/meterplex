@@ -34,11 +34,11 @@ const TASKS = [
     label: '🐳 Docker Nuclear Reset',
     hint: 'Wipe volumes & restart all containers',
     order: 30,
-    script: './scripts/docker-setup.sh --clean'
+    script: './scripts/docker-clean.sh'
   },
   {
     value: 'docker',
-    label: '🏗️  Start Infrastructure',
+    label: '🏗️  Setup Docker Infrastructure',
     hint: 'Launch Postgres, Kafka, and Redis',
     order: 35,
     script: './scripts/docker-setup.sh'
@@ -63,6 +63,13 @@ const TASKS = [
     hint: 'Run all linters (TS, MD, Actions)',
     order: 50,
     script: 'pnpm lint'
+  },
+  {
+    value: 'knip',
+    label: '🕵️‍♂️ Dead Code Analysis',
+    hint: 'Find unused files, deps, and exports',
+    order: 55,
+    script: 'pnpm lint:knip'
   },
   {
     value: 'test',
@@ -105,7 +112,7 @@ async function runTask(task) {
 async function startWizard() {
   console.clear();
 
-  intro(`${pc.purple(pc.bold('🏗️  METERPLEX SETUP WIZARD'))}`);
+  intro(`${pc.magenta(pc.bold('🏗️  METERPLEX SETUP WIZARD'))}`);
 
   const selectedValues = await multiselect({
     message: 'What would you like to do? ' + pc.dim('(Space to select, Enter to confirm)'),
@@ -123,9 +130,9 @@ async function startWizard() {
     .filter(t => selectedValues.includes(t.value))
     .sort((a, b) => a.order - b.order);
 
-  // Deduplicate redundant docker tasks (Clean already starts infra)
-  if (selectedValues.includes('docker_clean') && selectedValues.includes('docker')) {
-    selectedTasks = selectedTasks.filter(t => t.value !== 'docker');
+  // Deduplicate redundant knip tasks (Lint already runs knip)
+  if (selectedValues.includes('lint') && selectedValues.includes('knip')) {
+    selectedTasks = selectedTasks.filter(t => t.value !== 'knip');
   }
 
   note(

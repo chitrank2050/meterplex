@@ -82,14 +82,15 @@ git clone https://github.com/chitrank2050/meterplex.git
 cd meterplex
 
 # 3. One-command setup (installs deps, starts docker, seeds DB)
-pnpm setup
+pnpm dev:init
 ```
 
 ### 🛠️ Development Scripts
 
 | Command | Description |
 | :--- | :--- |
-| `pnpm setup` | Standard setup: install deps + start infrastructure + seed DB |
+| `pnpm dev:init` | **Interactive Wizard**: Multi-select setup, maintenance, and deep clean |
+| `pnpm setup:all` | Standard setup: install deps + start infrastructure + seed DB |
 | `pnpm setup:fresh` | **Hard Reset**: Wipes all data/deps and performs a fresh setup |
 | `pnpm start:dev` | Starts the NestJS application in watch mode |
 | `pnpm test` | Runs the full test suite via Vitest |

@@ -16,17 +16,16 @@
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
+
+Meterplex is built for speed and developer happiness. You can get a full production-grade development environment running in seconds using our **Interactive Setup Wizard**.
 
 ```bash
-git clone git@github.com:chitrank2050/meterplex.git
+git clone https://github.com/chitrank2050/meterplex.git
 cd meterplex
-pnpm install
-cp .env.example .env
-pnpm docker:up
-pnpm db:migrate:dev
-pnpm db:seed
-pnpm start:dev
+
+# One command to rule them all:
+pnpm dev:init
 ```
 
 App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs`.
