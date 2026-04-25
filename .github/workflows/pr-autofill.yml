@@ -12,17 +12,21 @@ name: PR Description Autofill ✍️
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 permissions:
   pull-requests: write
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   autofill:
     name: Generate Description 📝
     runs-on: ubuntu-latest
-    if: github.actor != 'renovate[bot]' # Skip for Renovate as it has its own bodies
+    if: github.event.pull_request.user.login != 'renovate[bot]'
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
@@ -40,24 +44,37 @@ jobs:
         env:
           BASE_REF: ${{ github.base_ref }}
           HEAD_REF: ${{ github.head_ref }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          # Get the list of commits
+          # 1. Get the list of commits
           COMMITS=$(git log origin/"$BASE_REF"..origin/"$HEAD_REF" --pretty=format:"- %s")
 
-          # Read the template
-          TEMPLATE=$(cat .github/pull_request_template.md)
+          # 2. Get the CURRENT PR body from GitHub
+          CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
 
-          # Replace the placeholder with the commits
-          # We use a temporary file to handle multiline content safely
-          echo "$TEMPLATE" > final_body.md
+          # 3. If the body is empty or doesn't have our tags, use the template
+          if [[ ! "$CURRENT_BODY" == *"<!-- autofill-start -->"* ]]; then
+            echo "No tags found, using base template..."
+            CURRENT_BODY=$(cat .github/pull_request_template.md)
+          fi
 
-          # Use a marker to insert the commits between the tags
+          # 4. Perform a surgical replacement of the content between tags
+          # We use a temp file to handle multiline safely
+          echo "$CURRENT_BODY" > final_body.md
+
+          # Delete everything between tags
+          sed -i '/<!-- autofill-start -->/,/<!-- autofill-end -->/{//!d}' final_body.md
+
+          # Insert the new commits after the start tag
           sed -i "/<!-- autofill-start -->/r /dev/stdin" final_body.md <<EOF
           $COMMITS
           EOF
 
-      - name: Update PR Description 🚀
+      - name: Update PR 🚀
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} --body-file final_body.md
+          gh pr edit ${{ github.event.pull_request.number }} \
+            --body-file final_body.md \
+            --add-assignee "chitrank2050"
