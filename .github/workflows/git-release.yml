@@ -68,6 +68,8 @@ jobs:
         with:
           config: cliff.toml
           args: --tag ${{ github.event.inputs.tag_name || github.ref_name }} --output CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Create Pull Request for CHANGELOG update 🔀
         id: cpr
@@ -137,6 +139,8 @@ jobs:
         with:
           config: cliff.toml
           args: --latest --strip all
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Create GitHub Release ✨
         env:

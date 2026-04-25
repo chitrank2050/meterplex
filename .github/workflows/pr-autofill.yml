@@ -55,8 +55,10 @@ jobs:
         uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
         with:
           config: cliff.toml
-          # --no-exec skips the GitHub API metadata fetch to prevent 404 panics in PRs
-          args: origin/${{ github.base_ref }}..HEAD --strip all --no-exec
+          # Removed --no-exec to allow fetching GitHub usernames (@chitrank2050)
+          args: origin/${{ github.base_ref }}..HEAD --strip all
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Prepare Description ✍️
         id: prepare
