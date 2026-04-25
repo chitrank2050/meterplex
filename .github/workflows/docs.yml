@@ -62,7 +62,7 @@ jobs:
           cache: 'pip' # Enable caching for pip dependencies
 
       - name: Install MkDocs Material 🛠️
-        run: pip install mkdocs-material==9.7.6
+        run: pip install -r requirements.txt
 
       # Copy CHANGELOG.md into docs/ so MkDocs can include it.
       # The source of truth stays at the root (where git-cliff writes it).
