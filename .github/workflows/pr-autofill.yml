@@ -53,7 +53,8 @@ jobs:
         uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
         with:
           config: cliff.toml
-          args: origin/${{ github.base_ref }}..origin/${{ github.head_ref }} --strip all
+          # --no-exec skips the GitHub API metadata fetch to prevent 404 panics in PRs
+          args: origin/${{ github.base_ref }}..HEAD --strip all --no-exec
 
       - name: Prepare Description ✍️
         id: prepare

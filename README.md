@@ -23,6 +23,7 @@
       <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
     </a>
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+    <img src="https://img.shields.io/badge/Node-24-success" alt="Node: 24">
     <br/>
     <br/>
     <a href="./CONTRIBUTING.md"><b>Contributing</b></a> •
@@ -65,7 +66,7 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 | Domain | Technology | Purpose |
 | :--- | :--- | :--- |
 | **Backend** | [NestJS 11](https://nestjs.com/) | Modular backend architecture |
-| **Language** | [TypeScript 5.7](https://www.typescriptlang.org/) | Type-safe development |
+| **Language** | [TypeScript 6.0](https://www.typescriptlang.org/) | Type-safe development |
 | **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Persistent storage & ORM |
 | **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Event-driven async processing |
 | **Caching** | [Redis 8](https://redis.io/) | Distributed caching & rate limiting |
