@@ -116,6 +116,7 @@ jobs:
           branch: 'chore/changelog-${{ github.event.inputs.tag_name || github.ref_name }}'
           base: main
           delete-branch: true
+          assignees: chitrank2050
           add-paths: |
             CHANGELOG.md
 

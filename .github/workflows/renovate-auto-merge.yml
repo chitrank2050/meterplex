@@ -129,6 +129,9 @@ jobs:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
         run: |
+          # Assign the user (as a safety net)
+          gh pr edit "$PR_NUMBER" --add-assignee "chitrank2050"
+
           # Approve the PR
           gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Merge: All checks passed & no conflicts! This is a safe update from Renovate."
 
