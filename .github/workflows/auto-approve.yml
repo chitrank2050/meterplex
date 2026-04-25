@@ -1,14 +1,4 @@
-# =============================================================
-# Smart Auto-Approval for Renovate
-#
-# Automatically approves Pull Requests from Renovate that meet
-# our safety criteria (Patch/Minor updates).
-#
-# This satisfies GitHub's Branch Protection rules while
-# maintaining high development velocity.
-# =============================================================
-
-name: Renovate Auto-Merge 🤖🚀
+name: Auto-Approve 🤖✅
 
 on:
   # zizmor: ignore[dangerous-triggers]
@@ -17,11 +7,13 @@ on:
       - 'CI & Security Analysis ⚡️'
     branches:
       - 'renovate/**'
+      - 'chore/changelog-*'
+      - 'maintenance/*'
     types:
       - completed
 
 permissions:
-  contents: write # Required to merge the PR
+  contents: read # No longer needs write to merge
   pull-requests: write # Required to post an approval review
 
 concurrency:
@@ -29,8 +21,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  auto-merge:
-    name: Auto-Merge 🚦
+  auto-approve:
+    name: Auto-Approve ✅
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner 🛡️
@@ -59,12 +51,15 @@ jobs:
             exit 0
           fi
 
-          # 2. Check if it was triggered by Renovate (be flexible with bot name)
-          # Fallback to the workflow run actor if the PR array is empty
+          # 2. Check if it was triggered by an authorized Bot/Branch pattern
           ACTOR=$(echo "$PR_JSON" | jq -r '.[0].user.login // "'$ACTOR_FALLBACK'"')
           BRANCH=$(echo "$PR_JSON" | jq -r '.[0].head.ref // "'$HEAD_BRANCH'"')
 
-          if [[ ! "$ACTOR" == *renovate* ]] || [[ ! "$BRANCH" == renovate/* ]]; then
+          IS_RENOVATE=$([[ "$ACTOR" == *renovate* || "$BRANCH" == renovate/* ]] && echo "true" || echo "false")
+          IS_RELEASE=$([[ "$BRANCH" == chore/changelog-* ]] && echo "true" || echo "false")
+          IS_MAINTENANCE=$([[ "$BRANCH" == maintenance/* ]] && echo "true" || echo "false")
+
+          if [ "$IS_RENOVATE" != "true" ] && [ "$IS_RELEASE" != "true" ] && [ "$IS_MAINTENANCE" != "true" ]; then
             echo "Security Check Failed: Actor ($ACTOR) or Branch ($BRANCH) is not authorized for auto-approval."
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             exit 0
@@ -86,7 +81,7 @@ jobs:
 
           echo "should_run=true" >> "$GITHUB_OUTPUT"
           echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "✅ Verified: Safe Renovate update found for PR #$PR_NUMBER (Actor: $ACTOR)"
+          echo "✅ Verified: Safe automated update found for PR #$PR_NUMBER (Branch: $BRANCH)"
 
       - name: Create Bot Token 🤖🔑
         if: steps.guard.outputs.should_run == 'true'
@@ -108,7 +103,6 @@ jobs:
           MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
 
           # Check if there are any pending or failing checks in the rollup
-          # We look for any check that is NOT completed successfully or skipped
           STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" | grep -v "Auto-Merge" || true)
 
           if [ "$MERGEABLE" != "MERGEABLE" ]; then
@@ -123,17 +117,15 @@ jobs:
 
           echo "✅ All checks passed and PR is mergeable!"
 
-      - name: Auto-approve & Merge PR ✅🚀
+      - name: Auto-approve PR ✅
         if: steps.verify.conclusion == 'success'
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+          USER_ID: 'chitrank2050'
         run: |
           # Assign the user (as a safety net)
-          gh pr edit "$PR_NUMBER" --add-assignee "chitrank2050"
+          gh pr edit "$PR_NUMBER" --add-assignee "$USER_ID"
 
           # Approve the PR
-          gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Merge: All checks passed & no conflicts! This is a safe update from Renovate."
-
-          # Merge the PR (Using bypass authority granted in ruleset)
-          gh pr merge "$PR_NUMBER" --squash --delete-branch
+          gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Approve: All checks passed & no conflicts! Satisfying branch protection for this automated update."
