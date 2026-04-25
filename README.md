@@ -9,7 +9,7 @@
       <img src="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml/badge.svg" alt="CI Status">
     </a>
     <img src="https://img.shields.io/badge/Security-OSV--Scanner-success" alt="Security: OSV-Scanner">
-    <img src="https://img.shields.io/badge/Version-0.5.3-blue" alt="Version">
+    <img src="https://img.shields.io/badge/Version-0.5.4-blue" alt="Version">
     <a href="https://chitrank2050.github.io/meterplex/">
       <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
     </a>

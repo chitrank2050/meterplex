@@ -1,7 +1,7 @@
 {
   "name": "meterplex",
   "private": false,
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Open-source B2B usage metering, entitlements, and billing platform.",
   "homepage": "https://github.com/chitrank2050/meterplex#readme",
   "author": {
