@@ -38,6 +38,8 @@ services:
       POSTGRES_USER: meterplex
       POSTGRES_PASSWORD: meterplex_dev
       POSTGRES_DB: meterplex
+    networks:
+      - meterplex-net
     volumes:
       # Persist data across container restarts.
       # Destroyed on `docker compose down -v` (clean slate).
@@ -73,6 +75,8 @@ services:
     restart: unless-stopped
     ports:
       - '6379:6379'
+    networks:
+      - meterplex-net
     volumes:
       - meterplex-redis-data:/data
     healthcheck:
@@ -111,6 +115,8 @@ services:
     restart: unless-stopped
     ports:
       - '9092:9092'
+    networks:
+      - meterplex-net
     environment:
       # KRaft mode: Kafka manages its own metadata, no Zookeeper.
       KAFKA_NODE_ID: 1
@@ -157,28 +163,42 @@ services:
           cpus: '0.5'
 
   # ---------------------------------------------------------
-  # Kafdrop - Kafka Web UI
+  # Kafka UI - Modern Web Interface
   #
   # Visit: http://localhost:9000
+  # Native ARM64 support for Apple Silicon.
   # ---------------------------------------------------------
   kafka-ui:
-    image: obsidiandynamics/kafdrop:4.0.2
+    image: provectuslabs/kafka-ui:v0.7.2
     container_name: meterplex-kafka-ui
     restart: unless-stopped
     ports:
-      - '9000:9000'
+      - '9000:8080'
+    networks:
+      - meterplex-net
     environment:
-      KAFKA_BROKERCONNECT: kafka:29092
-      JVM_OPTS: '-Xms32M -Xmx64M'
-      SERVER_SERVLET_CONTEXTPATH: '/'
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_POLLINGINTERVAL: 30000 # Poll every 30s instead of 5s (Lower CPU)
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      # Aggressive JVM tuning for low resource usage
+      JAVA_OPTS: '-Xms32M -Xmx128M -XX:+UseG1GC -XX:MaxGCPauseMillis=100'
     depends_on:
       kafka:
         condition: service_healthy
     deploy:
       resources:
         limits:
-          memory: 128M
-          cpus: '0.2'
+          memory: 192M
+          cpus: '0.1'
+
+# ---------------------------------------------------------
+# Custom Networks - Optimized communication pipeline
+# ---------------------------------------------------------
+networks:
+  meterplex-net:
+    name: meterplex-internal
+    driver: bridge
 
 # ---------------------------------------------------------
 # Named volumes - persist data across container restarts.
