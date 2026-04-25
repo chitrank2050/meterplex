@@ -64,6 +64,13 @@ Triggered by pushing a version tag (e.g., `v0.5.4`).
 
 We use **Renovate** to keep our dependencies up to date. Unlike standard tools, Renovate is configured to group updates and provide clear release notes.
 
+### Smart Auto-Approval
+
+To maintain velocity while following strict branch protection rules:
+
+* **Patch/Minor**: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (`auto-approve.yml`) once CI passes.
+* **Major**: Breaking changes and major version updates always require human review and manual approval.
+
 ### Override Pruning
 
 A custom workflow (`maintenance.yml`) that runs weekly to check if any entries in `pnpm.overrides` are no longer needed. If a dependency has been updated such that the override is redundant, it opens a PR to prune it.
@@ -77,6 +84,7 @@ A custom workflow (`maintenance.yml`) that runs weekly to check if any entries i
 | **CI & Security** | `ci.yml` | Validates code quality, runs tests, checks formatting, and audits security. | Every PR / Push to main |
 | **Action Linting** | `workflow-lint.yml` | Audits our GitHub Actions for security flaws and unpinned versions using `zizmor`. | Changes to workflows |
 | **Semantic PR** | `semantic-pr.yml` | Enforces [Conventional Commits](https://www.conventionalcommits.org/) on PR titles to ensure clean history. | PR open / edit / sync |
+| **Auto-Approve** | `auto-approve.yml` | Automatically approves safe dependency updates from Renovate. | PR from Renovate |
 | **Scorecard** | `scorecard.yml` | Tracks repo-level security health and supply chain best practices (OpenSSF). | Weekly / Push to main |
 | **Branch Name** | `branch-name.yml` | Enforces a naming convention via `validate-branch-name` (config in `package.json`). | Every Push |
 | **Release** | `git-release.yml` | Automates changelogs, updates version tags, and creates formal GitHub releases. | Tag Push (`v*`) |
