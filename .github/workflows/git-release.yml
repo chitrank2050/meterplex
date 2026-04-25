@@ -51,14 +51,14 @@ jobs:
         uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
 
       - name: Generate release notes 📝
-        uses: orhun/git-cliff-action@e16f179f0be49ecdfe63753837f20b9531642772 # v4.7.0
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
         id: git-cliff
         with:
           config: cliff.toml
           args: --latest --strip all
 
       - name: Update CHANGELOG.md 📝
-        uses: orhun/git-cliff-action@e16f179f0be49ecdfe63753837f20b9531642772 # v4.7.0
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
         with:
           config: cliff.toml
           args: --tag ${{ github.event.inputs.tag_name || github.ref_name }} --output CHANGELOG.md
@@ -94,7 +94,7 @@ jobs:
             CHANGELOG.md
 
       - name: Create GitHub Release ✨
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         with:
           body: ${{ steps.git-cliff.outputs.content }}
           tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
