@@ -77,7 +77,7 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 
 ## Quick Start
 
-**Prerequisites**: Node.js >= 20, pnpm >= 9, Docker
+**Prerequisites**: Node.js >= 24, pnpm >= 9, Docker
 
 ### ⚡ Quick Start
 

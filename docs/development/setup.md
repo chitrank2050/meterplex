@@ -4,7 +4,7 @@
 
 | Tool | Minimum Version | Install | Check Command |
 | :--- | :--- | :--- | :--- |
-| Node.js | 20.0.0 | [nodejs.org](https://nodejs.org) | `node --version` |
+| Node.js | 24.0.0 | [nodejs.org](https://nodejs.org) | `node --version` |
 | pnpm | 9.0.0 | `npm i -g pnpm` | `pnpm --version` |
 | Docker | 24.0.0 | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version` |
 | Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
