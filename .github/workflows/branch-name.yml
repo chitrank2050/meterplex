@@ -12,12 +12,8 @@
 name: Branch Name Validation 🌿
 
 on:
-  push:
-    branches:
-      - '**'
-      - '!main' # Skip main branch
-      - '!master'
-      - '!gh-pages'
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
