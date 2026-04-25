@@ -32,6 +32,8 @@ All notable changes to Meterplex API.
 - Update dependency knip to v6.7.0 ([#87](https://github.com/chitrank2050/meterplex/issues/87)) (by @renovate[bot])
 - Update node engine requirement to >=24.0.0 and sync README versions (by @chitrank2050)
 - Configure git-cliff to ignore merge commits and redundant changelog updates (by @chitrank2050)
+- Update build provenance attestation to target CHANGELOG.md instead of repository sha (by @chitrank2050)
+- Enable GitHub authentication for git-cliff to resolve commit author usernames (by @chitrank2050)
 
 ### 🐛 Bug Fixes
 
@@ -45,7 +47,7 @@ All notable changes to Meterplex API.
 ### 👷 Continuous Integration
 
 - Add OpenSSF Scorecard workflow and update README documentation (by @chitrank2050)
-- Workflow for automated PR and renovate auto approval ([#78](https://github.com/chitrank2050/meterplex/issues/78)) (by @Chitrank Agnihotri)
+- Workflow for automated PR and renovate auto approval ([#78](https://github.com/chitrank2050/meterplex/issues/78)) (by @chitrank2050)
 - Add automated labeler and stale issue management workflows and update project documentation (by @chitrank2050)
 - Add prisma schema validation and comment out experimental knip analysis in CI workflow (by @chitrank2050)
 - Parallelize linting, formatting, and security audit tasks in the CI workflow (by @chitrank2050)
