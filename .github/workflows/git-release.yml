@@ -44,6 +44,7 @@ jobs:
         with:
           # Full history is required for git-cliff to generate changelogs
           fetch-depth: 0
+          persist-credentials: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install pnpm 📦
