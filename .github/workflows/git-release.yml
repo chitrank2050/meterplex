@@ -4,11 +4,9 @@
 # Automatically creates a GitHub Release when a version tag
 # (v*) is pushed to the repository.
 #
-# Features:
-#   - Generates categorized release notes using git-cliff.
-#   - Updates CHANGELOG.md via an automated Pull Request.
-#   - Creates a GitHub Release with categorized notes.
-#   - Detects prereleases based on tag name (alpha, beta, rc).
+# Architecture:
+#   1. Prepare (Instant): Updates CHANGELOG.md and creates a PR.
+#   2. Release (Manual Approval): Creates GitHub Release + Attestation.
 # =============================================================
 
 name: GitHub Release 🏷️
@@ -28,24 +26,17 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read # Minimum global permission
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  contents: read
 
 jobs:
-  release:
-    name: Create Automated Release 🚀
+  # ─── PREPARE JOB ─────────────────────────────────────────────
+  # Runs immediately to update documentation.
+  prepare:
+    name: Prepare Changelog 📝
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.repository && 'production' }}
-      url: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.inputs.tag_name || github.ref_name }}
     permissions:
-      contents: write # Needed to create release and update changelog
-      pull-requests: write # Needed to create CHANGELOG PR
-      id-token: write # Needed for provenance attestations
-      attestations: write # Needed for provenance attestations
-
+      contents: write
+      pull-requests: write
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
@@ -55,7 +46,6 @@ jobs:
       - name: Checkout repository 📥
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          # Full history is required for git-cliff to generate changelogs
           fetch-depth: 0
           persist-credentials: false
 
@@ -73,13 +63,6 @@ jobs:
         run: |
           git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPO}"
 
-      - name: Generate release notes 📝
-        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
-        id: git-cliff
-        with:
-          config: cliff.toml
-          args: --latest --strip all
-
       - name: Update CHANGELOG.md 📝
         uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
         with:
@@ -87,6 +70,7 @@ jobs:
           args: --tag ${{ github.event.inputs.tag_name || github.ref_name }} --output CHANGELOG.md
 
       - name: Create Pull Request for CHANGELOG update 🔀
+        id: cpr
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -100,12 +84,8 @@ jobs:
             - [x] Documentation
             - [x] CI/CD or build configuration
 
-            ## How was this tested?
-            - [x] Verified by GitHub Actions Release workflow.
-
             ## Checklist
             - [x] My code follows the project conventions
-            - [x] I have updated documentation if needed
             - [x] `pnpm build` passes
           labels: |
             chore
@@ -116,6 +96,54 @@ jobs:
           assignees: chitrank2050
           add-paths: |
             CHANGELOG.md
+
+      - name: Enable Auto-Merge 🚀
+        if: steps.cpr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          gh pr merge "$PR_NUMBER" --auto --squash --body "🤖 Auto-Merge enabled: This PR will merge once it's approved and CI passes."
+
+  # ─── RELEASE JOB ─────────────────────────────────────────────
+  # Waits for manual approval for the 'production' environment.
+  release:
+    name: Create Automated Release 🚀
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.repository && 'production' }}
+      url: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.inputs.tag_name || github.ref_name }}
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Generate release notes 📝
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --latest --strip all
 
       - name: Create GitHub Release ✨
         env:
