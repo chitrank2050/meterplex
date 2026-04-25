@@ -11,6 +11,7 @@
 | [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions. |
 | [Development](development/setup.md) | Setup guide, daily workflow, conventions, troubleshooting. |
 | [API](api/overview.md) | API design decisions, versioning, error format, authentication. |
+| [Maintenance](maintenance/ci-cd.md) | CI/CD security, automated releases, and maintenance cycles. |
 | [Build Phases](phases/phase-0.md) | Detailed log of each development phase - what was built, why, and lessons learned. |
 
 ---
