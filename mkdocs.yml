@@ -93,6 +93,8 @@ nav:
           - 'Phase 0: Project Foundations': phases/phase-0.md
           - 'Phase 1: Identity & Access': phases/phase-1.md
           - 'Phase 2: Plans & Entitlements': phases/phase-2.md
+  - Maintenance:
+      - CI/CD & Automation: maintenance/ci-cd.md
   - Changelog: changelog.md
 
 # Extra Metadata

@@ -38,6 +38,14 @@ jobs:
   release:
     name: Create Automated Release 🚀
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.repository && 'production' }}
+      url: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.inputs.tag_name || github.ref_name }}
+    permissions:
+      contents: write # Needed to create release and update changelog
+      id-token: write # Needed for provenance attestations
+      attestations: write # Needed for provenance attestations
+
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
@@ -114,3 +122,10 @@ jobs:
             --title "$TAG_NAME" \
             --notes "$RELEASE_NOTES" \
             $PRERELEASE_FLAG
+
+      - name: Attest Build Provenance 📜
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-name: ${{ github.repository }}
+          subject-digest: ${{ github.sha }}
+          push-to-registry: false
