@@ -20,12 +20,27 @@ We use the **OpenSSF Scorecard** to track the overall security health of the rep
 * **How to view**: Check the "Security" tab in GitHub or click the Scorecard badge in the [README](../../README.md).
 * **Automation**: Runs automatically on every push to `main` and on a weekly schedule.
 
-### 3. Secret Scanning (Gitleaks)
+### 3. Build Provenance & Attestations
+
+We use **GitHub Actions Build Provenance** (`actions/attest-build-provenance`) to cryptographically sign our releases.
+
+* **What it does**: It generates a non-forgeable attestation that links the published release directly to the specific GitHub Actions run and commit that produced it.
+* **Why it's there**: It provides downstream users with high-assurance verification that the release artifact was not tampered with and actually originated from this repository.
+
+### 4. Access Control (Environments)
+
+We use the **`production`** GitHub Environment to isolate release-specific permissions and provide deployment tracking.
+
+* **What it does**: It creates a dedicated logical space for the release workflow.
+* **Approval Gate**: This environment is configured to require **manual approval** before a release can be published, providing a human-in-the-loop safety check for production changes.
+* **Deployment URL**: Each release automatically links back to the published tag on GitHub for easy traceability.
+
+### 5. Secret Scanning (Gitleaks)
 
 * **Local**: Integrated into `lefthook` to prevent secrets from ever being committed.
 * **CI**: A dedicated job in `ci.yml` scans the entire history on every PR.
 
-### 4. Dependency Auditing (OSV-Scanner)
+### 6. Dependency Auditing (OSV-Scanner)
 
 * Scans our `pnpm-lock.yaml` against Google's Open Source Vulnerabilities (OSV) database.
 * Blocks the PR if a known vulnerability is found in our dependencies.
