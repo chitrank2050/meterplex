@@ -61,7 +61,7 @@ jobs:
           python-version: '3.13'
 
       - name: Install MkDocs Material 🛠️
-        run: pip install mkdocs-material
+        run: pip install mkdocs-material==9.7.6
 
       # Copy CHANGELOG.md into docs/ so MkDocs can include it.
       # The source of truth stays at the root (where git-cliff writes it).
