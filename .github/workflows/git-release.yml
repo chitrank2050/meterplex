@@ -30,9 +30,10 @@ permissions:
 
 jobs:
   # ─── PREPARE JOB ─────────────────────────────────────────────
-  # Runs immediately to update documentation.
+  # Only runs on manual trigger (workflow_dispatch) to open the PR.
   prepare:
     name: Prepare Changelog 📝
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -101,10 +102,10 @@ jobs:
           gh pr merge "$PR_NUMBER" --auto --squash --body "🤖 Auto-Merge enabled: This PR will merge once it's approved and CI passes."
 
   # ─── RELEASE JOB ─────────────────────────────────────────────
-  # Waits for manual approval for the 'production' environment.
+  # Only runs on tag push (v*) to finalize the release.
   release:
     name: Create Automated Release 🚀
-    needs: prepare
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.repository && 'production' }}
