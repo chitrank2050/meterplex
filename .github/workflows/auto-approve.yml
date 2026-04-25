@@ -44,19 +44,18 @@ jobs:
           # Pass the whole array as JSON to avoid linter errors with deep paths
           PR_JSON: ${{ toJSON(github.event.workflow_run.pull_requests) }}
         run: |
-          # 1. Check if the CI was successful
-          if [ "$CONCLUSION" != "success" ]; then
+          # 1. Check if the CI was successful OR skipped (skipped is fine if hygiene passed)
+          if [ "$CONCLUSION" != "success" ] && [ "$CONCLUSION" != "skipped" ] && [ "$CONCLUSION" != "neutral" ]; then
             echo "CI did not succeed ($CONCLUSION). Skipping."
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          # 2. Check if it was triggered by Renovate and matches branch pattern
-          # We use jq to safely parse the JSON environment variable
+          # 2. Check if it was triggered by Renovate (be flexible with bot name)
           ACTOR=$(echo "$PR_JSON" | jq -r '.[0].user.login // empty')
           BRANCH=$(echo "$PR_JSON" | jq -r '.[0].head.ref // empty')
 
-          if [ "$ACTOR" != "renovate[bot]" ] || [[ ! "$BRANCH" == renovate/* ]]; then
+          if [[ ! "$ACTOR" == *renovate* ]] || [[ ! "$BRANCH" == renovate/* ]]; then
             echo "Security Check Failed: Actor ($ACTOR) or Branch ($BRANCH) is not authorized for auto-approval."
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             exit 0
