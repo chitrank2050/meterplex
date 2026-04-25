@@ -4,8 +4,6 @@
 <!-- autofill-start -->
 <!-- autofill-end -->
 
-Closes #
-
 ## Type of change
 
 - [ ] Bug fix (non-breaking change that fixes an issue)
