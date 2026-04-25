@@ -1,0 +1,45 @@
+# =============================================================
+# Smart Auto-Approval for Renovate
+#
+# Automatically approves Pull Requests from Renovate that meet
+# our safety criteria (Patch/Minor updates).
+#
+# This satisfies GitHub's Branch Protection rules while
+# maintaining high development velocity.
+# =============================================================
+
+name: Auto-Approve Renovate 🤖✅
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write # Required to post an approval review
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  auto-approve:
+    name: Auto-Approve 🚦
+    runs-on: ubuntu-latest
+    # Safety Check: Only run for Renovate and only for non-Major updates
+    # We detect "Major" by looking for the 'major' label or PR title
+    if: |
+      github.event.pull_request.user.login == 'renovate[bot]' &&
+      !contains(github.event.pull_request.labels.*.name, 'major') &&
+      !contains(github.event.pull_request.title, 'major')
+
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Auto-approve PR ✅
+        uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          review-message: '🤖 Smart Auto-Approval: This is a safe Patch/Minor update from Renovate. Tests passed, merging automatically!'

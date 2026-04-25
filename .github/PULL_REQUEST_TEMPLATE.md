@@ -1,8 +1,8 @@
 ## What does this PR do?
 
 <!-- A clear description of the change. Link the issue if applicable. -->
-
-Closes #
+<!-- autofill-start -->
+<!-- autofill-end -->
 
 ## Type of change
 
