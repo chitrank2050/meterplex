@@ -47,31 +47,27 @@ jobs:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
 
-      - name: Generate Changelog Summary 📝
-        id: changelog
+      - name: Generate Categorized Summary 📝
+        id: cliff
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
+        with:
+          config: cliff.toml
+          args: origin/${{ github.base_ref }}..origin/${{ github.head_ref }} --strip all
+
+      - name: Prepare Description ✍️
+        id: prepare
         env:
-          BASE_REF: ${{ github.base_ref }}
-          HEAD_REF: ${{ github.head_ref }}
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          COMMITS: ${{ steps.cliff.outputs.content }}
         run: |
-          # 1. Get the list of commits
-          COMMITS=$(git log origin/"$BASE_REF"..origin/"$HEAD_REF" --pretty=format:"- %s")
-
-          # 2. Get the CURRENT PR body from GitHub
+          # 1. Get the CURRENT PR body from GitHub
           CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
 
-          # 3. Determine if we should fallback to the template
-          # We SKIP fallback for automated release PRs to keep them minimalist
-          IS_RELEASE_PR=$(gh pr view "$PR_NUMBER" --json labels --template '{{range .labels}}{{.name}} {{end}}' | grep -q "release" && echo "true" || echo "false")
-
           if [[ ! "$CURRENT_BODY" == *"<!-- autofill-start -->"* ]]; then
-            if [ "$IS_RELEASE_PR" = "true" ]; then
-              echo "Release PR missing tags? This shouldn't happen, but we won't use the template."
-              exit 0
-            fi
-            echo "No tags found, using base template..."
-            CURRENT_BODY=$(cat .github/PULL_REQUEST_TEMPLATE.md)
+            echo "No tags found, generating minimalist body..."
+            # Using printf to avoid heredoc indentation issues in YAML
+            CURRENT_BODY=$(printf "<!-- autofill-start -->\n<!-- autofill-end -->")
           fi
 
           # 4. Perform a surgical replacement of the content between tags

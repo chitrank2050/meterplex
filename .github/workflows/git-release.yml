@@ -77,9 +77,6 @@ jobs:
           commit-message: 'chore(release): update CHANGELOG.md'
           title: 'chore(release): update CHANGELOG.md for ${{ github.event.inputs.tag_name || github.ref_name }}'
           body: |
-            ## What does this PR do?
-
-            <!-- A clear description of the change. Link the issue if applicable. -->
             <!-- autofill-start -->
             - chore(release): update CHANGELOG.md
             <!-- autofill-end -->
