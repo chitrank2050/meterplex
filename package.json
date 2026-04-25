@@ -77,7 +77,8 @@
     "init:fresh": "pnpm run nuke && pnpm run init",
     "prepare": "lefthook install",
     "deps:update": "pnpm update --interactive --latest",
-    "setup": "pnpm run init && pnpm run docker:setup",
+    "setup": "node ./scripts/wizard.mjs",
+    "setup:all": "pnpm run init && pnpm run docker:setup",
     "setup:fresh": "pnpm run init:fresh && pnpm run docker:clean:setup",
     "// --- 📦 Release ---": "",
     "git-tag": "./scripts/git-tag.sh",
@@ -111,6 +112,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
+    "@clack/prompts": "^1.2.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^10.0.0",
@@ -135,6 +137,7 @@
     "knip": "^6.6.2",
     "lefthook": "^2.1.6",
     "markdownlint-cli": "^0.48.0",
+    "picocolors": "^1.1.1",
     "prettier": "^3.4.2",
     "prisma": "^7.7.0",
     "source-map-support": "^0.5.21",
