@@ -97,6 +97,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ github.event.inputs.tag_name || github.ref_name }}
+          RELEASE_NOTES: ${{ steps.git-cliff.outputs.content }}
         run: |
           # Detect prerelease based on tag name (contains a hyphen)
           PRERELEASE_FLAG=""
@@ -106,5 +107,5 @@ jobs:
 
           gh release create "$TAG_NAME" \
             --title "$TAG_NAME" \
-            --notes "${{ steps.git-cliff.outputs.content }}" \
+            --notes "$RELEASE_NOTES" \
             $PRERELEASE_FLAG
