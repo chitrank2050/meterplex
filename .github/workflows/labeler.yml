@@ -1,0 +1,33 @@
+# =============================================================
+# Automated PR Labeler
+#
+# Automatically labels Pull Requests based on the files changed.
+# This helps with project organization and changelog generation.
+# =============================================================
+
+name: Labeler 🏷️
+
+on:
+  # zizmor: ignore[dangerous-triggers]
+  pull_request_target:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    name: Apply Labels 🏷️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9 # v5.0.0
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          sync-labels: true
+          configuration-path: .github/labeler.yml
