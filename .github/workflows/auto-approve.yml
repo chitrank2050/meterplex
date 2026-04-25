@@ -21,6 +21,7 @@ on:
       - completed
 
 permissions:
+  contents: read
   pull-requests: write # Required to post an approval review
 
 concurrency:
@@ -82,11 +83,19 @@ jobs:
           echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
           echo "✅ Verified: Safe Renovate update found for PR #$PR_NUMBER (Actor: $ACTOR)"
 
+      - name: Create Bot Token 🤖🔑
+        if: steps.guard.outputs.should_run == 'true'
+        id: generate_token
+        uses: actions/create-github-app-token@c1a285145b9d317df6ced56c09f521459c0a93c9 # v1.11.1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
       - name: Verify All Checks & Mergeability 🕵️‍♂️
         if: steps.guard.outputs.should_run == 'true'
         id: verify
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
         run: |
           # Fetch PR status including mergeability and all check states
@@ -113,6 +122,6 @@ jobs:
         if: steps.verify.conclusion == 'success'
         uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ steps.generate_token.outputs.token }}
           pull-request-number: ${{ steps.guard.outputs.pr_number }}
           review-message: '🤖 Smart Auto-Approval: All checks passed & no conflicts! This is a safe update from Renovate. Merging automatically!'
