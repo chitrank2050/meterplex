@@ -8,6 +8,9 @@
     <a href="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml">
       <img src="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml/badge.svg" alt="CI Status">
     </a>
+    <a href="https://scorecard.dev/viewer/?uri=github.com/chitrank2050/meterplex">
+      <img src="https://api.scorecard.dev/projects/github.com/chitrank2050/meterplex/badge" alt="OpenSSF Scorecard">
+    </a>
     <img src="https://img.shields.io/badge/Security-OSV--Scanner-success" alt="Security: OSV-Scanner">
     <img src="https://img.shields.io/badge/Version-0.5.4-blue" alt="Version">
     <a href="https://chitrank2050.github.io/meterplex/">
