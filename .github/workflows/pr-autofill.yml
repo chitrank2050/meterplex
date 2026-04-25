@@ -63,6 +63,13 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           COMMITS: ${{ steps.cliff.outputs.content }}
         run: |
+          # 0. Check if this is a Release PR (we skip these to avoid overwriting specialized bodies)
+          IS_RELEASE_PR=$(gh pr view "$PR_NUMBER" --json labels --template '{{range .labels}}{{.name}} {{end}}' | grep -q "release" && echo "true" || echo "false")
+          if [ "$IS_RELEASE_PR" = "true" ]; then
+            echo "Release PR detected. Skipping autofill to preserve specialized description."
+            exit 0
+          fi
+
           # 1. Get the CURRENT PR body from GitHub
           CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
 
