@@ -144,6 +144,8 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile
+      # - name: Knip (Dead Code Analysis) 🧟‍♂️
+      #   run: pnpm lint:knip
       - name: Lint code 🔍
         run: pnpm lint:ts
 
@@ -234,8 +236,10 @@ jobs:
           path: node_modules/.prisma
           key: ${{ runner.os }}-prisma-${{ hashFiles('prisma/schema.prisma') }}
 
-      - name: Generate Prisma client 💎
-        run: pnpm db:generate
+      - name: Validate & Generate Prisma client 💎
+        run: |
+          npx prisma validate
+          pnpm db:generate
 
       - name: Build application 🏗️
         run: pnpm build

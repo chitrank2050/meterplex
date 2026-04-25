@@ -14,6 +14,9 @@
     <a href="https://bestpractices.coreinfrastructure.org/projects/1">
       <img src="https://bestpractices.coreinfrastructure.org/projects/1/badge" alt="Best Practices">
     </a>
+    <a href="https://codecov.io/gh/chitrank2050/meterplex">
+      <img src="https://codecov.io/gh/chitrank2050/meterplex/branch/main/graph/badge.svg" alt="Code Coverage"/>
+    </a>
     <img src="https://img.shields.io/badge/Security-Gitleaks-success" alt="Security: Gitleaks">
     <img src="https://img.shields.io/badge/Hooks-Lefthook-blueviolet" alt="Hooks: Lefthook">
     <a href="https://chitrank2050.github.io/meterplex/">
