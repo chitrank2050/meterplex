@@ -12,6 +12,7 @@ name: PR Description Autofill ✍️
 
 on:
   pull_request:
+    branches: [main]
     types: [opened, synchronize]
 
 permissions:
