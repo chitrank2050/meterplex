@@ -15,9 +15,6 @@ on:
   workflow_run:
     workflows:
       - 'CI & Security Analysis ⚡️'
-      - 'Semantic Pull Request 🤖'
-      - 'Branch Name Validation 🌿'
-      - 'GitHub Actions Security Analysis with zizmor 🌈'
     branches:
       - 'renovate/**'
     types:
