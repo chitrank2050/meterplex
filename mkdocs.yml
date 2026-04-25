@@ -95,6 +95,8 @@ nav:
           - 'Phase 2: Plans & Entitlements': phases/phase-2.md
   - Maintenance:
       - CI/CD & Automation: maintenance/ci-cd.md
+  - Community:
+      - Code of Conduct: code-of-conduct.md
   - Changelog: changelog.md
 
 # Extra Metadata
@@ -102,6 +104,7 @@ extra_css:
   - stylesheets/extra.css
 
 extra:
+  # Social Sharing Metadata (Open Graph)
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/chitrank2050
@@ -109,5 +112,10 @@ extra:
       link: https://www.linkedin.com/in/chitrank-agnihotri/
     - icon: fontawesome/solid/globe
       link: https://chitrankagnihotri.com/
+
+  # Search Engine Optimization
+  analytics:
+    provider: google
+    property: !ENV [GOOGLE_ANALYTICS_ID, '']
 
 copyright: Copyright &copy; 2026 Chitrank Agnihotri &bull; Built with MkDocs Material

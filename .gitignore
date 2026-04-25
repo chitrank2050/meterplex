@@ -67,3 +67,8 @@ docker/data/
 # Tooling
 git-cliff*
 new_notes.md
+
+# Documentation
+docs/changelog.md
+docs/code-of-conduct.md
+site/

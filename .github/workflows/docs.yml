@@ -66,11 +66,13 @@ jobs:
       - name: Install MkDocs Material 🛠️
         run: pip install -r requirements.txt
 
-      # Copy CHANGELOG.md into docs/ so MkDocs can include it.
-      # The source of truth stays at the root (where git-cliff writes it).
-      # docs/changelog.md is never committed - only exists during CI build.
-      - name: Copy changelog to docs 📝
-        run: cp CHANGELOG.md docs/changelog.md
+      # Copy root files into docs/ so MkDocs can include them.
+      # The source of truth stays at the root.
+      # These files are ignored by git in docs/ and only exist during CI build.
+      - name: Copy transient docs 📝
+        run: |
+          cp CHANGELOG.md docs/changelog.md
+          cp CODE_OF_CONDUCT.md docs/code-of-conduct.md
 
       # Configure git so mkdocs gh-deploy can push to gh-pages branch.
       - name: Configure git 🔧
