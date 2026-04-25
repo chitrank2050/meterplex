@@ -11,35 +11,97 @@
 name: Auto-Approve Renovate 🤖✅
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  # zizmor: ignore[dangerous-triggers]
+  workflow_run:
+    workflows:
+      - 'CI & Security Analysis ⚡️'
+      - 'Semantic Pull Request 🤖'
+      - 'Branch Name Validation 🌿'
+      - 'GitHub Actions Security Analysis with zizmor 🌈'
+    branches:
+      - 'renovate/**'
+    types:
+      - completed
 
 permissions:
   pull-requests: write # Required to post an approval review
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id }}
   cancel-in-progress: true
 
 jobs:
   auto-approve:
     name: Auto-Approve 🚦
     runs-on: ubuntu-latest
-    # Safety Check: Only run for Renovate and only for non-Major updates
-    # We detect "Major" by looking for the 'major' label or PR title
-    if: |
-      github.event.pull_request.user.login == 'renovate[bot]' &&
-      !contains(github.event.pull_request.labels.*.name, 'major') &&
-      !contains(github.event.pull_request.title, 'major')
-
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
         with:
           egress-policy: audit
 
+      - name: Identity & Success Guard 🛡️
+        id: guard
+        env:
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          # Pass the whole array as JSON to avoid linter errors with deep paths
+          PR_JSON: ${{ toJSON(github.event.workflow_run.pull_requests) }}
+        run: |
+          # 1. Check if the CI was successful
+          if [ "$CONCLUSION" != "success" ]; then
+            echo "CI did not succeed ($CONCLUSION). Skipping."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 2. Check if it was triggered by Renovate and matches branch pattern
+          # We use jq to safely parse the JSON environment variable
+          ACTOR=$(echo "$PR_JSON" | jq -r '.[0].user.login // empty')
+          BRANCH=$(echo "$PR_JSON" | jq -r '.[0].head.ref // empty')
+
+          if [ "$ACTOR" != "renovate[bot]" ] || [[ ! "$BRANCH" == renovate/* ]]; then
+            echo "Security Check Failed: Actor ($ACTOR) or Branch ($BRANCH) is not authorized for auto-approval."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 3. If we got here, we are good to go!
+          PR_NUMBER=$(echo "$PR_JSON" | jq -r '.[0].number')
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "✅ Verified: Safe Renovate update found."
+
+      - name: Verify All Checks & Mergeability 🕵️‍♂️
+        if: steps.guard.outputs.should_run == 'true'
+        id: verify
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+        run: |
+          # Fetch PR status including mergeability and all check states
+          PR_DATA=$(gh pr view "$PR_NUMBER" --json mergeable,statusCheckRollup)
+          MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
+
+          # Check if there are any pending or failing checks in the rollup
+          # We look for any state that isn't SUCCESS or NEUTRAL (skipped)
+          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.state != "SUCCESS" and .state != "NEUTRAL") | .context' | grep -v "Auto-Approve" || true)
+
+          if [ "$MERGEABLE" != "MERGEABLE" ]; then
+            echo "❌ PR has merge conflicts. Skipping approval."
+            exit 1
+          fi
+
+          if [ -n "$STILL_RUNNING_OR_FAILED" ]; then
+            echo "⏳ Other checks are still running or failed: $STILL_RUNNING_OR_FAILED"
+            exit 1
+          fi
+
+          echo "✅ All checks passed and PR is mergeable!"
+
       - name: Auto-approve PR ✅
+        if: steps.verify.conclusion == 'success'
         uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          review-message: '🤖 Smart Auto-Approval: This is a safe Patch/Minor update from Renovate. Tests passed, merging automatically!'
+          pull-request-number: ${{ steps.guard.outputs.pr_number }}
+          review-message: '🤖 Smart Auto-Approval: All checks passed & no conflicts! This is a safe update from Renovate. Merging automatically!'
