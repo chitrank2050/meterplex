@@ -1,0 +1,63 @@
+# =============================================================
+# Automated PR Description (Autofill)
+#
+# Automatically populates the Pull Request description with a
+# summarized changelog of all commits in the branch.
+#
+# This ensures that every PR has a professional, categorized
+# description without any manual effort from the developer.
+# =============================================================
+
+name: PR Description Autofill ✍️
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  autofill:
+    name: Generate Description 📝
+    runs-on: ubuntu-latest
+    if: github.actor != 'renovate[bot]' # Skip for Renovate as it has its own bodies
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0 # Required to get commit history
+          persist-credentials: false
+
+      - name: Generate Changelog Summary 📝
+        id: changelog
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          # Get the list of commits
+          COMMITS=$(git log origin/"$BASE_REF"..origin/"$HEAD_REF" --pretty=format:"- %s")
+
+          # Read the template
+          TEMPLATE=$(cat .github/pull_request_template.md)
+
+          # Replace the placeholder with the commits
+          # We use a temporary file to handle multiline content safely
+          echo "$TEMPLATE" > final_body.md
+
+          # Use a marker to insert the commits between the tags
+          sed -i "/<!-- autofill-start -->/r /dev/stdin" final_body.md <<EOF
+          $COMMITS
+          EOF
+
+      - name: Update PR Description 🚀
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --body-file final_body.md
