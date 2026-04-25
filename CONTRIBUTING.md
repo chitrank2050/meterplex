@@ -23,16 +23,12 @@ By participating in this project, you agree to abide by our Code of Conduct (sta
    cd meterplex
    ```
 
-2. **Install dependencies**:
+2. **Run the Setup Script**:
+
+   Our setup script handles dependency installation, infrastructure startup (Docker), and database seeding automatically.
 
    ```bash
-   pnpm install
-   ```
-
-3. **Start local services**:
-
-   ```bash
-   pnpm run docker:up
+   pnpm setup
    ```
 
 ## Development Workflow

@@ -70,33 +70,32 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 
 ## Quick Start
 
+**Prerequisites**: Node.js >= 20, pnpm >= 9, Docker
+
+### ⚡ Quick Start
+
 ```bash
-# Prerequisites: Node.js >= 20, pnpm >= 9, Docker
+# 1. Clone the repository
+git clone https://github.com/chitrank2050/meterplex.git
 
-# 1. Clone and install
-git clone https://github.com/meterplex/meterplex.git
-
-# If want to use ssh instead of https
-git clone git@github.com:chitrank2050/meterplex.git
-
+# 2. Enter the project
 cd meterplex
-pnpm install
 
-# 2. Set up environment
-cp .env.example .env
-
-# 3. Start infrastructure (Postgres, Kafka, Redis)
-pnpm docker:up
-
-# 4. Run database migrations
-pnpm db:migrate:dev
-
-# 5. Seed development data
-pnpm db:seed
-
-# 6. Start the app
-pnpm start:dev
+# 3. One-command setup (installs deps, starts docker, seeds DB)
+pnpm setup
 ```
+
+### 🛠️ Development Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm setup` | Standard setup: install deps + start infrastructure + seed DB |
+| `pnpm setup:fresh` | **Hard Reset**: Wipes all data/deps and performs a fresh setup |
+| `pnpm start:dev` | Starts the NestJS application in watch mode |
+| `pnpm test` | Runs the full test suite via Vitest |
+| `pnpm docker:up` | Starts Postgres, Kafka, and Redis in the background |
+| `pnpm db:studio` | Opens Prisma Studio to visualize your database |
+| `pnpm lint` | Runs TypeScript, Markdown, and GitHub Action linters |
 
 The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs`. Health check at `http://localhost:3000/health`.
 
