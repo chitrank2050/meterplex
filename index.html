@@ -2160,7 +2160,7 @@
 <p>We use <a href="https://github.com/evilmartians/lefthook">Lefthook</a> for lightning-fast pre-commit checks. It automatically runs:</p>
 <ul>
 <li><strong>Linting</strong>: ESLint and Prettier.</li>
-<li><strong>Security</strong>: Gitleaks for secret detection.</li>
+<li><strong>Security</strong>: Gitleaks for secrets and Zizmor for GitHub Actions.</li>
 <li><strong>Testing</strong>: Vitest for relevant unit tests.</li>
 </ul>
 <h3 id="commit-standards">📝 Commit Standards<a class="headerlink" href="#commit-standards" title="Permanent link">&para;</a></h3>
@@ -2205,6 +2205,11 @@
 <td style="text-align: left;"><strong>Override Pruning</strong></td>
 <td style="text-align: left;">Proactively checks if <code>pnpm.overrides</code> are still needed and opens a PR to remove them.</td>
 <td style="text-align: left;">Weekly</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Actions Audit</strong></td>
+<td style="text-align: left;">Scans GitHub Actions for security flaws and unpinned versions using <code>zizmor</code>.</td>
+<td style="text-align: left;">Every PR/Push</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Renovate</strong></td>

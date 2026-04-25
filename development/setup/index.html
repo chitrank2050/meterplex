@@ -766,6 +766,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#zizmor-github-actions-security-auditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        zizmor - GitHub Actions security auditor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#lefthook-git-hooks-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1476,6 +1487,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#zizmor-github-actions-security-auditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        zizmor - GitHub Actions security auditor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#lefthook-git-hooks-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1724,6 +1746,12 @@
 <td style="text-align: left;"><code>gitleaks version</code></td>
 </tr>
 <tr>
+<td style="text-align: left;">zizmor</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;"><code>brew install zizmor</code></td>
+<td style="text-align: left;"><code>zizmor --version</code></td>
+</tr>
+<tr>
 <td style="text-align: left;">knip</td>
 <td style="text-align: left;">-</td>
 <td style="text-align: left;"><code>pnpm install</code> (dev dep)</td>
@@ -1796,49 +1824,63 @@
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># No separate install needed - knip is in devDependencies</span>
 </code></pre></div>
+<h3 id="zizmor-github-actions-security-auditor">zizmor - GitHub Actions security auditor<a class="headerlink" href="#zizmor-github-actions-security-auditor" title="Permanent link">&para;</a></h3>
+<p>zizmor is a high-performance security linter for GitHub Actions. It catches injection vulnerabilities, unpinned actions, and overly broad permissions.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># macOS</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>brew<span class="w"> </span>install<span class="w"> </span>zizmor
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Cargo</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>cargo<span class="w"> </span>install<span class="w"> </span>zizmor
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Verify</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>zizmor<span class="w"> </span>--version
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> The pre-commit hook automatically runs <code>zizmor</code> on any modified workflow files. If it's not installed, the hook will skip the check with a warning.</p>
+</blockquote>
 <h3 id="lefthook-git-hooks-manager">lefthook - Git hooks manager<a class="headerlink" href="#lefthook-git-hooks-manager" title="Permanent link">&para;</a></h3>
 <p>lefthook replaces Husky and lint-staged. It is a Go binary (fast, no extra runtime) installed as a dev dependency and activated by <code>pnpm install</code> via the <code>prepare</code> script.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Hooks are auto-installed after pnpm install via the prepare script.</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># To manually re-install:</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>pnpm<span class="w"> </span>lefthook<span class="w"> </span>install
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># Hooks registered: pre-commit, commit-msg, pre-push</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Hooks are auto-installed after pnpm install via the prepare script.</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># To manually re-install:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pnpm<span class="w"> </span>lefthook<span class="w"> </span>install
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Hooks registered: pre-commit, commit-msg, pre-push</span>
 </code></pre></div>
 <h2 id="daily-workflow">Daily Workflow<a class="headerlink" href="#daily-workflow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Start your day</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pnpm<span class="w"> </span>docker:up<span class="w">          </span><span class="c1"># Start containers (if stopped)</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pnpm<span class="w"> </span>start:dev<span class="w">          </span><span class="c1"># Start app with hot reload</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># After changing schema.prisma</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>pnpm<span class="w"> </span>db:migrate:dev<span class="w"> </span>--name<span class="w"> </span>describe-your-change
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>pnpm<span class="w"> </span>db:generate<span class="w">    </span><span class="c1"># Regenerate typed client</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Nuclear reset (drops all data, re-runs everything)</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>pnpm<span class="w"> </span>docker:down<span class="w">        </span><span class="c1"># Removes containers AND volumes</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>pnpm<span class="w"> </span>docker:up
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>pnpm<span class="w"> </span>db:migrate:dev
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>pnpm<span class="w"> </span>db:seed
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Start your day</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>pnpm<span class="w"> </span>docker:up<span class="w">          </span><span class="c1"># Start containers (if stopped)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>pnpm<span class="w"> </span>start:dev<span class="w">          </span><span class="c1"># Start app with hot reload</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># After changing schema.prisma</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>pnpm<span class="w"> </span>db:migrate:dev<span class="w"> </span>--name<span class="w"> </span>describe-your-change
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>pnpm<span class="w"> </span>db:generate<span class="w">    </span><span class="c1"># Regenerate typed client</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># Nuclear reset (drops all data, re-runs everything)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>pnpm<span class="w"> </span>docker:down<span class="w">        </span><span class="c1"># Removes containers AND volumes</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>pnpm<span class="w"> </span>docker:up
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>pnpm<span class="w"> </span>db:migrate:dev
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>pnpm<span class="w"> </span>db:seed
 </code></pre></div>
 <h2 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h2>
 <h3 id="port-5432-already-in-use">Port 5432 already in use<a class="headerlink" href="#port-5432-already-in-use" title="Permanent link">&para;</a></h3>
 <p>You have a local Postgres installation competing with Docker. Stop it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Homebrew</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>brew<span class="w"> </span>services<span class="w"> </span>stop<span class="w"> </span>postgresql@18
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Postgres.app</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Quit from menu bar</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Homebrew</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>brew<span class="w"> </span>services<span class="w"> </span>stop<span class="w"> </span>postgresql@18
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Postgres.app</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Quit from menu bar</span>
 </code></pre></div>
 <h3 id="prisma-exports-is-not-defined-in-es-module-scope">Prisma "exports is not defined in ES module scope"<a class="headerlink" href="#prisma-exports-is-not-defined-in-es-module-scope" title="Permanent link">&para;</a></h3>
 <p>The Prisma client was generated without <code>moduleFormat = "cjs"</code>. Fix:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Verify schema.prisma has moduleFormat = &quot;cjs&quot; in the generator block</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>pnpm<span class="w"> </span>db:generate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Verify schema.prisma has moduleFormat = &quot;cjs&quot; in the generator block</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>pnpm<span class="w"> </span>db:generate
 </code></pre></div>
 <h3 id="prisma-role-does-not-exist">Prisma "role does not exist"<a class="headerlink" href="#prisma-role-does-not-exist" title="Permanent link">&para;</a></h3>
 <p>Docker volume has stale data from a previous run with different credentials:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pnpm<span class="w"> </span>docker:down<span class="w">   </span><span class="c1"># -v flag removes volumes</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>pnpm<span class="w"> </span>docker:up
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>pnpm<span class="w"> </span>db:migrate:dev
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>pnpm<span class="w"> </span>db:seed
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pnpm<span class="w"> </span>docker:down<span class="w">   </span><span class="c1"># -v flag removes volumes</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>pnpm<span class="w"> </span>docker:up
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>pnpm<span class="w"> </span>db:migrate:dev
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>pnpm<span class="w"> </span>db:seed
 </code></pre></div>
 <h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <p>All environment variables are documented in <code>.env.example</code>. The app validates every variable on startup - if any required variable is missing, the app crashes immediately with a clear error listing exactly what's missing.</p>
