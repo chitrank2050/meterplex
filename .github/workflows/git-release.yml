@@ -52,13 +52,20 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
       - name: Check out repository 📥
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           # Full history is required for git-cliff to generate changelogs
           fetch-depth: 0
           persist-credentials: false
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: Install pnpm 📦
         uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
@@ -79,7 +86,7 @@ jobs:
       - name: Create Pull Request for CHANGELOG update 🔀
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           commit-message: 'chore(release): update CHANGELOG.md'
           title: 'chore(release): update CHANGELOG.md for ${{ github.event.inputs.tag_name || github.ref_name }}'
           body: |
@@ -108,7 +115,7 @@ jobs:
 
       - name: Create GitHub Release ✨
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           TAG_NAME: ${{ github.event.inputs.tag_name || github.ref_name }}
           RELEASE_NOTES: ${{ steps.git-cliff.outputs.content }}
         run: |

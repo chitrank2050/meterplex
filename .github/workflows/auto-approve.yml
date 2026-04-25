@@ -8,7 +8,7 @@
 # maintaining high development velocity.
 # =============================================================
 
-name: Auto-Approve Renovate 🤖✅
+name: Auto-Approve Renovate 🤖
 
 on:
   # zizmor: ignore[dangerous-triggers]
@@ -86,7 +86,7 @@ jobs:
       - name: Create Bot Token 🤖🔑
         if: steps.guard.outputs.should_run == 'true'
         id: generate_token
-        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 #3.1.1
+        uses: ./.github/actions/setup-bot
         with:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}

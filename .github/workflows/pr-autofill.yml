@@ -34,18 +34,26 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
       - name: Checkout repository 📥
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0 # Required to get commit history
           persist-credentials: false
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: Generate Changelog Summary 📝
         id: changelog
         env:
           BASE_REF: ${{ github.base_ref }}
           HEAD_REF: ${{ github.head_ref }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           # 1. Get the list of commits
@@ -74,7 +82,7 @@ jobs:
 
       - name: Update PR 🚀
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           gh pr edit ${{ github.event.pull_request.number }} \
             --body-file final_body.md \
