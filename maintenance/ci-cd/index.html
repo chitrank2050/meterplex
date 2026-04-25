@@ -1451,10 +1451,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#workflow-standards" class="md-nav__link">
+  <a href="#2027-automation-standards" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ Workflow Standards
+        🏗️ 2027 Automation Standards
       
     </span>
   </a>
@@ -1797,10 +1797,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#workflow-standards" class="md-nav__link">
+  <a href="#2027-automation-standards" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ Workflow Standards
+        🏗️ 2027 Automation Standards
       
     </span>
   </a>
@@ -1999,8 +1999,8 @@
 <tr>
 <td style="text-align: left;"><strong>Auto-Approve</strong></td>
 <td style="text-align: left;"><code>auto-approve.yml</code></td>
-<td style="text-align: left;">Approves safe dependency updates. Optimized to only wake up for CI completion.</td>
-<td style="text-align: left;">CI finish on <code>renovate/*</code></td>
+<td style="text-align: left;">Approves safe automated updates (Renovate, Release, Maintenance). Optimized to only wake up for CI completion.</td>
+<td style="text-align: left;">CI finish on <code>renovate/**</code>, <code>chore/changelog-*</code>, <code>maintenance/*</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Scorecard</strong></td>
@@ -2047,13 +2047,17 @@
 </tbody>
 </table>
 <hr />
-<h2 id="workflow-standards">🏗️ Workflow Standards<a class="headerlink" href="#workflow-standards" title="Permanent link">&para;</a></h2>
-<p>All workflows in this repository follow these strict standards:</p>
+<hr />
+<h2 id="2027-automation-standards">🏗️ 2027 Automation Standards<a class="headerlink" href="#2027-automation-standards" title="Permanent link">&para;</a></h2>
+<p>All workflows in this repository follow our "2027-standard" for security and performance:</p>
 <ol>
-<li><strong>SHA Pinning</strong>: All actions are pinned to a 40-character commit SHA to prevent "tag moving" attacks.</li>
-<li><strong>Least Privilege</strong>: <code>permissions</code> blocks are explicitly defined for every job.</li>
-<li><strong>No Injection</strong>: <code>${{ ... }}</code> expansion is NEVER used inside <code>run:</code> scripts. Data is always passed via environment variables.</li>
-<li><strong>Egress Security</strong>: Every job includes <code>harden-runner</code> to monitor and restrict network traffic.</li>
+<li><strong>Centralized Identity</strong>: All automated actions (approvals, labels, releases) use a custom <strong>GitHub App</strong> (<code>chitrank-action</code>) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.</li>
+<li><strong>Zero-Trust Egress</strong>: Every job includes <code>harden-runner</code> to monitor and restrict network traffic, preventing token exfiltration.</li>
+<li><strong>Immutability (SHA Pinning)</strong>: All third-party actions are pinned to a 40-character commit SHA to prevent "tag moving" supply-chain attacks.</li>
+<li><strong>Credential Security</strong>: <code>persist-credentials: false</code> is used on every checkout to prevent tokens from being stored in the runner's <code>.git</code> directory.</li>
+<li><strong>No Template Injection</strong>: <code>${{ ... }}</code> expansion is NEVER used inside <code>run:</code> scripts. Dynamic data is always passed via environment variables (<code>env</code>).</li>
+<li><strong>Single Checkout Strategy</strong>: Jobs are optimized to perform exactly one repository checkout, saving runner time and bandwidth.</li>
+<li><strong>Unblocked Pipelines</strong>: Required status checks (CI, Linting) run on all PRs to ensure they never block automated merges from Renovate or Release bots.</li>
 </ol>
 
 
