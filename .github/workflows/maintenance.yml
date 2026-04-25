@@ -20,13 +20,15 @@ on:
   workflow_dispatch: # Allow manual trigger
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read # Minimum global permission
 
 jobs:
   prune_overrides:
     name: Prune Redundant Overrides ✂️
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to create branch
+      pull-requests: write # Needed to create PR
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0

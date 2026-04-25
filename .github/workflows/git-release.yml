@@ -28,8 +28,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read # Minimum global permission
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -43,6 +42,7 @@ jobs:
       url: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.inputs.tag_name || github.ref_name }}
     permissions:
       contents: write # Needed to create release and update changelog
+      pull-requests: write # Needed to create CHANGELOG PR
       id-token: write # Needed for provenance attestations
       attestations: write # Needed for provenance attestations
 
