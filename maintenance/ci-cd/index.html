@@ -1327,15 +1327,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automated-maintenance" class="md-nav__link">
+  <a href="#extreme-performance-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🤖 Automated Maintenance
+        🏎️ Extreme Performance Architecture
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🤖 Automated Maintenance">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-maintenance-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Automated Maintenance &amp; Governance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Automated Maintenance &amp; Governance">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1372,10 +1383,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#override-pruning" class="md-nav__link">
+  <a href="#community-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Override Pruning
+        Community Governance 🏛️
       
     </span>
   </a>
@@ -1562,15 +1573,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automated-maintenance" class="md-nav__link">
+  <a href="#extreme-performance-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🤖 Automated Maintenance
+        🏎️ Extreme Performance Architecture
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🤖 Automated Maintenance">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-maintenance-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 Automated Maintenance &amp; Governance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Automated Maintenance &amp; Governance">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1607,10 +1629,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#override-pruning" class="md-nav__link">
+  <a href="#community-governance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Override Pruning
+        Community Governance 🏛️
       
     </span>
   </a>
@@ -1745,7 +1767,7 @@
 <h3 id="5-secret-scanning-gitleaks">5. Secret Scanning (Gitleaks)<a class="headerlink" href="#5-secret-scanning-gitleaks" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Local</strong>: Integrated into <code>lefthook</code> to prevent secrets from ever being committed.</li>
-<li><strong>CI</strong>: A dedicated job in <code>ci.yml</code> scans the entire history on every PR.</li>
+<li><strong>CI</strong>: A dedicated job in <code>ci.yml</code> perform <strong>incremental scans</strong> of only the new commits in a PR, ensuring near-instant feedback as the repository grows.</li>
 </ul>
 <h3 id="6-dependency-auditing-osv-scanner">6. Dependency Auditing (OSV-Scanner)<a class="headerlink" href="#6-dependency-auditing-osv-scanner" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1753,7 +1775,20 @@
 <li>Blocks the PR if a known vulnerability is found in our dependencies.</li>
 </ul>
 <hr />
-<h2 id="automated-maintenance">🤖 Automated Maintenance<a class="headerlink" href="#automated-maintenance" title="Permanent link">&para;</a></h2>
+<h2 id="extreme-performance-architecture">🏎️ Extreme Performance Architecture<a class="headerlink" href="#extreme-performance-architecture" title="Permanent link">&para;</a></h2>
+<p>Our CI pipeline is optimized for speed and cost-efficiency (Free-tier friendly):</p>
+<ol>
+<li><strong>Parallel Hygiene</strong>: Code linting, formatting checks, and markdown audits run in parallel jobs. This provides developer feedback 3x faster than sequential runs.</li>
+<li><strong>Smart Caching</strong>:<ul>
+<li><strong>pnpm Store</strong>: Global cache for dependency resolution.</li>
+<li><strong>Prisma Client</strong>: The generated Prisma client is cached and only rebuilt when <code>schema.prisma</code> changes, saving ~20s per build.</li>
+<li><strong>Pip</strong>: Python dependencies for documentation are cached.</li>
+</ul>
+</li>
+<li><strong>Trigger Lockdown</strong>: To save Actions minutes, workflows <strong>only</strong> run on the <code>main</code> branch or within a Pull Request targeting <code>main</code>. Intermediate pushes to feature branches do not trigger CI, encouraging local testing via <code>lefthook</code>.</li>
+</ol>
+<hr />
+<h2 id="automated-maintenance-governance">🤖 Automated Maintenance &amp; Governance<a class="headerlink" href="#automated-maintenance-governance" title="Permanent link">&para;</a></h2>
 <p>To keep the codebase healthy without manual toil, we have several automated maintenance cycles:</p>
 <h3 id="automated-releases">Automated Releases<a class="headerlink" href="#automated-releases" title="Permanent link">&para;</a></h3>
 <p>Triggered by pushing a version tag (e.g., <code>v0.5.4</code>).</p>
@@ -1769,10 +1804,15 @@
 <p>To maintain velocity while following strict branch protection rules:</p>
 <ul>
 <li><strong>Patch/Minor</strong>: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (<code>auto-approve.yml</code>) once CI passes.</li>
-<li><strong>Major</strong>: Breaking changes and major version updates always require human review and manual approval.</li>
+<li><strong>Safety Gates</strong>: The approval bot verifies the PR author is Renovate, the branch starts with <code>renovate/</code>, and all status checks are green before signing off.</li>
 </ul>
-<h3 id="override-pruning">Override Pruning<a class="headerlink" href="#override-pruning" title="Permanent link">&para;</a></h3>
-<p>A custom workflow (<code>maintenance.yml</code>) that runs weekly to check if any entries in <code>pnpm.overrides</code> are no longer needed. If a dependency has been updated such that the override is redundant, it opens a PR to prune it.</p>
+<h3 id="community-governance">Community Governance 🏛️<a class="headerlink" href="#community-governance" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>SECURITY.md</code></strong>: Formal vulnerability disclosure policy for OpenSSF compliance.</li>
+<li><strong><code>CONTRIBUTING.md</code></strong>: Streamlined onboarding guide for new developers.</li>
+<li><strong>Stale Bot</strong>: Automatically manages inactive issues and PRs to keep the backlog fresh.</li>
+<li><strong>PR Labeler</strong>: Categorizes PRs automatically (e.g., <code>area/logic</code>, <code>area/docs</code>) based on changed files.</li>
+</ul>
 <hr />
 <h2 id="workflow-catalog">📋 Workflow Catalog<a class="headerlink" href="#workflow-catalog" title="Permanent link">&para;</a></h2>
 <table>
@@ -1788,61 +1828,73 @@
 <tr>
 <td style="text-align: left;"><strong>CI &amp; Security</strong></td>
 <td style="text-align: left;"><code>ci.yml</code></td>
-<td style="text-align: left;">Validates code quality, runs tests, checks formatting, and audits security.</td>
-<td style="text-align: left;">Every PR / Push to main</td>
+<td style="text-align: left;">Validates code quality, runs tests, and audits security. Parallelized for speed.</td>
+<td style="text-align: left;">PR to main / Push to main</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Action Linting</strong></td>
 <td style="text-align: left;"><code>workflow-lint.yml</code></td>
-<td style="text-align: left;">Audits our GitHub Actions for security flaws and unpinned versions using <code>zizmor</code>.</td>
+<td style="text-align: left;">Audits GitHub Actions for security flaws using <code>zizmor</code>.</td>
 <td style="text-align: left;">Changes to workflows</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>PR Autofill</strong></td>
 <td style="text-align: left;"><code>pr-autofill.yml</code></td>
-<td style="text-align: left;">Automatically populates PR descriptions based on commit history.</td>
-<td style="text-align: left;">PR open</td>
+<td style="text-align: left;">Populates PR descriptions based on commit history.</td>
+<td style="text-align: left;">PR to main</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Semantic PR</strong></td>
 <td style="text-align: left;"><code>semantic-pr.yml</code></td>
-<td style="text-align: left;">Enforces <a href="https://www.conventionalcommits.org/">Conventional Commits</a> on PR titles to ensure clean history.</td>
-<td style="text-align: left;">PR open / edit / sync</td>
+<td style="text-align: left;">Enforces Conventional Commits on PR titles.</td>
+<td style="text-align: left;">PR to main</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Auto-Approve</strong></td>
 <td style="text-align: left;"><code>auto-approve.yml</code></td>
-<td style="text-align: left;">Automatically approves safe dependency updates from Renovate.</td>
-<td style="text-align: left;">PR from Renovate</td>
+<td style="text-align: left;">Approves safe dependency updates. Optimized to only wake up for CI completion.</td>
+<td style="text-align: left;">CI finish on <code>renovate/*</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Scorecard</strong></td>
 <td style="text-align: left;"><code>scorecard.yml</code></td>
-<td style="text-align: left;">Tracks repo-level security health and supply chain best practices (OpenSSF).</td>
+<td style="text-align: left;">Tracks repo-level security health (OpenSSF).</td>
 <td style="text-align: left;">Weekly / Push to main</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Branch Name</strong></td>
 <td style="text-align: left;"><code>branch-name.yml</code></td>
-<td style="text-align: left;">Enforces a naming convention via <code>validate-branch-name</code> (config in <code>package.json</code>).</td>
-<td style="text-align: left;">Every Push</td>
+<td style="text-align: left;">Enforces naming conventions.</td>
+<td style="text-align: left;">PR to main</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Release</strong></td>
 <td style="text-align: left;"><code>git-release.yml</code></td>
-<td style="text-align: left;">Automates changelogs, updates version tags, and creates formal GitHub releases.</td>
+<td style="text-align: left;">Automates changelogs and GitHub releases.</td>
 <td style="text-align: left;">Tag Push (<code>v*</code>)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Docs Deploy</strong></td>
 <td style="text-align: left;"><code>docs.yml</code></td>
-<td style="text-align: left;">Builds the MkDocs Material site and publishes it to GitHub Pages.</td>
-<td style="text-align: left;">Push to main</td>
+<td style="text-align: left;">Builds and publishes documentation.</td>
+<td style="text-align: left;">Push to main (Build-only on PR)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Labeler</strong></td>
+<td style="text-align: left;"><code>labeler.yml</code></td>
+<td style="text-align: left;">Automatically labels PRs based on file paths.</td>
+<td style="text-align: left;">PR to main</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Stale</strong></td>
+<td style="text-align: left;"><code>stale.yml</code></td>
+<td style="text-align: left;">Manages inactive issues and PRs.</td>
+<td style="text-align: left;">Daily schedule</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Maintenance</strong></td>
 <td style="text-align: left;"><code>maintenance.yml</code></td>
-<td style="text-align: left;">Weekly automated cleanup of redundant dependency overrides.</td>
+<td style="text-align: left;">Weekly automated cleanup of dependency overrides.</td>
 <td style="text-align: left;">Weekly schedule</td>
 </tr>
 </tbody>
@@ -1851,10 +1903,10 @@
 <h2 id="workflow-standards">🏗️ Workflow Standards<a class="headerlink" href="#workflow-standards" title="Permanent link">&para;</a></h2>
 <p>All workflows in this repository follow these strict standards:</p>
 <ol>
-<li><strong>SHA Pinning</strong>: All actions are pinned to a 40-character commit SHA (e.g., <code>actions/checkout@de0fac2...</code>). This prevents "tag moving" attacks where a version tag could be maliciously updated.</li>
-<li><strong>Least Privilege</strong>: <code>persist-credentials: false</code> is used wherever possible to prevent the GitHub token from being stored on the runner's disk longer than necessary.</li>
-<li><strong>No Injection</strong>: <code>${{ ... }}</code> expansion is NEVER used inside <code>run:</code> scripts. Data is always passed via environment variables (e.g., <code>env: DATA: ${{ ... }}</code>) to prevent shell injection vulnerabilities.</li>
-<li><strong>Egress Security</strong>: Every job includes <code>harden-runner</code> to monitor and restrict outbound network connections.</li>
+<li><strong>SHA Pinning</strong>: All actions are pinned to a 40-character commit SHA to prevent "tag moving" attacks.</li>
+<li><strong>Least Privilege</strong>: <code>permissions</code> blocks are explicitly defined for every job.</li>
+<li><strong>No Injection</strong>: <code>${{ ... }}</code> expansion is NEVER used inside <code>run:</code> scripts. Data is always passed via environment variables.</li>
+<li><strong>Egress Security</strong>: Every job includes <code>harden-runner</code> to monitor and restrict network traffic.</li>
 </ol>
 
 
