@@ -133,4 +133,4 @@ jobs:
           gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Merge: All checks passed & no conflicts! This is a safe update from Renovate."
 
           # Merge the PR (Using bypass authority granted in ruleset)
-          gh pr merge "$PR_NUMBER" --squash --auto --delete-branch
+          gh pr merge "$PR_NUMBER" --squash --delete-branch
