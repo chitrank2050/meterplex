@@ -29,6 +29,11 @@ pre-commit:
       run: pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
+    # 5. GitHub Actions - Security linting (zizmor)
+    lint-actions:
+      glob: '.github/workflows/*.yml'
+      run: if command -v zizmor > /dev/null; then zizmor {staged_files}; else echo "zizmor not found, skipping actions lint. Install with 'brew install zizmor'"; fi
+
 # ─── commit-msg ──────────────────────────────────────────────
 # Enforces Conventional Commits format via commitlint.
 commit-msg:
