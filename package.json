@@ -50,7 +50,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yml,yaml}\"",
     "lint": "pnpm run lint:ts && pnpm run lint:md && pnpm run lint:actions && pnpm run lint:knip",
-    "lint:ts": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:ts": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 0",
     "lint:md": "markdownlint \"**/*.md\" --fix --ignore node_modules --ignore CHANGELOG.md",
     "lint:actions": "zizmor .github/workflows/",
     "lint:branch": "validate-branch-name",
