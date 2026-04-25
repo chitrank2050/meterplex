@@ -43,6 +43,7 @@ services:
     volumes:
       # Persist data across container restarts.
       # Destroyed on `docker compose down -v` (clean slate).
+      # Postgres 18+ requires mounting to the parent folder for versioned storage.
       - meterplex-postgres-data:/var/lib/postgresql
     healthcheck:
       # pg_isready checks if Postgres accepts connections.
@@ -145,6 +146,8 @@ services:
       CLUSTER_ID: 'meterplex-local-dev-cluster-01'
     volumes:
       - meterplex-kafka-data:/var/lib/kafka/data
+      - meterplex-kafka-secrets:/etc/kafka/secrets
+      - meterplex-kafka-config:/mnt/shared/config
     healthcheck:
       # Check that the Kafka broker is responding to metadata requests.
       test:
@@ -183,6 +186,8 @@ services:
       DYNAMIC_CONFIG_ENABLED: 'true'
       # Aggressive JVM tuning for low resource usage
       JAVA_OPTS: '-Xms32M -Xmx128M -XX:+UseG1GC -XX:MaxGCPauseMillis=100'
+    volumes:
+      - meterplex-kafka-ui-config:/etc/kafkaui
     depends_on:
       kafka:
         condition: service_healthy
@@ -208,3 +213,6 @@ volumes:
   meterplex-postgres-data:
   meterplex-redis-data:
   meterplex-kafka-data:
+  meterplex-kafka-secrets:
+  meterplex-kafka-config:
+  meterplex-kafka-ui-config:

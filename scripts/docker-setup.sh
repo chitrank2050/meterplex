@@ -20,8 +20,8 @@ log_step 2 4 "Waiting for services to become healthy..."
 log_wait "This may take up to 30 seconds for Kafka to stabilize..."
 
 # A simple wait loop for Postgres
-RETRIES=10
-while ! docker exec meterplex-postgres pg_isready -U meterplex > /dev/null 2>&1; do
+RETRIES=20
+while ! docker exec meterplex-postgres pg_isready -U meterplex -d meterplex > /dev/null 2>&1; do
     if [ $RETRIES -eq 0 ]; then
         log_error "Postgres failed to become ready in time."
         exit 1
@@ -34,12 +34,13 @@ echo -e "\n"
 log_success "Infrastructure is healthy."
 
 # Step 3: Sync Schema
-log_step 3 4 "Synchronizing database schema..."
-if ! pnpm db:generate || ! pnpm exec prisma db push --skip-generate; then
-    log_error "Database schema synchronization failed."
+log_step 3 4 "Synchronizing database schema (Prisma Migrate)..."
+# We use --name init to ensure the command is non-interactive
+if ! pnpm db:generate || ! pnpm exec prisma migrate dev --name init; then
+    log_error "Database migration failed."
     exit 1
 fi
-log_success "Database schema is up to date."
+log_success "Database schema is synchronized."
 
 # Step 4: Seed
 log_step 4 4 "Seeding development data..."
