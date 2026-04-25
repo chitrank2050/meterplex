@@ -45,6 +45,12 @@ We use the **`production`** GitHub Environment to isolate release-specific permi
 * Scans our `pnpm-lock.yaml` against Google's Open Source Vulnerabilities (OSV) database.
 * Blocks the PR if a known vulnerability is found in our dependencies.
 
+### 7. Zombie Code Detection (Knip)
+
+* **What it does**: Scans the entire project for unused files, exports, and dependencies.
+* **Why it's there**: To keep the codebase lean and prevent "code rot." It ensures that every line of code in the repo actually serves a purpose.
+* **CI**: Integrated into the main hygiene job. If a PR introduces unused code, the build fails.
+
 ---
 
 ## 🏎️ Extreme Performance Architecture
