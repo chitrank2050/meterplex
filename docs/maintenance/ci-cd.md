@@ -78,6 +78,7 @@ A custom workflow (`maintenance.yml`) that runs weekly to check if any entries i
 | **Action Linting** | `workflow-lint.yml` | Audits our GitHub Actions for security flaws and unpinned versions using `zizmor`. | Changes to workflows |
 | **Semantic PR** | `semantic-pr.yml` | Enforces [Conventional Commits](https://www.conventionalcommits.org/) on PR titles to ensure clean history. | PR open / edit / sync |
 | **Scorecard** | `scorecard.yml` | Tracks repo-level security health and supply chain best practices (OpenSSF). | Weekly / Push to main |
+| **Branch Name** | `branch-name.yml` | Enforces a naming convention via `validate-branch-name` (config in `package.json`). | Every Push |
 | **Release** | `git-release.yml` | Automates changelogs, updates version tags, and creates formal GitHub releases. | Tag Push (`v*`) |
 | **Docs Deploy** | `docs.yml` | Builds the MkDocs Material site and publishes it to GitHub Pages. | Push to main |
 | **Maintenance** | `maintenance.yml` | Weekly automated cleanup of redundant dependency overrides. | Weekly schedule |
