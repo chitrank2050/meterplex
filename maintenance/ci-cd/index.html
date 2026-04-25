@@ -1321,6 +1321,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#7-zombie-code-detection-knip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Zombie Code Detection (Knip)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1567,6 +1578,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#7-zombie-code-detection-knip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Zombie Code Detection (Knip)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1773,6 +1795,12 @@
 <ul>
 <li>Scans our <code>pnpm-lock.yaml</code> against Google's Open Source Vulnerabilities (OSV) database.</li>
 <li>Blocks the PR if a known vulnerability is found in our dependencies.</li>
+</ul>
+<h3 id="7-zombie-code-detection-knip">7. Zombie Code Detection (Knip)<a class="headerlink" href="#7-zombie-code-detection-knip" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>What it does</strong>: Scans the entire project for unused files, exports, and dependencies.</li>
+<li><strong>Why it's there</strong>: To keep the codebase lean and prevent "code rot." It ensures that every line of code in the repo actually serves a purpose.</li>
+<li><strong>CI</strong>: Integrated into the main hygiene job. If a PR introduces unused code, the build fails.</li>
 </ul>
 <hr />
 <h2 id="extreme-performance-architecture">🏎️ Extreme Performance Architecture<a class="headerlink" href="#extreme-performance-architecture" title="Permanent link">&para;</a></h2>

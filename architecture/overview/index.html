@@ -643,6 +643,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Infrastructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-infrastructure-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Infrastructure Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1465,6 +1482,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Infrastructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-infrastructure-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Infrastructure Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1616,6 +1650,7 @@
 <a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>Client Response
 </code></pre></div>
 <h2 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h2>
+<p>Meterplex follows a <strong>"Performance-First"</strong> infrastructure philosophy. For local development, we use Docker Compose with several high-efficiency strategies:</p>
 <table>
 <thead>
 <tr>
@@ -1628,25 +1663,38 @@
 <tbody>
 <tr>
 <td style="text-align: left;">PostgreSQL 18</td>
-<td style="text-align: left;">meterplex-postgres</td>
+<td style="text-align: left;"><code>meterplex-postgres</code></td>
 <td style="text-align: left;">5432</td>
 <td style="text-align: left;">Primary data store</td>
 </tr>
 <tr>
 <td style="text-align: left;">Apache Kafka 4.2</td>
-<td style="text-align: left;">meterplex-kafka</td>
+<td style="text-align: left;"><code>meterplex-kafka</code></td>
 <td style="text-align: left;">9092</td>
-<td style="text-align: left;">Event streaming</td>
+<td style="text-align: left;">Event streaming (KRaft Mode)</td>
 </tr>
 <tr>
 <td style="text-align: left;">Redis 8</td>
-<td style="text-align: left;">meterplex-redis</td>
+<td style="text-align: left;"><code>meterplex-redis</code></td>
 <td style="text-align: left;">6379</td>
 <td style="text-align: left;">Cache and rate limiting</td>
 </tr>
+<tr>
+<td style="text-align: left;">Kafka UI</td>
+<td style="text-align: left;"><code>meterplex-kafka-ui</code></td>
+<td style="text-align: left;">9000</td>
+<td style="text-align: left;">Debug interface (Dormant by default)</td>
+</tr>
 </tbody>
 </table>
-<p>All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).</p>
+<h3 id="key-infrastructure-principles">Key Infrastructure Principles<a class="headerlink" href="#key-infrastructure-principles" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>KRaft Native</strong>: We use Kafka 4.2+ in KRaft mode. This eliminates the Zookeeper dependency, reducing the local footprint and speeding up startup times.</li>
+<li><strong>"Zero-Tax" Tooling</strong>: High-resource tools like Kafka UI are moved to a <strong>Docker Profile</strong> (<code>debug</code>). They consume <strong>0% CPU</strong> by default and are only started when explicitly requested via <code>pnpm docker:ui</code>.</li>
+<li><strong>Isolated Networking</strong>: All containers communicate over a dedicated <code>meterplex-internal</code> bridge network. This provides faster DNS resolution and ensures the infrastructure is isolated from other projects running on the host.</li>
+<li><strong>Hardware-Native</strong>: We prioritize Alpine-based images and native ARM64 support to ensure 100% performance on modern silicon (Apple M-series).</li>
+</ol>
+<p>In production, these services are typically replaced by cloud-native managed solutions (e.g., AWS RDS, MSK, and ElastiCache).</p>
 <h2 id="phase-1-data-model">Phase 1 - Data model<a class="headerlink" href="#phase-1-data-model" title="Permanent link">&para;</a></h2>
 <p><img alt="Phase 1 ERD" src="../phase-1-erd.png" /></p>
 <p>Four tables: <code>tenants</code> (organizations), <code>users</code> (global accounts), <code>memberships</code> (join table with roles), and <code>api_keys</code> (server-to-server authentication). A user can belong to multiple tenants with different roles via the memberships table.</p>
