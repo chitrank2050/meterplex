@@ -2047,18 +2047,26 @@
 </tbody>
 </table>
 <hr />
-<hr />
 <h2 id="2027-automation-standards">🏗️ 2027 Automation Standards<a class="headerlink" href="#2027-automation-standards" title="Permanent link">&para;</a></h2>
 <p>All workflows in this repository follow our "2027-standard" for security and performance:</p>
-<ol>
-<li><strong>Centralized Identity</strong>: All automated actions (approvals, labels, releases) use a custom <strong>GitHub App</strong> (<code>chitrank-action</code>) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.</li>
+<ul>
+<li><strong>Node 24 LTS</strong>: The active runtime for all runners and local development.</li>
+<li><strong>True Zero-Noise PRs</strong>: Pull Requests contain zero manual boilerplate. Descriptions are automatically generated and categorized using <code>git-cliff</code>.</li>
+<li><strong>Harden Runner</strong>: Every workflow is isolated using <code>step-security/harden-runner</code>.</li>
+<li><strong>Prisma Client Caching</strong>: Optimized cross-job caching for database types.</li>
+<li>
+<p><strong>Hands-Free Releases</strong>: Automated changelog generation, PR creation, and auto-merging.</p>
+</li>
+<li>
+<p><strong>Centralized Identity</strong>: All automated actions (approvals, labels, releases) use a custom <strong>GitHub App</strong> (<code>chitrank-action</code>) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.</p>
+</li>
 <li><strong>Zero-Trust Egress</strong>: Every job includes <code>harden-runner</code> to monitor and restrict network traffic, preventing token exfiltration.</li>
 <li><strong>Immutability (SHA Pinning)</strong>: All third-party actions are pinned to a 40-character commit SHA to prevent "tag moving" supply-chain attacks.</li>
 <li><strong>Credential Security</strong>: <code>persist-credentials: false</code> is used on every checkout to prevent tokens from being stored in the runner's <code>.git</code> directory.</li>
 <li><strong>No Template Injection</strong>: <code>${{ ... }}</code> expansion is NEVER used inside <code>run:</code> scripts. Dynamic data is always passed via environment variables (<code>env</code>).</li>
 <li><strong>Single Checkout Strategy</strong>: Jobs are optimized to perform exactly one repository checkout, saving runner time and bandwidth.</li>
 <li><strong>Unblocked Pipelines</strong>: Required status checks (CI, Linting) run on all PRs to ensure they never block automated merges from Renovate or Release bots.</li>
-</ol>
+</ul>
 
 
 
