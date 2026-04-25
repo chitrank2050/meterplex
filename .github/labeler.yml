@@ -35,3 +35,11 @@
           - 'SECURITY.md'
           - '.github/workflows/scorecard.yml'
           - '.github/workflows/workflow-lint.yml'
+
+'area/maintenance':
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/maintenance.yml'
+          - '.github/workflows/auto-approve.yml'
+    branch:
+      - '^maintenance/.*'

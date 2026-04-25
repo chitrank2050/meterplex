@@ -37,7 +37,7 @@ jobs:
           # Use head_ref for PRs, fallback to ref_name for pushes
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
           # The regex matches your package.json pattern
-          REGEX: '^(main|master|gh-pages)$|^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|renovate)/.+$'
+          REGEX: '^(main|master|gh-pages)$|^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|renovate|maintenance)/.+$'
         run: |
           echo "Checking branch: $BRANCH_NAME"
           if [[ $BRANCH_NAME =~ $REGEX ]]; then

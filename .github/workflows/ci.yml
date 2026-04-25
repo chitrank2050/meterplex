@@ -43,32 +43,6 @@ on:
       - 'lefthook.yml'
   pull_request:
     branches: [main]
-    paths-ignore:
-      # Documentation
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'assets/**'
-      # Markdown (community health & repo meta)
-      - '*.md'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/PULL_REQUEST_TEMPLATE.md'
-      - '.github/FUNDING.yml'
-      - '.github/CODEOWNERS'
-      # API client collections
-      - 'bruno/**'
-      # Editor & IDE configs
-      - '.vscode/**'
-      - '.editorconfig'
-      # Environment examples & secrets config
-      - '.env.example'
-      - '.gitleaks.toml'
-      # Dependency management (Renovate handles PRs; not build-relevant)
-      - 'renovate.json'
-      # Changelog & release tooling config
-      - 'cliff.toml'
-      # Git hooks config (local-only)
-      - 'commitlint.config.mjs'
-      - 'lefthook.yml'
 
 concurrency:
   # Ensure only one CI run per branch/PR at a time

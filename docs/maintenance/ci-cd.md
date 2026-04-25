@@ -107,7 +107,7 @@ To maintain velocity while following strict branch protection rules:
 | **Action Linting** | `workflow-lint.yml` | Audits GitHub Actions for security flaws using `zizmor`. | Changes to workflows |
 | **PR Autofill** | `pr-autofill.yml` | Populates PR descriptions based on commit history. | PR to main |
 | **Semantic PR** | `semantic-pr.yml` | Enforces Conventional Commits on PR titles. | PR to main |
-| **Auto-Approve** | `auto-approve.yml` | Approves safe dependency updates. Optimized to only wake up for CI completion. | CI finish on `renovate/*` |
+| **Auto-Approve** | `auto-approve.yml` | Approves safe automated updates (Renovate, Release, Maintenance). Optimized to only wake up for CI completion. | CI finish on `renovate/**`, `chore/changelog-*`, `maintenance/*` |
 | **Scorecard** | `scorecard.yml` | Tracks repo-level security health (OpenSSF). | Weekly / Push to main |
 | **Branch Name** | `branch-name.yml` | Enforces naming conventions. | PR to main |
 | **Release** | `git-release.yml` | Automates changelogs and GitHub releases. | Tag Push (`v*`) |
@@ -118,11 +118,16 @@ To maintain velocity while following strict branch protection rules:
 
 ---
 
-## 🏗️ Workflow Standards
+---
 
-All workflows in this repository follow these strict standards:
+## 🏗️ 2027 Automation Standards
 
-1. **SHA Pinning**: All actions are pinned to a 40-character commit SHA to prevent "tag moving" attacks.
-2. **Least Privilege**: `permissions` blocks are explicitly defined for every job.
-3. **No Injection**: `${{ ... }}` expansion is NEVER used inside `run:` scripts. Data is always passed via environment variables.
-4. **Egress Security**: Every job includes `harden-runner` to monitor and restrict network traffic.
+All workflows in this repository follow our "2027-standard" for security and performance:
+
+1. **Centralized Identity**: All automated actions (approvals, labels, releases) use a custom **GitHub App** (`chitrank-action`) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.
+2. **Zero-Trust Egress**: Every job includes `harden-runner` to monitor and restrict network traffic, preventing token exfiltration.
+3. **Immutability (SHA Pinning)**: All third-party actions are pinned to a 40-character commit SHA to prevent "tag moving" supply-chain attacks.
+4. **Credential Security**: `persist-credentials: false` is used on every checkout to prevent tokens from being stored in the runner's `.git` directory.
+5. **No Template Injection**: `${{ ... }}` expansion is NEVER used inside `run:` scripts. Dynamic data is always passed via environment variables (`env`).
+6. **Single Checkout Strategy**: Jobs are optimized to perform exactly one repository checkout, saving runner time and bandwidth.
+7. **Unblocked Pipelines**: Required status checks (CI, Linting) run on all PRs to ensure they never block automated merges from Renovate or Release bots.

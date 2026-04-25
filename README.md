@@ -69,7 +69,8 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 | **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Persistent storage & ORM |
 | **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Event-driven async processing |
 | **Caching** | [Redis 8](https://redis.io/) | Distributed caching & rate limiting |
-| **DevOps** | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard CI/CD automation |
+| **DevOps** | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard security & automation |
+| **Automation** | [Chitrank Action](https://github.com/chitrank2050) | Centralized, hardened bot-driven governance |
 | **Quality** | [Vitest](https://vitest.dev/), [Lefthook](https://github.com/evilmartians/lefthook) | Unit testing & high-performance git hooks |
 | **Docs** | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) | Technical documentation & changelog |
 | **API Tools** | [Bruno](https://usebruno.com/), [Swagger](https://swagger.io/), [Scalar](https://scalar.com/) | API testing & documentation |

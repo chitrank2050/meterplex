@@ -51,6 +51,7 @@ jobs:
             build
             ci
             revert
+            maintenance
           # If the PR contains only one commit, it can be useful to check that the
           # commit message also matches.
           validateSingleCommit: true
