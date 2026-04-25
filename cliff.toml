@@ -36,6 +36,8 @@ conventional_commits = true
 filter_unconventional = false
 # process each line of a commit as an individual commit
 split_commits = false
+# skip merge commits
+skip_merge = true
 # regex for preprocessing the commit messages
 commit_preprocessors = [
   { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/chitrank2050/meterplex/issues/${2}))"}, # replace issue numbers
@@ -45,6 +47,11 @@ commit_parsers = [
   { message = "^docs: update changelog", skip = true },
   { message = "^chore: release", skip = true },
   { message = "^chore: bump", skip = true },
+  { message = "^chore\\(release\\): update CHANGELOG.md", skip = true },
+  { message = "Update CHANGELOG.md", skip = true },
+  { message = "^Merge branch", skip = true },
+  { message = "^Merge pull request", skip = true },
+  { message = "^Merge", skip = true },
   { message = "^feat", group = "🚀 Features" },
   { message = "^fix", group = "🐛 Bug Fixes" },
   { message = "^doc", group = "📚 Documentation" },
