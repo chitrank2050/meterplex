@@ -3,11 +3,11 @@
   "private": false,
   "version": "0.5.4",
   "description": "Open-source B2B usage metering, entitlements, and billing platform.",
-  "homepage": "https://github.com/chitrank2050/meterplex#readme",
+  "homepage": "https://chitrank2050.github.io/meterplex/",
   "author": {
-    "name": "Chitrank agnihotri",
+    "name": "Chitrank Agnihotri",
     "email": "chitrank2050@gmail.com",
-    "url": "https://wwww.chitrankagnihotri.com"
+    "url": "https://www.chitrankagnihotri.com"
   },
   "license": "MIT",
   "repository": {
@@ -17,21 +17,27 @@
   "bugs": {
     "url": "https://github.com/chitrank2050/meterplex/issues"
   },
+  "sideEffects": false,
   "keywords": [
     "meterplex",
     "metering",
     "entitlements",
     "billing",
     "billing-engine",
+    "usage-metering",
     "usage-based-billing",
+    "api-monetization",
+    "finops",
     "saas",
+    "b2b",
     "open-source",
     "nestjs",
     "prisma",
     "kafka",
     "redis",
     "postgres",
-    "quota-management"
+    "quota-management",
+    "entitlements-engine"
   ],
   "scripts": {
     "// --- 🚀 Core ---": "",
