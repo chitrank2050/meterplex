@@ -26,9 +26,11 @@ echo "[4/$TOTAL_STEPS] 🧹 Removing test & lint artifacts..."
 rm -rf coverage
 rm -f .eslintcache
 
-# Step 5: Caches
-echo "[5/$TOTAL_STEPS] 🌫️  Clearing development caches..."
+# Step 5: Caches & Hooks
+echo "[5/$TOTAL_STEPS] 🌫️  Clearing development caches & hooks..."
 rm -rf .husky/_
 rm -rf .turbo
+rm -rf .lefthook # Clear lefthook local caches
+rm -rf site      # Clear MkDocs build output
 
 echo "✨  Obliviate complete. Meterplex is now a blank slate."

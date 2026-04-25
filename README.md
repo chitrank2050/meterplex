@@ -11,17 +11,17 @@
     <a href="https://scorecard.dev/viewer/?uri=github.com/chitrank2050/meterplex">
       <img src="https://api.scorecard.dev/projects/github.com/chitrank2050/meterplex/badge" alt="OpenSSF Scorecard">
     </a>
-    <img src="https://img.shields.io/badge/Security-OSV--Scanner-success" alt="Security: OSV-Scanner">
-    <img src="https://img.shields.io/badge/Version-0.5.4-blue" alt="Version">
+    <img src="https://img.shields.io/badge/Security-Gitleaks-success" alt="Security: Gitleaks">
+    <img src="https://img.shields.io/badge/Hooks-Lefthook-blueviolet" alt="Hooks: Lefthook">
     <a href="https://chitrank2050.github.io/meterplex/">
       <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
     </a>
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
     <br/>
     <br/>
-    <a href="https://ko-fi.com/D1D71U581P" target="_blank">
-      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Buy me a coffee at ko-fi.com">
-    </a>
+    <a href="./CONTRIBUTING.md"><b>Contributing</b></a> •
+    <a href="./SECURITY.md"><b>Security</b></a> •
+    <a href="https://ko-fi.com/D1D71U581P" target="_blank"><b>Support</b></a>
   </p>
 </div>
 

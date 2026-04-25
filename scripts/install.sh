@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define total steps
-TOTAL_STEPS=4
+TOTAL_STEPS=5
 
 echo "🚀 Starting installation process..."
 
@@ -29,8 +29,17 @@ if ! pnpm db:generate; then
     exit 1
 fi
 
-# Step 4: Verify
-echo "[4/$TOTAL_STEPS] ✅ Verifying installation..."
+# Step 4: Check for local security tools
+echo "[4/$TOTAL_STEPS] 🛡️ Checking security tools..."
+if ! command -v gitleaks &> /dev/null; then
+    echo "      -> ⚠️ Warning: gitleaks not found. Local secret scanning will be skipped."
+fi
+if ! command -v zizmor &> /dev/null; then
+    echo "      -> ⚠️ Warning: zizmor not found. Local workflow linting will be skipped."
+fi
+
+# Step 5: Verify
+echo "[5/$TOTAL_STEPS] ✅ Verifying installation..."
 if [ -d "node_modules" ]; then
     echo "🎉 Success! Dependencies and Prisma client are ready."
     exit 0
