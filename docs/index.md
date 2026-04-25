@@ -160,7 +160,7 @@ Meterplex uses a modern, high-performance developer workflow to ensure code qual
 We use [Lefthook](https://github.com/evilmartians/lefthook) for lightning-fast pre-commit checks. It automatically runs:
 
 - **Linting**: ESLint and Prettier.
-- **Security**: Gitleaks for secret detection.
+- **Security**: Gitleaks for secrets and Zizmor for GitHub Actions.
 - **Testing**: Vitest for relevant unit tests.
 
 ### 📝 Commit Standards
@@ -192,4 +192,5 @@ To save developer time, the project includes several automated maintenance tasks
 | **OSV Audit** | Scans lockfiles for known vulnerabilities using Google's OSV database. | Every PR/Push |
 | **Secret Scan** | Scans entire git history for leaked credentials using Gitleaks. | Every PR/Push |
 | **Override Pruning** | Proactively checks if `pnpm.overrides` are still needed and opens a PR to remove them. | Weekly |
+| **Actions Audit** | Scans GitHub Actions for security flaws and unpinned versions using `zizmor`. | Every PR/Push |
 | **Renovate** | Automated dependency updates and security patches. | Continuous |

@@ -9,6 +9,7 @@
 | Docker | 24.0.0 | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version` |
 | Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
 | gitleaks | 8.0.0 | `brew install gitleaks` | `gitleaks version` |
+| zizmor | - | `brew install zizmor` | `zizmor --version` |
 | knip | - | `pnpm install` (dev dep) | `pnpm lint:knip` |
 | lefthook | - | `pnpm install` (dev dep) | `pnpm lefthook --version` |
 
@@ -85,6 +86,23 @@ pnpm lint:knip
 
 # No separate install needed - knip is in devDependencies
 ```
+
+### zizmor - GitHub Actions security auditor
+
+zizmor is a high-performance security linter for GitHub Actions. It catches injection vulnerabilities, unpinned actions, and overly broad permissions.
+
+```bash
+# macOS
+brew install zizmor
+
+# Cargo
+cargo install zizmor
+
+# Verify
+zizmor --version
+```
+
+> **Note:** The pre-commit hook automatically runs `zizmor` on any modified workflow files. If it's not installed, the hook will skip the check with a warning.
 
 ### lefthook - Git hooks manager
 
