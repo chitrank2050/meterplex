@@ -1361,6 +1361,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#smart-auto-approval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart Auto-Approval
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#override-pruning" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1585,6 +1596,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#smart-auto-approval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart Auto-Approval
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#override-pruning" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1743,6 +1765,12 @@
 </ol>
 <h3 id="dependency-management-renovate">Dependency Management (Renovate)<a class="headerlink" href="#dependency-management-renovate" title="Permanent link">&para;</a></h3>
 <p>We use <strong>Renovate</strong> to keep our dependencies up to date. Unlike standard tools, Renovate is configured to group updates and provide clear release notes.</p>
+<h3 id="smart-auto-approval">Smart Auto-Approval<a class="headerlink" href="#smart-auto-approval" title="Permanent link">&para;</a></h3>
+<p>To maintain velocity while following strict branch protection rules:</p>
+<ul>
+<li><strong>Patch/Minor</strong>: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (<code>auto-approve.yml</code>) once CI passes.</li>
+<li><strong>Major</strong>: Breaking changes and major version updates always require human review and manual approval.</li>
+</ul>
 <h3 id="override-pruning">Override Pruning<a class="headerlink" href="#override-pruning" title="Permanent link">&para;</a></h3>
 <p>A custom workflow (<code>maintenance.yml</code>) that runs weekly to check if any entries in <code>pnpm.overrides</code> are no longer needed. If a dependency has been updated such that the override is redundant, it opens a PR to prune it.</p>
 <hr />
@@ -1770,10 +1798,22 @@
 <td style="text-align: left;">Changes to workflows</td>
 </tr>
 <tr>
+<td style="text-align: left;"><strong>PR Autofill</strong></td>
+<td style="text-align: left;"><code>pr-autofill.yml</code></td>
+<td style="text-align: left;">Automatically populates PR descriptions based on commit history.</td>
+<td style="text-align: left;">PR open</td>
+</tr>
+<tr>
 <td style="text-align: left;"><strong>Semantic PR</strong></td>
 <td style="text-align: left;"><code>semantic-pr.yml</code></td>
 <td style="text-align: left;">Enforces <a href="https://www.conventionalcommits.org/">Conventional Commits</a> on PR titles to ensure clean history.</td>
 <td style="text-align: left;">PR open / edit / sync</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Auto-Approve</strong></td>
+<td style="text-align: left;"><code>auto-approve.yml</code></td>
+<td style="text-align: left;">Automatically approves safe dependency updates from Renovate.</td>
+<td style="text-align: left;">PR from Renovate</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Scorecard</strong></td>
