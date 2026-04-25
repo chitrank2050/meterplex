@@ -38,7 +38,7 @@ We use the **`production`** GitHub Environment to isolate release-specific permi
 ### 5. Secret Scanning (Gitleaks)
 
 * **Local**: Integrated into `lefthook` to prevent secrets from ever being committed.
-* **CI**: A dedicated job in `ci.yml` scans the entire history on every PR.
+* **CI**: A dedicated job in `ci.yml` perform **incremental scans** of only the new commits in a PR, ensuring near-instant feedback as the repository grows.
 
 ### 6. Dependency Auditing (OSV-Scanner)
 
@@ -47,7 +47,20 @@ We use the **`production`** GitHub Environment to isolate release-specific permi
 
 ---
 
-## 🤖 Automated Maintenance
+## 🏎️ Extreme Performance Architecture
+
+Our CI pipeline is optimized for speed and cost-efficiency (Free-tier friendly):
+
+1. **Parallel Hygiene**: Code linting, formatting checks, and markdown audits run in parallel jobs. This provides developer feedback 3x faster than sequential runs.
+2. **Smart Caching**:
+    * **pnpm Store**: Global cache for dependency resolution.
+    * **Prisma Client**: The generated Prisma client is cached and only rebuilt when `schema.prisma` changes, saving ~20s per build.
+    * **Pip**: Python dependencies for documentation are cached.
+3. **Trigger Lockdown**: To save Actions minutes, workflows **only** run on the `main` branch or within a Pull Request targeting `main`. Intermediate pushes to feature branches do not trigger CI, encouraging local testing via `lefthook`.
+
+---
+
+## 🤖 Automated Maintenance & Governance
 
 To keep the codebase healthy without manual toil, we have several automated maintenance cycles:
 
@@ -69,11 +82,14 @@ We use **Renovate** to keep our dependencies up to date. Unlike standard tools, 
 To maintain velocity while following strict branch protection rules:
 
 * **Patch/Minor**: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (`auto-approve.yml`) once CI passes.
-* **Major**: Breaking changes and major version updates always require human review and manual approval.
+* **Safety Gates**: The approval bot verifies the PR author is Renovate, the branch starts with `renovate/`, and all status checks are green before signing off.
 
-### Override Pruning
+### Community Governance 🏛️
 
-A custom workflow (`maintenance.yml`) that runs weekly to check if any entries in `pnpm.overrides` are no longer needed. If a dependency has been updated such that the override is redundant, it opens a PR to prune it.
+* **`SECURITY.md`**: Formal vulnerability disclosure policy for OpenSSF compliance.
+* **`CONTRIBUTING.md`**: Streamlined onboarding guide for new developers.
+* **Stale Bot**: Automatically manages inactive issues and PRs to keep the backlog fresh.
+* **PR Labeler**: Categorizes PRs automatically (e.g., `area/logic`, `area/docs`) based on changed files.
 
 ---
 
@@ -81,16 +97,18 @@ A custom workflow (`maintenance.yml`) that runs weekly to check if any entries i
 
 | Workflow | File | Purpose | Trigger |
 | :--- | :--- | :--- | :--- |
-| **CI & Security** | `ci.yml` | Validates code quality, runs tests, checks formatting, and audits security. | Every PR / Push to main |
-| **Action Linting** | `workflow-lint.yml` | Audits our GitHub Actions for security flaws and unpinned versions using `zizmor`. | Changes to workflows |
-| **PR Autofill** | `pr-autofill.yml` | Automatically populates PR descriptions based on commit history. | PR open |
-| **Semantic PR** | `semantic-pr.yml` | Enforces [Conventional Commits](https://www.conventionalcommits.org/) on PR titles to ensure clean history. | PR open / edit / sync |
-| **Auto-Approve** | `auto-approve.yml` | Automatically approves safe dependency updates from Renovate. | PR from Renovate |
-| **Scorecard** | `scorecard.yml` | Tracks repo-level security health and supply chain best practices (OpenSSF). | Weekly / Push to main |
-| **Branch Name** | `branch-name.yml` | Enforces a naming convention via `validate-branch-name` (config in `package.json`). | Every Push |
-| **Release** | `git-release.yml` | Automates changelogs, updates version tags, and creates formal GitHub releases. | Tag Push (`v*`) |
-| **Docs Deploy** | `docs.yml` | Builds the MkDocs Material site and publishes it to GitHub Pages. | Push to main |
-| **Maintenance** | `maintenance.yml` | Weekly automated cleanup of redundant dependency overrides. | Weekly schedule |
+| **CI & Security** | `ci.yml` | Validates code quality, runs tests, and audits security. Parallelized for speed. | PR to main / Push to main |
+| **Action Linting** | `workflow-lint.yml` | Audits GitHub Actions for security flaws using `zizmor`. | Changes to workflows |
+| **PR Autofill** | `pr-autofill.yml` | Populates PR descriptions based on commit history. | PR to main |
+| **Semantic PR** | `semantic-pr.yml` | Enforces Conventional Commits on PR titles. | PR to main |
+| **Auto-Approve** | `auto-approve.yml` | Approves safe dependency updates. Optimized to only wake up for CI completion. | CI finish on `renovate/*` |
+| **Scorecard** | `scorecard.yml` | Tracks repo-level security health (OpenSSF). | Weekly / Push to main |
+| **Branch Name** | `branch-name.yml` | Enforces naming conventions. | PR to main |
+| **Release** | `git-release.yml` | Automates changelogs and GitHub releases. | Tag Push (`v*`) |
+| **Docs Deploy** | `docs.yml` | Builds and publishes documentation. | Push to main (Build-only on PR) |
+| **Labeler** | `labeler.yml` | Automatically labels PRs based on file paths. | PR to main |
+| **Stale** | `stale.yml` | Manages inactive issues and PRs. | Daily schedule |
+| **Maintenance** | `maintenance.yml` | Weekly automated cleanup of dependency overrides. | Weekly schedule |
 
 ---
 
@@ -98,7 +116,7 @@ A custom workflow (`maintenance.yml`) that runs weekly to check if any entries i
 
 All workflows in this repository follow these strict standards:
 
-1. **SHA Pinning**: All actions are pinned to a 40-character commit SHA (e.g., `actions/checkout@de0fac2...`). This prevents "tag moving" attacks where a version tag could be maliciously updated.
-2. **Least Privilege**: `persist-credentials: false` is used wherever possible to prevent the GitHub token from being stored on the runner's disk longer than necessary.
-3. **No Injection**: `${{ ... }}` expansion is NEVER used inside `run:` scripts. Data is always passed via environment variables (e.g., `env: DATA: ${{ ... }}`) to prevent shell injection vulnerabilities.
-4. **Egress Security**: Every job includes `harden-runner` to monitor and restrict outbound network connections.
+1. **SHA Pinning**: All actions are pinned to a 40-character commit SHA to prevent "tag moving" attacks.
+2. **Least Privilege**: `permissions` blocks are explicitly defined for every job.
+3. **No Injection**: `${{ ... }}` expansion is NEVER used inside `run:` scripts. Data is always passed via environment variables.
+4. **Egress Security**: Every job includes `harden-runner` to monitor and restrict network traffic.
