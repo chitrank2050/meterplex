@@ -58,21 +58,8 @@ jobs:
             exit 0
           fi
 
-          # 2. Check if it was triggered by an authorized Bot/Branch pattern
-          ACTOR=$(echo "$PR_JSON" | jq -r '.[0].user.login // "'$ACTOR_FALLBACK'"')
+          # 2. Find the PR Number (Required to fetch the real author if array is empty)
           BRANCH=$(echo "$PR_JSON" | jq -r '.[0].head.ref // "'$HEAD_BRANCH'"')
-
-          IS_RENOVATE=$([[ "$ACTOR" == *renovate* || "$BRANCH" == renovate/* ]] && echo "true" || echo "false")
-          IS_RELEASE=$([[ "$BRANCH" == chore/changelog-* ]] && echo "true" || echo "false")
-          IS_MAINTENANCE=$([[ "$BRANCH" == maintenance/* ]] && echo "true" || echo "false")
-
-          if [ "$IS_RENOVATE" != "true" ] && [ "$IS_RELEASE" != "true" ] && [ "$IS_MAINTENANCE" != "true" ]; then
-            echo "Security Check Failed: Actor ($ACTOR) or Branch ($BRANCH) is not authorized for auto-approval."
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # 3. Find the PR Number (Fallback to GH CLI if array is empty)
           PR_NUMBER=$(echo "$PR_JSON" | jq -r '.[0].number // empty')
 
           if [ -z "$PR_NUMBER" ]; then
@@ -86,10 +73,28 @@ jobs:
             exit 0
           fi
 
+          # 3. Get the TRUE AUTHOR of the PR
+          AUTHOR=$(echo "$PR_JSON" | jq -r '.[0].user.login // empty')
+          if [ -z "$AUTHOR" ]; then
+            AUTHOR=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json author --jq '.author.login')
+          fi
+          # Fallback to actor if still empty (safety net)
+          AUTHOR=${AUTHOR:-$ACTOR_FALLBACK}
+
+          IS_RENOVATE=$([[ "$AUTHOR" == *renovate* || "$BRANCH" == renovate/* ]] && echo "true" || echo "false")
+          IS_RELEASE=$([[ "$BRANCH" == chore/changelog-* ]] && echo "true" || echo "false")
+          IS_MAINTENANCE=$([[ "$BRANCH" == maintenance/* ]] && echo "true" || echo "false")
+
+          if [ "$IS_RENOVATE" != "true" ] && [ "$IS_RELEASE" != "true" ] && [ "$IS_MAINTENANCE" != "true" ]; then
+            echo "Security Check Failed: Author ($AUTHOR) or Branch ($BRANCH) is not authorized for auto-approval."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           echo "should_run=true" >> "$GITHUB_OUTPUT"
           echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "actor=$ACTOR" >> "$GITHUB_OUTPUT"
-          echo "✅ Verified: Safe automated update found for PR #$PR_NUMBER (Branch: $BRANCH, Actor: $ACTOR)"
+          echo "actor=$AUTHOR" >> "$GITHUB_OUTPUT"
+          echo "✅ Verified: Safe automated update found for PR #$PR_NUMBER (Branch: $BRANCH, Author: $AUTHOR)"
 
       - name: Create Bot Token 🤖🔑
         if: steps.guard.outputs.should_run == 'true'
@@ -106,17 +111,30 @@ jobs:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
         run: |
-          # Fetch PR status including mergeability and all check states
-          PR_DATA=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json mergeable,statusCheckRollup)
-          MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
+          # 1. Fetch PR status including mergeability, draft status, and all check states
+          # We retry a few times if mergeability is UNKNOWN (GitHub is still calculating)
+          for i in {1..5}; do
+            PR_DATA=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json mergeable,isDraft,statusCheckRollup)
+            MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
+            IS_DRAFT=$(echo "$PR_DATA" | jq -r '.isDraft')
+            
+            if [ "$MERGEABLE" != "UNKNOWN" ]; then break; fi
+            echo "⏳ Mergeability is UNKNOWN, retrying in 5s... ($i/5)"
+            sleep 5
+          done
 
-          # Check if there are any pending or failing checks in the rollup
-          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" | grep -v "Auto-Merge" || true)
-
-          if [ "$MERGEABLE" != "MERGEABLE" ]; then
-            echo "❌ PR has merge conflicts. Skipping approval."
+          if [ "$IS_DRAFT" == "true" ]; then
+            echo "📝 PR is a Draft. Skipping approval."
             exit 1
           fi
+
+          if [ "$MERGEABLE" != "MERGEABLE" ]; then
+            echo "❌ PR is not mergeable (Status: $MERGEABLE). Likely has conflicts."
+            exit 1
+          fi
+
+          # 2. Check if there are any pending or failing checks in the rollup
+          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" | grep -v "Auto-Merge" || true)
 
           if [ -n "$STILL_RUNNING_OR_FAILED" ] && [ "$STILL_RUNNING_OR_FAILED" != "null" ]; then
             echo "⏳ Other checks are still running or failed: $STILL_RUNNING_OR_FAILED"
