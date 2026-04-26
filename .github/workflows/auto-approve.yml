@@ -120,7 +120,7 @@ jobs:
       - name: Auto-approve PR ✅
         if: steps.verify.conclusion == 'success'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
           USER_ID: 'chitrank2050'
         run: |
