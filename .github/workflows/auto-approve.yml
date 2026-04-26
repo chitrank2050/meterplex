@@ -81,7 +81,8 @@ jobs:
 
           echo "should_run=true" >> "$GITHUB_OUTPUT"
           echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "✅ Verified: Safe automated update found for PR #$PR_NUMBER (Branch: $BRANCH)"
+          echo "actor=$ACTOR" >> "$GITHUB_OUTPUT"
+          echo "✅ Verified: Safe automated update found for PR #$PR_NUMBER (Branch: $BRANCH, Actor: $ACTOR)"
 
       - name: Create Bot Token 🤖🔑
         if: steps.guard.outputs.should_run == 'true'
@@ -120,18 +121,33 @@ jobs:
       - name: Auto-approve PR ✅
         if: steps.verify.conclusion == 'success'
         env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          BOT_TOKEN: ${{ steps.generate_token.outputs.token }}
+          DEFAULT_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+          ACTOR: ${{ steps.guard.outputs.actor }}
           USER_ID: 'chitrank2050'
         run: |
-          # Assign the user (as a safety net)
+          # 1. Smart Token Selection
+          # GitHub prevents a bot from approving its own PR.
+          # If the PR was created by our bot, we use the default GITHUB_TOKEN to approve it.
+          # Otherwise, we use the Bot Token which has more power to bypass rules.
+
+          if [[ "$ACTOR" == *"chitrank"* && "$ACTOR" == *"[bot]"* ]]; then
+            echo "🤖 PR created by our bot ($ACTOR). Using DEFAULT_TOKEN for approval."
+            export GH_TOKEN="$DEFAULT_TOKEN"
+          else
+            echo "📦 PR created by external actor ($ACTOR). Using BOT_TOKEN for approval."
+            export GH_TOKEN="$BOT_TOKEN"
+          fi
+
+          # 2. Assign the user (as a safety net)
           gh pr edit "$PR_NUMBER" --add-assignee "$USER_ID"
 
-          # 1. Remove the user as a reviewer (to unlock branch protection)
+          # 3. Remove the user as a reviewer (to unlock branch protection)
           gh pr edit "$PR_NUMBER" --remove-reviewer "$USER_ID"
 
-          # 2. Approve the PR
+          # 4. Approve the PR
           gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Approve: All checks passed & no conflicts! Satisfying branch protection for this automated update."
 
-          # 3. Enable Auto-Merge (The final push)
+          # 5. Enable Auto-Merge (The final push)
           gh pr merge "$PR_NUMBER" --auto --squash --body "🤖 Auto-Merge enabled: This PR will merge once CI is 100% green."
