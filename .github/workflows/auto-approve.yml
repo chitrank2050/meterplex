@@ -20,8 +20,8 @@ on:
       - completed
 
 permissions:
-  contents: read # No longer needs write to merge
-  pull-requests: write # Required to post an approval review
+  contents: write
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.workflow_run.id }}
