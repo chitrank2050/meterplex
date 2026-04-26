@@ -24,12 +24,13 @@ jobs:
     #   2. It has the 'release' label
     #   3. The person who merged it is the OWNER
     if: |
-      github.event.pull_request.merged == true && 
+      github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'release') &&
       github.actor == github.repository_owner
     runs-on: ubuntu-latest
     environment:
       name: production
+      # The URL will be populated once the tag is pushed
       url: https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag_name }}
     permissions:
       contents: write

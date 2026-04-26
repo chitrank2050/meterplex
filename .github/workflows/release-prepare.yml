@@ -60,19 +60,6 @@ jobs:
           echo "Bumping package.json to $CLEAN_VERSION"
           jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
 
-      - name: Update Version in README.md 📝
-        env:
-          NEW_VERSION: ${{ github.event.inputs.tag_name }}
-        run: |
-          # Strip 'v' from version for some badges
-          CLEAN_VERSION=$(echo "$NEW_VERSION" | sed 's/^v//')
-
-          # Update common version patterns in README
-          sed -i "s/version: [0-9.]*/version: $CLEAN_VERSION/g" README.md || true
-          sed -i "s/Node-[0-9.]*-success/Node-24-success/g" README.md || true
-
-          echo "Updated README version references to $CLEAN_VERSION"
-
       - name: Update CHANGELOG.md 📝
         uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
         id: git-cliff
@@ -93,7 +80,6 @@ jobs:
             <!-- autofill-start -->
             - chore(release): update CHANGELOG.md
             - chore(release): bump version in package.json
-            - chore(release): sync README.md version
             <!-- autofill-end -->
           labels: |
             chore
@@ -105,4 +91,3 @@ jobs:
           add-paths: |
             CHANGELOG.md
             package.json
-            README.md
