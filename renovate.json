@@ -1,25 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":timezone(Asia/Kolkata)"],
+  "extends": [
+    "config:recommended",
+    ":timezone(Asia/Kolkata)",
+    "mergeConfidence:all-badges"
+  ],
   "labels": ["dependencies", "renovate"],
   "assignees": [],
   "gitAuthor": "Chitrank agnihotri <chitrank2050@gmail.com>",
-  "baseBranches": ["main"],
+  "baseBranchPatterns": ["main"],
   "schedule": ["every weekend"],
   "prBodyColumns": ["Package", "Change", "Age", "Confidence"],
   "packageRules": [
     {
-      "matchPackagePatterns": ["^@nestjs/"],
+      "matchPackageNames": ["/@nestjs\//"],
       "groupName": "nestjs",
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["^prisma", "^@prisma/"],
+      "matchPackageNames": ["/prisma/", "/@prisma\//"],
       "groupName": "prisma",
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["eslint", "prettier", "typescript-eslint"],
+      "matchPackageNames": ["eslint", "prettier", "typescript-eslint"],
       "groupName": "linting & formatting"
     },
     {
@@ -29,9 +33,13 @@
     },
     {
       "matchUpdateTypes": ["patch", "minor"],
-      "matchPackagePatterns": ["*"],
+      "matchPackageNames": ["*"],
       "groupName": "non-major dependencies",
       "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions dependencies"
     },
     {
       "matchFileNames": ["experimental/**"],
@@ -44,5 +52,6 @@
   "prHourlyLimit": 2,
   "vulnerabilityAlerts": {
     "enabled": false
-  }
+  },
+  "platformAutomerge": true
 }
