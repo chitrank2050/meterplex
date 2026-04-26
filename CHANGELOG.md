@@ -2,6 +2,37 @@
 
 All notable changes to Meterplex API.
 
+## [0.5.6] - 2026-04-26
+
+
+### ⚙️ Maintenance
+
+- Remove automated README version updates from release workflows (by @chitrank2050)
+- Update Renovate reviewer settings and improve auto-approval workflow logic (by @chitrank2050)
+- Clear assignees and enable grouping for non-major dependencies in renovate config (by @chitrank2050)
+- Update auto-approve workflow to use generated GitHub token (by @chitrank2050)
+- Update actions/attest-build-provenance action to v4 ([#76](https://github.com/chitrank2050/meterplex/issues/76)) (by @renovate[bot])
+- Update actions/cache action to v5 ([#82](https://github.com/chitrank2050/meterplex/issues/82)) (by @renovate[bot])
+- Update actions/stale action to v10 ([#84](https://github.com/chitrank2050/meterplex/issues/84)) (by @renovate[bot])
+- Update github/codeql-action action to v4 ([#77](https://github.com/chitrank2050/meterplex/issues/77)) (by @renovate[bot])
+- Update actions/labeler action to v6 ([#83](https://github.com/chitrank2050/meterplex/issues/83)) (by @renovate[bot])
+- Update pnpm to v10 ([#27](https://github.com/chitrank2050/meterplex/issues/27)) (by @renovate[bot])
+- Update lefthook configuration to optimize pre-commit hook execution (by @chitrank2050)
+
+### 📚 Documentation
+
+- Update CI/CD doc to reflect the new two-step release workflow & streamlined automation rules (by @chitrank2050)
+
+### 🚀 Features
+
+- Enable auto-merge and squash for approved pull requests in auto-approve workflow (by @chitrank2050)
+- Implement two-step release workflow & add repository owner auth checks to automated workflows (by @chitrank2050)
+- Add owner identity verification to git-tag and git-release scripts (by @chitrank2050)
+
+### 🚜 Refactoring
+
+- Restrict prepare & release jobs to trigger only on manual dispatch & tag pushes (by @chitrank2050)
+
 ## [0.5.5] - 2026-04-25
 
 
