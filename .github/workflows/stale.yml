@@ -34,7 +34,7 @@ jobs:
           stale-issue-label: 'status/stale'
           stale-pr-label: 'status/stale'
           days-before-stale: 60
-          days-before-close: 7
+          days-before-close: 14
           # Exempt specific labels from being marked as stale
-          exempt-issue-labels: 'status/blocked,type/feature,priority/high'
-          exempt-pr-labels: 'status/blocked,priority/high'
+          exempt-issue-labels: 'status/blocked,type/feature,priority/high,pinned,security'
+          exempt-pr-labels: 'status/blocked,priority/high,pinned,security'
