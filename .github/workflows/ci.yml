@@ -102,8 +102,9 @@ jobs:
               - 'docs/**'
               - '*.md'
 
-  # ─── HYGIENE & SECURITY ───────────────────────────────────────
-  # Combined into one job to save runner overhead (VM startup + pnpm install).
+  # ─── QUALITY ASSURANCE ───────────────────────────────────────
+  # Consolidated into one job to save runner overhead (VM startup + redundant pnpm install).
+  # Tasks run in parallel within the runner to maximize CPU utilization.
   hygiene:
     name: Hygiene & Security 🧼🛡️
     needs: changes
@@ -130,65 +131,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies 🛠️
-        run: pnpm install --frozen-lockfile
-
-      - name: Cache Prisma Client 💎
-        id: cache-prisma
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-        with:
-          path: node_modules/.prisma
-          key: ${{ runner.os }}-prisma-${{ hashFiles('prisma/schema.prisma') }}
-
-      - name: Validate & Generate Prisma Client 💎
-        if: steps.cache-prisma.outputs.cache-hit != 'true'
-        run: |
-          npx prisma validate
-          pnpm db:generate
-
-      - name: Hygiene & Security Checks 🧪🛡️
-        run: |
-          # Run independent tasks in parallel
-          pnpm lint:ts & pid1=$!
-          pnpm format:check & pid2=$!
-          pnpm lint:md & pid3=$!
-          # pnpm lint:knip & pid4=$!
-
-          # Run OSV Audit (also independent)
-          curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
-          chmod +x osv-scanner
-          ./osv-scanner --lockfile=pnpm-lock.yaml & pid4=$!
-
-          # Wait for all background processes and capture exit codes
-          wait $pid1 && wait $pid2 && wait $pid3 && wait $pid4
-
-  # ─── TESTING JOB ─────────────────────────────────────────────
-  test:
-    name: Build & Test 🧪
-    needs: changes
-    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.deps == 'true' || needs.changes.outputs.workflows == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
-        with:
-          egress-policy: audit
-
-      - name: Checkout 📥
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
-
-      - name: Install pnpm 📦
-        uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
-
-      - name: Setup Node.js 🟢
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies 🛠️
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Cache Prisma Client 💎
         id: cache-prisma
@@ -203,22 +146,61 @@ jobs:
           npx prisma validate
           pnpm db:generate
 
-      - name: Build application 🏗️
-        run: pnpm build
-
-      - name: Run unit tests 🧪
-        id: run_tests
+      - name: Run Quality Checks ⚡️
+        id: run_checks
         run: |
+          echo "::group::Starting Parallel Checks"
+
+          # Initialize error tracking
+          mkdir -p .ci-status
+
+          # 1. Build
+          (pnpm build > .ci-status/build.log 2>&1 || echo "1" > .ci-status/build.fail) & pid_build=$!
+
+          # 2. Unit Tests
           if [ -d "src" ] && find src -name "*.spec.ts" | grep -q "."; then
-            pnpm test:cov
+            (pnpm test:cov > .ci-status/test.log 2>&1 || echo "1" > .ci-status/test.fail) &
             echo "tests_ran=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No unit tests found, skipping."
             echo "tests_ran=false" >> "$GITHUB_OUTPUT"
           fi
 
+          # 3. TS Lint
+          (pnpm lint:ts > .ci-status/lint-ts.log 2>&1 || echo "1" > .ci-status/lint-ts.fail) &
+
+          # 4. Format Check
+          (pnpm format:check > .ci-status/format.log 2>&1 || echo "1" > .ci-status/format.fail) &
+
+          # 5. MD Lint
+          (pnpm lint:md > .ci-status/lint-md.log 2>&1 || echo "1" > .ci-status/lint-md.fail) &
+
+          # 6. OSV Scanner
+          curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
+          chmod +x osv-scanner
+          (./osv-scanner --lockfile=pnpm-lock.yaml > .ci-status/osv.log 2>&1 || echo "1" > .ci-status/osv.fail) &
+
+          echo "All checks started. Waiting for completion..."
+          wait
+          echo "::endgroup::"
+
+          # Report Results
+          EXIT_CODE=0
+
+          for log in .ci-status/*.log; do
+            job=$(basename "$log" .log)
+            if [ -f ".ci-status/$job.fail" ]; then
+              echo "::error::❌ $job failed"
+              cat "$log"
+              EXIT_CODE=1
+            else
+              echo "✅ $job passed"
+            fi
+          done
+
+          exit $EXIT_CODE
+
       - name: Upload coverage to Codecov 📊
-        if: steps.run_tests.outputs.tests_ran == 'true'
+        if: steps.run_checks.outputs.tests_ran == 'true'
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -237,7 +219,6 @@ jobs:
       - name: Checkout 📥
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          # Only fetch enough history for an incremental scan
           fetch-depth: 0
           persist-credentials: false
       - name: Run Gitleaks 🕵️
