@@ -129,3 +129,6 @@ jobs:
 
           # Approve the PR
           gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Approve: All checks passed & no conflicts! Satisfying branch protection for this automated update."
+
+          # Enable Auto-Merge (The final push)
+          gh pr merge "$PR_NUMBER" --auto --squash --body "🤖 Auto-Merge enabled: This PR will merge once CI is 100% green."
