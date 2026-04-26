@@ -46,4 +46,6 @@ commit-msg:
 pre-push:
   commands:
     tests:
-      run: pnpm test -- --passWithNoTests
+      run: pnpm test --passWithNoTests
+    branch-name:
+      run: pnpm lint:branch

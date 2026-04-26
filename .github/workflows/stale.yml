@@ -1,0 +1,40 @@
+# =============================================================
+# Stale Issue & PR Management
+#
+# Automatically labels and closes inactive issues and PRs.
+# This keeps the project healthy and ensures attention is
+# focused on active discussions.
+# =============================================================
+
+name: Stale 🧹
+
+on:
+  schedule:
+    - cron: '30 1 * * *' # Run daily at 01:30 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    if: github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
+        with:
+          stale-issue-message: 'This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions! 🌊'
+          stale-pr-message: 'This PR has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions! 🏗️'
+          stale-issue-label: 'status/stale'
+          stale-pr-label: 'status/stale'
+          days-before-stale: 60
+          days-before-close: 7
+          # Exempt specific labels from being marked as stale
+          exempt-issue-labels: 'status/blocked,type/feature,priority/high'
+          exempt-pr-labels: 'status/blocked,priority/high'

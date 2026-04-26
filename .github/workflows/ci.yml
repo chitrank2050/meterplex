@@ -43,32 +43,6 @@ on:
       - 'lefthook.yml'
   pull_request:
     branches: [main]
-    paths-ignore:
-      # Documentation
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'assets/**'
-      # Markdown (community health & repo meta)
-      - '*.md'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/PULL_REQUEST_TEMPLATE.md'
-      - '.github/FUNDING.yml'
-      - '.github/CODEOWNERS'
-      # API client collections
-      - 'bruno/**'
-      # Editor & IDE configs
-      - '.vscode/**'
-      - '.editorconfig'
-      # Environment examples & secrets config
-      - '.env.example'
-      - '.gitleaks.toml'
-      # Dependency management (Renovate handles PRs; not build-relevant)
-      - 'renovate.json'
-      # Changelog & release tooling config
-      - 'cliff.toml'
-      # Git hooks config (local-only)
-      - 'commitlint.config.mjs'
-      - 'lefthook.yml'
 
 concurrency:
   # Ensure only one CI run per branch/PR at a time
@@ -92,6 +66,8 @@ jobs:
       src: ${{ steps.filter.outputs.src }}
       deps: ${{ steps.filter.outputs.deps }}
       lint: ${{ steps.filter.outputs.lint }}
+      workflows: ${{ steps.filter.outputs.workflows }}
+      docs: ${{ steps.filter.outputs.docs }}
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
@@ -119,12 +95,19 @@ jobs:
               - '.eslintignore'
               - 'tsconfig.json'
               - 'knip.json'
+            workflows:
+              - '.github/workflows/**'
+              - '.github/actions/**'
+            docs:
+              - 'docs/**'
+              - '*.md'
 
-  # ─── LINTING JOB ─────────────────────────────────────────────
-  lint:
-    name: Lint & Hygiene 🧹
+  # ─── HYGIENE & SECURITY ───────────────────────────────────────
+  # Combined into one job to save runner overhead (VM startup + pnpm install).
+  hygiene:
+    name: Hygiene & Security 🧼🛡️
     needs: changes
-    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.lint == 'true' || needs.changes.outputs.deps == 'true'
+    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.lint == 'true' || needs.changes.outputs.deps == 'true' || needs.changes.outputs.workflows == 'true' || needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner 🛡️
@@ -149,23 +132,40 @@ jobs:
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile
 
-      - name: Check formatting ✨
-        run: pnpm format:check
+      - name: Cache Prisma Client 💎
+        id: cache-prisma
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: node_modules/.prisma
+          key: ${{ runner.os }}-prisma-${{ hashFiles('prisma/schema.prisma') }}
 
-      - name: Lint code 🔍
-        run: pnpm lint:ts
+      - name: Validate & Generate Prisma Client 💎
+        if: steps.cache-prisma.outputs.cache-hit != 'true'
+        run: |
+          npx prisma validate
+          pnpm db:generate
 
-      - name: Lint Markdown 📝
-        run: pnpm lint:md
+      - name: Hygiene & Security Checks 🧪🛡️
+        run: |
+          # Run independent tasks in parallel
+          pnpm lint:ts & pid1=$!
+          pnpm format:check & pid2=$!
+          pnpm lint:md & pid3=$!
+          # pnpm lint:knip & pid4=$!
 
-      # - name: Dead code check (Knip) ✂️
-      #   run: pnpm lint:knip
+          # Run OSV Audit (also independent)
+          curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
+          chmod +x osv-scanner
+          ./osv-scanner --lockfile=pnpm-lock.yaml & pid4=$!
+
+          # Wait for all background processes and capture exit codes
+          wait $pid1 && wait $pid2 && wait $pid3 && wait $pid4
 
   # ─── TESTING JOB ─────────────────────────────────────────────
   test:
     name: Build & Test 🧪
     needs: changes
-    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.deps == 'true'
+    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.deps == 'true' || needs.changes.outputs.workflows == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner 🛡️
@@ -190,8 +190,18 @@ jobs:
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile
 
-      - name: Generate Prisma client 💎
-        run: pnpm db:generate
+      - name: Cache Prisma Client 💎
+        id: cache-prisma
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: node_modules/.prisma
+          key: ${{ runner.os }}-prisma-${{ hashFiles('prisma/schema.prisma') }}
+
+      - name: Validate & Generate Prisma client 💎
+        if: steps.cache-prisma.outputs.cache-hit != 'true'
+        run: |
+          npx prisma validate
+          pnpm db:generate
 
       - name: Build application 🏗️
         run: pnpm build
@@ -215,33 +225,9 @@ jobs:
           files: ./coverage/lcov.info
           fail_ci_if_error: false
 
-  # ─── SECURITY JOBS ───────────────────────────────────────────
-  security_audit:
-    name: OSV Audit 🛡️
-    needs: changes
-    if: needs.changes.outputs.deps == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
-        with:
-          egress-policy: audit
-
-      - name: Checkout 📥
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
-      - name: Run OSV Scanner 🔍
-        run: |
-          # Download and run OSV-Scanner binary directly
-          curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
-          chmod +x osv-scanner
-          ./osv-scanner --lockfile=pnpm-lock.yaml
-
   secret_scan:
     name: Secret Scan 🔑
     runs-on: ubuntu-latest
-    # Secret scan always runs if any non-ignored file changes
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
@@ -251,6 +237,7 @@ jobs:
       - name: Checkout 📥
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          # Only fetch enough history for an incremental scan
           fetch-depth: 0
           persist-credentials: false
       - name: Run Gitleaks 🕵️

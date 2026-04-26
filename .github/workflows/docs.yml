@@ -35,12 +35,15 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
+  contents: read # Minimum global permission
 
 jobs:
   deploy:
     name: Build & Deploy Docs 🚀
+    if: github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to push to gh-pages branch
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
@@ -52,22 +55,38 @@ jobs:
         with:
           # Required for mkdocs-material "Last Updated" feature and git-cliff inclusion
           fetch-depth: 0
-          persist-credentials: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Configure Authenticated Git 🔧
+        env:
+          TOKEN: ${{ steps.generate_token.outputs.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPO}"
 
       - name: Set up Python 🐍
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
-          python-version: '3.13'
+          python-version: '3.14'
+          cache: 'pip' # Enable caching for pip dependencies
 
       - name: Install MkDocs Material 🛠️
-        run: pip install mkdocs-material
+        run: pip install -r requirements.txt
 
-      # Copy CHANGELOG.md into docs/ so MkDocs can include it.
-      # The source of truth stays at the root (where git-cliff writes it).
-      # docs/changelog.md is never committed - only exists during CI build.
-      - name: Copy changelog to docs 📝
-        run: cp CHANGELOG.md docs/changelog.md
+      # Copy root files into docs/ so MkDocs can include them.
+      # The source of truth stays at the root.
+      # These files are ignored by git in docs/ and only exist during CI build.
+      - name: Copy transient docs 📝
+        run: |
+          cp CHANGELOG.md docs/changelog.md
+          cp CODE_OF_CONDUCT.md docs/code-of-conduct.md
 
       # Configure git so mkdocs gh-deploy can push to gh-pages branch.
       - name: Configure git 🔧
@@ -75,5 +94,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Build Documentation 🏗️
+        run: mkdocs build
+
       - name: Deploy to GitHub Pages 🌐
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: mkdocs gh-deploy --force

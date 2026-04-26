@@ -4,7 +4,7 @@
 
 | Tool | Minimum Version | Install | Check Command |
 | :--- | :--- | :--- | :--- |
-| Node.js | 20.0.0 | [nodejs.org](https://nodejs.org) | `node --version` |
+| Node.js | 24.0.0 | [nodejs.org](https://nodejs.org) | `node --version` |
 | pnpm | 9.0.0 | `npm i -g pnpm` | `pnpm --version` |
 | Docker | 24.0.0 | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version` |
 | Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
@@ -13,32 +13,39 @@
 | knip | - | `pnpm install` (dev dep) | `pnpm lint:knip` |
 | lefthook | - | `pnpm install` (dev dep) | `pnpm lefthook --version` |
 
-## First-Time Setup
+## ⚡ Quick Start (Recommended)
+
+The easiest way to get started is using our **Interactive Setup Wizard**. It handles dependency installation, environment configuration, infrastructure startup, and database seeding in one go.
 
 ```bash
-# Clone the repo
-git clone <repo-url>
+# 1. Clone the repository
+git clone https://github.com/chitrank2050/meterplex.git
 cd meterplex
 
-# Install dependencies
-pnpm install
+# 2. Run the Interactive Wizard
+pnpm dev:init
+```
 
-# Copy environment template
-cp .env.example .env
+The wizard will guide you through the process. Use **[Space]** to select tasks and **[Enter]** to start.
 
-# Start infrastructure
-pnpm docker:up
+---
 
-# Wait for containers to be healthy (~15 seconds)
-docker compose ps
+## 🛠️ Manual First-Time Setup
 
-# Run database migrations
-pnpm db:migrate:dev
+If you prefer to run commands manually or are in a non-interactive environment, follow these steps:
 
-# Seed development data
-pnpm db:seed
+```bash
+# 1. Install dependencies & generate Prisma client
+pnpm run init
 
-# Start the app
+# 2. Start core infrastructure (Postgres, Redis, Kafka)
+pnpm run docker:setup
+
+# 3. (Optional) Start the Kafka Web UI
+# We keep this dormant by default to save CPU load.
+pnpm docker:ui
+
+# 4. Start the application
 pnpm start:dev
 ```
 
@@ -120,18 +127,20 @@ pnpm lefthook install
 
 ```bash
 # Start your day
-pnpm docker:up          # Start containers (if stopped)
-pnpm start:dev          # Start app with hot reload
+pnpm docker:up          # Start core infra (silent/dormant)
+pnpm start:dev          # Start NestJS app
+
+# (Optional) Open the dashboards
+pnpm docker:ui          # Open Kafka UI
+pnpm db:studio          # Open Prisma Studio
 
 # After changing schema.prisma
 pnpm db:migrate:dev --name describe-your-change
-pnpm db:generate    # Regenerate typed client
+pnpm db:generate        # Regenerate typed client
 
-# Nuclear reset (drops all data, re-runs everything)
-pnpm docker:down        # Removes containers AND volumes
-pnpm docker:up
-pnpm db:migrate:dev
-pnpm db:seed
+# Environment Maintenance (The Wizard)
+# Use the wizard for Nuclear Resets, Hygiene Checks, or Dead-Code Analysis
+pnpm setup
 ```
 
 ## Common Issues

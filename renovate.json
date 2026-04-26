@@ -1,12 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":labels(dependencies)",
-    ":timezone(Asia/Kolkata)"
-  ],
+  "extends": ["config:recommended", ":timezone(Asia/Kolkata)"],
+  "labels": ["dependencies", "renovate"],
+  "assignees": [],
+  "gitAuthor": "Chitrank agnihotri <chitrank2050@gmail.com>",
   "baseBranches": ["main"],
   "schedule": ["every weekend"],
+  "prBodyColumns": ["Package", "Change", "Age", "Confidence"],
   "packageRules": [
     {
       "matchPackagePatterns": ["^@nestjs/"],
@@ -29,7 +29,8 @@
     },
     {
       "matchUpdateTypes": ["patch", "minor"],
-      "matchPackagePatterns": [".*"],
+      "matchPackagePatterns": ["*"],
+      "groupName": "non-major dependencies",
       "automerge": true
     },
     {

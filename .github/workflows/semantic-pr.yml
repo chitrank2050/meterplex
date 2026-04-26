@@ -10,6 +10,7 @@ name: Semantic Pull Request 🤖
 
 on:
   pull_request:
+    branches: [main]
     types:
       - opened
       - edited
@@ -17,6 +18,10 @@ on:
 
 permissions:
   pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -46,6 +51,7 @@ jobs:
             build
             ci
             revert
+            maintenance
           # If the PR contains only one commit, it can be useful to check that the
           # commit message also matches.
           validateSingleCommit: true

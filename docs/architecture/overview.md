@@ -82,13 +82,23 @@ Client Response
 
 ## Infrastructure
 
+Meterplex follows a **"Performance-First"** infrastructure philosophy. For local development, we use Docker Compose with several high-efficiency strategies:
+
 | Service | Container | Port | Purpose |
 | :--- | :--- | :--- | :--- |
-| PostgreSQL 18 | meterplex-postgres | 5432 | Primary data store |
-| Apache Kafka 4.2 | meterplex-kafka | 9092 | Event streaming |
-| Redis 8 | meterplex-redis | 6379 | Cache and rate limiting |
+| PostgreSQL 18 | `meterplex-postgres` | 5432 | Primary data store |
+| Apache Kafka 4.2 | `meterplex-kafka` | 9092 | Event streaming (KRaft Mode) |
+| Redis 8 | `meterplex-redis` | 6379 | Cache and rate limiting |
+| Kafka UI | `meterplex-kafka-ui` | 9000 | Debug interface (Dormant by default) |
 
-All services run in Docker Compose for local development. In production, these would be managed services (AWS RDS, MSK, ElastiCache or equivalent).
+### Key Infrastructure Principles
+
+1. **KRaft Native**: We use Kafka 4.2+ in KRaft mode. This eliminates the Zookeeper dependency, reducing the local footprint and speeding up startup times.
+2. **"Zero-Tax" Tooling**: High-resource tools like Kafka UI are moved to a **Docker Profile** (`debug`). They consume **0% CPU** by default and are only started when explicitly requested via `pnpm docker:ui`.
+3. **Isolated Networking**: All containers communicate over a dedicated `meterplex-internal` bridge network. This provides faster DNS resolution and ensures the infrastructure is isolated from other projects running on the host.
+4. **Hardware-Native**: We prioritize Alpine-based images and native ARM64 support to ensure 100% performance on modern silicon (Apple M-series).
+
+In production, these services are typically replaced by cloud-native managed solutions (e.g., AWS RDS, MSK, and ElastiCache).
 
 ## Phase 1 - Data model
 

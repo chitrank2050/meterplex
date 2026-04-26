@@ -20,23 +20,33 @@ on:
   workflow_dispatch: # Allow manual trigger
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read # Minimum global permission
 
 jobs:
   prune_overrides:
     name: Prune Redundant Overrides ✂️
+    if: github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to create branch
+      pull-requests: write # Needed to create PR
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
         with:
           egress-policy: audit
 
-      - name: Checkout 📥
+      - name: Checkout repository 📥
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
 
       - name: Install pnpm 📦
         uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
@@ -68,10 +78,11 @@ jobs:
         # meaning the overrides are no longer needed!
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           commit-message: 'chore(deps): prune redundant dependency overrides'
           branch: maintenance/prune-overrides
           delete-branch: true
+          assignees: chitrank2050
           title: '🧹 Prune redundant dependency overrides'
           body: |
             The weekly maintenance check has detected that your `pnpm.overrides` are no longer necessary.

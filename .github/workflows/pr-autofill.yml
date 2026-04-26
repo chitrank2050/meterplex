@@ -1,0 +1,98 @@
+# =============================================================
+# Automated PR Description (Autofill)
+#
+# Automatically populates the Pull Request description with a
+# summarized changelog of all commits in the branch.
+#
+# This ensures that every PR has a professional, categorized
+# description without any manual effort from the developer.
+# =============================================================
+
+name: PR Description Autofill ✍️
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  autofill:
+    name: Generate Description 📝
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner) &&
+      github.event.pull_request.user.login != 'renovate[bot]' &&
+      !contains(github.event.pull_request.labels.*.name, 'release')
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0 # Required to get commit history
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Generate Categorized Summary 📝
+        id: cliff
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
+        with:
+          config: cliff.toml
+          # Removed --no-exec to allow fetching GitHub usernames (@chitrank2050)
+          args: origin/${{ github.base_ref }}..HEAD --strip all
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Prepare Description ✍️
+        id: prepare
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          COMMITS: ${{ steps.cliff.outputs.content }}
+        run: |
+          # 1. Get the CURRENT PR body from GitHub
+          CURRENT_BODY=$(gh pr view "$PR_NUMBER" --json body --template '{{.body}}')
+
+          if [[ ! "$CURRENT_BODY" == *"<!-- autofill-start -->"* ]]; then
+            echo "No tags found, generating minimalist body..."
+            # Using printf to avoid heredoc indentation issues in YAML
+            CURRENT_BODY=$(printf "<!-- autofill-start -->\n<!-- autofill-end -->")
+          fi
+
+          # 4. Perform a surgical replacement of the content between tags
+          # We use a temp file to handle multiline safely
+          echo "$CURRENT_BODY" > final_body.md
+
+          # Delete everything between tags
+          sed -i '/<!-- autofill-start -->/,/<!-- autofill-end -->/{//!d}' final_body.md
+
+          # Insert the new commits after the start tag
+          sed -i "/<!-- autofill-start -->/r /dev/stdin" final_body.md <<EOF
+          $COMMITS
+          EOF
+
+      - name: Update PR 🚀
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} \
+            --body-file final_body.md \
+            --add-assignee "chitrank2050"

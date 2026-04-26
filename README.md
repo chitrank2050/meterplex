@@ -8,20 +8,27 @@
     <a href="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml">
       <img src="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml/badge.svg" alt="CI Status">
     </a>
-    <a href="https://scorecard.dev/viewer/?uri=github.com/chitrank2050/meterplex">
+      <a href="https://scorecard.dev/viewer/?uri=github.com/chitrank2050/meterplex">
       <img src="https://api.scorecard.dev/projects/github.com/chitrank2050/meterplex/badge" alt="OpenSSF Scorecard">
     </a>
-    <img src="https://img.shields.io/badge/Security-OSV--Scanner-success" alt="Security: OSV-Scanner">
-    <img src="https://img.shields.io/badge/Version-0.5.4-blue" alt="Version">
+    <a href="https://bestpractices.coreinfrastructure.org/projects/1">
+      <img src="https://bestpractices.coreinfrastructure.org/projects/1/badge" alt="Best Practices">
+    </a>
+    <a href="https://codecov.io/gh/chitrank2050/meterplex">
+      <img src="https://codecov.io/gh/chitrank2050/meterplex/branch/main/graph/badge.svg" alt="Code Coverage"/>
+    </a>
+    <img src="https://img.shields.io/badge/Security-Gitleaks-success" alt="Security: Gitleaks">
+    <img src="https://img.shields.io/badge/Hooks-Lefthook-blueviolet" alt="Hooks: Lefthook">
     <a href="https://chitrank2050.github.io/meterplex/">
       <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
     </a>
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+    <img src="https://img.shields.io/badge/Node-24-success" alt="Node: 24">
     <br/>
     <br/>
-    <a href="https://ko-fi.com/D1D71U581P" target="_blank">
-      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Buy me a coffee at ko-fi.com">
-    </a>
+    <a href="./CONTRIBUTING.md"><b>Contributing</b></a> •
+    <a href="./SECURITY.md"><b>Security</b></a> •
+    <a href="https://ko-fi.com/D1D71U581P" target="_blank"><b>Support</b></a>
   </p>
 </div>
 
@@ -59,44 +66,45 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 | Domain | Technology | Purpose |
 | :--- | :--- | :--- |
 | **Backend** | [NestJS 11](https://nestjs.com/) | Modular backend architecture |
-| **Language** | [TypeScript 5.7](https://www.typescriptlang.org/) | Type-safe development |
+| **Language** | [TypeScript 6.0](https://www.typescriptlang.org/) | Type-safe development |
 | **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Persistent storage & ORM |
 | **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Event-driven async processing |
 | **Caching** | [Redis 8](https://redis.io/) | Distributed caching & rate limiting |
-| **DevOps** | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard CI/CD automation |
+| **DevOps** | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard security & automation |
+| **Automation** | [Chitrank Action](https://github.com/chitrank2050) | Centralized, hardened bot-driven governance |
 | **Quality** | [Vitest](https://vitest.dev/), [Lefthook](https://github.com/evilmartians/lefthook) | Unit testing & high-performance git hooks |
 | **Docs** | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) | Technical documentation & changelog |
 | **API Tools** | [Bruno](https://usebruno.com/), [Swagger](https://swagger.io/), [Scalar](https://scalar.com/) | API testing & documentation |
 
 ## Quick Start
 
+**Prerequisites**: Node.js >= 24, pnpm >= 9, Docker
+
+### ⚡ Quick Start
+
 ```bash
-# Prerequisites: Node.js >= 20, pnpm >= 9, Docker
+# 1. Clone the repository
+git clone https://github.com/chitrank2050/meterplex.git
 
-# 1. Clone and install
-git clone https://github.com/meterplex/meterplex.git
-
-# If want to use ssh instead of https
-git clone git@github.com:chitrank2050/meterplex.git
-
+# 2. Enter the project
 cd meterplex
-pnpm install
 
-# 2. Set up environment
-cp .env.example .env
-
-# 3. Start infrastructure (Postgres, Kafka, Redis)
-pnpm docker:up
-
-# 4. Run database migrations
-pnpm db:migrate:dev
-
-# 5. Seed development data
-pnpm db:seed
-
-# 6. Start the app
-pnpm start:dev
+# 3. One-command setup (installs deps, starts docker, seeds DB)
+pnpm dev:init
 ```
+
+### 🛠️ Development Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm dev:init` | **Interactive Wizard**: Multi-select setup, maintenance, and deep clean |
+| `pnpm setup:all` | Standard setup: install deps + start infrastructure + seed DB |
+| `pnpm setup:fresh` | **Hard Reset**: Wipes all data/deps and performs a fresh setup |
+| `pnpm start:dev` | Starts the NestJS application in watch mode |
+| `pnpm test` | Runs the full test suite via Vitest |
+| `pnpm docker:up` | Starts Postgres, Kafka, and Redis in the background |
+| `pnpm db:studio` | Opens Prisma Studio to visualize your database |
+| `pnpm lint` | Runs TypeScript, Markdown, and GitHub Action linters |
 
 The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs`. Health check at `http://localhost:3000/health`.
 

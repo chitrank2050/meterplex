@@ -1,0 +1,137 @@
+name: Auto-Approve 🤖✅
+
+on:
+  # zizmor: ignore[dangerous-triggers]
+  workflow_run:
+    workflows:
+      - 'CI & Security Analysis ⚡️'
+    branches:
+      - 'renovate/**'
+      - 'chore/changelog-*'
+      - 'maintenance/*'
+    types:
+      - completed
+
+permissions:
+  contents: read # No longer needs write to merge
+  pull-requests: write # Required to post an approval review
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id }}
+  cancel-in-progress: true
+
+jobs:
+  auto-approve:
+    name: Auto-Approve ✅
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Identity & Success Guard 🛡️
+        id: guard
+        env:
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          # Pass the whole array as JSON to avoid linter errors with deep paths
+          PR_JSON: ${{ toJSON(github.event.workflow_run.pull_requests) }}
+          ACTOR_FALLBACK: ${{ github.event.workflow_run.actor.login }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          # 1. Check if the CI was successful OR skipped (skipped is fine if hygiene passed)
+          if [ "$CONCLUSION" != "success" ] && [ "$CONCLUSION" != "skipped" ] && [ "$CONCLUSION" != "neutral" ]; then
+            echo "CI did not succeed ($CONCLUSION). Skipping."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 2. Check if it was triggered by an authorized Bot/Branch pattern
+          ACTOR=$(echo "$PR_JSON" | jq -r '.[0].user.login // "'$ACTOR_FALLBACK'"')
+          BRANCH=$(echo "$PR_JSON" | jq -r '.[0].head.ref // "'$HEAD_BRANCH'"')
+
+          IS_RENOVATE=$([[ "$ACTOR" == *renovate* || "$BRANCH" == renovate/* ]] && echo "true" || echo "false")
+          IS_RELEASE=$([[ "$BRANCH" == chore/changelog-* ]] && echo "true" || echo "false")
+          IS_MAINTENANCE=$([[ "$BRANCH" == maintenance/* ]] && echo "true" || echo "false")
+
+          if [ "$IS_RENOVATE" != "true" ] && [ "$IS_RELEASE" != "true" ] && [ "$IS_MAINTENANCE" != "true" ]; then
+            echo "Security Check Failed: Actor ($ACTOR) or Branch ($BRANCH) is not authorized for auto-approval."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 3. Find the PR Number (Fallback to GH CLI if array is empty)
+          PR_NUMBER=$(echo "$PR_JSON" | jq -r '.[0].number // empty')
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "PR array empty. Searching for PR associated with branch $BRANCH..."
+            PR_NUMBER=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --json number --jq '.[0].number')
+          fi
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "❌ Error: Could not find a PR for branch $BRANCH"
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "✅ Verified: Safe automated update found for PR #$PR_NUMBER (Branch: $BRANCH)"
+
+      - name: Create Bot Token 🤖🔑
+        if: steps.guard.outputs.should_run == 'true'
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Verify All Checks & Mergeability 🕵️‍♂️
+        if: steps.guard.outputs.should_run == 'true'
+        id: verify
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+        run: |
+          # Fetch PR status including mergeability and all check states
+          PR_DATA=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json mergeable,statusCheckRollup)
+          MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
+
+          # Check if there are any pending or failing checks in the rollup
+          STILL_RUNNING_OR_FAILED=$(echo "$PR_DATA" | jq -r '.statusCheckRollup[] | select(.status != "COMPLETED" or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")) | (.name // .context // "Unknown Check")' | grep -v "Auto-Approve" | grep -v "Auto-Merge" || true)
+
+          if [ "$MERGEABLE" != "MERGEABLE" ]; then
+            echo "❌ PR has merge conflicts. Skipping approval."
+            exit 1
+          fi
+
+          if [ -n "$STILL_RUNNING_OR_FAILED" ] && [ "$STILL_RUNNING_OR_FAILED" != "null" ]; then
+            echo "⏳ Other checks are still running or failed: $STILL_RUNNING_OR_FAILED"
+            exit 1
+          fi
+
+          echo "✅ All checks passed and PR is mergeable!"
+
+      - name: Auto-approve PR ✅
+        if: steps.verify.conclusion == 'success'
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+          USER_ID: 'chitrank2050'
+        run: |
+          # Assign the user (as a safety net)
+          gh pr edit "$PR_NUMBER" --add-assignee "$USER_ID"
+
+          # 1. Remove the user as a reviewer (to unlock branch protection)
+          gh pr edit "$PR_NUMBER" --remove-reviewer "$USER_ID"
+
+          # 2. Approve the PR
+          gh pr review "$PR_NUMBER" --approve --body "🤖 Smart Auto-Approve: All checks passed & no conflicts! Satisfying branch protection for this automated update."
+
+          # 3. Enable Auto-Merge (The final push)
+          gh pr merge "$PR_NUMBER" --auto --squash --body "🤖 Auto-Merge enabled: This PR will merge once CI is 100% green."

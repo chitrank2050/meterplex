@@ -38,35 +38,56 @@ We use the **`production`** GitHub Environment to isolate release-specific permi
 ### 5. Secret Scanning (Gitleaks)
 
 * **Local**: Integrated into `lefthook` to prevent secrets from ever being committed.
-* **CI**: A dedicated job in `ci.yml` scans the entire history on every PR.
+* **CI**: A dedicated job in `ci.yml` perform **incremental scans** of only the new commits in a PR, ensuring near-instant feedback as the repository grows.
 
 ### 6. Dependency Auditing (OSV-Scanner)
 
 * Scans our `pnpm-lock.yaml` against Google's Open Source Vulnerabilities (OSV) database.
 * Blocks the PR if a known vulnerability is found in our dependencies.
 
+### 7. Zombie Code Detection (Knip)
+
+* **What it does**: Scans the entire project for unused files, exports, and dependencies.
+* **Why it's there**: To keep the codebase lean and prevent "code rot." It ensures that every line of code in the repo actually serves a purpose.
+* **CI**: Integrated into the main hygiene job. If a PR introduces unused code, the build fails.
+
 ---
 
-## 🤖 Automated Maintenance
+## 🏎️ Extreme Performance Architecture
+
+Our CI pipeline is optimized for speed and cost-efficiency (Free-tier friendly):
+
+1. **Parallel Hygiene**: Code linting, formatting checks, and markdown audits run in parallel jobs. This provides developer feedback 3x faster than sequential runs.
+2. **Smart Caching**:
+    * **pnpm Store**: Global cache for dependency resolution.
+    * **Prisma Client**: The generated Prisma client is cached and only rebuilt when `schema.prisma` changes, saving ~20s per build.
+    * **Pip**: Python dependencies for documentation are cached.
+3. **Trigger Lockdown**: To save Actions minutes, workflows **only** run on the `main` branch or within a Pull Request targeting `main`. Intermediate pushes to feature branches do not trigger CI, encouraging local testing via `lefthook`.
+
+---
+
+## 🤖 Automated Maintenance & Governance
 
 To keep the codebase healthy without manual toil, we have several automated maintenance cycles:
 
-### Automated Releases
+### Two-Step Automated Releases 🚀
 
-Triggered by pushing a version tag (e.g., `v0.5.4`).
+We use a high-control, two-workflow release system:
 
-1. **Changelog**: `git-cliff` generates a beautiful, categorized changelog.
-2. **Pull Request**: An automated PR is opened to commit the new `CHANGELOG.md` to `main`.
-3. **GitHub Release**: A formal release is created with automated notes and assets.
-4. **Docs Deployment**: The MkDocs documentation is automatically built and deployed to GitHub Pages.
+1. **Step 1: Preparation (Manual)**: The owner triggers `Release 1 - Prepare PR`. This bumps the `package.json` version, updates the `CHANGELOG.md`, and opens a dedicated **Release PR**.
+2. **Step 2: Review (Human)**: The owner reviews the PR. This is the "Control Point" where final edits can be made to the changelog before tagging.
+3. **Step 3: Finalization (Auto)**: Once the owner **merges** the PR, the `Release 2 - Finalize Tag` workflow wakes up. It pushes a **Verified Tag**, creates the **GitHub Release**, and generates the **SLSA Attestation** in a single sequence.
 
 ### Dependency Management (Renovate)
 
 We use **Renovate** to keep our dependencies up to date. Unlike standard tools, Renovate is configured to group updates and provide clear release notes.
 
-### Override Pruning
+### Smart Auto-Approval
 
-A custom workflow (`maintenance.yml`) that runs weekly to check if any entries in `pnpm.overrides` are no longer needed. If a dependency has been updated such that the override is redundant, it opens a PR to prune it.
+To maintain velocity while following strict branch protection rules:
+
+* **Patch/Minor**: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (`auto-approve.yml`) once CI passes.
+* **Unblocking**: If a review was explicitly requested from the owner, the bot automatically **removes the reviewer request** before approving, ensuring the PR isn't stuck behind a manual "Review Required" lock.
 
 ---
 
@@ -74,21 +95,32 @@ A custom workflow (`maintenance.yml`) that runs weekly to check if any entries i
 
 | Workflow | File | Purpose | Trigger |
 | :--- | :--- | :--- | :--- |
-| **CI & Security** | `ci.yml` | Validates code quality, runs tests, checks formatting, and audits security. | Every PR / Push to main |
-| **Action Linting** | `workflow-lint.yml` | Audits our GitHub Actions for security flaws and unpinned versions using `zizmor`. | Changes to workflows |
-| **Semantic PR** | `semantic-pr.yml` | Enforces [Conventional Commits](https://www.conventionalcommits.org/) on PR titles to ensure clean history. | PR open / edit / sync |
-| **Scorecard** | `scorecard.yml` | Tracks repo-level security health and supply chain best practices (OpenSSF). | Weekly / Push to main |
-| **Release** | `git-release.yml` | Automates changelogs, updates version tags, and creates formal GitHub releases. | Tag Push (`v*`) |
-| **Docs Deploy** | `docs.yml` | Builds the MkDocs Material site and publishes it to GitHub Pages. | Push to main |
-| **Maintenance** | `maintenance.yml` | Weekly automated cleanup of redundant dependency overrides. | Weekly schedule |
+| **CI & Security** | `ci.yml` | Validates code quality, runs tests, and audits security. | PR / Push to main |
+| **Action Linting** | `workflow-lint.yml` | Audits GitHub Actions for security flaws using `zizmor`. | Changes to workflows |
+| **PR Autofill** | `pr-autofill.yml` | Populates PR descriptions based on commit history. | PR to main |
+| **Auto-Approve** | `auto-approve.yml` | Approves safe automated updates & unblocks reviews. | CI finish on bot branches |
+| **Release 1** | `release-prepare.yml` | Bumps version and opens a Release PR. | Manual (Owner Only) |
+| **Release 2** | `release-finalize.yml` | Pushes tag and creates GitHub Release on PR merge. | PR Merge (Owner Only) |
+| **Scorecard** | `scorecard.yml` | Tracks repo-level security health (OpenSSF). | Weekly / Push to main |
+| **Docs Deploy** | `docs.yml` | Builds and publishes documentation. | Push to main / Manual |
+| **Maintenance** | `maintenance.yml` | Weekly automated cleanup of dependency overrides. | Weekly / Manual |
 
 ---
 
-## 🏗️ Workflow Standards
+## 🏗️ 2027 Automation Standards
 
-All workflows in this repository follow these strict standards:
+All workflows in this repository follow our "2027-standard" for security and performance:
 
-1. **SHA Pinning**: All actions are pinned to a 40-character commit SHA (e.g., `actions/checkout@de0fac2...`). This prevents "tag moving" attacks where a version tag could be maliciously updated.
-2. **Least Privilege**: `persist-credentials: false` is used wherever possible to prevent the GitHub token from being stored on the runner's disk longer than necessary.
-3. **No Injection**: `${{ ... }}` expansion is NEVER used inside `run:` scripts. Data is always passed via environment variables (e.g., `env: DATA: ${{ ... }}`) to prevent shell injection vulnerabilities.
-4. **Egress Security**: Every job includes `harden-runner` to monitor and restrict outbound network connections.
+* **Node 24 LTS**: The active runtime for all runners and local development.
+* **True Zero-Noise PRs**: Pull Requests contain zero manual boilerplate. Descriptions are automatically generated and categorized using `git-cliff`.
+* **Harden Runner**: Every workflow is isolated using `step-security/harden-runner`.
+* **Prisma Client Caching**: Optimized cross-job caching for database types.
+* **Hands-Free Releases**: Automated changelog generation, PR creation, and auto-merging.
+
+1. **Centralized Identity**: All automated actions (approvals, labels, releases) use a custom **GitHub App** (`chitrank-action`) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.
+2. **Zero-Trust Egress**: Every job includes `harden-runner` to monitor and restrict network traffic, preventing token exfiltration.
+3. **Immutability (SHA Pinning)**: All third-party actions are pinned to a 40-character commit SHA to prevent "tag moving" supply-chain attacks.
+4. **Credential Security**: `persist-credentials: false` is used on every checkout to prevent tokens from being stored in the runner's `.git` directory.
+5. **No Template Injection**: `${{ ... }}` expansion is NEVER used inside `run:` scripts. Dynamic data is always passed via environment variables (`env`).
+6. **Single Checkout Strategy**: Jobs are optimized to perform exactly one repository checkout, saving runner time and bandwidth.
+7. **Unblocked Pipelines**: Required status checks (CI, Linting) run on all PRs to ensure they never block automated merges from Renovate or Release bots.

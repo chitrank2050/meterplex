@@ -1,0 +1,50 @@
+# =============================================================
+# Branch Name Validation
+#
+# Enforces a naming convention for all branches pushed to the
+# repository. This ensures that branches are categorized and
+# follow the same types as our Conventional Commits.
+#
+# Allowed format: <type>/<description>
+# Example: feat/add-login-api, fix/missing-validation
+# =============================================================
+
+name: Branch Name Validation 🌿
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-branch-name:
+    name: Validate Branch Name 🔍
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Check Branch Name 🏷️
+        env:
+          # Use head_ref for PRs, fallback to ref_name for pushes
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          # The regex matches your package.json pattern
+          REGEX: '^(main|master|gh-pages)$|^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert|renovate|maintenance)/.+$'
+        run: |
+          echo "Checking branch: $BRANCH_NAME"
+          if [[ $BRANCH_NAME =~ $REGEX ]]; then
+            echo "✅ Branch name '$BRANCH_NAME' is valid."
+          else
+            echo "❌ Error: Invalid branch name '$BRANCH_NAME'."
+            echo "Please use <type>/<description> (e.g., feat/add-api)."
+            echo "Allowed types: feat, fix, chore, docs, style, refactor, perf, test, build, ci, revert, renovate"
+            exit 1
+          fi
