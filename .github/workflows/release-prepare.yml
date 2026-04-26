@@ -51,13 +51,14 @@ jobs:
         run: |
           git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPO}"
 
-      - name: Update Version in package.json 📦
+      - name: Sync Versions 📦
+        id: vars
         env:
           NEW_VERSION: ${{ github.event.inputs.tag_name }}
         run: |
-          # Strip 'v' from version for package.json
           CLEAN_VERSION=$(echo "$NEW_VERSION" | sed 's/^v//')
-          echo "Bumping package.json to $CLEAN_VERSION"
+          echo "clean_version=$CLEAN_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Bumping project to $CLEAN_VERSION"
           jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
 
       - name: Update CHANGELOG.md 📝
@@ -65,7 +66,8 @@ jobs:
         id: git-cliff
         with:
           config: cliff.toml
-          args: --tag ${{ github.event.inputs.tag_name }} --output CHANGELOG.md
+          # Ensure we always pass the v-prefixed tag to match cliff.toml expectations
+          args: --tag v${{ steps.vars.outputs.clean_version }} --output CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
