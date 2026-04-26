@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+# Hardened Owner Guard: Verifies active GitHub CLI session identity
+GH_USER=$(gh api user --jq '.login' 2>/dev/null || echo "anonymous")
+if [ "$GH_USER" != "chitrank2050" ]; then
+  echo "❌ Error: Unauthorized. Active GitHub session must be 'chitrank2050'."
+  exit 1
+fi
+
 # Source the logger utility
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/utils/logger.sh"
