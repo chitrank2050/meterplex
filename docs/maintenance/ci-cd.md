@@ -70,14 +70,13 @@ Our CI pipeline is optimized for speed and cost-efficiency (Free-tier friendly):
 
 To keep the codebase healthy without manual toil, we have several automated maintenance cycles:
 
-### Automated Releases
+### Two-Step Automated Releases 🚀
 
-Triggered by pushing a version tag (e.g., `v0.5.4`).
+We use a high-control, two-workflow release system:
 
-1. **Changelog**: `git-cliff` generates a beautiful, categorized changelog.
-2. **Pull Request**: An automated PR is opened to commit the new `CHANGELOG.md` to `main`.
-3. **GitHub Release**: A formal release is created with automated notes and assets.
-4. **Docs Deployment**: The MkDocs documentation is automatically built and deployed to GitHub Pages.
+1. **Step 1: Preparation (Manual)**: The owner triggers `Release 1 - Prepare PR`. This bumps the `package.json` version, updates the `CHANGELOG.md`, and opens a dedicated **Release PR**.
+2. **Step 2: Review (Human)**: The owner reviews the PR. This is the "Control Point" where final edits can be made to the changelog before tagging.
+3. **Step 3: Finalization (Auto)**: Once the owner **merges** the PR, the `Release 2 - Finalize Tag` workflow wakes up. It pushes a **Verified Tag**, creates the **GitHub Release**, and generates the **SLSA Attestation** in a single sequence.
 
 ### Dependency Management (Renovate)
 
@@ -88,14 +87,7 @@ We use **Renovate** to keep our dependencies up to date. Unlike standard tools, 
 To maintain velocity while following strict branch protection rules:
 
 * **Patch/Minor**: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (`auto-approve.yml`) once CI passes.
-* **Safety Gates**: The approval bot verifies the PR author is Renovate, the branch starts with `renovate/`, and all status checks are green before signing off.
-
-### Community Governance 🏛️
-
-* **`SECURITY.md`**: Formal vulnerability disclosure policy for OpenSSF compliance.
-* **`CONTRIBUTING.md`**: Streamlined onboarding guide for new developers.
-* **Stale Bot**: Automatically manages inactive issues and PRs to keep the backlog fresh.
-* **PR Labeler**: Categorizes PRs automatically (e.g., `area/logic`, `area/docs`) based on changed files.
+* **Unblocking**: If a review was explicitly requested from the owner, the bot automatically **removes the reviewer request** before approving, ensuring the PR isn't stuck behind a manual "Review Required" lock.
 
 ---
 
@@ -103,18 +95,15 @@ To maintain velocity while following strict branch protection rules:
 
 | Workflow | File | Purpose | Trigger |
 | :--- | :--- | :--- | :--- |
-| **CI & Security** | `ci.yml` | Validates code quality, runs tests, and audits security. Parallelized for speed. | PR to main / Push to main |
+| **CI & Security** | `ci.yml` | Validates code quality, runs tests, and audits security. | PR / Push to main |
 | **Action Linting** | `workflow-lint.yml` | Audits GitHub Actions for security flaws using `zizmor`. | Changes to workflows |
 | **PR Autofill** | `pr-autofill.yml` | Populates PR descriptions based on commit history. | PR to main |
-| **Semantic PR** | `semantic-pr.yml` | Enforces Conventional Commits on PR titles. | PR to main |
-| **Auto-Approve** | `auto-approve.yml` | Approves safe automated updates (Renovate, Release, Maintenance). Optimized to only wake up for CI completion. | CI finish on `renovate/**`, `chore/changelog-*`, `maintenance/*` |
+| **Auto-Approve** | `auto-approve.yml` | Approves safe automated updates & unblocks reviews. | CI finish on bot branches |
+| **Release 1** | `release-prepare.yml` | Bumps version and opens a Release PR. | Manual (Owner Only) |
+| **Release 2** | `release-finalize.yml` | Pushes tag and creates GitHub Release on PR merge. | PR Merge (Owner Only) |
 | **Scorecard** | `scorecard.yml` | Tracks repo-level security health (OpenSSF). | Weekly / Push to main |
-| **Branch Name** | `branch-name.yml` | Enforces naming conventions. | PR to main |
-| **Release** | `git-release.yml` | Automates changelogs and GitHub releases. | Tag Push (`v*`) |
-| **Docs Deploy** | `docs.yml` | Builds and publishes documentation. | Push to main (Build-only on PR) |
-| **Labeler** | `labeler.yml` | Automatically labels PRs based on file paths. | PR to main |
-| **Stale** | `stale.yml` | Manages inactive issues and PRs. | Daily schedule |
-| **Maintenance** | `maintenance.yml` | Weekly automated cleanup of dependency overrides. | Weekly schedule |
+| **Docs Deploy** | `docs.yml` | Builds and publishes documentation. | Push to main / Manual |
+| **Maintenance** | `maintenance.yml` | Weekly automated cleanup of dependency overrides. | Weekly / Manual |
 
 ---
 
