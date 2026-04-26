@@ -1391,10 +1391,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#automated-releases" class="md-nav__link">
+  <a href="#two-step-automated-releases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automated Releases
+        Two-Step Automated Releases 🚀
       
     </span>
   </a>
@@ -1417,17 +1417,6 @@
     <span class="md-ellipsis">
       
         Smart Auto-Approval
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#community-governance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Community Governance 🏛️
       
     </span>
   </a>
@@ -1737,10 +1726,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#automated-releases" class="md-nav__link">
+  <a href="#two-step-automated-releases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automated Releases
+        Two-Step Automated Releases 🚀
       
     </span>
   </a>
@@ -1763,17 +1752,6 @@
     <span class="md-ellipsis">
       
         Smart Auto-Approval
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#community-governance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Community Governance 🏛️
       
     </span>
   </a>
@@ -1937,13 +1915,12 @@
 <hr />
 <h2 id="automated-maintenance-governance">🤖 Automated Maintenance &amp; Governance<a class="headerlink" href="#automated-maintenance-governance" title="Permanent link">&para;</a></h2>
 <p>To keep the codebase healthy without manual toil, we have several automated maintenance cycles:</p>
-<h3 id="automated-releases">Automated Releases<a class="headerlink" href="#automated-releases" title="Permanent link">&para;</a></h3>
-<p>Triggered by pushing a version tag (e.g., <code>v0.5.4</code>).</p>
+<h3 id="two-step-automated-releases">Two-Step Automated Releases 🚀<a class="headerlink" href="#two-step-automated-releases" title="Permanent link">&para;</a></h3>
+<p>We use a high-control, two-workflow release system:</p>
 <ol>
-<li><strong>Changelog</strong>: <code>git-cliff</code> generates a beautiful, categorized changelog.</li>
-<li><strong>Pull Request</strong>: An automated PR is opened to commit the new <code>CHANGELOG.md</code> to <code>main</code>.</li>
-<li><strong>GitHub Release</strong>: A formal release is created with automated notes and assets.</li>
-<li><strong>Docs Deployment</strong>: The MkDocs documentation is automatically built and deployed to GitHub Pages.</li>
+<li><strong>Step 1: Preparation (Manual)</strong>: The owner triggers <code>Release 1 - Prepare PR</code>. This bumps the <code>package.json</code> version, updates the <code>CHANGELOG.md</code>, and opens a dedicated <strong>Release PR</strong>.</li>
+<li><strong>Step 2: Review (Human)</strong>: The owner reviews the PR. This is the "Control Point" where final edits can be made to the changelog before tagging.</li>
+<li><strong>Step 3: Finalization (Auto)</strong>: Once the owner <strong>merges</strong> the PR, the <code>Release 2 - Finalize Tag</code> workflow wakes up. It pushes a <strong>Verified Tag</strong>, creates the <strong>GitHub Release</strong>, and generates the <strong>SLSA Attestation</strong> in a single sequence.</li>
 </ol>
 <h3 id="dependency-management-renovate">Dependency Management (Renovate)<a class="headerlink" href="#dependency-management-renovate" title="Permanent link">&para;</a></h3>
 <p>We use <strong>Renovate</strong> to keep our dependencies up to date. Unlike standard tools, Renovate is configured to group updates and provide clear release notes.</p>
@@ -1951,14 +1928,7 @@
 <p>To maintain velocity while following strict branch protection rules:</p>
 <ul>
 <li><strong>Patch/Minor</strong>: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (<code>auto-approve.yml</code>) once CI passes.</li>
-<li><strong>Safety Gates</strong>: The approval bot verifies the PR author is Renovate, the branch starts with <code>renovate/</code>, and all status checks are green before signing off.</li>
-</ul>
-<h3 id="community-governance">Community Governance 🏛️<a class="headerlink" href="#community-governance" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong><code>SECURITY.md</code></strong>: Formal vulnerability disclosure policy for OpenSSF compliance.</li>
-<li><strong><code>CONTRIBUTING.md</code></strong>: Streamlined onboarding guide for new developers.</li>
-<li><strong>Stale Bot</strong>: Automatically manages inactive issues and PRs to keep the backlog fresh.</li>
-<li><strong>PR Labeler</strong>: Categorizes PRs automatically (e.g., <code>area/logic</code>, <code>area/docs</code>) based on changed files.</li>
+<li><strong>Unblocking</strong>: If a review was explicitly requested from the owner, the bot automatically <strong>removes the reviewer request</strong> before approving, ensuring the PR isn't stuck behind a manual "Review Required" lock.</li>
 </ul>
 <hr />
 <h2 id="workflow-catalog">📋 Workflow Catalog<a class="headerlink" href="#workflow-catalog" title="Permanent link">&para;</a></h2>
@@ -1975,8 +1945,8 @@
 <tr>
 <td style="text-align: left;"><strong>CI &amp; Security</strong></td>
 <td style="text-align: left;"><code>ci.yml</code></td>
-<td style="text-align: left;">Validates code quality, runs tests, and audits security. Parallelized for speed.</td>
-<td style="text-align: left;">PR to main / Push to main</td>
+<td style="text-align: left;">Validates code quality, runs tests, and audits security.</td>
+<td style="text-align: left;">PR / Push to main</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Action Linting</strong></td>
@@ -1991,16 +1961,22 @@
 <td style="text-align: left;">PR to main</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Semantic PR</strong></td>
-<td style="text-align: left;"><code>semantic-pr.yml</code></td>
-<td style="text-align: left;">Enforces Conventional Commits on PR titles.</td>
-<td style="text-align: left;">PR to main</td>
-</tr>
-<tr>
 <td style="text-align: left;"><strong>Auto-Approve</strong></td>
 <td style="text-align: left;"><code>auto-approve.yml</code></td>
-<td style="text-align: left;">Approves safe automated updates (Renovate, Release, Maintenance). Optimized to only wake up for CI completion.</td>
-<td style="text-align: left;">CI finish on <code>renovate/**</code>, <code>chore/changelog-*</code>, <code>maintenance/*</code></td>
+<td style="text-align: left;">Approves safe automated updates &amp; unblocks reviews.</td>
+<td style="text-align: left;">CI finish on bot branches</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Release 1</strong></td>
+<td style="text-align: left;"><code>release-prepare.yml</code></td>
+<td style="text-align: left;">Bumps version and opens a Release PR.</td>
+<td style="text-align: left;">Manual (Owner Only)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Release 2</strong></td>
+<td style="text-align: left;"><code>release-finalize.yml</code></td>
+<td style="text-align: left;">Pushes tag and creates GitHub Release on PR merge.</td>
+<td style="text-align: left;">PR Merge (Owner Only)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Scorecard</strong></td>
@@ -2009,40 +1985,16 @@
 <td style="text-align: left;">Weekly / Push to main</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Branch Name</strong></td>
-<td style="text-align: left;"><code>branch-name.yml</code></td>
-<td style="text-align: left;">Enforces naming conventions.</td>
-<td style="text-align: left;">PR to main</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Release</strong></td>
-<td style="text-align: left;"><code>git-release.yml</code></td>
-<td style="text-align: left;">Automates changelogs and GitHub releases.</td>
-<td style="text-align: left;">Tag Push (<code>v*</code>)</td>
-</tr>
-<tr>
 <td style="text-align: left;"><strong>Docs Deploy</strong></td>
 <td style="text-align: left;"><code>docs.yml</code></td>
 <td style="text-align: left;">Builds and publishes documentation.</td>
-<td style="text-align: left;">Push to main (Build-only on PR)</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Labeler</strong></td>
-<td style="text-align: left;"><code>labeler.yml</code></td>
-<td style="text-align: left;">Automatically labels PRs based on file paths.</td>
-<td style="text-align: left;">PR to main</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Stale</strong></td>
-<td style="text-align: left;"><code>stale.yml</code></td>
-<td style="text-align: left;">Manages inactive issues and PRs.</td>
-<td style="text-align: left;">Daily schedule</td>
+<td style="text-align: left;">Push to main / Manual</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Maintenance</strong></td>
 <td style="text-align: left;"><code>maintenance.yml</code></td>
 <td style="text-align: left;">Weekly automated cleanup of dependency overrides.</td>
-<td style="text-align: left;">Weekly schedule</td>
+<td style="text-align: left;">Weekly / Manual</td>
 </tr>
 </tbody>
 </table>
