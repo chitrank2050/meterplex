@@ -1,3 +1,10 @@
+# =============================================================
+# Smart Auto-Approve 🤖✅
+#
+# Automatically approves and enables auto-merge for PRs from
+# Renovate or maintenance branches once CI passes.
+# =============================================================
+
 name: Auto-Approve 🤖✅
 
 on:
