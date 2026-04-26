@@ -1,0 +1,116 @@
+# =============================================================
+# Release Finalization Workflow
+#
+# Triggered automatically when a Release PR is merged to main.
+#   1. Pushes the verified version tag.
+#   2. Creates the GitHub Release with generated notes.
+#   3. Generates SLSA Build Provenance (Attestation).
+# =============================================================
+
+name: Release 2 - Finalize Tag 🏷️
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  finalize:
+    name: Finalize Release 🚀
+    # Only run if:
+    #   1. The PR was merged
+    #   2. It has the 'release' label
+    #   3. The person who merged it is the OWNER
+    if: |
+      github.event.pull_request.merged == true && 
+      contains(github.event.pull_request.labels.*.name, 'release') &&
+      github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag_name }}
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Extract Tag Name 🏷️
+        id: vars
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+        run: |
+          # Extract version from branch name (chore/changelog-vX.Y.Z)
+          TAG_NAME=$(echo "$BRANCH_NAME" | sed 's/chore\/changelog-//')
+
+          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
+            echo "❌ Error: Could not extract valid tag from branch name: $BRANCH_NAME"
+            exit 1
+          fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Push Verified Tag 🏷️
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG_NAME: ${{ steps.vars.outputs.tag_name }}
+        run: |
+          echo "Pushing verified tag: $TAG_NAME"
+          git config user.name "chitrank-actions[bot]"
+          git config user.email "actions@github.com"
+
+          # Use the token for authentication
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
+
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
+
+      - name: Generate release notes 📝
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --latest --strip all
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Create GitHub Release ✨
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG_NAME: ${{ steps.vars.outputs.tag_name }}
+          RELEASE_NOTES: ${{ steps.git-cliff.outputs.content }}
+        run: |
+          # Detect prerelease based on tag name (contains a hyphen)
+          PRERELEASE_FLAG=""
+          if [[ "$TAG_NAME" == *"-"* ]]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+
+          gh release create "$TAG_NAME" \
+            --title "$TAG_NAME" \
+            --notes "$RELEASE_NOTES" \
+            $PRERELEASE_FLAG
+
+      - name: Attest Release Artifacts 📜
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: CHANGELOG.md
+          push-to-registry: false

@@ -25,6 +25,7 @@ permissions:
 jobs:
   prune_overrides:
     name: Prune Redundant Overrides ✂️
+    if: github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner
     runs-on: ubuntu-latest
     permissions:
       contents: write # Needed to create branch

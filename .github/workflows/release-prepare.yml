@@ -1,0 +1,108 @@
+# =============================================================
+# Release Preparation Workflow
+#
+# Triggered manually to:
+#   1. Bump version in package.json
+#   2. Sync version in README.md
+#   3. Update CHANGELOG.md
+#   4. Open a Release PR for review.
+# =============================================================
+
+name: Release 1 - Prepare PR 📝
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag to release (e.g. v0.1.0)'
+        required: true
+
+jobs:
+  prepare:
+    name: Prepare Release PR 🚀
+    if: github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Configure Authenticated Git 🔧
+        env:
+          TOKEN: ${{ steps.generate_token.outputs.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPO}"
+
+      - name: Update Version in package.json 📦
+        env:
+          NEW_VERSION: ${{ github.event.inputs.tag_name }}
+        run: |
+          # Strip 'v' from version for package.json
+          CLEAN_VERSION=$(echo "$NEW_VERSION" | sed 's/^v//')
+          echo "Bumping package.json to $CLEAN_VERSION"
+          jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
+
+      - name: Update Version in README.md 📝
+        env:
+          NEW_VERSION: ${{ github.event.inputs.tag_name }}
+        run: |
+          # Strip 'v' from version for some badges
+          CLEAN_VERSION=$(echo "$NEW_VERSION" | sed 's/^v//')
+
+          # Update common version patterns in README
+          sed -i "s/version: [0-9.]*/version: $CLEAN_VERSION/g" README.md || true
+          sed -i "s/Node-[0-9.]*-success/Node-24-success/g" README.md || true
+
+          echo "Updated README version references to $CLEAN_VERSION"
+
+      - name: Update CHANGELOG.md 📝
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4.7.1
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --tag ${{ github.event.inputs.tag_name }} --output CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Create Pull Request for Release 🔀
+        id: cpr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          commit-message: 'chore(release): bump version to ${{ github.event.inputs.tag_name }}'
+          title: '🚀 Release ${{ github.event.inputs.tag_name }}'
+          body: |
+            <!-- autofill-start -->
+            - chore(release): update CHANGELOG.md
+            - chore(release): bump version in package.json
+            - chore(release): sync README.md version
+            <!-- autofill-end -->
+          labels: |
+            chore
+            release
+          branch: 'chore/changelog-${{ github.event.inputs.tag_name }}'
+          base: main
+          delete-branch: true
+          assignees: chitrank2050
+          add-paths: |
+            CHANGELOG.md
+            package.json
+            README.md

@@ -29,6 +29,7 @@ jobs:
     name: Generate Description 📝
     runs-on: ubuntu-latest
     if: |
+      (github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner) &&
       github.event.pull_request.user.login != 'renovate[bot]' &&
       !contains(github.event.pull_request.labels.*.name, 'release')
     steps:
