@@ -3,7 +3,6 @@
   "extends": ["config:recommended", ":timezone(Asia/Kolkata)"],
   "labels": ["dependencies", "renovate"],
   "assignees": ["chitrank2050"],
-  "reviewers": ["chitrank2050"],
   "gitAuthor": "Chitrank agnihotri <chitrank2050@gmail.com>",
   "baseBranches": ["main"],
   "schedule": ["every weekend"],
