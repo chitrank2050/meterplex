@@ -2,6 +2,13 @@
 
 All notable changes to Meterplex API.
 
+## [Unreleased]
+
+
+### 🚀 Features
+
+- Implement conditional token selection in auto-approve workflow to handle bot-created PRs (by @chitrank2050)
+
 ## [0.5.6] - 2026-04-26
 
 
@@ -11,15 +18,16 @@ All notable changes to Meterplex API.
 - Update Renovate reviewer settings and improve auto-approval workflow logic (by @chitrank2050)
 - Clear assignees and enable grouping for non-major dependencies in renovate config (by @chitrank2050)
 - Update auto-approve workflow to use generated GitHub token (by @chitrank2050)
-- Update actions/attest-build-provenance action to v4 ([#76](https://github.com/chitrank2050/meterplex/issues/76)) (by @renovate[bot])
-- Update actions/cache action to v5 ([#82](https://github.com/chitrank2050/meterplex/issues/82)) (by @renovate[bot])
-- Update actions/stale action to v10 ([#84](https://github.com/chitrank2050/meterplex/issues/84)) (by @renovate[bot])
-- Update github/codeql-action action to v4 ([#77](https://github.com/chitrank2050/meterplex/issues/77)) (by @renovate[bot])
-- Update actions/labeler action to v6 ([#83](https://github.com/chitrank2050/meterplex/issues/83)) (by @renovate[bot])
-- Update pnpm to v10 ([#27](https://github.com/chitrank2050/meterplex/issues/27)) (by @renovate[bot])
+- Update actions/attest-build-provenance action to v4 ([#76](https://github.com/chitrank2050/meterplex/issues/76)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v5 ([#82](https://github.com/chitrank2050/meterplex/issues/82)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update actions/stale action to v10 ([#84](https://github.com/chitrank2050/meterplex/issues/84)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update github/codeql-action action to v4 ([#77](https://github.com/chitrank2050/meterplex/issues/77)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update actions/labeler action to v6 ([#83](https://github.com/chitrank2050/meterplex/issues/83)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update pnpm to v10 ([#27](https://github.com/chitrank2050/meterplex/issues/27)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Update lefthook configuration to optimize pre-commit hook execution (by @chitrank2050)
 - Add release, maintenance, and automated-pr labels to semantic-pr ignore list (by @chitrank2050)
-- Update actions/upload-artifact action to v7 ([#75](https://github.com/chitrank2050/meterplex/issues/75)) (by @renovate[bot])
+- Update actions/upload-artifact action to v7 ([#75](https://github.com/chitrank2050/meterplex/issues/75)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Bump version to v0.5.6 ([#93](https://github.com/chitrank2050/meterplex/issues/93)) (by [chitrank-actions[bot]](https://github.com/apps/chitrank-actions))
 
 ### 📚 Documentation
 
@@ -52,17 +60,17 @@ All notable changes to Meterplex API.
 - Update git-cliff configuration and reformat knip configuration file (by @chitrank2050)
 - Set fetch-depth to 0 in branch-name workflow to ensure complete history access (by @chitrank2050)
 - Organize package.json scripts with category labels and reorder entries (by @chitrank2050)
-- Update actions/upload-artifact action to v4.6.2 ([#74](https://github.com/chitrank2050/meterplex/issues/74)) (by @renovate[bot])
-- Update dependency python to 3.14 ([#21](https://github.com/chitrank2050/meterplex/issues/21)) (by @renovate[bot])
+- Update actions/upload-artifact action to v4.6.2 ([#74](https://github.com/chitrank2050/meterplex/issues/74)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update dependency python to 3.14 ([#21](https://github.com/chitrank2050/meterplex/issues/21)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Apply principle of least privilege by scoping workflow permissions to specific jobs (by @chitrank2050)
 - Update project metadata and add relevant keywords to package.json (by @chitrank2050)
-- Update actions/stale action to v9.1.0 ([#81](https://github.com/chitrank2050/meterplex/issues/81)) (by @renovate[bot])
-- Update actions/cache action to v4.3.0 ([#80](https://github.com/chitrank2050/meterplex/issues/80)) (by @renovate[bot])
+- Update actions/stale action to v9.1.0 ([#81](https://github.com/chitrank2050/meterplex/issues/81)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update actions/cache action to v4.3.0 ([#80](https://github.com/chitrank2050/meterplex/issues/80)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Upgrade actions/create-github-app-token to v3.1.1 (by @chitrank2050)
 - Update github app token credentials to use specific bot account secrets (by @chitrank2050)
 - Include .github/actions directory in area/ci labeler configuration (by @chitrank2050)
 - Remove redundant path filter from workflow linting action (by @chitrank2050)
-- Update dependency knip to v6.7.0 ([#87](https://github.com/chitrank2050/meterplex/issues/87)) (by @renovate[bot])
+- Update dependency knip to v6.7.0 ([#87](https://github.com/chitrank2050/meterplex/issues/87)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Update node engine requirement to >=24.0.0 and sync README versions (by @chitrank2050)
 - Configure git-cliff to ignore merge commits and redundant changelog updates (by @chitrank2050)
 - Update build provenance attestation to target CHANGELOG.md instead of repository sha (by @chitrank2050)
@@ -143,12 +151,12 @@ All notable changes to Meterplex API.
 - Update GitHub Actions dependencies to latest versions (by @chitrank2050)
 - Disable persist-credentials in all GitHub Actions checkout steps (by @chitrank2050)
 - Pass git-cliff output to gh release via environment variable (by @chitrank2050)
-- Update orhun/git-cliff-action action to v4.7.1 ([#71](https://github.com/chitrank2050/meterplex/issues/71)) (by @renovate[bot])
-- Update dependency knip to v6.6.3 ([#69](https://github.com/chitrank2050/meterplex/issues/69)) (by @renovate[bot])
+- Update orhun/git-cliff-action action to v4.7.1 ([#71](https://github.com/chitrank2050/meterplex/issues/71)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update dependency knip to v6.6.3 ([#69](https://github.com/chitrank2050/meterplex/issues/69)) (by [renovate[bot]](https://github.com/apps/renovate))
 
 ### 🏗️ Build
 
-- Bump the all-actions group across 1 directory with 3 updates ([#72](https://github.com/chitrank2050/meterplex/issues/72)) (by @dependabot[bot])
+- Bump the all-actions group across 1 directory with 3 updates ([#72](https://github.com/chitrank2050/meterplex/issues/72)) (by [dependabot[bot]](https://github.com/apps/dependabot))
 
 ### 📚 Documentation
 
@@ -186,9 +194,9 @@ All notable changes to Meterplex API.
 
 - Update lockfile dependencies (by @chitrank2050)
 - Downgrade pnpm/action-setup to version 5 (by @chitrank2050)
-- Update dependency @swc/core to v1.15.30 ([#57](https://github.com/chitrank2050/meterplex/issues/57)) (by @renovate[bot])
-- Update redis docker tag to v8 ([#56](https://github.com/chitrank2050/meterplex/issues/56)) (by @renovate[bot])
-- Update linting & formatting ([#16](https://github.com/chitrank2050/meterplex/issues/16)) (by @renovate[bot])
+- Update dependency @swc/core to v1.15.30 ([#57](https://github.com/chitrank2050/meterplex/issues/57)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update redis docker tag to v8 ([#56](https://github.com/chitrank2050/meterplex/issues/56)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update linting & formatting ([#16](https://github.com/chitrank2050/meterplex/issues/16)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Update pg dependency position and upgrade markdownlint-cli to v0.48.0 (by @chitrank2050)
 - Update markdown tables to use consistent left-aligned formatting (by @chitrank2050)
 - Upgrade PostgreSQL to 18, Kafka to 4.2, and Redis to 8 across infrastructure and doc (by @chitrank2050)
@@ -204,7 +212,7 @@ All notable changes to Meterplex API.
 
 ### 🐛 Bug Fixes
 
-- Update dependency uuid to v14 ([#58](https://github.com/chitrank2050/meterplex/issues/58)) (by @renovate[bot])
+- Update dependency uuid to v14 ([#58](https://github.com/chitrank2050/meterplex/issues/58)) (by [renovate[bot]](https://github.com/apps/renovate))
 
 ### 👷 Continuous Integration
 
@@ -226,13 +234,13 @@ All notable changes to Meterplex API.
 
 ### ⚙️ Maintenance
 
-- Update apache/kafka docker tag to v4 ([#23](https://github.com/chitrank2050/meterplex/issues/23)) (by @renovate[bot])
-- Update pnpm to v9.15.9 ([#22](https://github.com/chitrank2050/meterplex/issues/22)) (by @renovate[bot])
+- Update apache/kafka docker tag to v4 ([#23](https://github.com/chitrank2050/meterplex/issues/23)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update pnpm to v9.15.9 ([#22](https://github.com/chitrank2050/meterplex/issues/22)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Upgrade pnpm/action-setup to v6 and update lockfile (by @chitrank2050)
 
 ### 🏗️ Build
 
-- Bump globals from 16.5.0 to 17.5.0 ([#40](https://github.com/chitrank2050/meterplex/issues/40)) (by @dependabot[bot])
+- Bump globals from 16.5.0 to 17.5.0 ([#40](https://github.com/chitrank2050/meterplex/issues/40)) (by [dependabot[bot]](https://github.com/apps/dependabot))
 
 ### 🚀 Features
 
@@ -244,8 +252,8 @@ All notable changes to Meterplex API.
 ### ⚙️ Maintenance
 
 - Add Bruno collection for all Phase 2 endpoints (by @chitrank2050)
-- Update linting & formatting ([#26](https://github.com/chitrank2050/meterplex/issues/26)) (by @renovate[bot])
-- Update postgres docker tag to v18 ([#29](https://github.com/chitrank2050/meterplex/issues/29)) (by @renovate[bot])
+- Update linting & formatting ([#26](https://github.com/chitrank2050/meterplex/issues/26)) (by [renovate[bot]](https://github.com/apps/renovate))
+- Update postgres docker tag to v18 ([#29](https://github.com/chitrank2050/meterplex/issues/29)) (by [renovate[bot]](https://github.com/apps/renovate))
 - Update dependencies in pnpm-lock.yaml (by @chitrank2050)
 
 ### 🚀 Features
@@ -354,7 +362,7 @@ All notable changes to Meterplex API.
 
 ### 🏗️ Build
 
-- Bump @types/supertest from 6.0.3 to 7.2.0 ([#10](https://github.com/chitrank2050/meterplex/issues/10)) (by @dependabot[bot])
+- Bump @types/supertest from 6.0.3 to 7.2.0 ([#10](https://github.com/chitrank2050/meterplex/issues/10)) (by [dependabot[bot]](https://github.com/apps/dependabot))
 
 ### 📚 Documentation
 
@@ -400,10 +408,10 @@ All notable changes to Meterplex API.
 
 ### 🏗️ Build
 
-- Bump @types/node from 22.19.15 to 25.5.2 ([#9](https://github.com/chitrank2050/meterplex/issues/9)) (by @dependabot[bot])
-- Bump actions/setup-python in the all-actions group ([#3](https://github.com/chitrank2050/meterplex/issues/3)) (by @dependabot[bot])
-- Bump dotenv in the patch-and-minor group ([#8](https://github.com/chitrank2050/meterplex/issues/8)) (by @dependabot[bot])
-- Bump @types/uuid from 10.0.0 to 11.0.0 ([#11](https://github.com/chitrank2050/meterplex/issues/11)) (by @dependabot[bot])
+- Bump @types/node from 22.19.15 to 25.5.2 ([#9](https://github.com/chitrank2050/meterplex/issues/9)) (by [dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/setup-python in the all-actions group ([#3](https://github.com/chitrank2050/meterplex/issues/3)) (by [dependabot[bot]](https://github.com/apps/dependabot))
+- Bump dotenv in the patch-and-minor group ([#8](https://github.com/chitrank2050/meterplex/issues/8)) (by [dependabot[bot]](https://github.com/apps/dependabot))
+- Bump @types/uuid from 10.0.0 to 11.0.0 ([#11](https://github.com/chitrank2050/meterplex/issues/11)) (by [dependabot[bot]](https://github.com/apps/dependabot))
 
 ### 🚀 Features
 
@@ -459,7 +467,7 @@ All notable changes to Meterplex API.
 
 ### 🏗️ Build
 
-- Bump the patch-and-minor group across 1 directory with 12 updates (by @dependabot[bot])
+- Bump the patch-and-minor group across 1 directory with 12 updates (by [dependabot[bot]](https://github.com/apps/dependabot))
 
 ### 🚀 Features
 
@@ -482,8 +490,8 @@ All notable changes to Meterplex API.
 
 ### 🏗️ Build
 
-- Bump picomatch in the npm_and_yarn group across 1 directory (by @dependabot[bot])
-- Bump brace-expansion (by @dependabot[bot])
+- Bump picomatch in the npm_and_yarn group across 1 directory (by [dependabot[bot]](https://github.com/apps/dependabot))
+- Bump brace-expansion (by [dependabot[bot]](https://github.com/apps/dependabot))
 
 ### 🐛 Bug Fixes
 
