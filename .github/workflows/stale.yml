@@ -35,6 +35,10 @@ jobs:
           stale-pr-label: 'status/stale'
           days-before-stale: 60
           days-before-close: 14
+          # Smart Exemptions
+          exempt-all-issue-assignees: true
+          exempt-all-issue-milestones: true
+          exempt-draft-pr: true
           # Exempt specific labels from being marked as stale
           exempt-issue-labels: 'status/blocked,type/feature,priority/high,pinned,security'
           exempt-pr-labels: 'status/blocked,priority/high,pinned,security'
