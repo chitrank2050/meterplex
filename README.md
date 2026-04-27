@@ -28,7 +28,9 @@
     <br/>
     <a href="./CONTRIBUTING.md"><b>Contributing</b></a> •
     <a href="./SECURITY.md"><b>Security</b></a> •
-    <a href="https://ko-fi.com/D1D71U581P" target="_blank"><b>Support</b></a>
+      <a href="https://ko-fi.com/D1D71U581P" target="_blank">
+      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Buy me a coffee at ko-fi.com">
+    </a>
   </p>
 </div>
 
