@@ -111,7 +111,7 @@ jobs:
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
         with:
           config: cliff.toml
-          args: --unreleased --tag ${{ steps.vars.outputs.tag_name }} --prepend CHANGELOG.md
+          args: --tag ${{ steps.vars.outputs.tag_name }} --output CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 

@@ -24,7 +24,7 @@ if ! command -v git-cliff &> /dev/null; then
     exit 1
 fi
 
-git-cliff --output CHANGELOG.md
+git-cliff --tag "v$VERSION" --output CHANGELOG.md
 log_success "CHANGELOG.md updated."
 
 # Step 2: Commit & Push Changelog
