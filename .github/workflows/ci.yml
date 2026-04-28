@@ -39,7 +39,6 @@ on:
       # Changelog & release tooling config
       - 'cliff.toml'
       # Git hooks config (local-only)
-      - 'commitlint.config.mjs'
       - 'lefthook.yml'
   pull_request:
     branches: [main]
@@ -91,7 +90,7 @@ jobs:
               - 'pnpm-lock.yaml'
               - 'package.json'
             lint:
-              - '.eslintrc.js'
+              - 'eslint.config.mjs'
               - '.eslintignore'
               - 'tsconfig.json'
               - 'knip.json'
