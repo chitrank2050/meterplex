@@ -3,14 +3,14 @@
 The Plans API allows you to manage the billing catalog. Plans define the identity of your products (e.g., "Starter", "Pro", "Enterprise").
 
 !!! info "Global Resources"
-    Unlike Users and Tenants, Plans are **Global** resources. They do not belong to a specific tenant and are visible platform-wide.
+Unlike Users and Tenants, Plans are **Global** resources. They do not belong to a specific tenant and are visible platform-wide.
 
 ## Authorization
 
-| Endpoint | Requirement |
-| :--- | :--- |
-| `GET` (Fetch/List) | Public / No Auth |
-| `POST` / `PATCH` | Authenticated (JWT) |
+| Endpoint           | Requirement         |
+| :----------------- | :------------------ |
+| `GET` (Fetch/List) | Public / No Auth    |
+| `POST` / `PATCH`   | Authenticated (JWT) |
 
 ---
 
@@ -22,8 +22,8 @@ Returns a list of all active billing plans, sorted by `displayOrder`.
 
 ### Query Parameters
 
-| Parameter | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
+| Parameter         | Type    | Default | Description                                    |
+| :---------------- | :------ | :------ | :--------------------------------------------- |
 | `includeArchived` | boolean | `false` | If true, returns plans with `ARCHIVED` status. |
 
 ### Response

@@ -31,29 +31,29 @@ CREATE TABLE "audit_logs" (
 
 ### Column reference
 
-| Column | Type | Description |
-| :--- | :--- | :--- |
-| `id` | UUID | Primary key, auto-generated |
-| `tenant_id` | UUID | Which tenant was affected. Not a foreign key - survives tenant deletion |
-| `actor_id` | VARCHAR(255) | User UUID or API key UUID of who performed the action |
-| `actor_type` | ENUM | `USER` (JWT auth), `API_KEY` (server-to-server), or `SYSTEM` (internal ops) |
-| `action` | ENUM | `CREATE`, `UPDATE`, or `DELETE` |
-| `resource` | VARCHAR(100) | Resource type: `tenant`, `user`, `api_key`, `membership`, etc. |
-| `resource_id` | VARCHAR(255) | UUID of the specific record that was affected |
-| `changes` | JSONB | What changed - shape varies by action type (see below) |
-| `ip_address` | VARCHAR(45) | Client IP. Supports IPv4 and IPv6 |
-| `user_agent` | VARCHAR(500) | Client user agent string (truncated to 500 chars) |
-| `correlation_id` | VARCHAR(36) | Links to the request log via `x-correlation-id` header |
-| `created_at` | TIMESTAMP | When the action occurred. Immutable - no `updated_at` |
+| Column           | Type         | Description                                                                 |
+| :--------------- | :----------- | :-------------------------------------------------------------------------- |
+| `id`             | UUID         | Primary key, auto-generated                                                 |
+| `tenant_id`      | UUID         | Which tenant was affected. Not a foreign key - survives tenant deletion     |
+| `actor_id`       | VARCHAR(255) | User UUID or API key UUID of who performed the action                       |
+| `actor_type`     | ENUM         | `USER` (JWT auth), `API_KEY` (server-to-server), or `SYSTEM` (internal ops) |
+| `action`         | ENUM         | `CREATE`, `UPDATE`, or `DELETE`                                             |
+| `resource`       | VARCHAR(100) | Resource type: `tenant`, `user`, `api_key`, `membership`, etc.              |
+| `resource_id`    | VARCHAR(255) | UUID of the specific record that was affected                               |
+| `changes`        | JSONB        | What changed - shape varies by action type (see below)                      |
+| `ip_address`     | VARCHAR(45)  | Client IP. Supports IPv4 and IPv6                                           |
+| `user_agent`     | VARCHAR(500) | Client user agent string (truncated to 500 chars)                           |
+| `correlation_id` | VARCHAR(36)  | Links to the request log via `x-correlation-id` header                      |
+| `created_at`     | TIMESTAMP    | When the action occurred. Immutable - no `updated_at`                       |
 
 ### Indexes
 
-| Index | Columns | Use case |
-| :--- | :--- | :--- |
-| `audit_logs_tenant_id_idx` | `tenant_id` | "Show all activity in Acme Corp" |
-| `audit_logs_actor_id_idx` | `actor_id` | "Show everything Alice did" |
+| Index                                 | Columns                 | Use case                                    |
+| :------------------------------------ | :---------------------- | :------------------------------------------ |
+| `audit_logs_tenant_id_idx`            | `tenant_id`             | "Show all activity in Acme Corp"            |
+| `audit_logs_actor_id_idx`             | `actor_id`              | "Show everything Alice did"                 |
 | `audit_logs_resource_resource_id_idx` | `resource, resource_id` | "Show the history of this specific API key" |
-| `audit_logs_created_at_idx` | `created_at` | "Show activity from the last 24 hours" |
+| `audit_logs_created_at_idx`           | `created_at`            | "Show activity from the last 24 hours"      |
 
 ### Design decisions
 
@@ -91,23 +91,23 @@ Audit logging is important but not critical-path. If the database write fails (P
 
 ## What gets audited
 
-| HTTP Method | Audit Action | Audited? |
-| :--- | :--- | :--- |
-| `POST` | `CREATE` | Yes |
-| `PATCH` | `UPDATE` | Yes |
-| `PUT` | `UPDATE` | Yes |
-| `DELETE` | `DELETE` | Yes |
-| `GET` | - | No (reads don't mutate) |
-| `HEAD` | - | No |
-| `OPTIONS` | - | No |
+| HTTP Method | Audit Action | Audited?                |
+| :---------- | :----------- | :---------------------- |
+| `POST`      | `CREATE`     | Yes                     |
+| `PATCH`     | `UPDATE`     | Yes                     |
+| `PUT`       | `UPDATE`     | Yes                     |
+| `DELETE`    | `DELETE`     | Yes                     |
+| `GET`       | -            | No (reads don't mutate) |
+| `HEAD`      | -            | No                      |
+| `OPTIONS`   | -            | No                      |
 
 ## What gets skipped
 
-| Path pattern | Reason |
-| :--- | :--- |
-| `/health` | Infrastructure check, not a business operation |
-| `/api/v1/auth/*` | Auth endpoints (login, register, refresh, etc.) have their own security logging |
-| Routes with `@SkipAudit()` | Explicit opt-out per handler |
+| Path pattern               | Reason                                                                          |
+| :------------------------- | :------------------------------------------------------------------------------ |
+| `/health`                  | Infrastructure check, not a business operation                                  |
+| `/api/v1/auth/*`           | Auth endpoints (login, register, refresh, etc.) have their own security logging |
+| Routes with `@SkipAudit()` | Explicit opt-out per handler                                                    |
 
 ---
 
@@ -115,23 +115,23 @@ Audit logging is important but not critical-path. If the database write fails (P
 
 ### Actor detection
 
-| Source | Actor Type | How it's detected |
-| :--- | :--- | :--- |
-| JWT-authenticated user | `USER` | `request.user.id` set by `JwtAuthGuard` |
-| API key | `API_KEY` | `request.apiKeyId` set by `ApiKeyAuthGuard` |
-| Neither | `SYSTEM` | Fallback - shouldn't happen on guarded routes |
+| Source                 | Actor Type | How it's detected                             |
+| :--------------------- | :--------- | :-------------------------------------------- |
+| JWT-authenticated user | `USER`     | `request.user.id` set by `JwtAuthGuard`       |
+| API key                | `API_KEY`  | `request.apiKeyId` set by `ApiKeyAuthGuard`   |
+| Neither                | `SYSTEM`   | Fallback - shouldn't happen on guarded routes |
 
 ### Resource detection
 
 The resource type is inferred from the URL path. The interceptor maps the first segment after `/api/v1/` to a normalized resource name:
 
-| URL path | Resource |
-| :--- | :--- |
-| `/api/v1/tenants` | `tenant` |
-| `/api/v1/tenants/:id` | `tenant` |
-| `/api/v1/users` | `user` |
-| `/api/v1/users/:id` | `user` |
-| `/api/v1/api-keys` | `api_key` |
+| URL path               | Resource  |
+| :--------------------- | :-------- |
+| `/api/v1/tenants`      | `tenant`  |
+| `/api/v1/tenants/:id`  | `tenant`  |
+| `/api/v1/users`        | `user`    |
+| `/api/v1/users/:id`    | `user`    |
+| `/api/v1/api-keys`     | `api_key` |
 | `/api/v1/api-keys/:id` | `api_key` |
 
 The resource ID comes from route params (`:id`) for updates and deletes, or from the response body (`id` field) for creates.
@@ -179,7 +179,7 @@ The `changes` JSONB column stores different shapes depending on the action:
 ```
 
 !!! note
-    The interceptor does not capture "before" state for updates. Querying the database before every update would add latency to every mutation. If specific services need before/after diffs, they can implement that at the service layer and pass the diff explicitly.
+The interceptor does not capture "before" state for updates. Querying the database before every update would add latency to every mutation. If specific services need before/after diffs, they can implement that at the service layer and pass the diff explicitly.
 
 ### DELETE - snapshot of the deleted resource
 
@@ -310,7 +310,7 @@ const PATH_TO_RESOURCE: Record<string, string> = {
   users: 'user',
   'api-keys': 'api_key',
   memberships: 'membership',
-  plans: 'plan',           // ← add this
+  plans: 'plan', // ← add this
   entitlements: 'entitlement', // ← add this
 };
 ```

@@ -4,11 +4,11 @@ The Tenants API manages organization lifecycle, memberships, and billing setting
 
 ## Authorization Levels
 
-| Endpoint | Requirement |
-| :--- | :--- |
-| `POST /`, `GET /` | Authenticated (JWT) |
+| Endpoint                 | Requirement                             |
+| :----------------------- | :-------------------------------------- |
+| `POST /`, `GET /`        | Authenticated (JWT)                     |
 | `GET /:id`, `PATCH /:id` | JWT + Tenant Membership (`x-tenant-id`) |
-| `DELETE /:id` | JWT + `OWNER` Role |
+| `DELETE /:id`            | JWT + `OWNER` Role                      |
 
 ---
 

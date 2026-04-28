@@ -4,9 +4,9 @@ The Users API handles profile management and the creation of users within specif
 
 ## Authorization
 
-| Endpoint | Requirement |
-| :--- | :--- |
-| `GET /me`, `GET /:id` | Authenticated (JWT) |
+| Endpoint                        | Requirement                   |
+| :------------------------------ | :---------------------------- |
+| `GET /me`, `GET /:id`           | Authenticated (JWT)           |
 | `POST /`, `PATCH /:id` (others) | Authenticated + Tenant Member |
 
 ---
@@ -43,13 +43,13 @@ Creates a new user account (or finds an existing one) and adds it to the target 
 
 **Headers:**
 
-| Header | Description |
-| :--- | :--- |
+| Header        | Description                                |
+| :------------ | :----------------------------------------- |
 | `x-tenant-id` | The UUID of the tenant to add the user to. |
 
 **Permissions:**
 
-* Requires `OWNER` or `ADMIN` role in the target tenant.
+- Requires `OWNER` or `ADMIN` role in the target tenant.
 
 **Request Body:**
 

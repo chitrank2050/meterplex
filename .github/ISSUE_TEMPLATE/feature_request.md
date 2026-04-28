@@ -1,9 +1,9 @@
 ---
 name: Feature request
 about: Suggest a new feature or improvement
-title: "feat(): "
+title: 'feat(): '
 labels: enhancement
-assignees: "chitrank2050"
+assignees: 'chitrank2050'
 ---
 
 ## Problem

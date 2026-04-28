@@ -50,18 +50,18 @@
 
 ## Key Decisions
 
-| Decision | Why |
-| :--- | :--- |
-| Modular monolith over microservices | Domain boundaries unproven. Extract modules when scale demands it |
-| Prisma over TypeORM | Stronger types, better migration tooling, schema-first approach |
-| pnpm over npm | Faster installs, strict dependency resolution, smaller disk usage |
-| UUID primary keys | Safe for distributed systems, no sequential guessing |
-| `strict: true` in TypeScript | Catches null errors, uninitialized properties, unsafe `any` usage at compile time |
-| URI versioning over header versioning | Visible in URLs, works with Swagger, industry standard (Stripe, GitHub) |
-| `VERSION_NEUTRAL` on health controller | Load balancers expect `/health` at a fixed path without version prefix |
-| `moduleFormat = "cjs"` in Prisma | NestJS compiles to CommonJS; Prisma 7 defaults to ESM. Without this flag, the app crashes |
-| Driver adapter pattern (`PrismaPg`) | Prisma 7 requirement - the client no longer manages its own connection |
-| `tsx` over `ts-node` for seed | `ts-node` can't resolve `.js` extension imports in Prisma's generated TypeScript files |
+| Decision                               | Why                                                                                       |
+| :------------------------------------- | :---------------------------------------------------------------------------------------- |
+| Modular monolith over microservices    | Domain boundaries unproven. Extract modules when scale demands it                         |
+| Prisma over TypeORM                    | Stronger types, better migration tooling, schema-first approach                           |
+| pnpm over npm                          | Faster installs, strict dependency resolution, smaller disk usage                         |
+| UUID primary keys                      | Safe for distributed systems, no sequential guessing                                      |
+| `strict: true` in TypeScript           | Catches null errors, uninitialized properties, unsafe `any` usage at compile time         |
+| URI versioning over header versioning  | Visible in URLs, works with Swagger, industry standard (Stripe, GitHub)                   |
+| `VERSION_NEUTRAL` on health controller | Load balancers expect `/health` at a fixed path without version prefix                    |
+| `moduleFormat = "cjs"` in Prisma       | NestJS compiles to CommonJS; Prisma 7 defaults to ESM. Without this flag, the app crashes |
+| Driver adapter pattern (`PrismaPg`)    | Prisma 7 requirement - the client no longer manages its own connection                    |
+| `tsx` over `ts-node` for seed          | `ts-node` can't resolve `.js` extension imports in Prisma's generated TypeScript files    |
 
 ## Gotchas Encountered
 

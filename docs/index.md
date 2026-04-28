@@ -6,13 +6,13 @@
 
 ## Quick Links
 
-| Section | What you'll find |
-| :--- | :--- |
-| [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions. |
-| [Development](development/setup.md) | Setup guide, daily workflow, conventions, troubleshooting. |
-| [API](api/overview.md) | API design decisions, versioning, error format, authentication. |
-| [Maintenance](maintenance/ci-cd.md) | CI/CD security, automated releases, and maintenance cycles. |
-| [Build Phases](phases/phase-0.md) | Detailed log of each development phase - what was built, why, and lessons learned. |
+| Section                                  | What you'll find                                                                   |
+| :--------------------------------------- | :--------------------------------------------------------------------------------- |
+| [Architecture](architecture/overview.md) | System design, module boundaries, data flow, infrastructure decisions.             |
+| [Development](development/setup.md)      | Setup guide, daily workflow, conventions, troubleshooting.                         |
+| [API](api/overview.md)                   | API design decisions, versioning, error format, authentication.                    |
+| [Maintenance](maintenance/ci-cd.md)      | CI/CD security, automated releases, and maintenance cycles.                        |
+| [Build Phases](phases/phase-0.md)        | Detailed log of each development phase - what was built, why, and lessons learned. |
 
 ---
 
@@ -34,17 +34,17 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 
 ## Current Status
 
-| Phase | Focus | Status |
-| :--- | :--- | :--- |
-| 0 | Project setup, infrastructure, foundations | ✅ Complete |
-| 1 | Multi-tenant identity and access (auth, tenants, users, API keys) | ✅ Complete |
-| 2 | Plans, entitlements, and quotas | ✅ Complete |
-| 3 | Usage ingestion, outbox pattern, Kafka pipeline | 🔜 Next |
-| 4 | Billing ledger and invoices | |
-| 5 | Payments and webhooks | |
-| 6 | Admin, audit log, reconciliation | |
-| 7 | Observability (Grafana, Loki, OpenTelemetry) | |
-| 8 | Scale, hardening, load testing | |
+| Phase | Focus                                                             | Status      |
+| :---- | :---------------------------------------------------------------- | :---------- |
+| 0     | Project setup, infrastructure, foundations                        | ✅ Complete |
+| 1     | Multi-tenant identity and access (auth, tenants, users, API keys) | ✅ Complete |
+| 2     | Plans, entitlements, and quotas                                   | ✅ Complete |
+| 3     | Usage ingestion, outbox pattern, Kafka pipeline                   | 🔜 Next     |
+| 4     | Billing ledger and invoices                                       |             |
+| 5     | Payments and webhooks                                             |             |
+| 6     | Admin, audit log, reconciliation                                  |             |
+| 7     | Observability (Grafana, Loki, OpenTelemetry)                      |             |
+| 8     | Scale, hardening, load testing                                    |             |
 
 ---
 
@@ -52,102 +52,102 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 
 ### Auth
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/auth/register` | Register user + create tenant |
-| POST | `/api/v1/auth/login` | Login, get JWT + refresh token |
-| POST | `/api/v1/auth/refresh` | Refresh access token |
-| GET | `/api/v1/auth/me` | Get current user profile |
-| POST | `/api/v1/auth/change-password` | Change password, revoke other sessions |
-| POST | `/api/v1/auth/forgot-password` | Request password reset token |
-| POST | `/api/v1/auth/reset-password` | Reset password with token |
-| POST | `/api/v1/auth/logout` | Revoke a refresh token |
-| POST | `/api/v1/auth/revoke-all` | Revoke all sessions |
+| Method | Path                           | Description                            |
+| :----- | :----------------------------- | :------------------------------------- |
+| POST   | `/api/v1/auth/register`        | Register user + create tenant          |
+| POST   | `/api/v1/auth/login`           | Login, get JWT + refresh token         |
+| POST   | `/api/v1/auth/refresh`         | Refresh access token                   |
+| GET    | `/api/v1/auth/me`              | Get current user profile               |
+| POST   | `/api/v1/auth/change-password` | Change password, revoke other sessions |
+| POST   | `/api/v1/auth/forgot-password` | Request password reset token           |
+| POST   | `/api/v1/auth/reset-password`  | Reset password with token              |
+| POST   | `/api/v1/auth/logout`          | Revoke a refresh token                 |
+| POST   | `/api/v1/auth/revoke-all`      | Revoke all sessions                    |
 
 ### Tenants
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/tenants` | Create a tenant |
-| GET | `/api/v1/tenants` | List tenants for current user |
-| GET | `/api/v1/tenants/:id` | Get tenant by ID |
-| GET | `/api/v1/tenants/slug/:slug` | Get tenant by slug |
-| PATCH | `/api/v1/tenants/:id` | Update tenant |
-| GET | `/api/v1/tenants/me/context` | Get current tenant context |
+| Method | Path                         | Description                   |
+| :----- | :--------------------------- | :---------------------------- |
+| POST   | `/api/v1/tenants`            | Create a tenant               |
+| GET    | `/api/v1/tenants`            | List tenants for current user |
+| GET    | `/api/v1/tenants/:id`        | Get tenant by ID              |
+| GET    | `/api/v1/tenants/slug/:slug` | Get tenant by slug            |
+| PATCH  | `/api/v1/tenants/:id`        | Update tenant                 |
+| GET    | `/api/v1/tenants/me/context` | Get current tenant context    |
 
 ### Users
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/users` | Create user in tenant |
-| GET | `/api/v1/users/:id` | Get user by ID |
-| PATCH | `/api/v1/users/:id` | Update user profile |
+| Method | Path                | Description           |
+| :----- | :------------------ | :-------------------- |
+| POST   | `/api/v1/users`     | Create user in tenant |
+| GET    | `/api/v1/users/:id` | Get user by ID        |
+| PATCH  | `/api/v1/users/:id` | Update user profile   |
 
 ### API Keys
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/api-keys` | Create API key (shown once) |
-| GET | `/api/v1/api-keys` | List keys for tenant |
-| DELETE | `/api/v1/api-keys/:id` | Revoke API key |
+| Method | Path                   | Description                 |
+| :----- | :--------------------- | :-------------------------- |
+| POST   | `/api/v1/api-keys`     | Create API key (shown once) |
+| GET    | `/api/v1/api-keys`     | List keys for tenant        |
+| DELETE | `/api/v1/api-keys/:id` | Revoke API key              |
 
 ---
 
-### Phase 2  Plans and Entitlements
+### Phase 2 Plans and Entitlements
 
 #### Plans
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/plans` | Create a plan |
-| GET | `/api/v1/plans` | List plans |
-| GET | `/api/v1/plans/:id` | Get plan by ID |
-| GET | `/api/v1/plans/slug/:slug` | Get plan by slug |
-| PATCH | `/api/v1/plans/:id` | Update plan |
+| Method | Path                       | Description      |
+| :----- | :------------------------- | :--------------- |
+| POST   | `/api/v1/plans`            | Create a plan    |
+| GET    | `/api/v1/plans`            | List plans       |
+| GET    | `/api/v1/plans/:id`        | Get plan by ID   |
+| GET    | `/api/v1/plans/slug/:slug` | Get plan by slug |
+| PATCH  | `/api/v1/plans/:id`        | Update plan      |
 
 #### Plan Prices
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/plans/:planId/prices` | Add price to plan |
-| GET | `/api/v1/plans/:planId/prices` | List prices |
-| PATCH | `/api/v1/plans/:planId/prices/:id` | Deactivate price |
+| Method | Path                               | Description       |
+| :----- | :--------------------------------- | :---------------- |
+| POST   | `/api/v1/plans/:planId/prices`     | Add price to plan |
+| GET    | `/api/v1/plans/:planId/prices`     | List prices       |
+| PATCH  | `/api/v1/plans/:planId/prices/:id` | Deactivate price  |
 
 #### Features
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/features` | Create feature |
-| GET | `/api/v1/features` | List features |
-| GET | `/api/v1/features/:id` | Get feature by ID |
-| GET | `/api/v1/features/key/:lookupKey` | Get feature by lookup key |
-| PATCH | `/api/v1/features/:id` | Update feature |
+| Method | Path                              | Description               |
+| :----- | :-------------------------------- | :------------------------ |
+| POST   | `/api/v1/features`                | Create feature            |
+| GET    | `/api/v1/features`                | List features             |
+| GET    | `/api/v1/features/:id`            | Get feature by ID         |
+| GET    | `/api/v1/features/key/:lookupKey` | Get feature by lookup key |
+| PATCH  | `/api/v1/features/:id`            | Update feature            |
 
 #### Entitlements
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/plans/:planId/entitlements` | Map feature to plan |
-| GET | `/api/v1/plans/:planId/entitlements` | List plan entitlements |
-| GET | `/api/v1/plans/:planId/entitlements/:id` | Get entitlement |
-| PATCH | `/api/v1/plans/:planId/entitlements/:id` | Update entitlement |
-| DELETE | `/api/v1/plans/:planId/entitlements/:id` | Remove entitlement |
+| Method | Path                                     | Description            |
+| :----- | :--------------------------------------- | :--------------------- |
+| POST   | `/api/v1/plans/:planId/entitlements`     | Map feature to plan    |
+| GET    | `/api/v1/plans/:planId/entitlements`     | List plan entitlements |
+| GET    | `/api/v1/plans/:planId/entitlements/:id` | Get entitlement        |
+| PATCH  | `/api/v1/plans/:planId/entitlements/:id` | Update entitlement     |
+| DELETE | `/api/v1/plans/:planId/entitlements/:id` | Remove entitlement     |
 
 #### Subscriptions
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | `/api/v1/subscriptions` | Subscribe tenant to plan |
-| GET | `/api/v1/subscriptions/active` | Get active subscription |
-| GET | `/api/v1/subscriptions` | List subscription history |
-| POST | `/api/v1/subscriptions/:id/cancel` | Cancel subscription |
+| Method | Path                               | Description               |
+| :----- | :--------------------------------- | :------------------------ |
+| POST   | `/api/v1/subscriptions`            | Subscribe tenant to plan  |
+| GET    | `/api/v1/subscriptions/active`     | Get active subscription   |
+| GET    | `/api/v1/subscriptions`            | List subscription history |
+| POST   | `/api/v1/subscriptions/:id/cancel` | Cancel subscription       |
 
 #### Entitlement Checks (the hot path)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| GET | `/api/v1/entitlements/:featureKey/check` | Check if tenant can use feature |
-| POST | `/api/v1/entitlements/:featureKey/consume` | Consume units of feature |
+| Method | Path                                       | Description                     |
+| :----- | :----------------------------------------- | :------------------------------ |
+| GET    | `/api/v1/entitlements/:featureKey/check`   | Check if tenant can use feature |
+| POST   | `/api/v1/entitlements/:featureKey/consume` | Consume units of feature        |
 
 ---
 
@@ -187,10 +187,10 @@ Pushing a tag (e.g., `git tag v0.5.3 && git push --tags`) triggers the **Release
 
 To save developer time, the project includes several automated maintenance tasks:
 
-| Feature | Description | Frequency |
-| :--- | :--- | :--- |
-| **OSV Audit** | Scans lockfiles for known vulnerabilities using Google's OSV database. | Every PR/Push |
-| **Secret Scan** | Scans entire git history for leaked credentials using Gitleaks. | Every PR/Push |
-| **Override Pruning** | Proactively checks if `pnpm.overrides` are still needed and opens a PR to remove them. | Weekly |
-| **Actions Audit** | Scans GitHub Actions for security flaws and unpinned versions using `zizmor`. | Every PR/Push |
-| **Renovate** | Automated dependency updates and security patches. | Continuous |
+| Feature              | Description                                                                            | Frequency     |
+| :------------------- | :------------------------------------------------------------------------------------- | :------------ |
+| **OSV Audit**        | Scans lockfiles for known vulnerabilities using Google's OSV database.                 | Every PR/Push |
+| **Secret Scan**      | Scans entire git history for leaked credentials using Gitleaks.                        | Every PR/Push |
+| **Override Pruning** | Proactively checks if `pnpm.overrides` are still needed and opens a PR to remove them. | Weekly        |
+| **Actions Audit**    | Scans GitHub Actions for security flaws and unpinned versions using `zizmor`.          | Every PR/Push |
+| **Renovate**         | Automated dependency updates and security patches.                                     | Continuous    |

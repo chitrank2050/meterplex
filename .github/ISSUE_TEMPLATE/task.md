@@ -1,9 +1,9 @@
 ---
 name: Task
 about: Maintenance, chores, or internal improvements
-title: "chore(): "
+title: 'chore(): '
 labels: internal
-assignees: "chitrank2050"
+assignees: 'chitrank2050'
 ---
 
 ## Objective

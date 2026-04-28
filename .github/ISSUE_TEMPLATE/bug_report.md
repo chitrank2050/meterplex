@@ -1,9 +1,9 @@
 ---
 name: Bug report
 about: Report something that isn't working correctly
-title: "fix(): "
+title: 'fix(): '
 labels: bug
-assignees: "chitrank2050"
+assignees: 'chitrank2050'
 ---
 
 ## Describe the bug

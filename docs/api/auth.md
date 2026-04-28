@@ -4,10 +4,10 @@ The Auth API handles user onboarding, session management, and security (password
 
 ## Authorization
 
-| Endpoint | Requirement |
-| :--- | :--- |
-| `POST /register`, `/login`, `/refresh` | Public |
-| `POST /forgot-password`, `/reset-password` | Public |
+| Endpoint                                      | Requirement         |
+| :-------------------------------------------- | :------------------ |
+| `POST /register`, `/login`, `/refresh`        | Public              |
+| `POST /forgot-password`, `/reset-password`    | Public              |
 | `GET /me`, `POST /change-password`, `/logout` | Authenticated (JWT) |
 
 ---

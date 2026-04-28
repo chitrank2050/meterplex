@@ -50,11 +50,11 @@ This avoids floating-point rounding errors in billing math.
 
 ### Feature types
 
-| Type | Gating | Example |
-| :--- | :--- | :--- |
-| BOOLEAN | On/off | SSO, webhooks, priority support |
-| QUOTA | Numeric limit per period | 50,000 API calls/month, 10 team seats |
-| METERED | Usage-based billing | Storage at $0.02/GB, tokens at $0.001/call |
+| Type    | Gating                   | Example                                    |
+| :------ | :----------------------- | :----------------------------------------- |
+| BOOLEAN | On/off                   | SSO, webhooks, priority support            |
+| QUOTA   | Numeric limit per period | 50,000 API calls/month, 10 team seats      |
+| METERED | Usage-based billing      | Storage at $0.02/GB, tokens at $0.001/call |
 
 ### Entitlement field rules
 
@@ -77,12 +77,12 @@ The same feature can be HARD on Starter (block at 1,000) and SOFT on Pro (allow 
 
 Stored in micro-cents (1/10000th of currency unit) to handle sub-cent pricing:
 
-| Real price | Micro-cents |
-| :--- | :--- |
-| $0.001/call | 10 |
-| $0.02/GB | 200 |
-| $0.50/seat | 5000 |
-| $10/seat | 100000 |
+| Real price  | Micro-cents |
+| :---------- | :---------- |
+| $0.001/call | 10          |
+| $0.02/GB    | 200         |
+| $0.50/seat  | 5000        |
+| $10/seat    | 100000      |
 
 Formula: `micro_cents = real_price_in_dollars × 10,000`
 
@@ -128,88 +128,88 @@ Phase 2 uses in-memory counters keyed by tenant + feature + period. Phase 3 repl
 
 ### Plans (public read, authenticated write)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | /plans | Create a plan |
-| GET | /plans | List plans (skip ARCHIVED by default) |
-| GET | /plans/slug/:slug | Get plan by slug |
-| GET | /plans/:id | Get plan by UUID |
-| PATCH | /plans/:id | Update plan (slug immutable) |
+| Method | Path              | Description                           |
+| :----- | :---------------- | :------------------------------------ |
+| POST   | /plans            | Create a plan                         |
+| GET    | /plans            | List plans (skip ARCHIVED by default) |
+| GET    | /plans/slug/:slug | Get plan by slug                      |
+| GET    | /plans/:id        | Get plan by UUID                      |
+| PATCH  | /plans/:id        | Update plan (slug immutable)          |
 
 ### Plan Prices (nested under plans)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | /plans/:planId/prices | Add a price to a plan |
-| GET | /plans/:planId/prices | List prices for a plan |
-| PATCH | /plans/:planId/prices/:id | Deactivate a price |
+| Method | Path                      | Description            |
+| :----- | :------------------------ | :--------------------- |
+| POST   | /plans/:planId/prices     | Add a price to a plan  |
+| GET    | /plans/:planId/prices     | List prices for a plan |
+| PATCH  | /plans/:planId/prices/:id | Deactivate a price     |
 
 ### Features (authenticated)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | /features | Create a feature |
-| GET | /features | List features |
-| GET | /features/key/:lookupKey | Get feature by lookup key |
-| GET | /features/:id | Get feature by UUID |
-| PATCH | /features/:id | Update feature (lookup_key and type immutable) |
+| Method | Path                     | Description                                    |
+| :----- | :----------------------- | :--------------------------------------------- |
+| POST   | /features                | Create a feature                               |
+| GET    | /features                | List features                                  |
+| GET    | /features/key/:lookupKey | Get feature by lookup key                      |
+| GET    | /features/:id            | Get feature by UUID                            |
+| PATCH  | /features/:id            | Update feature (lookup_key and type immutable) |
 
 ### Entitlements (nested under plans)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | /plans/:planId/entitlements | Map a feature to a plan |
-| GET | /plans/:planId/entitlements | List plan's entitlements |
-| GET | /plans/:planId/entitlements/:id | Get entitlement details |
-| PATCH | /plans/:planId/entitlements/:id | Update entitlement rules |
+| Method | Path                            | Description              |
+| :----- | :------------------------------ | :----------------------- |
+| POST   | /plans/:planId/entitlements     | Map a feature to a plan  |
+| GET    | /plans/:planId/entitlements     | List plan's entitlements |
+| GET    | /plans/:planId/entitlements/:id | Get entitlement details  |
+| PATCH  | /plans/:planId/entitlements/:id | Update entitlement rules |
 | DELETE | /plans/:planId/entitlements/:id | Remove feature from plan |
 
 ### Subscriptions (tenant-scoped, OWNER/ADMIN only for writes)
 
-| Method | Path | Guards | Description |
-| :--- | :--- | :--- | :--- |
-| POST | /subscriptions | JWT + Tenant + OWNER/ADMIN | Subscribe to a plan |
-| GET | /subscriptions/active | JWT + Tenant | Get current active subscription |
-| GET | /subscriptions | JWT + Tenant | List subscription history |
-| POST | /subscriptions/:id/cancel | JWT + Tenant + OWNER/ADMIN | Cancel subscription |
+| Method | Path                      | Guards                     | Description                     |
+| :----- | :------------------------ | :------------------------- | :------------------------------ |
+| POST   | /subscriptions            | JWT + Tenant + OWNER/ADMIN | Subscribe to a plan             |
+| GET    | /subscriptions/active     | JWT + Tenant               | Get current active subscription |
+| GET    | /subscriptions            | JWT + Tenant               | List subscription history       |
+| POST   | /subscriptions/:id/cancel | JWT + Tenant + OWNER/ADMIN | Cancel subscription             |
 
 ### Entitlement Checks (tenant-scoped)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| GET | /entitlements/:featureKey/check | Can this tenant use feature X? |
-| POST | /entitlements/:featureKey/consume | Consume units of a feature |
+| Method | Path                              | Description                    |
+| :----- | :-------------------------------- | :----------------------------- |
+| GET    | /entitlements/:featureKey/check   | Can this tenant use feature X? |
+| POST   | /entitlements/:featureKey/consume | Consume units of a feature     |
 
 ## Key decisions
 
-| Decision | Why |
-| :--- | :--- |
-| Plan/Price separation | Stripe pattern. Change pricing without recreating plans |
-| Features as global catalog | Same feature, different rules per plan |
-| Entitlement snapshots on subscribe | Plan changes don't break existing subscribers |
-| Micro-cents for overage pricing | Avoids floating-point math for sub-cent rates |
-| limit_behavior on entitlement, not feature | Same feature can be HARD on Starter, SOFT on Pro |
-| lookup_key for features | Stable code-facing identifier. Code references "api_calls", not a UUID |
-| Denormalized snapshots | Avoids JOIN on entitlement check (the hot path) |
-| One active subscription per tenant | Clean audit trail. Upgrades cancel old, create new |
-| billing_anchor capped at 28 | Avoids February edge case |
-| Separate EntitlementCheck module | Admin CRUD vs runtime checks have different access patterns |
-| In-memory usage counters (Phase 2) | Phase 3 replaces with Redis + Kafka for scale |
+| Decision                                   | Why                                                                    |
+| :----------------------------------------- | :--------------------------------------------------------------------- |
+| Plan/Price separation                      | Stripe pattern. Change pricing without recreating plans                |
+| Features as global catalog                 | Same feature, different rules per plan                                 |
+| Entitlement snapshots on subscribe         | Plan changes don't break existing subscribers                          |
+| Micro-cents for overage pricing            | Avoids floating-point math for sub-cent rates                          |
+| limit_behavior on entitlement, not feature | Same feature can be HARD on Starter, SOFT on Pro                       |
+| lookup_key for features                    | Stable code-facing identifier. Code references "api_calls", not a UUID |
+| Denormalized snapshots                     | Avoids JOIN on entitlement check (the hot path)                        |
+| One active subscription per tenant         | Clean audit trail. Upgrades cancel old, create new                     |
+| billing_anchor capped at 28                | Avoids February edge case                                              |
+| Separate EntitlementCheck module           | Admin CRUD vs runtime checks have different access patterns            |
+| In-memory usage counters (Phase 2)         | Phase 3 replaces with Redis + Kafka for scale                          |
 
 ## Seed data
 
 Three plans with tiered features. All passwords: `DevPass123`.
 
-| Feature | Starter ($29/mo) | Pro ($99/mo) | Enterprise ($499/mo) |
-| :--- | :--- | :--- | :--- |
-| API Access | ✅ | ✅ | ✅ |
-| API Calls | 1,000/mo HARD | 50,000/mo SOFT ($0.001) | 500,000/mo SOFT ($0.0005) |
-| Storage | 1 GB + $0.05/GB | 10 GB + $0.02/GB | 100 GB + $0.01/GB |
-| SSO | ❌ | ❌ | ✅ |
-| Webhooks | ❌ | ✅ | ✅ |
-| Priority Support | ❌ | ❌ | ✅ |
-| Team Seats | 3 HARD | 10 SOFT ($10/seat) | 50 SOFT ($8/seat) |
-| Analytics Export | ❌ | ✅ | ✅ |
+| Feature          | Starter ($29/mo) | Pro ($99/mo)            | Enterprise ($499/mo)      |
+| :--------------- | :--------------- | :---------------------- | :------------------------ |
+| API Access       | ✅               | ✅                      | ✅                        |
+| API Calls        | 1,000/mo HARD    | 50,000/mo SOFT ($0.001) | 500,000/mo SOFT ($0.0005) |
+| Storage          | 1 GB + $0.05/GB  | 10 GB + $0.02/GB        | 100 GB + $0.01/GB         |
+| SSO              | ❌               | ❌                      | ✅                        |
+| Webhooks         | ❌               | ✅                      | ✅                        |
+| Priority Support | ❌               | ❌                      | ✅                        |
+| Team Seats       | 3 HARD           | 10 SOFT ($10/seat)      | 50 SOFT ($8/seat)         |
+| Analytics Export | ❌               | ✅                      | ✅                        |
 
 Dev tenant subscriptions:
 

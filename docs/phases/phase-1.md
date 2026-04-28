@@ -49,12 +49,12 @@ Two authentication mechanisms for two audiences:
 
 Four roles enforced via guards:
 
-| Role | Manage users | Manage billing | Use APIs | Delete tenant |
-| :--- | :--- | :--- | :--- | :--- |
-| OWNER | ✅ | ✅ | ✅ | ✅ |
-| ADMIN | ✅ | ✅ | ✅ | ❌ |
-| DEVELOPER | ❌ | ❌ | ✅ | ❌ |
-| BILLING | ❌ | ✅ | ❌ | ❌ |
+| Role      | Manage users | Manage billing | Use APIs | Delete tenant |
+| :-------- | :----------- | :------------- | :------- | :------------ |
+| OWNER     | ✅           | ✅             | ✅       | ✅            |
+| ADMIN     | ✅           | ✅             | ✅       | ❌            |
+| DEVELOPER | ❌           | ❌             | ✅       | ❌            |
+| BILLING   | ❌           | ✅             | ❌       | ❌            |
 
 ### Tenant isolation
 
@@ -75,77 +75,77 @@ Four roles enforced via guards:
 
 ### Auth (public)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| POST | /auth/register | Create user + tenant, return tokens |
-| POST | /auth/login | Validate credentials, return tokens |
-| POST | /auth/refresh | Exchange refresh token for new pair |
-| POST | /auth/forgot-password | Generate reset token |
-| POST | /auth/reset-password | Reset password with token |
+| Method | Path                  | Description                         |
+| :----- | :-------------------- | :---------------------------------- |
+| POST   | /auth/register        | Create user + tenant, return tokens |
+| POST   | /auth/login           | Validate credentials, return tokens |
+| POST   | /auth/refresh         | Exchange refresh token for new pair |
+| POST   | /auth/forgot-password | Generate reset token                |
+| POST   | /auth/reset-password  | Reset password with token           |
 
 ### Auth (protected)
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| GET | /auth/me | Current user profile |
-| POST | /auth/change-password | Change password |
-| POST | /auth/logout | Revoke refresh token |
-| POST | /auth/logout-all | Revoke all sessions |
+| Method | Path                  | Description          |
+| :----- | :-------------------- | :------------------- |
+| GET    | /auth/me              | Current user profile |
+| POST   | /auth/change-password | Change password      |
+| POST   | /auth/logout          | Revoke refresh token |
+| POST   | /auth/logout-all      | Revoke all sessions  |
 
 ### Tenants (protected)
 
-| Method | Path | Guards | Description |
-| :--- | :--- | :--- | :--- |
-| POST | /tenants | JWT | Create tenant (user becomes OWNER) |
-| GET | /tenants | JWT | List user's tenants |
-| GET | /tenants/slug/:slug | JWT | Look up by slug |
-| GET | /tenants/:id | JWT + Tenant | Get tenant details |
-| PATCH | /tenants/:id | JWT + Tenant + OWNER/ADMIN | Update tenant |
-| DELETE | /tenants/:id | JWT + Tenant + OWNER | Cancel tenant |
+| Method | Path                | Guards                     | Description                        |
+| :----- | :------------------ | :------------------------- | :--------------------------------- |
+| POST   | /tenants            | JWT                        | Create tenant (user becomes OWNER) |
+| GET    | /tenants            | JWT                        | List user's tenants                |
+| GET    | /tenants/slug/:slug | JWT                        | Look up by slug                    |
+| GET    | /tenants/:id        | JWT + Tenant               | Get tenant details                 |
+| PATCH  | /tenants/:id        | JWT + Tenant + OWNER/ADMIN | Update tenant                      |
+| DELETE | /tenants/:id        | JWT + Tenant + OWNER       | Cancel tenant                      |
 
 ### Users (protected)
 
-| Method | Path | Guards | Description |
-| :--- | :--- | :--- | :--- |
-| POST | /users | JWT + Tenant + OWNER/ADMIN | Create user in tenant |
-| GET | /users/me | JWT | Own profile |
-| GET | /users/:id | JWT | User by ID |
-| PATCH | /users/:id | JWT | Update profile |
+| Method | Path       | Guards                     | Description           |
+| :----- | :--------- | :------------------------- | :-------------------- |
+| POST   | /users     | JWT + Tenant + OWNER/ADMIN | Create user in tenant |
+| GET    | /users/me  | JWT                        | Own profile           |
+| GET    | /users/:id | JWT                        | User by ID            |
+| PATCH  | /users/:id | JWT                        | Update profile        |
 
 ### API Keys (protected)
 
-| Method | Path | Guards | Description |
-| :--- | :--- | :--- | :--- |
-| POST | /api-keys | JWT + Tenant + OWNER/ADMIN | Create key (shown once) |
-| GET | /api-keys | JWT + Tenant + OWNER/ADMIN | List keys |
-| DELETE | /api-keys/:id | JWT + Tenant + OWNER/ADMIN | Revoke key |
+| Method | Path          | Guards                     | Description             |
+| :----- | :------------ | :------------------------- | :---------------------- |
+| POST   | /api-keys     | JWT + Tenant + OWNER/ADMIN | Create key (shown once) |
+| GET    | /api-keys     | JWT + Tenant + OWNER/ADMIN | List keys               |
+| DELETE | /api-keys/:id | JWT + Tenant + OWNER/ADMIN | Revoke key              |
 
 ## Key decisions
 
-| Decision | Why |
-| :--- | :--- |
-| Multi-tenant users (one login, many orgs) | Matches Slack/GitHub model, more flexible than single-tenant |
-| Memberships as join table | Users can have different roles in different tenants |
-| Fixed roles (enum) over dynamic RBAC | Four roles is sufficient for a billing platform, no over-engineering |
-| Dual JWT tokens (access + refresh) | Short-lived access limits stolen token damage, refresh enables session management |
-| Separate secrets for access and refresh | Compromising one doesn't compromise the other |
-| Token rotation on refresh | Detects stolen refresh tokens via reuse detection |
-| API keys as SHA-256 hashes | Same pattern as Stripe - database breach doesn't expose keys |
-| Soft-delete on tenants | Billing compliance requires data retention |
-| Password reset via DB tokens (not JWT) | Audit trail, single-use enforcement, explicit revocation |
-| x-tenant-id header over URL param | Keeps routes clean, matches Stripe's Connected Accounts pattern |
+| Decision                                  | Why                                                                               |
+| :---------------------------------------- | :-------------------------------------------------------------------------------- |
+| Multi-tenant users (one login, many orgs) | Matches Slack/GitHub model, more flexible than single-tenant                      |
+| Memberships as join table                 | Users can have different roles in different tenants                               |
+| Fixed roles (enum) over dynamic RBAC      | Four roles is sufficient for a billing platform, no over-engineering              |
+| Dual JWT tokens (access + refresh)        | Short-lived access limits stolen token damage, refresh enables session management |
+| Separate secrets for access and refresh   | Compromising one doesn't compromise the other                                     |
+| Token rotation on refresh                 | Detects stolen refresh tokens via reuse detection                                 |
+| API keys as SHA-256 hashes                | Same pattern as Stripe - database breach doesn't expose keys                      |
+| Soft-delete on tenants                    | Billing compliance requires data retention                                        |
+| Password reset via DB tokens (not JWT)    | Audit trail, single-use enforcement, explicit revocation                          |
+| x-tenant-id header over URL param         | Keeps routes clean, matches Stripe's Connected Accounts pattern                   |
 
 ## Seed data
 
 All passwords: `DevPass123`
 
-| User | Acme Corp | Globex | Stark |
-| :--- | :--- | :--- | :--- |
-| <alice@meterplex.dev> | OWNER | ADMIN | - |
-| <bob@meterplex.dev> | DEVELOPER | OWNER | - |
-| <carol@meterplex.dev> | BILLING | - | OWNER |
-| <dave@meterplex.dev> | DEVELOPER | DEVELOPER | - |
-| <eve@meterplex.dev> | - | BILLING | ADMIN |
+| User                  | Acme Corp | Globex    | Stark |
+| :-------------------- | :-------- | :-------- | :---- |
+| <alice@meterplex.dev> | OWNER     | ADMIN     | -     |
+| <bob@meterplex.dev>   | DEVELOPER | OWNER     | -     |
+| <carol@meterplex.dev> | BILLING   | -         | OWNER |
+| <dave@meterplex.dev>  | DEVELOPER | DEVELOPER | -     |
+| <eve@meterplex.dev>   | -         | BILLING   | ADMIN |
 
 ## Gotchas encountered
 

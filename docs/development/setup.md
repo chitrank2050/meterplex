@@ -2,16 +2,16 @@
 
 ## Prerequisites
 
-| Tool | Minimum Version | Install | Check Command |
-| :--- | :--- | :--- | :--- |
-| Node.js | 24.0.0 | [nodejs.org](https://nodejs.org) | `node --version` |
-| pnpm | 9.0.0 | `npm i -g pnpm` | `pnpm --version` |
-| Docker | 24.0.0 | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version` |
-| Docker Compose | 2.20.0 | Bundled with Docker Desktop | `docker compose version` |
-| gitleaks | 8.0.0 | `brew install gitleaks` | `gitleaks version` |
-| zizmor | - | `brew install zizmor` | `zizmor --version` |
-| knip | - | `pnpm install` (dev dep) | `pnpm lint:knip` |
-| lefthook | - | `pnpm install` (dev dep) | `pnpm lefthook --version` |
+| Tool           | Minimum Version | Install                                                | Check Command             |
+| :------------- | :-------------- | :----------------------------------------------------- | :------------------------ |
+| Node.js        | 24.0.0          | [nodejs.org](https://nodejs.org)                       | `node --version`          |
+| pnpm           | 9.0.0           | `npm i -g pnpm`                                        | `pnpm --version`          |
+| Docker         | 24.0.0          | [docs.docker.com](https://docs.docker.com/get-docker/) | `docker --version`        |
+| Docker Compose | 2.20.0          | Bundled with Docker Desktop                            | `docker compose version`  |
+| gitleaks       | 8.0.0           | `brew install gitleaks`                                | `gitleaks version`        |
+| zizmor         | -               | `brew install zizmor`                                  | `zizmor --version`        |
+| knip           | -               | `pnpm install` (dev dep)                               | `pnpm lint:knip`          |
+| lefthook       | -               | `pnpm install` (dev dep)                               | `pnpm lefthook --version` |
 
 ## ⚡ Quick Start (Recommended)
 
@@ -193,10 +193,10 @@ See `src/config/env.validation.ts` for the validation schema.
 
 ### Import Aliases
 
-| Alias | Resolves To |
-| :--- | :--- |
-| `@common/*` | `src/common/*` |
-| `@config/*` | `src/config/*` |
+| Alias        | Resolves To     |
+| :----------- | :-------------- |
+| `@common/*`  | `src/common/*`  |
+| `@config/*`  | `src/config/*`  |
 | `@modules/*` | `src/modules/*` |
 
 ### Database Conventions

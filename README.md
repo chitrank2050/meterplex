@@ -65,18 +65,18 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 
 ### 🛠️ Tech Stack
 
-| Domain | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Backend** | [NestJS 11](https://nestjs.com/) | Modular backend architecture |
-| **Language** | [TypeScript 6.0](https://www.typescriptlang.org/) | Type-safe development |
-| **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Persistent storage & ORM |
-| **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Event-driven async processing |
-| **Caching** | [Redis 8](https://redis.io/) | Distributed caching & rate limiting |
-| **DevOps** | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard security & automation |
-| **Automation** | [Chitrank Action](https://github.com/chitrank2050) | Centralized, hardened bot-driven governance |
-| **Quality** | [Vitest](https://vitest.dev/), [Lefthook](https://github.com/evilmartians/lefthook) | Unit testing & high-performance git hooks |
-| **Docs** | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) | Technical documentation & changelog |
-| **API Tools** | [Bruno](https://usebruno.com/), [Swagger](https://swagger.io/), [Scalar](https://scalar.com/) | API testing & documentation |
+| Domain         | Technology                                                                                      | Purpose                                     |
+| :------------- | :---------------------------------------------------------------------------------------------- | :------------------------------------------ |
+| **Backend**    | [NestJS 11](https://nestjs.com/)                                                                | Modular backend architecture                |
+| **Language**   | [TypeScript 6.0](https://www.typescriptlang.org/)                                               | Type-safe development                       |
+| **Database**   | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/)               | Persistent storage & ORM                    |
+| **Messaging**  | [Apache Kafka 4.2](https://kafka.apache.org/)                                                   | Event-driven async processing               |
+| **Caching**    | [Redis 8](https://redis.io/)                                                                    | Distributed caching & rate limiting         |
+| **DevOps**     | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard security & automation         |
+| **Automation** | [Chitrank Action](https://github.com/chitrank2050)                                              | Centralized, hardened bot-driven governance |
+| **Quality**    | [Vitest](https://vitest.dev/), [Lefthook](https://github.com/evilmartians/lefthook)             | Unit testing & high-performance git hooks   |
+| **Docs**       | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)                                 | Technical documentation & changelog         |
+| **API Tools**  | [Bruno](https://usebruno.com/), [Swagger](https://swagger.io/), [Scalar](https://scalar.com/)   | API testing & documentation                 |
 
 ## Quick Start
 
@@ -97,16 +97,16 @@ pnpm dev:init
 
 ### 🛠️ Development Scripts
 
-| Command | Description |
-| :--- | :--- |
-| `pnpm dev:init` | **Interactive Wizard**: Multi-select setup, maintenance, and deep clean |
-| `pnpm setup:all` | Standard setup: install deps + start infrastructure + seed DB |
-| `pnpm setup:fresh` | **Hard Reset**: Wipes all data/deps and performs a fresh setup |
-| `pnpm start:dev` | Starts the NestJS application in watch mode |
-| `pnpm test` | Runs the full test suite via Vitest |
-| `pnpm docker:up` | Starts Postgres, Kafka, and Redis in the background |
-| `pnpm db:studio` | Opens Prisma Studio to visualize your database |
-| `pnpm lint` | Runs TypeScript, Markdown, and GitHub Action linters |
+| Command            | Description                                                             |
+| :----------------- | :---------------------------------------------------------------------- |
+| `pnpm dev:init`    | **Interactive Wizard**: Multi-select setup, maintenance, and deep clean |
+| `pnpm setup:all`   | Standard setup: install deps + start infrastructure + seed DB           |
+| `pnpm setup:fresh` | **Hard Reset**: Wipes all data/deps and performs a fresh setup          |
+| `pnpm start:dev`   | Starts the NestJS application in watch mode                             |
+| `pnpm test`        | Runs the full test suite via Vitest                                     |
+| `pnpm docker:up`   | Starts Postgres, Kafka, and Redis in the background                     |
+| `pnpm db:studio`   | Opens Prisma Studio to visualize your database                          |
+| `pnpm lint`        | Runs TypeScript, Markdown, and GitHub Action linters                    |
 
 The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs`. Health check at `http://localhost:3000/health`.
 
@@ -153,31 +153,31 @@ meterplex/
 
 ## Available Scripts
 
-| Script | Description |
-| :--- | :--- |
-| `pnpm start:dev` | Start with hot reload |
-| `pnpm start:prod` | Start production build |
-| `pnpm build` | Compile TypeScript |
-| `pnpm test` | Run unit tests |
-| `pnpm test:e2e` | Run end-to-end tests |
-| `pnpm lint` | Lint and fix code |
-| `pnpm db:generate` | Regenerate Prisma client |
-| `pnpm db:migrate:dev` | Create and apply migration |
-| `pnpm db:migrate:deploy` | Apply migrations (CI/prod) |
-| `pnpm db:seed` | Seed development data |
-| `pnpm db:studio` | Open Prisma data browser |
-| `pnpm docker:up` | Start Docker containers |
-| `pnpm docker:down` | Stop containers and remove volumes |
-| `pnpm docker:logs` | Tail container logs |
+| Script                   | Description                        |
+| :----------------------- | :--------------------------------- |
+| `pnpm start:dev`         | Start with hot reload              |
+| `pnpm start:prod`        | Start production build             |
+| `pnpm build`             | Compile TypeScript                 |
+| `pnpm test`              | Run unit tests                     |
+| `pnpm test:e2e`          | Run end-to-end tests               |
+| `pnpm lint`              | Lint and fix code                  |
+| `pnpm db:generate`       | Regenerate Prisma client           |
+| `pnpm db:migrate:dev`    | Create and apply migration         |
+| `pnpm db:migrate:deploy` | Apply migrations (CI/prod)         |
+| `pnpm db:seed`           | Seed development data              |
+| `pnpm db:studio`         | Open Prisma data browser           |
+| `pnpm docker:up`         | Start Docker containers            |
+| `pnpm docker:down`       | Stop containers and remove volumes |
+| `pnpm docker:logs`       | Tail container logs                |
 
 ## API Endpoints
 
-| Method | Path | Description |
-| :--- | :--- | :--- |
-| GET | `/health` | Infrastructure health check |
-| - | `/api/docs` | Swagger UI (development only) |
+| Method | Path        | Description                   |
+| :----- | :---------- | :---------------------------- |
+| GET    | `/health`   | Infrastructure health check   |
+| -      | `/api/docs` | Swagger UI (development only) |
 
-*More endpoints are added with each phase.*
+_More endpoints are added with each phase._
 
 ## Documentation
 
@@ -192,14 +192,14 @@ Detailed documentation is available in the [`docs/`](./docs) folder and on GitHu
 
 ## Development Phases
 
-| Phase | Focus | Status |
-| :--- | :--- | :--- |
-| 0 | Project setup, infrastructure, foundations | ✅ Complete |
-| 1 | Auth, tenants, users, plans, subscriptions | ✅ Complete |
-| 2 | Entitlements and usage tracking | 🔜 Next |
-| 3 | Billing, invoices, payments | - |
-| 4 | Kafka event pipeline, async processing | - |
-| 5 | Observability, rate limiting, hardening | - |
+| Phase | Focus                                      | Status      |
+| :---- | :----------------------------------------- | :---------- |
+| 0     | Project setup, infrastructure, foundations | ✅ Complete |
+| 1     | Auth, tenants, users, plans, subscriptions | ✅ Complete |
+| 2     | Entitlements and usage tracking            | 🔜 Next     |
+| 3     | Billing, invoices, payments                | -           |
+| 4     | Kafka event pipeline, async processing     | -           |
+| 5     | Observability, rate limiting, hardening    | -           |
 
 ## License
 

@@ -19,7 +19,7 @@ pre-commit:
 
     # 3. Markdown files - markdownlint fix + Prettier format
     lint-md:
-      glob: '*.md'
+      glob: '**/*.md'
       run: pnpm exec markdownlint --fix {staged_files} && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 

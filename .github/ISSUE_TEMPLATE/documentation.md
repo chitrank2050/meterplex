@@ -1,9 +1,9 @@
 ---
 name: Documentation
 about: Improvements or additions to documentation
-title: "docs(): "
+title: 'docs(): '
 labels: documentation
-assignees: "chitrank2050"
+assignees: 'chitrank2050'
 ---
 
 ## Description

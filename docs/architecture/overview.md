@@ -84,12 +84,12 @@ Client Response
 
 Meterplex follows a **"Performance-First"** infrastructure philosophy. For local development, we use Docker Compose with several high-efficiency strategies:
 
-| Service | Container | Port | Purpose |
-| :--- | :--- | :--- | :--- |
-| PostgreSQL 18 | `meterplex-postgres` | 5432 | Primary data store |
-| Apache Kafka 4.2 | `meterplex-kafka` | 9092 | Event streaming (KRaft Mode) |
-| Redis 8 | `meterplex-redis` | 6379 | Cache and rate limiting |
-| Kafka UI | `meterplex-kafka-ui` | 9000 | Debug interface (Dormant by default) |
+| Service          | Container            | Port | Purpose                              |
+| :--------------- | :------------------- | :--- | :----------------------------------- |
+| PostgreSQL 18    | `meterplex-postgres` | 5432 | Primary data store                   |
+| Apache Kafka 4.2 | `meterplex-kafka`    | 9092 | Event streaming (KRaft Mode)         |
+| Redis 8          | `meterplex-redis`    | 6379 | Cache and rate limiting              |
+| Kafka UI         | `meterplex-kafka-ui` | 9000 | Debug interface (Dormant by default) |
 
 ### Key Infrastructure Principles
 

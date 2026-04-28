@@ -6,9 +6,9 @@ API Keys allow for server-to-server authentication. They are scoped to a specifi
 
 Meterplex uses the industry-standard "Hash & Prefix" pattern (used by Stripe and AWS):
 
-* **Prefix**: The first 7 characters (e.g., `mp_live_`) are stored in plain text for identification.
-* **Hash**: We store only the SHA-256 hash of the full key.
-* **One-Time Visibility**: The raw key is returned **exactly once** upon creation. It is never stored in our database.
+- **Prefix**: The first 7 characters (e.g., `mp_live_`) are stored in plain text for identification.
+- **Hash**: We store only the SHA-256 hash of the full key.
+- **One-Time Visibility**: The raw key is returned **exactly once** upon creation. It is never stored in our database.
 
 ---
 
