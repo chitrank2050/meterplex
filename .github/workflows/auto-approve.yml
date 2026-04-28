@@ -63,15 +63,15 @@ jobs:
         id: guard
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          PR_JSON: ${{ toJSON(github.event.workflow_run.pull_requests) }}
+          EVENT_PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
           HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
           set -euo pipefail
 
           # 1. Find PR number — try event payload first, fall back to API lookup.
-          PR_NUMBER=$(echo "$PR_JSON" | jq -r '.[0].number // empty')
+          PR_NUMBER="$EVENT_PR_NUMBER"
 
-          if [ -z "$PR_NUMBER" ]; then
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
             echo "PR array empty in event payload. Looking up by branch: $HEAD_BRANCH"
             PR_NUMBER=$(gh pr list \
               --repo "$GITHUB_REPOSITORY" \
@@ -179,14 +179,30 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           PR_NUMBER: ${{ steps.guard.outputs.pr_number }}
+          PR_AUTHOR: ${{ steps.guard.outputs.pr_author }}
         run: |
           set -euo pipefail
 
-          gh pr review "$PR_NUMBER" \
-            --repo "$GITHUB_REPOSITORY" \
-            --approve \
-            --body "🤖 Approved by automation — CI is green and source is verified."
+          # 4. Handle Approval (Bot Switching Logic)
+          # - If PR created by someone else (Renovate): Approve using the Custom Bot.
+          # - If PR created by Custom Bot (Release): Approve using the built-in github-actions[bot].
+          BOT_USER=$(gh api user --jq '.login')
 
+          if [ "$PR_AUTHOR" != "$BOT_USER" ]; then
+            echo "📝 PR created by $PR_AUTHOR. Approving as $BOT_USER..."
+            gh pr review "$PR_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --approve \
+              --body "🤖 Approved by $BOT_USER — CI is green and source is verified."
+          else
+            echo "📝 PR created by $BOT_USER. Approving as github-actions[bot]..."
+            GH_TOKEN="${{ secrets.GITHUB_TOKEN }}" gh pr review "$PR_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --approve \
+              --body "🤖 Approved by github-actions[bot] — Verified custom bot release."
+          fi
+
+          # 5. Enable Auto-Merge
           gh pr merge "$PR_NUMBER" \
             --repo "$GITHUB_REPOSITORY" \
             --auto \
