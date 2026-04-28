@@ -43,13 +43,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Validate PR Title 🏷️
-        uses: chitranklabs/git-hygiene@aa8da98514e2641c607bdb845b469c558afa2563 # v0.4.11
+        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
         with:
           command: 'title'
           value: ${{ github.event.pull_request.title }}
 
       - name: Validate Branch Name 🌿
-        uses: chitranklabs/git-hygiene@aa8da98514e2641c607bdb845b469c558afa2563 # v0.4.11
+        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
         with:
           command: 'branch'
           value: ${{ github.event.pull_request.head.ref }}
