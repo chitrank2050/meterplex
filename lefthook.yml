@@ -13,7 +13,7 @@ pre-commit:
 
     # 2. TypeScript files - ESLint fix + Prettier format
     lint-ts:
-      glob: '*.ts'
+      glob: '**/*.ts'
       run: pnpm exec eslint --fix {staged_files} && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
@@ -25,7 +25,7 @@ pre-commit:
 
     # 4. JSON / YAML - Prettier format only
     lint-json-yml:
-      glob: '*.{json,yml,yaml}'
+      glob: '**/*.{json,yml,yaml}'
       run: pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
