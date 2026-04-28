@@ -4,4 +4,3 @@ CHANGELOG.md
 dist
 .husky
 .env
-*.md
