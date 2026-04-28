@@ -2516,8 +2516,8 @@
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The interceptor does not capture "before" state for updates. Querying the database before every update would add latency to every mutation. If specific services need before/after diffs, they can implement that at the service layer and pass the diff explicitly.</p>
 </div>
+<p>The interceptor does not capture "before" state for updates. Querying the database before every update would add latency to every mutation. If specific services need before/after diffs, they can implement that at the service layer and pass the diff explicitly.</p>
 <h3 id="delete-snapshot-of-the-deleted-resource">DELETE - snapshot of the deleted resource<a class="headerlink" href="#delete-snapshot-of-the-deleted-resource" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;before&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2611,7 +2611,7 @@
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nx">users</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;user&#39;</span><span class="p">,</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="s1">&#39;api-keys&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;api_key&#39;</span><span class="p">,</span>
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nx">memberships</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;membership&#39;</span><span class="p">,</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nx">plans</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;plan&#39;</span><span class="p">,</span><span class="w">           </span><span class="c1">// ← add this</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nx">plans</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;plan&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// ← add this</span>
 <a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nx">entitlements</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;entitlement&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// ← add this</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">};</span>
 </code></pre></div>

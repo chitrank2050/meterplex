@@ -1904,12 +1904,10 @@
 <p>Our CI pipeline is optimized for speed and cost-efficiency (Free-tier friendly):</p>
 <ol>
 <li><strong>Parallel Hygiene</strong>: Code linting, formatting checks, and markdown audits run in parallel jobs. This provides developer feedback 3x faster than sequential runs.</li>
-<li><strong>Smart Caching</strong>:<ul>
+<li><strong>Smart Caching</strong>:</li>
 <li><strong>pnpm Store</strong>: Global cache for dependency resolution.</li>
 <li><strong>Prisma Client</strong>: The generated Prisma client is cached and only rebuilt when <code>schema.prisma</code> changes, saving ~20s per build.</li>
 <li><strong>Pip</strong>: Python dependencies for documentation are cached.</li>
-</ul>
-</li>
 <li><strong>Trigger Lockdown</strong>: To save Actions minutes, workflows <strong>only</strong> run on the <code>main</code> branch or within a Pull Request targeting <code>main</code>. Intermediate pushes to feature branches do not trigger CI, encouraging local testing via <code>lefthook</code>.</li>
 </ol>
 <hr />
