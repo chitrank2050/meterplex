@@ -38,28 +38,32 @@ split_commits = false
 skip_merge = true
 # regex for preprocessing the commit messages
 commit_preprocessors = [
-  { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/chitrank2050/meterplex/issues/${2}))" },  # replace issue numbers
+  # Replace issue numbers with links
+  { pattern = '(?i)\((?:fixes?|closes?|resolves?|#)\s?#([0-9]+)\)', replace = "([#${1}](https://github.com/chitrank2050/meterplex/issues/${1}))" },
+  # Clean up trailing squash-merge noise (e.g. "feat: something (#123)")
+  { pattern = '\s\(#([0-9]+)\)$', replace = "" },
 ]
 # regex for parsing and grouping commits
 commit_parsers = [
+  # Skip release and maintenance noise (including scoped versions)
   { message = "^docs: update changelog", skip = true },
+  { message = "^chore\\(release\\)", skip = true },
+  { message = "^chore\\(deps.*\\)", skip = true },
   { message = "^chore: release", skip = true },
   { message = "^chore: bump", skip = true },
-  { message = "^chore\\(release\\): update CHANGELOG.md", skip = true },
   { message = "Update CHANGELOG.md", skip = true },
-  { message = "^Merge branch", skip = true },
-  { message = "^Merge pull request", skip = true },
   { message = "^Merge", skip = true },
+
+  # Product & Engineering Grouping
   { message = "^feat", group = "🚀 Features" },
   { message = "^fix", group = "🐛 Bug Fixes" },
-  { message = "^doc", group = "📚 Documentation" },
   { message = "^perf", group = "⚡ Performance" },
   { message = "^refactor", group = "🚜 Refactoring" },
-  { message = "^style", group = "🎨 Styling" },
+  { message = "^doc", group = "📚 Documentation" },
   { message = "^test", group = "🧪 Testing" },
-  { message = "^chore", group = "⚙️ Maintenance" },
-  { message = "^ci", group = "👷 Continuous Integration" },
-  { message = "^build", group = "🏗️ Build" },
+  { message = "^ci|^build", group = "👷 CI/CD & Infra" },
+  { message = "^chore|^style|^maintenance", group = "⚙️ Maintenance" },
+  { message = "^renovate", group = "♻️ Dependency Updates" },
   { message = "^revert", group = "◀️ Revert" },
   { message = ".*", group = "⚙️ Miscellaneous Tasks" },
 ]
