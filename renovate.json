@@ -3,33 +3,55 @@
   "extends": [
     "config:recommended",
     ":timezone(Asia/Kolkata)",
-    "mergeConfidence:all-badges"
+    "mergeConfidence:all-badges",
+    "helpers:pinGitHubActionDigests"
   ],
   "labels": ["dependencies", "renovate"],
-  "assignees": [],
-  "gitAuthor": "Chitrank agnihotri <chitrank2050@gmail.com>",
+  "assignees": ["chitrank2050"],
+  "gitAuthor": "Chitrank Agnihotri <chitrank2050@gmail.com>",
   "baseBranchPatterns": ["main"],
   "schedule": ["every weekend"],
   "prBodyColumns": ["Package", "Change", "Age", "Confidence"],
   "packageRules": [
     {
-      "matchPackageNames": ["/@nestjs\//"],
-      "groupName": "nestjs",
-      "automerge": true
-    },
-    {
-      "matchPackageNames": ["/prisma/", "/@prisma\//"],
-      "groupName": "prisma",
-      "automerge": true
-    },
-    {
-      "matchPackageNames": ["eslint", "prettier", "typescript-eslint"],
+      "matchPackageNames": [
+        "eslint",
+        "prettier",
+        "typescript-eslint",
+        "markdownlint-cli",
+        "knip",
+        "eslint-config-prettier",
+        "@trivago/prettier-plugin-sort-imports"
+      ],
       "groupName": "linting & formatting"
     },
     {
       "matchPackageNames": ["typescript"],
-      "groupName": "typescript",
+      "groupName": "typescript core",
       "versioning": "npm"
+    },
+    {
+      "matchPackageNames": ["/@nestjs\//", "@nestjs/cli", "@nestjs/schematics"],
+      "groupName": "nestjs ecosystem"
+    },
+    {
+      "matchPackageNames": ["prisma", "/@prisma\//"],
+      "groupName": "prisma & database"
+    },
+    {
+      "matchPackageNames": [
+        "vitest",
+        "/@vitest\//",
+        "supertest",
+        "@types/supertest"
+      ],
+      "groupName": "testing ecosystem"
+    },
+    {
+      "matchPackageNames": ["/@types\//"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "definitely typed (non-major)",
+      "automerge": true
     },
     {
       "matchUpdateTypes": ["patch", "minor"],
@@ -39,19 +61,15 @@
     },
     {
       "matchManagers": ["github-actions"],
-      "groupName": "github-actions dependencies"
-    },
-    {
-      "matchFileNames": ["experimental/**"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      "groupName": "github-actions dependencies",
+      "pinDigests": true
     }
   ],
   "dependencyDashboard": true,
   "prConcurrentLimit": 10,
   "prHourlyLimit": 2,
   "vulnerabilityAlerts": {
-    "enabled": false
+    "enabled": true
   },
   "platformAutomerge": true
 }
