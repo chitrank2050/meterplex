@@ -1,5 +1,56 @@
 # Changelog
 
+All notable changes to the Meterplex API and core platform.
+
+## [0.5.7] - 2026-04-28
+
+### ⚙️ Maintenance
+
+- Update branch name validation error message and set default npm loglevel to error ([97371bc](https://github.com/chitrank2050/meterplex/commit/97371bcb29d2ea82111e2ec817507f45ec7679ba)) by [@chitrank2050](https://github.com/chitrank2050)
+- Increase stale closure threshold and add pinned and security labels to exemption lists ([5e9a166](https://github.com/chitrank2050/meterplex/commit/5e9a166340188c93d48dfff4a4e653417664fac5)) by [@chitrank2050](https://github.com/chitrank2050)
+- Renovate config to include merge confidence, refine matching rules & group actions deps ([196c80c](https://github.com/chitrank2050/meterplex/commit/196c80c104fd80c16f747cbb82910cdf747c429f)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update contents permission to write in auto-approve workflow ([23e6e24](https://github.com/chitrank2050/meterplex/commit/23e6e247454f491bd841d6998f70311182ec67fb)) by [@chitrank2050](https://github.com/chitrank2050)
+- Standardize version sync workflow and update changelog formatting and tag pattern ([79339b3](https://github.com/chitrank2050/meterplex/commit/79339b3ebbec3f8891ea92b95d9121b0aeca14bc)) by [@chitrank2050](https://github.com/chitrank2050)
+- Remove commitlint configuration and dependencies ([f4a884c](https://github.com/chitrank2050/meterplex/commit/f4a884cb4341b48f68aab9a932ee70be0991d876)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update git-cliff configuration with backend-focused commit parsing and templating ([3c1f521](https://github.com/chitrank2050/meterplex/commit/3c1f521eee376faf9ff3cd96b3836cfe5f07ed99)) by [@chitrank2050](https://github.com/chitrank2050)
+- Remove *.md from .prettierignore to enable markdown formatting ([f2562d5](https://github.com/chitrank2050/meterplex/commit/f2562d550f3c726e536ca2fb213d430025aad774)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update CI workflow to remove commitlint config and point to new ESLint configuration file ([502c8aa](https://github.com/chitrank2050/meterplex/commit/502c8aaa9f528cf76a8164a48abfee4feb5e1c58)) by [@chitrank2050](https://github.com/chitrank2050)
+- Remove nest-cli schema reference and suppress deprecation warnings in tsconfig ([1a39bf5](https://github.com/chitrank2050/meterplex/commit/1a39bf59b3ed3c4bd1cce5e69e340ecee1e7d880)) by [@chitrank2050](https://github.com/chitrank2050)
+- Remove nest-cli schema reference and suppress deprecation warnings in tsconfig ([b8d9fb0](https://github.com/chitrank2050/meterplex/commit/b8d9fb04cd5837ad30185b4804f563bfd8abf621)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update lefthook configuration for improved pre-commit workflow efficiency ([90ef219](https://github.com/chitrank2050/meterplex/commit/90ef219b64094f0096b258105c0e665af8a5a1cd)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update git-hygiene action to v0.4.12 across workflow files ([d7bb52d](https://github.com/chitrank2050/meterplex/commit/d7bb52db5ade0ec1ba8272d0ec35e87e9ac6f48e)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update git-cliff configuration ([7c2bc0c](https://github.com/chitrank2050/meterplex/commit/7c2bc0cb138db43ad45fe86ffea02ce92b7a306e)) by [@chitrank2050](https://github.com/chitrank2050)
+- Add workflow timeouts and update pnpm install commands to ignore scripts ([2ab4967](https://github.com/chitrank2050/meterplex/commit/2ab4967685efab0cb7bc42595ac3c912ed351efb)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update checkout action configuration with emoji and fetch-depth in lint workflow ([a8c0ba7](https://github.com/chitrank2050/meterplex/commit/a8c0ba7d9f6f9c702bb382631e7dadf8b1910cf6)) by [@chitrank2050](https://github.com/chitrank2050)
+
+### 📚 Documentation
+
+- Add header documentation to auto-approve workflow file ([a120849](https://github.com/chitrank2050/meterplex/commit/a120849a8211d5f7dd95d69cd42b7acb9cc59d9d)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update project documentation in README.md ([dd0edbb](https://github.com/chitrank2050/meterplex/commit/dd0edbbbc58e133ca723e3dc2b86994b23dc1892)) by [@chitrank2050](https://github.com/chitrank2050)
+
+### 🚀 Features
+
+- Implement conditional token selection in auto-approve workflow to handle bot-created PRs ([5d8d985](https://github.com/chitrank2050/meterplex/commit/5d8d985ec8619e3382926eb52a65b4ac0d61e097)) by [@chitrank2050](https://github.com/chitrank2050)
+- Implement conditional token selection in auto-approve workflow and update changelog formatting ([8445a24](https://github.com/chitrank2050/meterplex/commit/8445a240b73aa1370fc6a8ccc4be9aeb588dd07a)) by [@chitrank2050](https://github.com/chitrank2050)
+- Enable automatic staleness exemptions for assigned, milestoned, and draft issues and PRs ([1c5ec27](https://github.com/chitrank2050/meterplex/commit/1c5ec27f705734e26854d27cdb357ba332e440c1)) by [@chitrank2050](https://github.com/chitrank2050)
+- Implement stricter security validation for auto-approvals & optimize PR verification workflow ([d354e07](https://github.com/chitrank2050/meterplex/commit/d354e07db1a44a69d0047d660ee1cb5811361d89)) by [@chitrank2050](https://github.com/chitrank2050)
+- Add automatic PR approval step to the auto-approve workflow ([0b7fbde](https://github.com/chitrank2050/meterplex/commit/0b7fbde69842e3403e2dcc45c71ee8d03a1cccd2)) by [@chitrank2050](https://github.com/chitrank2050)
+- Add chore/release-* branches to auto-approve workflow triggers and release detection ([a2ae18a](https://github.com/chitrank2050/meterplex/commit/a2ae18a8539945c52bfe9a779f86e672fcf2e216)) by [@chitrank2050](https://github.com/chitrank2050)
+- Implement conditional PR approval logic to switch between bot identities based on author ([926bad6](https://github.com/chitrank2050/meterplex/commit/926bad63179db4b4bafbf1e6e28f10de272e3c81)) by [@chitrank2050](https://github.com/chitrank2050)
+
+### 🚜 Refactoring
+
+- Consolidate CI flow to run parallel build & quality checks and update doc Python deps ([b33bec4](https://github.com/chitrank2050/meterplex/commit/b33bec46e5d457919f9a090dbb97d749c8d63621)) by [@chitrank2050](https://github.com/chitrank2050)
+- Improve auto-approve security by resolving true author & adding draft/mergeability checks ([0d2b880](https://github.com/chitrank2050/meterplex/commit/0d2b880b87b301aef2af61a5fdde474f08d67da7)) by [@chitrank2050](https://github.com/chitrank2050)
+- Replace auto-approve logic with direct auto-merge enablement in CI workflow ([467f009](https://github.com/chitrank2050/meterplex/commit/467f00964e913d523234c98d29cd212f2c6018bc)) by [@chitrank2050](https://github.com/chitrank2050)
+- Consolidate branch and PR title validation using git-hygiene ([333bfd3](https://github.com/chitrank2050/meterplex/commit/333bfd38b2853f58724f734160876b8e909f224b)) by [@chitrank2050](https://github.com/chitrank2050)
+- Automate release versioning with git-hygiene and add build step to finalization workflow ([40aa8ed](https://github.com/chitrank2050/meterplex/commit/40aa8ed832c37101facb50f98389dc3b101153e6)) by [@chitrank2050](https://github.com/chitrank2050)
+- Reformat doc and issue templates to improve table alignment & stylistic consistency ([9a3aec6](https://github.com/chitrank2050/meterplex/commit/9a3aec6fe83bf0bcaac57f11c2f9070a196f7c81)) by [@chitrank2050](https://github.com/chitrank2050)
+- Standardize changelog architecture ([89c2a3b](https://github.com/chitrank2050/meterplex/commit/89c2a3bb49cc2f5422d37ad9239f3092f51502b0)) by [@chitrank2050](https://github.com/chitrank2050)
+- Modernize git-cliff configuration and update CI workflow automation ([74334b3](https://github.com/chitrank2050/meterplex/commit/74334b3bf7c22813546a40408500f14cf8b756cd)) by [@chitrank2050](https://github.com/chitrank2050)
+
+# Changelog
+
 All notable changes to Meterplex API.
 
 ## [Unreleased]
