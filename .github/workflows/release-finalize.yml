@@ -3,8 +3,9 @@
 #
 # Triggered automatically when a Release PR is merged to main.
 #   1. Pushes the verified version tag.
-#   2. Creates the GitHub Release with generated notes.
-#   3. Generates SLSA Build Provenance (Attestation).
+#   2. Builds the project artifacts.
+#   3. Creates the GitHub Release with generated notes.
+#   4. Generates SLSA Build Provenance (Attestation).
 # =============================================================
 
 name: Release 2 - Finalize Tag 🏷️
@@ -15,23 +16,27 @@ on:
       - closed
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to finalize (e.g. v0.1.0)'
+        required: true
+
+permissions: read-all
+
+env:
+  NODE_VERSION: 24
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   finalize:
     name: Finalize Release 🚀
-    # Only run if:
-    #   1. The PR was merged
-    #   2. It has the 'release' label
-    #   3. The person who merged it is the OWNER
     if: |
+      (github.event_name == 'pull_request' &&
       github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'release') &&
-      github.actor == github.repository_owner
+      contains(github.event.pull_request.labels.*.name, 'release')) ||
+      (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner)
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      # The URL will be populated once the tag is pushed
-      url: https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag_name }}
     permissions:
       contents: write
       id-token: write
@@ -59,30 +64,47 @@ jobs:
         id: vars
         env:
           BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
-          # Extract version from branch name (chore/changelog-vX.Y.Z)
-          TAG_NAME=$(echo "$BRANCH_NAME" | sed 's/chore\/changelog-//')
+          RAW_INPUT="${INPUT_VERSION:-$BRANCH_NAME}"
+          # Robust extraction: find the first version-like string (X.Y.Z) in the input
+          TAG_NAME=$(echo "$RAW_INPUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+(-.*)?' | head -1)
 
-          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
-            echo "❌ Error: Could not extract valid tag from branch name: $BRANCH_NAME"
+          if [ -z "$TAG_NAME" ]; then
+            echo "❌ Error: Could not extract valid version from '$RAW_INPUT'"
             exit 1
           fi
+
+          # Ensure it has the 'v' prefix
+          if [[ ! "$TAG_NAME" =~ ^v ]]; then TAG_NAME="v$TAG_NAME"; fi
+
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "Finalized tag: $TAG_NAME"
 
       - name: Push Verified Tag 🏷️
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           TAG_NAME: ${{ steps.vars.outputs.tag_name }}
         run: |
-          echo "Pushing verified tag: $TAG_NAME"
           git config user.name "chitrank-actions[bot]"
           git config user.email "actions@github.com"
-
-          # Use the token for authentication
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
+          git tag "$TAG_NAME" && git push origin "$TAG_NAME" || echo "Tag push failed, continuing..."
 
-          git tag "$TAG_NAME"
-          git push origin "$TAG_NAME"
+      - name: Setup Environment 🛠️
+        uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
+
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies 📥
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Build Project 🏗️
+        run: pnpm run build
 
       - name: Generate release notes 📝
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
@@ -110,8 +132,10 @@ jobs:
             --notes "$RELEASE_NOTES" \
             $PRERELEASE_FLAG
 
-      - name: Attest Release Artifacts 📜
+      - name: Attest Build Artifacts 📜
         uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
         with:
-          subject-path: CHANGELOG.md
+          subject-path: |
+            dist/**
+            CHANGELOG.md
           push-to-registry: false
