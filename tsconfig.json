@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     /* --- Module system (NestJS 11: native Node.js ESM resolution) ---
      * "nodenext" means imports behave like real Node.js:
      * - Respects package.json "exports" field
