@@ -2,7 +2,7 @@
 
 All notable changes to the Meterplex API and core platform.
 
-## [Unreleased]
+## [0.5.7] - 2026-04-28
 
 ### ⚙️ Maintenance
 
@@ -22,11 +22,13 @@ All notable changes to the Meterplex API and core platform.
 - Update git-cliff configuration ([7c2bc0c](https://github.com/chitrank2050/meterplex/commit/7c2bc0cb138db43ad45fe86ffea02ce92b7a306e)) by [@chitrank2050](https://github.com/chitrank2050)
 - Add workflow timeouts and update pnpm install commands to ignore scripts ([2ab4967](https://github.com/chitrank2050/meterplex/commit/2ab4967685efab0cb7bc42595ac3c912ed351efb)) by [@chitrank2050](https://github.com/chitrank2050)
 - Update checkout action configuration with emoji and fetch-depth in lint workflow ([a8c0ba7](https://github.com/chitrank2050/meterplex/commit/a8c0ba7d9f6f9c702bb382631e7dadf8b1910cf6)) by [@chitrank2050](https://github.com/chitrank2050)
+- Update git-cliff arguments to standardize changelog generation during releases ([4e1522e](https://github.com/chitrank2050/meterplex/commit/4e1522e54971144319c35e62da2c819fd6c1036b)) by [@chitrank2050](https://github.com/chitrank2050)
 
 ### 📚 Documentation
 
 - Add header documentation to auto-approve workflow file ([a120849](https://github.com/chitrank2050/meterplex/commit/a120849a8211d5f7dd95d69cd42b7acb9cc59d9d)) by [@chitrank2050](https://github.com/chitrank2050)
 - Update project documentation in README.md ([dd0edbb](https://github.com/chitrank2050/meterplex/commit/dd0edbbbc58e133ca723e3dc2b86994b23dc1892)) by [@chitrank2050](https://github.com/chitrank2050)
+- Standardize changelog format and fix duplicate headers ([7a48c4b](https://github.com/chitrank2050/meterplex/commit/7a48c4b610f0fe298f72a942a33c2b823c8a6c82)) by [@chitrank2050](https://github.com/chitrank2050)
 
 ### 🚀 Features
 
