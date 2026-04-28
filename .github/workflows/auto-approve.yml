@@ -36,6 +36,7 @@ jobs:
   auto-merge:
     name: Enable Auto-Merge ✅
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     # Skip the runner entirely when CI didn't succeed
     if: >-
       github.event.workflow_run.conclusion == 'success' ||

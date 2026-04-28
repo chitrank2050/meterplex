@@ -42,6 +42,7 @@ jobs:
     name: Build & Deploy Docs 🚀
     if: github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write # Needed to push to gh-pages branch
     steps:
