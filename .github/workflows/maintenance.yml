@@ -27,6 +27,7 @@ jobs:
     name: Prune Redundant Overrides ✂️
     if: github.event_name != 'workflow_dispatch' || github.actor == github.repository_owner
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write # Needed to create branch
       pull-requests: write # Needed to create PR
@@ -64,7 +65,7 @@ jobs:
           jq 'del(.pnpm.overrides)' package.json > package.json.tmp && mv package.json.tmp package.json
 
           # Refresh lockfile (allow update, use offline cache where possible)
-          pnpm install --no-frozen-lockfile --prefer-offline
+          pnpm install --no-frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Run OSV Scanner 🔍
         run: |
