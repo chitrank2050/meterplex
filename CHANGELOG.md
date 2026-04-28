@@ -1,593 +1,129 @@
 # Changelog
 
-All notable changes to Meterplex API.
+All notable changes to the Meterplex API and core platform.
 
-## [Unreleased]
-
-
-### 🚀 Features
-
-- Implement conditional token selection in auto-approve workflow to handle bot-created PRs (by @chitrank2050)
+## [0.6.0] - 2026-04-28
+### 🚀 Features- Implement conditional token selection in auto-approve workflow to handle bot-created PRs ([5d8d985](5d8d985ec8619e3382926eb52a65b4ac0d61e097)) by @chitrank2050- Implement conditional token selection in auto-approve workflow and update changelog formatting ([8445a24](8445a240b73aa1370fc6a8ccc4be9aeb588dd07a)) by @chitrank2050- Enable automatic staleness exemptions for assigned, milestoned, and draft issues and PRs ([1c5ec27](1c5ec27f705734e26854d27cdb357ba332e440c1)) by @chitrank2050- Implement stricter security validation for auto-approvals & optimize PR verification workflow ([d354e07](d354e07db1a44a69d0047d660ee1cb5811361d89)) by @chitrank2050- Add automatic PR approval step to the auto-approve workflow ([0b7fbde](0b7fbde69842e3403e2dcc45c71ee8d03a1cccd2)) by @chitrank2050
+### ⚙️ Maintenance- Update branch name validation error message and set default npm loglevel to error ([97371bc](97371bcb29d2ea82111e2ec817507f45ec7679ba)) by @chitrank2050- Increase stale closure threshold and add pinned and security labels to exemption lists ([5e9a166](5e9a166340188c93d48dfff4a4e653417664fac5)) by @chitrank2050- Renovate config to include merge confidence, refine matching rules & group actions deps ([196c80c](196c80c104fd80c16f747cbb82910cdf747c429f)) by @chitrank2050- Update contents permission to write in auto-approve workflow ([23e6e24](23e6e247454f491bd841d6998f70311182ec67fb)) by @chitrank2050- Standardize version sync workflow and update changelog formatting and tag pattern ([79339b3](79339b3ebbec3f8891ea92b95d9121b0aeca14bc)) by @chitrank2050- Remove commitlint configuration and dependencies ([f4a884c](f4a884cb4341b48f68aab9a932ee70be0991d876)) by @chitrank2050- Update git-cliff configuration with backend-focused commit parsing and templating ([3c1f521](3c1f521eee376faf9ff3cd96b3836cfe5f07ed99)) by @chitrank2050- Remove *.md from .prettierignore to enable markdown formatting ([f2562d5](f2562d550f3c726e536ca2fb213d430025aad774)) by @chitrank2050- Update CI workflow to remove commitlint config and point to new ESLint configuration file ([502c8aa](502c8aaa9f528cf76a8164a48abfee4feb5e1c58)) by @chitrank2050- Update lefthook configuration for improved pre-commit workflow efficiency ([90ef219](90ef219b64094f0096b258105c0e665af8a5a1cd)) by @chitrank2050- Update git-hygiene action to v0.4.12 across workflow files ([d7bb52d](d7bb52db5ade0ec1ba8272d0ec35e87e9ac6f48e)) by @chitrank2050
+### 💾 Database & Schema- Remove nest-cli schema reference and suppress deprecation warnings in tsconfig ([1a39bf5](1a39bf59b3ed3c4bd1cce5e69e340ecee1e7d880)) by @chitrank2050- Remove nest-cli schema reference and suppress deprecation warnings in tsconfig ([b8d9fb0](b8d9fb04cd5837ad30185b4804f563bfd8abf621)) by @chitrank2050
+### 🚜 Refactoring- Consolidate CI flow to run parallel build & quality checks and update doc Python deps ([b33bec4](b33bec46e5d457919f9a090dbb97d749c8d63621)) by @chitrank2050- Improve auto-approve security by resolving true author & adding draft/mergeability checks ([0d2b880](0d2b880b87b301aef2af61a5fdde474f08d67da7)) by @chitrank2050- Replace auto-approve logic with direct auto-merge enablement in CI workflow ([467f009](467f00964e913d523234c98d29cd212f2c6018bc)) by @chitrank2050- Consolidate branch and PR title validation using git-hygiene ([333bfd3](333bfd38b2853f58724f734160876b8e909f224b)) by @chitrank2050- Automate release versioning with git-hygiene and add build step to finalization workflow ([40aa8ed](40aa8ed832c37101facb50f98389dc3b101153e6)) by @chitrank2050- Reformat doc and issue templates to improve table alignment & stylistic consistency ([9a3aec6](9a3aec6fe83bf0bcaac57f11c2f9070a196f7c81)) by @chitrank2050
+### 📚 Documentation- Add header documentation to auto-approve workflow file ([a120849](a120849a8211d5f7dd95d69cd42b7acb9cc59d9d)) by @chitrank2050- Update project documentation in README.md ([dd0edbb](dd0edbbbc58e133ca723e3dc2b86994b23dc1892)) by @chitrank2050
 
 ## [0.5.6] - 2026-04-26
-
-
-### ⚙️ Maintenance
-
-- Remove automated README version updates from release workflows (by @chitrank2050)
-- Update Renovate reviewer settings and improve auto-approval workflow logic (by @chitrank2050)
-- Clear assignees and enable grouping for non-major dependencies in renovate config (by @chitrank2050)
-- Update auto-approve workflow to use generated GitHub token (by @chitrank2050)
-- Update actions/attest-build-provenance action to v4 ([#76](https://github.com/chitrank2050/meterplex/issues/76)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update actions/cache action to v5 ([#82](https://github.com/chitrank2050/meterplex/issues/82)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update actions/stale action to v10 ([#84](https://github.com/chitrank2050/meterplex/issues/84)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update github/codeql-action action to v4 ([#77](https://github.com/chitrank2050/meterplex/issues/77)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update actions/labeler action to v6 ([#83](https://github.com/chitrank2050/meterplex/issues/83)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update pnpm to v10 ([#27](https://github.com/chitrank2050/meterplex/issues/27)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update lefthook configuration to optimize pre-commit hook execution (by @chitrank2050)
-- Add release, maintenance, and automated-pr labels to semantic-pr ignore list (by @chitrank2050)
-- Update actions/upload-artifact action to v7 ([#75](https://github.com/chitrank2050/meterplex/issues/75)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Bump version to v0.5.6 ([#93](https://github.com/chitrank2050/meterplex/issues/93)) (by [chitrank-actions[bot]](https://github.com/apps/chitrank-actions))
-
-### 📚 Documentation
-
-- Update CI/CD doc to reflect the new two-step release workflow & streamlined automation rules (by @chitrank2050)
-
-### 🚀 Features
-
-- Enable auto-merge and squash for approved pull requests in auto-approve workflow (by @chitrank2050)
-- Implement two-step release workflow & add repository owner auth checks to automated workflows (by @chitrank2050)
-- Add owner identity verification to git-tag and git-release scripts (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Restrict prepare & release jobs to trigger only on manual dispatch & tag pushes (by @chitrank2050)
+### 🚀 Features- Enable auto-merge and squash for approved pull requests in auto-approve workflow ([8a3a3fe](8a3a3fea083130c52e84ed28ca6eb04b0aaacbf5)) by @chitrank2050- Implement two-step release workflow & add repository owner auth checks to automated workflows ([1f0a05c](1f0a05c64fa000f8daec1239cc6d030de9430176)) by @chitrank2050- Add owner identity verification to git-tag and git-release scripts ([4e9f5cb](4e9f5cb9c9515de84c97d759ce059cd1ec0a985a)) by @chitrank2050
+### ⚙️ Maintenance- Remove automated README version updates from release workflows ([1b060e5](1b060e56690416809f22d152fe144e05f86743c9)) by @chitrank2050- Update Renovate reviewer settings and improve auto-approval workflow logic ([1103e66](1103e665a93599cf9d2d819374fdaa4ebc7dc17e)) by @chitrank2050- Clear assignees and enable grouping for non-major dependencies in renovate config ([e50c419](e50c41935aa0f76405d5e600a1d123dffd3b63b7)) by @chitrank2050- Update auto-approve workflow to use generated GitHub token ([596908a](596908a843d69fed3f86d9748535daae5c34fc52)) by @chitrank2050- Update lefthook configuration to optimize pre-commit hook execution ([d74aa01](d74aa01a1b62cfa25eeb3d3c53e20654456ee5a2)) by @chitrank2050- Add release, maintenance, and automated-pr labels to semantic-pr ignore list ([c4cdbce](c4cdbce25b6f722f3113dc3ca38a4b2f0d829fe8)) by @chitrank2050- **release:** Bump version to v0.5.6 (#93) Co-authored-by: chitrank2050 <13078364+chitrank2050@users.noreply.github.com> ([66bf625](66bf625900d94cb320ae316526823ffd790c17e5)) by [chitrank-actions[bot]](https://github.com/apps/chitrank-actions)
+### 📡 API & Communication- Restrict prepare & release jobs to trigger only on manual dispatch & tag pushes ([fd084aa](fd084aadcef8c7c931e57cd7fd0aec1f02d402f0)) by @chitrank2050
+### 📚 Documentation- Update CI/CD doc to reflect the new two-step release workflow & streamlined automation rules ([853e21c](853e21c76caf1181bfc29a61c42358f95bae6309)) by @chitrank2050
 
 ## [0.5.5] - 2026-04-25
-
-
-### ⚙️ Maintenance
-
-- Harden CI/CD runners with step-security audit policy across all workflows (by @chitrank2050)
-- Configure production environment and release URL in git-release workflow (by @chitrank2050)
-- Pin mkdocs-material version to 9.7.6 in documentation workflow (by @chitrank2050)
-- Add main, master, and gh-pages to branch name validation ignore list (by @chitrank2050)
-- Allow main, master, and gh-pages branch names in validation rules (by @chitrank2050)
-- Configure renovate bot with labels, assignees, and branch pattern support (by @chitrank2050)
-- Restrict workflow triggers to main branch for branch validation and linting (by @chitrank2050)
-- Restrict workflow triggers to main branch and update documentation deployment logic (by @chitrank2050)
-- Categorize codebase ownership in CODEOWNERS file (by @chitrank2050)
-- Update git-cliff configuration and reformat knip configuration file (by @chitrank2050)
-- Set fetch-depth to 0 in branch-name workflow to ensure complete history access (by @chitrank2050)
-- Organize package.json scripts with category labels and reorder entries (by @chitrank2050)
-- Update actions/upload-artifact action to v4.6.2 ([#74](https://github.com/chitrank2050/meterplex/issues/74)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update dependency python to 3.14 ([#21](https://github.com/chitrank2050/meterplex/issues/21)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Apply principle of least privilege by scoping workflow permissions to specific jobs (by @chitrank2050)
-- Update project metadata and add relevant keywords to package.json (by @chitrank2050)
-- Update actions/stale action to v9.1.0 ([#81](https://github.com/chitrank2050/meterplex/issues/81)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update actions/cache action to v4.3.0 ([#80](https://github.com/chitrank2050/meterplex/issues/80)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Upgrade actions/create-github-app-token to v3.1.1 (by @chitrank2050)
-- Update github app token credentials to use specific bot account secrets (by @chitrank2050)
-- Include .github/actions directory in area/ci labeler configuration (by @chitrank2050)
-- Remove redundant path filter from workflow linting action (by @chitrank2050)
-- Update dependency knip to v6.7.0 ([#87](https://github.com/chitrank2050/meterplex/issues/87)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update node engine requirement to >=24.0.0 and sync README versions (by @chitrank2050)
-- Configure git-cliff to ignore merge commits and redundant changelog updates (by @chitrank2050)
-- Update build provenance attestation to target CHANGELOG.md instead of repository sha (by @chitrank2050)
-- Enable GitHub authentication for git-cliff to resolve commit author usernames (by @chitrank2050)
-
-### 🐛 Bug Fixes
-
-- Broaden CI success criteria and relax Renovate actor validation in auto-approve workflow (by @chitrank2050)
-- Add fallback logic to retrieve actor, branch, and PR number in auto-approve workflow (by @chitrank2050)
-- Explicitly pass repository to gh cmd to ensure correct context resolution in auto-approve (by @chitrank2050)
-- Update check logic in auto-approve flow to correctly filter by completion status & conclusion (by @chitrank2050)
-- Remove auto flag from renovate pr merge command to prevent workflow errors (by @chitrank2050)
-- Update git-cliff args to use HEAD and skip metadata fetch to resolve PR 404 errors (by @chitrank2050)
-
-### 👷 Continuous Integration
-
-- Add OpenSSF Scorecard workflow and update README documentation (by @chitrank2050)
-- Workflow for automated PR and renovate auto approval ([#78](https://github.com/chitrank2050/meterplex/issues/78)) (by @chitrank2050)
-- Add automated labeler and stale issue management workflows and update project documentation (by @chitrank2050)
-- Add prisma schema validation and comment out experimental knip analysis in CI workflow (by @chitrank2050)
-- Parallelize linting, formatting, and security audit tasks in the CI workflow (by @chitrank2050)
-- Optimize Prisma caching in workflows, remove redundant pnpm & enforce zero warnings in TS lint (by @chitrank2050)
-- Disable PR template autofill for releases, docs in CI change detection & release PR body content (by @chitrank2050)
-
-### 📚 Documentation
-
-- Add documentation for CI/CD infrastructure and automated maintenance workflows (by @chitrank2050)
-- Add build provenance and production environment access control sections to CI/CD guide (by @chitrank2050)
-- Update CI/CD documentation with performance optimizations and improved governance policies (by @chitrank2050)
-- Update infrastructure principles and add documentation for Knip zombie code detection (by @chitrank2050)
-- Update security policy & repo doc with current version sup & vulnerability report guidelines (by @chitrank2050)
-- Update project documentation in README.md (by @chitrank2050)
-- Update minimum Node.js version requirement to 24.0.0 in README and setup documentation (by @chitrank2050)
-
-### 🚀 Features
-
-- Add required permissions and build provenance attestation to release workflow (by @chitrank2050)
-- Implement branch name validation workflow and configuration (by @chitrank2050)
-- Implement smart auto-approval workflow for non-major Renovate deps updates and update doc (by @chitrank2050)
-- Add security tool checks to installation script and expand obliviate cleanup scope (by @chitrank2050)
-- Add Kafdrop Kafka UI and configure resource limits for infrastructure services (by @chitrank2050)
-- Add automatic env configuration to install script & streamlined setup cmd in package.json (by @chitrank2050)
-- Implement centralized shell logging utility and standardize developer CLI scripts (by @chitrank2050)
-- Introduce interactive setup wizard with task selection and script execution automation (by @chitrank2050)
-- Rename setup to dev:init, enhance wizard with knip & streamline infra orchestration doc (by @chitrank2050)
-- Update Kafka volumes and refine Postgres health checks and migration commands in setup scripts (by @chitrank2050)
-- Add Code of Conduct to docs, include transient files in CI, and configure Google Analytics (by @chitrank2050)
-- Upgrade auto-approval workflow to use dedicated GitHub App token for enhanced permissions (by @chitrank2050)
-- Workflow-generated pull requests to chitrank2050 across maintenance and release automation (by @chitrank2050)
-- Add maintenance branch type, update labeling and CI logic, and doc automation standards (by @chitrank2050)
-- Automated zero-noise PR descriptions using git-cliff and prune PR template boilerplate (by @chitrank2050)
-- Add reopened trigger and workflow_dispatch to PR autofill action (by @chitrank2050)
-- Skip PR autofill for release-labeled pull requests to preserve existing descriptions (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Migrate auto-approve workflow to triggered-by-workflow_run with verification logic (by @chitrank2050)
-- Split linting jobs and add Prisma caching to CI while cleaning up auto-approve trigger (by @chitrank2050)
-- Simplify branch validation logic by removing redundant steps and using regex  eval (by @chitrank2050)
-- Centralized setup-bot action & update flows to use GH App tokens instead of GITHUB_TOKEN (by @chitrank2050)
-- Refactor repo checkout order and adopt manual git authentication in CI workflows (by @chitrank2050)
-- Rename to auto-approve instead of merging (by @chitrank2050)
-- Consolidate linting and security audit jobs to reduce CI runner overhead (by @chitrank2050)
-- Decouple release workflow into separate prepare and release stages with manual approval (by @chitrank2050)
-- Move release PR check to job conditions & update auto-approve workflow to use GITHUB_TOKEN (by @chitrank2050)
+### 🚀 Features- Add required permissions and build provenance attestation to release workflow ([aadc436](aadc4360a78214e4a6dba924b18672bbbc310de2)) by @chitrank2050- Implement branch name validation workflow and configuration ([be6d7cb](be6d7cb727e02ddc2e2a32d5a666e02f9d0ad7e4)) by @chitrank2050- Implement smart auto-approval workflow for non-major Renovate deps updates and update doc ([d457376](d45737620161b35bec805d4c6d7342f3110ac49e)) by @chitrank2050- Add security tool checks to installation script and expand obliviate cleanup scope ([13d163b](13d163bb32eade7b0ecba81d4b2ce6eb71cff538)) by @chitrank2050- Add Kafdrop Kafka UI and configure resource limits for infrastructure services ([fa94af3](fa94af3356dd1dc5db1fc0a3e0a9ce82abb1a5f9)) by @chitrank2050- Add automatic env configuration to install script & streamlined setup cmd in package.json ([2950a95](2950a9511c44aec616f5aa6b9cb9c3987e455b2c)) by @chitrank2050- Implement centralized shell logging utility and standardize developer CLI scripts ([fa72ad9](fa72ad9705c41b671016367ae97a14db18801b8c)) by @chitrank2050- Introduce interactive setup wizard with task selection and script execution automation ([9b42054](9b42054b4060528501ae49b9a24a240a7de32e64)) by @chitrank2050- Rename setup to dev:init, enhance wizard with knip & streamline infra orchestration doc ([ac79abe](ac79abedaa682ca00ec82976dd024ed84644462a)) by @chitrank2050- Update Kafka volumes and refine Postgres health checks and migration commands in setup scripts ([ad37606](ad376060e8bcf1456356f8dd9629713084185492)) by @chitrank2050- Add Code of Conduct to docs, include transient files in CI, and configure Google Analytics ([8621115](8621115691caa72aacb523281e33ab6017acf519)) by @chitrank2050- Upgrade auto-approval workflow to use dedicated GitHub App token for enhanced permissions ([6ba518b](6ba518b77ad11e2b54d9b6eecbba1453e283dbbb)) by @chitrank2050- Workflow-generated pull requests to chitrank2050 across maintenance and release automation ([6544fe4](6544fe45d3b3ed7e8e253880cf5600beb95f9257)) by @chitrank2050- Add maintenance branch type, update labeling and CI logic, and doc automation standards ([9efed5a](9efed5acae2549c0e22c5b41d3eab996f339b1a6)) by @chitrank2050- Automated zero-noise PR descriptions using git-cliff and prune PR template boilerplate ([e24e781](e24e7815a5b963736134233150e1ab501ad8178a)) by @chitrank2050- Add reopened trigger and workflow_dispatch to PR autofill action ([21d730f](21d730f19fa3c7c6655401563a2c786f5983fd8f)) by @chitrank2050- Skip PR autofill for release-labeled pull requests to preserve existing descriptions ([794c577](794c5772de63dcb661bbc5673abc0077d9aae81d)) by @chitrank2050
+### 🐛 Bug Fixes- Broaden CI success criteria and relax Renovate actor validation in auto-approve workflow ([f4baf2f](f4baf2f4648eadda0cfcf19ce412f5cc1d53dfb1)) by @chitrank2050- Add fallback logic to retrieve actor, branch, and PR number in auto-approve workflow ([c81c513](c81c5134b3ba0467f49132b851a7bf36a468d860)) by @chitrank2050- Explicitly pass repository to gh cmd to ensure correct context resolution in auto-approve ([4129e3b](4129e3b7dcc806e50170feb70beadbbc9197c293)) by @chitrank2050- Update check logic in auto-approve flow to correctly filter by completion status & conclusion ([c682ac0](c682ac008e82b0e454907f22515f3d80e6aeccb8)) by @chitrank2050- Remove auto flag from renovate pr merge command to prevent workflow errors ([41d2e1c](41d2e1c9975c02fc9b5a1998b741a2050441a09e)) by @chitrank2050- Update git-cliff args to use HEAD and skip metadata fetch to resolve PR 404 errors ([368a014](368a0143e4481cc6d26f8f376964bd5046a8f6da)) by @chitrank2050
+### 👷 CI/CD- Add OpenSSF Scorecard workflow and update README documentation ([020af60](020af60a6164437e717bf69b100d5f3fbf87536b)) by @chitrank2050- Workflow for automated PR and renovate auto approval (#78) * chore: configure renovate bot with labels, assignees, and branch pattern support * feat: implement smart auto-approval workflow for non-major Renovate deps updates and update doc * feat: implement automated PR description population via GitHub Actions and update documentation * ci: add checkout step to branch validation workflow and include renovate in allowed branch types * chore: optimize GH Actions with workflow concurrency, pip caching, and improved PR autofill logic * chore: consolidate documentation dependencies and correct pull request template casing * chore: remove unresolved issue placeholder from pull request template ([95263f7](95263f73ae5e21185a86e4b14b24c2302e85173e)) by @chitrank2050- Add automated labeler and stale issue management workflows and update project documentation ([9e8bc18](9e8bc186c01a8ddc75759d6972d41ca5cb045082)) by @chitrank2050- Parallelize linting, formatting, and security audit tasks in the CI workflow ([c45eb8a](c45eb8a6e4b5e70cd91862d0a4a032d9381a070c)) by @chitrank2050- Optimize Prisma caching in workflows, remove redundant pnpm & enforce zero warnings in TS lint ([d83f6e9](d83f6e9c26b002b3f094f3917be71be41b84d9c2)) by @chitrank2050- Disable PR template autofill for releases, docs in CI change detection & release PR body content ([dd16026](dd16026e8b3f8ac828c7f313b85e12bbf2b33620)) by @chitrank2050
+### ⚙️ Maintenance- Harden CI/CD runners with step-security audit policy across all workflows ([b539033](b539033fb8da34a38b2f917fa1c4b2e51baa9e0b)) by @chitrank2050- Configure production environment and release URL in git-release workflow ([653bcaf](653bcaf067f644aa9a3c3ad623a8e0ec6c0ee499)) by @chitrank2050- Pin mkdocs-material version to 9.7.6 in documentation workflow ([a4053c4](a4053c467dd130c74bbcd9c90094429c20253a25)) by @chitrank2050- Add main, master, and gh-pages to branch name validation ignore list ([5a7480d](5a7480d20b66570fcb59437dd807a52604bd3580)) by @chitrank2050- Allow main, master, and gh-pages branch names in validation rules ([b782811](b782811a03df943040dab319442a7b1d3f63e6fc)) by @chitrank2050- Configure renovate bot with labels, assignees, and branch pattern support ([e2dc7ad](e2dc7add2a449769cf77bb41531a702b0e7c3819)) by @chitrank2050- Categorize codebase ownership in CODEOWNERS file ([300d5e0](300d5e096daf3e1037a4fc1bd73c6b734273051b)) by @chitrank2050- Update git-cliff configuration and reformat knip configuration file ([85ea535](85ea535529ee9edff4c46793a9385493a15b3058)) by @chitrank2050- Set fetch-depth to 0 in branch-name workflow to ensure complete history access ([7fb7e15](7fb7e15c69d62ef7500c7020a18aef828eab83b9)) by @chitrank2050- Organize package.json scripts with category labels and reorder entries ([b4dc7dd](b4dc7dd5719098f8f64cbbeafdf6139490bbcf6d)) by @chitrank2050- Apply principle of least privilege by scoping workflow permissions to specific jobs ([7cb288b](7cb288b62ff013252ef1e62d2b553494ef74a55c)) by @chitrank2050- Update project metadata and add relevant keywords to package.json ([33103d2](33103d22329574933c9c4f0b09fcfcd2667be429)) by @chitrank2050- Upgrade actions/create-github-app-token to v3.1.1 ([034e3dc](034e3dc8045be4fcb7ac6bd1b4d92e4144d89496)) by @chitrank2050- Update github app token credentials to use specific bot account secrets ([7115895](71158951e0597c9b4b7b0f7525cde2cf2957ee84)) by @chitrank2050- Include .github/actions directory in area/ci labeler configuration ([56c78cd](56c78cd61da7d067b5c27a7a44c77d32e2ca982e)) by @chitrank2050- Remove redundant path filter from workflow linting action ([ac4cd5f](ac4cd5f7315433ecf59f4a5286f3a30d744bed21)) by @chitrank2050- Update node engine requirement to >=24.0.0 and sync README versions ([86bb09c](86bb09c1f257e830d97215152a3dffb3ad7eb50f)) by @chitrank2050- Configure git-cliff to ignore merge commits and redundant changelog updates ([0c84432](0c844323571b5ad29bd255699f7dbdee9502281f)) by @chitrank2050- Update build provenance attestation to target CHANGELOG.md instead of repository sha ([b98ba5d](b98ba5db1ee3fef96e8b6b4c0713abe9768baab2)) by @chitrank2050- Enable GitHub authentication for git-cliff to resolve commit author usernames ([cedfc33](cedfc33eac4d5aa7e297098ada9de40333299bfe)) by @chitrank2050
+### 💾 Database & Schema- Add prisma schema validation and comment out experimental knip analysis in CI workflow ([8fee8f4](8fee8f41d2da507b6279b1329d85f5d822193b7e)) by @chitrank2050
+### 📡 API & Communication- Restrict workflow triggers to main branch for branch validation and linting ([14a9905](14a990597e0319a6d874c9d0fa03308c8e34b494)) by @chitrank2050- Restrict workflow triggers to main branch and update documentation deployment logic ([9fb265a](9fb265aefa244a54a3f81c5fd38ca0d31e3d8a35)) by @chitrank2050
+### 🚜 Refactoring- Migrate auto-approve workflow to triggered-by-workflow_run with verification logic ([037451d](037451dbccb6316349846244ddd0ac7fb75553e6)) by @chitrank2050- Split linting jobs and add Prisma caching to CI while cleaning up auto-approve trigger ([a82436f](a82436ff3bb05aa40435f3567f2c0a67f8da58bb)) by @chitrank2050- Simplify branch validation logic by removing redundant steps and using regex eval ([6c97024](6c970242ee1ceed2506e261536e38f99757c9a40)) by @chitrank2050- Centralized setup-bot action & update flows to use GH App tokens instead of GITHUB_TOKEN ([8e5a644](8e5a6441928173a4fe39f069d0127ea5396d1dad)) by @chitrank2050- Refactor repo checkout order and adopt manual git authentication in CI workflows ([49242a3](49242a375f8cce7b4a0eda599b0344f589884547)) by @chitrank2050- Rename to auto-approve instead of merging ([be09efd](be09efd77113a1520abb5268f7c84eb43c6ce011)) by @chitrank2050- Consolidate linting and security audit jobs to reduce CI runner overhead ([d4e1179](d4e11794258bd6801a4bc78306aa440ebc33b6e7)) by @chitrank2050- Decouple release workflow into separate prepare and release stages with manual approval ([71508dc](71508dc533d81ff8e870f411c547b6d434815623)) by @chitrank2050- Move release PR check to job conditions & update auto-approve workflow to use GITHUB_TOKEN ([0a9afb8](0a9afb8eafb08c4649c6edfab6bc78ef03af58df)) by @chitrank2050
+### 📚 Documentation- Add documentation for CI/CD infrastructure and automated maintenance workflows ([df61e9a](df61e9a970378ed74c672c690f541db1ee671546)) by @chitrank2050- Add build provenance and production environment access control sections to CI/CD guide ([c419e8f](c419e8fc8259c41d64d267c6bcea138a5b92a206)) by @chitrank2050- Update CI/CD documentation with performance optimizations and improved governance policies ([4640c97](4640c97b5fdd9361094da9e41277a97a26cf03cf)) by @chitrank2050- Update infrastructure principles and add documentation for Knip zombie code detection ([d0288a6](d0288a6e1f06dd1d4677e413d5374748a7f15ef2)) by @chitrank2050- Update security policy & repo doc with current version sup & vulnerability report guidelines ([2b5aa63](2b5aa6327b6c2a89f99d8803046f607b82f3b6ef)) by @chitrank2050- Update project documentation in README.md ([316e3e8](316e3e8a0b0f95ad1ddad536792a44006d2e0bbb)) by @chitrank2050- Update minimum Node.js version requirement to 24.0.0 in README and setup documentation ([2d1f80f](2d1f80fcec3cd5f08263cabadaf3a0c70f18d894)) by @chitrank2050
 
 ## [0.5.4] - 2026-04-25
-
-
-### ⚙️ Maintenance
-
-- Update linting pipeline to run TypeScript and Markdown checks and disable Knip (by @chitrank2050)
-- Add pnpm installation step to git-release workflow (by @chitrank2050)
-- Update changelog generation to use git-cliff output directly instead of CLI command (by @chitrank2050)
-- Enforce Node 24 for GitHub Actions in release and CI workflows (by @chitrank2050)
-- Streamline changelog generation using git-cliff-action and clean up temporary files (by @chitrank2050)
-- Pin GitHub Actions to specific commit hashes for security (by @chitrank2050)
-- Update GitHub Actions dependencies to latest versions (by @chitrank2050)
-- Disable persist-credentials in all GitHub Actions checkout steps (by @chitrank2050)
-- Pass git-cliff output to gh release via environment variable (by @chitrank2050)
-- Update orhun/git-cliff-action action to v4.7.1 ([#71](https://github.com/chitrank2050/meterplex/issues/71)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update dependency knip to v6.6.3 ([#69](https://github.com/chitrank2050/meterplex/issues/69)) (by [renovate[bot]](https://github.com/apps/renovate))
-
-### 🏗️ Build
-
-- Bump the all-actions group across 1 directory with 3 updates ([#72](https://github.com/chitrank2050/meterplex/issues/72)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-
-### 📚 Documentation
-
-- Add zizmor installation guide and security audit documentation (by @chitrank2050)
-
-### 🚀 Features
-
-- Add workflow_dispatch support to trigger releases with custom tags (by @chitrank2050)
-- Add zizmor linting for GitHub Actions to project scripts and lefthook configuration (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Update release workflow to generate changelog via automated PR instead of direct commit (by @chitrank2050)
-- Replace action-gh-release with GitHub CLI for release creation (by @chitrank2050)
+### 🚀 Features- Add workflow_dispatch support to trigger releases with custom tags ([63de204](63de204745c17e3b73b7ee4ab7b8251c5388a7a8)) by @chitrank2050- Add zizmor linting for GitHub Actions to project scripts and lefthook configuration ([25343ef](25343efaab40f221d2bb991ed761de4ea4d1ab4d)) by @chitrank2050
+### ⚙️ Maintenance- Update linting pipeline to run TypeScript and Markdown checks and disable Knip ([2a4160f](2a4160f2b6688b422d8f377c09eb6db081d489c1)) by @chitrank2050- Add pnpm installation step to git-release workflow ([82bb488](82bb488b13998beeaca345f1db3bf18621bf4fe1)) by @chitrank2050- Update changelog generation to use git-cliff output directly instead of CLI command ([312d7a5](312d7a544957bc6457fc52f53e0bdf4b735249e9)) by @chitrank2050- Enforce Node 24 for GitHub Actions in release and CI workflows ([e2fe257](e2fe257ea508dcbb53fe5fc575152c7d0bfda9d3)) by @chitrank2050- Streamline changelog generation using git-cliff-action and clean up temporary files ([a565dfd](a565dfd6a4f7a04b14dc276ec2e3205113c427fd)) by @chitrank2050- Pin GitHub Actions to specific commit hashes for security ([3de4382](3de4382d43365c67bf929d44c89bc650bcc0d072)) by @chitrank2050- Update GitHub Actions dependencies to latest versions ([136d12a](136d12ac85f9a82950ecacd7dd430592abf527d6)) by @chitrank2050- Disable persist-credentials in all GitHub Actions checkout steps ([d9f1a21](d9f1a21fe2dd2582b0dd5dc30db9d38ee4f4fbfc)) by @chitrank2050- Pass git-cliff output to gh release via environment variable ([45a232f](45a232f7f9604453656d1b011605c7652c1ed752)) by @chitrank2050
+### 💾 Database & Schema- **deps:** Bump the all-actions group across 1 directory with 3 updates (#72) Bumps the all-actions group with 3 updates in the / directory: [dorny/paths-filter](https://github.com/dorny/paths-filter), [codecov/codecov-action](https://github.com/codecov/codecov-action) and [orhun/git-cliff-action](https://github.com/orhun/git-cliff-action). Updates `dorny/paths-filter` from 3.0.2 to 4.0.1 - [Release notes](https://github.com/dorny/paths-filter/releases) - [Changelog](https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md) - [Commits](https://github.com/dorny/paths-filter/compare/de90cc6fb38fc0963ad72b210f1f284cd68cea36...fbd0ab8f3e69293af611ebaee6363fc25e6d187d) Updates `codecov/codecov-action` from 5.5.4 to 6.0.0 - [Release notes](https://github.com/codecov/codecov-action/releases) - [Changelog](https://github.com/codecov/codecov-action/blob/main/CHANGELOG.md) - [Commits](https://github.com/codecov/codecov-action/compare/75cd11691c0faa626561e295848008c8a7dddffe...57e3a136b779b570ffcdbf80b3bdc90e7fab3de2) Updates `orhun/git-cliff-action` from 4.7.0 to 4.7.1 - [Release notes](https://github.com/orhun/git-cliff-action/releases) - [Commits](https://github.com/orhun/git-cliff-action/compare/e16f179f0be49ecdfe63753837f20b9531642772...c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72) --- updated-dependencies: - dependency-name: dorny/paths-filter dependency-version: 4.0.1 dependency-type: direct:production update-type: version-update:semver-major dependency-group: all-actions - dependency-name: codecov/codecov-action dependency-version: 6.0.0 dependency-type: direct:production update-type: version-update:semver-major dependency-group: all-actions - dependency-name: orhun/git-cliff-action dependency-version: 4.7.1 dependency-type: direct:production update-type: version-update:semver-patch dependency-group: all-actions ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([5409df5](5409df573d3069b5449002693dc92888f30e9e11)) by [dependabot[bot]](https://github.com/apps/dependabot)
+### 🚜 Refactoring- Update release workflow to generate changelog via automated PR instead of direct commit ([8b12cfe](8b12cfe45475f48978f194bf54620ce4d3e86d2a)) by @chitrank2050- Replace action-gh-release with GitHub CLI for release creation ([9a2d8d5](9a2d8d5107daceeba3f3c0119540c007d9553cc5)) by @chitrank2050
+### 📚 Documentation- Add zizmor installation guide and security audit documentation ([4e3c6a5](4e3c6a5eaef8b7e926f15439f8a2a65f33506902)) by @chitrank2050
 
 ## [0.5.3] - 2026-04-24
-
-
-### ⚙️ Maintenance
-
-- Automate CHANGELOG.md updates in release workflow and document maintenance changes (by @chitrank2050)
-
-### 📚 Documentation
-
-- Add developer workflow and automated maintenance sections to documentation (by @chitrank2050)
-
-### 🚀 Features
-
-- Modernize documentation theme with custom CSS and enhanced MkDocs Material configuration (by @chitrank2050)
+### 🚀 Features- Modernize documentation theme with custom CSS and enhanced MkDocs Material configuration ([566817e](566817e101732d804e755f2634ce763ada4ca96b)) by @chitrank2050
+### ⚙️ Maintenance- Automate CHANGELOG.md updates in release workflow and document maintenance changes ([75f8b0c](75f8b0c0405a5afdf7584862d68fd868830aaff4)) by @chitrank2050
+### 📚 Documentation- Add developer workflow and automated maintenance sections to documentation ([18041fa](18041fa41dd6cbcc1c46244f770048baae0cf8de)) by @chitrank2050
 
 ## [0.5.2] - 2026-04-24
-
-
-### ⚙️ Maintenance
-
-- Update lockfile dependencies (by @chitrank2050)
-- Downgrade pnpm/action-setup to version 5 (by @chitrank2050)
-- Update dependency @swc/core to v1.15.30 ([#57](https://github.com/chitrank2050/meterplex/issues/57)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update redis docker tag to v8 ([#56](https://github.com/chitrank2050/meterplex/issues/56)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update linting & formatting ([#16](https://github.com/chitrank2050/meterplex/issues/16)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update pg dependency position and upgrade markdownlint-cli to v0.48.0 (by @chitrank2050)
-- Update markdown tables to use consistent left-aligned formatting (by @chitrank2050)
-- Upgrade PostgreSQL to 18, Kafka to 4.2, and Redis to 8 across infrastructure and doc (by @chitrank2050)
-- Update dependencies and add deps:update script (by @chitrank2050)
-- Update workflow trigger paths and replace husky with lefthook configuration (by @chitrank2050)
-- Prune pnpm dependency overrides and add automated maintenance workflow for cleanup (by @chitrank2050)
-- Update lefthook configuration for improved pre-commit workflow (by @chitrank2050)
-- Update lefthook configuration to optimize pre-commit hook execution (by @chitrank2050)
-- Update git-cliff configuration with emojis and additional commit categories (by @chitrank2050)
-- Update OSV-Scanner version to v2.3.5 in CI and maintenance workflows (by @chitrank2050)
-- Enhance CI/CD workflow documentation and standardize naming with icons (by @chitrank2050)
-- Improve workflow maintainability with descriptive comments and updated ignore patterns (by @chitrank2050)
-
-### 🐛 Bug Fixes
-
-- Update dependency uuid to v14 ([#58](https://github.com/chitrank2050/meterplex/issues/58)) (by [renovate[bot]](https://github.com/apps/renovate))
-
-### 👷 Continuous Integration
-
-- Replace OSV-Scanner action with direct binary execution in CI and maintenance workflows (by @chitrank2050)
-- Add zizmor workflow for security analysis of GitHub Actions (by @chitrank2050)
-- Add semantic pull request title validation workflow (by @chitrank2050)
-
-### 📚 Documentation
-
-- Enhance README with badges and disable automatic documentation deploy workflow (by @chitrank2050)
-- Replace em-dashes with hyphens in setup guide and cleanup lefthook configuration (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Replace Husky and lint-staged with Lefthook for git hook management (by @chitrank2050)
+### 🐛 Bug Fixes- **deps:** Update dependency uuid to v14 (#58) Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com> ([b5cecf1](b5cecf141733bb46716ebf2a5f3fb3584bf7831b)) by [renovate[bot]](https://github.com/apps/renovate)
+### 👷 CI/CD- Replace OSV-Scanner action with direct binary execution in CI and maintenance workflows ([c2b9a9c](c2b9a9c5f207032999299904129714503b2b0ab1)) by @chitrank2050- Add zizmor workflow for security analysis of GitHub Actions ([3eb326f](3eb326f6324bbf22a74eed1cf9f18253c5843796)) by @chitrank2050- Add semantic pull request title validation workflow ([4403638](44036386200ebba7c75725db393c70187d172b6b)) by @chitrank2050
+### ⚙️ Maintenance- Update lockfile dependencies ([b42ffa5](b42ffa54a819b8a99db95b4e5a2243990c190cf5)) by @chitrank2050- Downgrade pnpm/action-setup to version 5 ([9d49dad](9d49dad8c38c955fc067204b3f855c8a0172e1d2)) by @chitrank2050- Update pg dependency position and upgrade markdownlint-cli to v0.48.0 ([1ee8701](1ee87012af721f51165ff74b4b238bcd55e30487)) by @chitrank2050- Update markdown tables to use consistent left-aligned formatting ([60383e9](60383e9645dc2a9ee0d3e965d4bf84ba0dccfa0f)) by @chitrank2050- Upgrade PostgreSQL to 18, Kafka to 4.2, and Redis to 8 across infrastructure and doc ([f6f23ae](f6f23ae1e95bc45a903a433fea9602fbbc25be9b)) by @chitrank2050- Update dependencies and add deps:update script ([efdb55d](efdb55dc8eb1f7cba1dafad18e7249e8c8fb2c10)) by @chitrank2050- Update workflow trigger paths and replace husky with lefthook configuration ([9663e2b](9663e2b5c1dac2d10ff8ff8a3b2e9772a03fd7ff)) by @chitrank2050- Prune pnpm dependency overrides and add automated maintenance workflow for cleanup ([1422ea5](1422ea5ad786623cf095570b56a429d206847c41)) by @chitrank2050- Update lefthook configuration for improved pre-commit workflow ([eb8319f](eb8319ff9e9ec41b6444d52f09d65080d4b02935)) by @chitrank2050- Update lefthook configuration to optimize pre-commit hook execution ([b87ae74](b87ae741846df98ee80884cfea13a44aaaa242ba)) by @chitrank2050- Update git-cliff configuration with emojis and additional commit categories ([5a2576b](5a2576b6d2d7add6fd2253baf8f28ac5659379d7)) by @chitrank2050- Update OSV-Scanner version to v2.3.5 in CI and maintenance workflows ([88fc1e4](88fc1e4e49a9dc6659feb60944658b747fa04550)) by @chitrank2050- Enhance CI/CD workflow documentation and standardize naming with icons ([27fd769](27fd769fc00bb3a50795b5b51fdce3edc5fc4273)) by @chitrank2050- Improve workflow maintainability with descriptive comments and updated ignore patterns ([9991736](9991736abd817e1072a02055d6a627e4b227d4eb)) by @chitrank2050
+### 🚜 Refactoring- Replace Husky and lint-staged with Lefthook for git hook management ([f94704c](f94704c49495a67d952be7e30ad8a2d6228fdbcc)) by @chitrank2050
+### 📚 Documentation- Enhance README with badges and disable automatic documentation deploy workflow ([be257c1](be257c137f9ee3f0c975f218303533aaff97fd2e)) by @chitrank2050- Replace em-dashes with hyphens in setup guide and cleanup lefthook configuration ([eabe5fc](eabe5fcf0479d00250ec90eb737b79a7a546e312)) by @chitrank2050
 
 ## [0.5.1] - 2026-04-16
-
-
-### ⚙️ Maintenance
-
-- Update apache/kafka docker tag to v4 ([#23](https://github.com/chitrank2050/meterplex/issues/23)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update pnpm to v9.15.9 ([#22](https://github.com/chitrank2050/meterplex/issues/22)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Upgrade pnpm/action-setup to v6 and update lockfile (by @chitrank2050)
-
-### 🏗️ Build
-
-- Bump globals from 16.5.0 to 17.5.0 ([#40](https://github.com/chitrank2050/meterplex/issues/40)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-
-### 🚀 Features
-
-- Schema for usage events, outbox, aggregates, and dead letter queue (by @chitrank2050)
+### 🚀 Features- **usage:** Schema for usage events, outbox, aggregates, and dead letter queue ([173c6f6](173c6f6a8ce7aa85eafb544fe80ae943eb0028ad)) by @chitrank2050
+### 🏗️ Infrastructure- **deps-dev:** Bump globals from 16.5.0 to 17.5.0 (#40) Bumps [globals](https://github.com/sindresorhus/globals) from 16.5.0 to 17.5.0. - [Release notes](https://github.com/sindresorhus/globals/releases) - [Commits](https://github.com/sindresorhus/globals/compare/v16.5.0...v17.5.0) --- updated-dependencies: - dependency-name: globals dependency-version: 17.5.0 dependency-type: direct:development update-type: version-update:semver-major ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([b6e1b57](b6e1b57809b612110efb8a3903db15e12980e0fa)) by [dependabot[bot]](https://github.com/apps/dependabot)
+### ⚙️ Maintenance- Upgrade pnpm/action-setup to v6 and update lockfile ([8fb9ed4](8fb9ed402c15963d4dad5cb83ddc1de82dc1036d)) by @chitrank2050
 
 ## [0.5.0] - 2026-04-16
-
-
-### ⚙️ Maintenance
-
-- Add Bruno collection for all Phase 2 endpoints (by @chitrank2050)
-- Update linting & formatting ([#26](https://github.com/chitrank2050/meterplex/issues/26)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update postgres docker tag to v18 ([#29](https://github.com/chitrank2050/meterplex/issues/29)) (by [renovate[bot]](https://github.com/apps/renovate))
-- Update dependencies in pnpm-lock.yaml (by @chitrank2050)
-
-### 🚀 Features
-
-- Implement entitlement module DTOs and update eslint ignore configuration (by @chitrank2050)
-- Implement entitlements module to manage plan-feature mappings and access rules (by @chitrank2050)
-- Implement subscription module DTOs for creation and response handling (by @chitrank2050)
-- Implement Subscriptions module with CRUD operations and tenant-scoped subscription management (by @chitrank2050)
-- Implement EntitlementCheckModule for runtime feature gating and usage consumption (by @chitrank2050)
-- Seed database with subscription plans, pricing, features, and entitlements (by @chitrank2050)
-- Implement plans, features, entitlements, and subscription management system (by @chitrank2050)
+### 🚀 Features- Implement entitlement module DTOs and update eslint ignore configuration ([3b9be6b](3b9be6bdf6a87dfac41259a7cc21a215b4eaa018)) by @chitrank2050- Implement entitlements module to manage plan-feature mappings and access rules ([d4653ab](d4653ab30a8fb2848bf686a228b0313d14a1556a)) by @chitrank2050- Implement subscription module DTOs for creation and response handling ([e2d5629](e2d562955ca7fd591eabc06fe919966aaa5120a9)) by @chitrank2050- Implement Subscriptions module with CRUD operations and tenant-scoped subscription management ([f5ce821](f5ce8210b29f3d80ac97345017c8108152a8859e)) by @chitrank2050- Implement EntitlementCheckModule for runtime feature gating and usage consumption ([c17e458](c17e4580a6414b1b25250031fc5c676c4748dbe2)) by @chitrank2050- Seed database with subscription plans, pricing, features, and entitlements ([ad61d65](ad61d65727ad7da3e9ec52ae0041fa033923c1df)) by @chitrank2050- Implement plans, features, entitlements, and subscription management system ([e004670](e00467029d6f945f5d1453378809674225b472f2)) by @chitrank2050
+### ⚙️ Maintenance- Update dependencies in pnpm-lock.yaml ([5814062](5814062bc64bab8151c1572c71cac1b27c4990da)) by @chitrank2050
+### 📡 API & Communication- Add Bruno collection for all Phase 2 endpoints ([9d809e3](9d809e3f5101705e7e5d9a5c8cd454e4b2fcc7c7)) by @chitrank2050
 
 ## [0.4.5] - 2026-04-12
-
-
-### ⚙️ Maintenance
-
-- Update issue template titles to follow conventional commit (by @chitrank2050)
-
-### 📚 Documentation
-
-- Update project documentation in README.md (by @chitrank2050)
-
-### 🚀 Features
-
-- Implement DTOs for feature management module (by @chitrank2050)
-- Implement features module with CRUD operations for the global feature catalog (by @chitrank2050)
-- Add DTOs for plan price creation and response schemas (by @chitrank2050)
-- Implement plan pricing module with CRUD operations and nested routing (by @chitrank2050)
-- Add documentation and task issue templates and set default assignees for all templates (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Replace hardcoded enum strings with Prisma generated enums across all DTOs (by @chitrank2050)
-- Replace hardcoded string enums with Prisma generated enum types across services (by @chitrank2050)
+### 🚀 Features- Implement DTOs for feature management module ([a769de1](a769de11ae6f1e718de706ff1ca568a032502275)) by @chitrank2050- Implement features module with CRUD operations for the global feature catalog ([2daa31c](2daa31c1e5eddf9e4b5969476616c4f050879a4d)) by @chitrank2050- Add DTOs for plan price creation and response schemas ([e0f58f1](e0f58f1829f6721182be450d10e2d0ed96e6a6df)) by @chitrank2050- Implement plan pricing module with CRUD operations and nested routing ([380dc1e](380dc1e8b92691c069e697d0ad5b8996ee926c3f)) by @chitrank2050- Add documentation and task issue templates and set default assignees for all templates ([de112e1](de112e1cc857950279d1870ee908781449b79337)) by @chitrank2050
+### ⚙️ Maintenance- Update issue template titles to follow conventional commit ([2d4b97b](2d4b97bad77886e3873ce057c1792906ca6ecadc)) by @chitrank2050
+### 🚜 Refactoring- Replace hardcoded enum strings with Prisma generated enums across all DTOs ([ba7c0ff](ba7c0fffaefc3feabe6f3c0c8d1c21b5fe4e5c2d)) by @chitrank2050- Replace hardcoded string enums with Prisma generated enum types across services ([7257470](7257470f61603235dc9d72a190de27072c174184)) by @chitrank2050
+### 📚 Documentation- Update project documentation in README.md ([9695ed2](9695ed2aa32c0e21d654e8cbe7f0fe15e11a67fc)) by @chitrank2050
 
 ## [0.4.3] - 2026-04-12
-
-
-### ⚙️ Maintenance
-
-- Migrate dependency management from Dependabot to Renovate (by @chitrank2050)
-- Update pnpm-lock.yaml dependencies (by @chitrank2050)
-- Standardize markdown code blocks, update linting configuration, and improve docs formatting (by @chitrank2050)
-- Reformat renovate config, add experimental path ignore rules, and disable vulnerability alert (by @chitrank2050)
-- Replace em-dashes with hyphens and update import to type-only in logger configuration (by @chitrank2050)
-- Update dependencies, configure pnpm settings, and enforce non-null database URL type (by @chitrank2050)
-- Add format:check script and update CI workflow to use Node 24 (by @chitrank2050)
-- Reformat renovate configuration and disable Prisma client generation in CI workflow (by @chitrank2050)
-- Update lockfile dependencies (by @chitrank2050)
-- Update @hono/node-server and add glob dependency to package.json (by @chitrank2050)
-- Move pg dependency from devDependencies to dependencies (by @chitrank2050)
-- Move pg dependency from devDependencies to dependencies (by @chitrank2050)
-
-### 📚 Documentation
-
-- Update project documentation in README.md (by @chitrank2050)
-- Update project documentation in README.md (by @chitrank2050)
-- Update project documentation and installation instructions in README (by @chitrank2050)
-- Update project documentation in README.md (by @chitrank2050)
-- Update project documentation in README.md (by @chitrank2050)
-
-### 🚀 Features
-
-- Add docker:prune script and include project banner assets (by @chitrank2050)
-- Implement Winston logging, configure import sorting, and standardize database script (by @chitrank2050)
-- Add markdownlint configuration and integrate linting into CI and pre-commit hooks (by @chitrank2050)
-- Add weekly schedule to renovate configuration (by @chitrank2050)
-- Enable Prisma client generation in CI pipeline (by @chitrank2050)
-- Implement DTOs for plan creation, updates, and API responses (by @chitrank2050)
-- Implement PlansService and expand Prisma error utility helpers for robust db constraint handle (by @chitrank2050)
-- Migrate NestJS build and test compilation to SWC for improved performance (by @chitrank2050)
-- Implement plans module with CRUD endpoints for billing plan management (by @chitrank2050)
-- Add API documentation and Bruno collections for plans, auth, users, tenants, and API keys (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Standardize import ordering and formatting across the codebase (by @chitrank2050)
-- Rename prisma CLI scripts to db prefix across codebase and documentation (by @chitrank2050)
-- Reformat renovate configuration and update experimental path pattern (by @chitrank2050)
-- Centralize correlation ID header constant and exclude health checks from request logging (by @chitrank2050)
-- Simplify environment variable usage (by @chitrank2050)
-- Replace manual existence checks with Prisma findUniqueOrThrow and error handling utilities (by @chitrank2050)
-- Migrate test runner from Jest to Vitest (by @chitrank2050)
-- Reorder color scheme definitions in mkdocs.yml to set dark mode as default (by @chitrank2050)
-- Migrate Prisma client generation to node_modules and update import paths (by @chitrank2050)
+### 🚀 Features- Add docker:prune script and include project banner assets ([e27c99f](e27c99fcabd9c7d1354eaa2431745278bfebaed9)) by @chitrank2050- Implement Winston logging, configure import sorting, and standardize database script ([dbd094c](dbd094cc14d12b75c21c995a220ed08c1e1c4459)) by @chitrank2050- Add markdownlint configuration and integrate linting into CI and pre-commit hooks ([f6ecd65](f6ecd65e1f4192c36b148044ea484a42e032a8bb)) by @chitrank2050- Add weekly schedule to renovate configuration ([f7b3aba](f7b3aba8f5bb9c7b64a25193f0c35ca7c77919b2)) by @chitrank2050- Enable Prisma client generation in CI pipeline ([9e07788](9e07788e8e99490f9ae16239afcb49ecbcd7d7f5)) by @chitrank2050- Implement DTOs for plan creation, updates, and API responses ([60a62c2](60a62c269ea29b58ebec6e2a68fd94ff3f232195)) by @chitrank2050- Implement PlansService and expand Prisma error utility helpers for robust db constraint handle ([06d114e](06d114e77af2efdfb5f09f564e7f4a9eb760a6b6)) by @chitrank2050- Migrate NestJS build and test compilation to SWC for improved performance ([f4339f3](f4339f33a4cde2866dedb140c1fd590d80908125)) by @chitrank2050- Implement plans module with CRUD endpoints for billing plan management ([c8f0187](c8f01875ae31669fb39318e60e459addfa2bd2f4)) by @chitrank2050- Add API documentation and Bruno collections for plans, auth, users, tenants, and API keys ([ab3e86a](ab3e86a2fa6d916cc39903be38a5154fb39c8be9)) by @chitrank2050
+### ⚙️ Maintenance- Migrate dependency management from Dependabot to Renovate ([e01959c](e01959ce9fdba6853b48fd91df5cae7b68e88a67)) by @chitrank2050- Update pnpm-lock.yaml dependencies ([7ef25d8](7ef25d88a01791a458563bd8943bd8f8685c17ba)) by @chitrank2050- Standardize markdown code blocks, update linting configuration, and improve docs formatting ([29a9065](29a90653cae1980bc32b44309b3be5d8f0b36a79)) by @chitrank2050- Reformat renovate config, add experimental path ignore rules, and disable vulnerability alert ([0407111](0407111f0b988d84dedc204591e9537825725cb4)) by @chitrank2050- Replace em-dashes with hyphens and update import to type-only in logger configuration ([993f1fa](993f1faa333e41a1dcd48939ce7a6b63a7ca97c2)) by @chitrank2050- Update dependencies, configure pnpm settings, and enforce non-null database URL type ([405b522](405b5222fe5f036bcb0a8cec813cf119cdc2645d)) by @chitrank2050- Add format:check script and update CI workflow to use Node 24 ([7827991](782799145628aeb183163254e9967422b5e92996)) by @chitrank2050- Reformat renovate configuration and disable Prisma client generation in CI workflow ([74b4bef](74b4bef606609eb035e23aa06478d56edcbe0d5b)) by @chitrank2050- Update lockfile dependencies ([ab40b39](ab40b39a02d7c5e56852154ebcf1b75dd286b4cd)) by @chitrank2050- Update @hono/node-server and add glob dependency to package.json ([d40c2a6](d40c2a60b479f8557048e3afba359268e5762b63)) by @chitrank2050- Move pg dependency from devDependencies to dependencies ([f6b4f9f](f6b4f9f157f3f622893041ee82c509cad1f47b3e)) by @chitrank2050- Move pg dependency from devDependencies to dependencies ([f338866](f338866bb626991db39dfdea637403c7700a6c5a)) by @chitrank2050
+### 💾 Database & Schema- Rename prisma CLI scripts to db prefix across codebase and documentation ([f963289](f96328977f16a50fe3d16e754e142e063e7ac17c)) by @chitrank2050
+### 🚜 Refactoring- Standardize import ordering and formatting across the codebase ([7b8d074](7b8d074f76a6101a666c4965a662c68f0e7b4541)) by @chitrank2050- Reformat renovate configuration and update experimental path pattern ([e5ff2e3](e5ff2e3e7d5ff9267d9bfc717ed45d35c44d7530)) by @chitrank2050- Centralize correlation ID header constant and exclude health checks from request logging ([472c8c7](472c8c79c9881236d08de6e05b2d053f8351aa04)) by @chitrank2050- Simplify environment variable usage ([5fdb1ca](5fdb1ca717b98c49d832cd6b4b0f34b78a4b80ae)) by @chitrank2050- Replace manual existence checks with Prisma findUniqueOrThrow and error handling utilities ([3adc20f](3adc20f12baaa5ebdc851cddb7d4a7c16ec28d32)) by @chitrank2050- Migrate test runner from Jest to Vitest ([5cac08b](5cac08b08bcf0b3a177398d7d506e08845ed3a2f)) by @chitrank2050- Reorder color scheme definitions in mkdocs.yml to set dark mode as default ([d576205](d576205c8a657dfd9fb3f2a6cd96a20fd9869227)) by @chitrank2050- Migrate Prisma client generation to node_modules and update import paths ([010a6f5](010a6f53dd7d4119a4aa60f50d9ba1661d640aa0)) by @chitrank2050
+### 📚 Documentation- Update project documentation in README.md ([f0a3fd5](f0a3fd529470ab7a74b9992ffc7994ab9ec7c119)) by @chitrank2050- Update project documentation in README.md ([703c209](703c2091799ff3e327410bee25fc6d51bdadf4c3)) by @chitrank2050- Update project documentation and installation instructions in README ([da7608d](da7608d7e26c57350ea462107eb217add88fef0d)) by @chitrank2050- Update project documentation in README.md ([ec39718](ec3971809e58b23d3bd4362a71567dfdbcc3c4f5)) by @chitrank2050- Update project documentation in README.md ([45f7834](45f7834918f72fde595ec2548ff79a8c93c21bc7)) by @chitrank2050
 
 ## [0.4.2] - 2026-04-10
-
-
-### 📚 Documentation
-
-- Update README and add CODEOWNERS file to define repository ownership (by @chitrank2050)
+### 📚 Documentation- Update README and add CODEOWNERS file to define repository ownership ([bd5acc0](bd5acc0cc0064d0373c1dcfe5ef96b9196bc8aa9)) by @chitrank2050
 
 ## [0.4.1] - 2026-04-10
-
-
-### ⚙️ Maintenance
-
-- Update project metadata, simplify license terms, and add branding assets (by @chitrank2050)
-- Update package metadata and keywords for better project discoverability (by @chitrank2050)
-
-### 🎨 Styling
-
-- Replace em-dashes with hyphens in documentation and DTO comments (by @chitrank2050)
-
-### 🏗️ Build
-
-- Bump @types/supertest from 6.0.3 to 7.2.0 ([#10](https://github.com/chitrank2050/meterplex/issues/10)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-
-### 📚 Documentation
-
-- Add audit log architecture documentation and standardize code comments (by @chitrank2050)
-
-### 🚀 Features
-
-- Add AuditLog model and supporting enums to track system mutations (by @chitrank2050)
-- Implement global audit log interceptor with skip decorator for mutation tracking (by @chitrank2050)
-- Implement global audit log interceptor with SkipAudit decorator support (by @chitrank2050)
-- Add audit log interceptor documentation and phase 1 summary updates (by @chitrank2050)
-- Implement plans, features, and entitlements schema with supporting documentation (by @chitrank2050)
-- Add support for plans, features, entitlements, and subscriptions to audit log resource mapping (by @chitrank2050)
+### 🚀 Features- Add AuditLog model and supporting enums to track system mutations ([bb78eca](bb78eca1476d720c7dea2b1ff4d88e4ec3dd25c9)) by @chitrank2050- Implement global audit log interceptor with skip decorator for mutation tracking ([e28df80](e28df80ba9166c6ae5d665582450a72ebb5e2beb)) by @chitrank2050- Implement global audit log interceptor with SkipAudit decorator support ([66587b6](66587b6e0e02d50ac021709ed967a3d99dd8821a)) by @chitrank2050- Add audit log interceptor documentation and phase 1 summary updates ([734a81c](734a81cbb7499ff8f1a9d28c9784f95d3973a23c)) by @chitrank2050- Implement plans, features, and entitlements schema with supporting documentation ([cf5a0a5](cf5a0a588bc3d3e0deb4309c8fc1312eaaa172ed)) by @chitrank2050- Add support for plans, features, entitlements, and subscriptions to audit log resource mapping ([5fcefb1](5fcefb19730404a6c6be7065c076912c60736d07)) by @chitrank2050
+### 🏗️ Infrastructure- **deps-dev:** Bump @types/supertest from 6.0.3 to 7.2.0 (#10) Bumps [@types/supertest](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/supertest) from 6.0.3 to 7.2.0. - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases) - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/supertest) --- updated-dependencies: - dependency-name: "@types/supertest" dependency-version: 7.2.0 dependency-type: direct:development update-type: version-update:semver-major ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([10f86b4](10f86b4a6f9183055b8922017002e8742209924c)) by [dependabot[bot]](https://github.com/apps/dependabot)
+### ⚙️ Maintenance- Update project metadata, simplify license terms, and add branding assets ([2515b1a](2515b1a22032c0eec9cdfe152741f44fc08665d2)) by @chitrank2050- Update package metadata and keywords for better project discoverability ([c692d97](c692d97dbcfb99dbff823ea9a36dd02cd1375141)) by @chitrank2050
+### 📚 Documentation- Add audit log architecture documentation and standardize code comments ([9136838](9136838bffa1be5f87b73ab1d38a81fffa3549eb)) by @chitrank2050
+### 🎨 Styling- Replace em-dashes with hyphens in documentation and DTO comments ([f47ddc2](f47ddc2abbdefe575483ee1328ad52e1ce56be3c)) by @chitrank2050
 
 ## [0.4.0] - 2026-04-09
-
-
-### 📚 Documentation
-
-- Update project roadmap and document API authentication and endpoints (by @chitrank2050)
-
-### 🚀 Features
-
-- Add Bruno API collection files for authentication endpoints (by @chitrank2050)
-- Add Bruno API requests for retrieving and updating tenants (by @chitrank2050)
-- Add Bruno API collections for tenant context and user management endpoints (by @chitrank2050)
-- Add Bruno API collections for creating, listing, and revoking API keys (by @chitrank2050)
+### 🚀 Features- Add Bruno API collection files for authentication endpoints ([1b3c562](1b3c56288beadedf8b019a36d664f3321e1b4806)) by @chitrank2050- Add Bruno API requests for retrieving and updating tenants ([409fa7d](409fa7d93c7ec490001ece8ba16248f22a68d6a2)) by @chitrank2050- Add Bruno API collections for tenant context and user management endpoints ([9d3434c](9d3434c001495b7c3b2ab9ed9add39402f5e4fe6)) by @chitrank2050- Add Bruno API collections for creating, listing, and revoking API keys ([471ba01](471ba01edc0c3f1ad7933f1e5dc71b02207d4a44)) by @chitrank2050
+### 📡 API & Communication- Update project roadmap and document API authentication and endpoints ([a03eaad](a03eaad6b5bea4fe09af9681ed8198cc5082fa8d)) by @chitrank2050
 
 ## [0.3.5] - 2026-04-09
-
-
-### 🚜 Refactoring
-
-- Implement robust Prisma unique constraint error handling with dedicated utility (by @chitrank2050)
+### 🚜 Refactoring- Implement robust Prisma unique constraint error handling with dedicated utility ([198e3af](198e3afd481ee9cef1b19dab1a9260abf25ddf0f)) by @chitrank2050
 
 ## [0.3.4] - 2026-04-09
-
-
-### ⚙️ Maintenance
-
-- Centralize prettier endOfLine configuration in .prettierrc and remove from eslint config (by @chitrank2050)
-- Update dependencies in pnpm-lock.yaml (by @chitrank2050)
-
-### 🏗️ Build
-
-- Bump @types/node from 22.19.15 to 25.5.2 ([#9](https://github.com/chitrank2050/meterplex/issues/9)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-- Bump actions/setup-python in the all-actions group ([#3](https://github.com/chitrank2050/meterplex/issues/3)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-- Bump dotenv in the patch-and-minor group ([#8](https://github.com/chitrank2050/meterplex/issues/8)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-- Bump @types/uuid from 10.0.0 to 11.0.0 ([#11](https://github.com/chitrank2050/meterplex/issues/11)) (by [dependabot[bot]](https://github.com/apps/dependabot))
-
-### 🚀 Features
-
-- Add lodash dependency to package.json (by @chitrank2050)
-- Add standard pagination and error response DTOs for API consistency (by @chitrank2050)
-- Add TenantResponseDtos for API documentation (by @chitrank2050)
-- Add UserResponseDto for standardized user API responses (by @chitrank2050)
-- Add IsNotEmpty validation to password and refactor Auth API status codes to use enums (by @chitrank2050)
-- Add installation and cleanup automation scripts with corresponding npm lifecycle commands (by @chitrank2050)
-- Implement response DTOs for auth and api-keys modules (by @chitrank2050)
-- Implement DTO factory methods and update tenant module to return typed responses (by @chitrank2050)
-- Add Swagger response DTOs and error schemas to Auth and Users controllers (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Optimize membership lookup, update Swagger path, fix Prisma import, and standardize logger (by @chitrank2050)
-- Centralize authentication error messages in constants and update auth service to use them (by @chitrank2050)
-- Migrate to eslint-config-prettier and update configuration structure (by @chitrank2050)
-- Standardize documentation by replacing em-dashes with hyphens across the codebase (by @chitrank2050)
-- Add ErrorResponseDto to Swagger API response decorators in tenants controller (by @chitrank2050)
-- Implement DTO factory methods for API key and tenant responses to decouple service layer (by @chitrank2050)
-- Remove static DTO factory methods to rely on direct service return types for serialization (by @chitrank2050)
+### 🚀 Features- Add lodash dependency to package.json ([d261721](d2617217992190c150c307464e140b8ca81cfe6d)) by @chitrank2050- Add standard pagination and error response DTOs for API consistency ([a5e9ac3](a5e9ac356ce314549ca2a4f008f2bff7551c1659)) by @chitrank2050- Add TenantResponseDtos for API documentation ([5acd943](5acd943fa786b72674e79f568e0b9f4bb04ba529)) by @chitrank2050- Add UserResponseDto for standardized user API responses ([00be6fb](00be6fbb090b40a18d787b3c81a022be692f6762)) by @chitrank2050- Add IsNotEmpty validation to password and refactor Auth API status codes to use enums ([d8fc297](d8fc297034d67024d329c675348191e457725fcd)) by @chitrank2050- Add installation and cleanup automation scripts with corresponding npm lifecycle commands ([5682d9f](5682d9f6163fec94a9ecddd2557e909641d899a0)) by @chitrank2050- Implement response DTOs for auth and api-keys modules ([d0a2e40](d0a2e40b97b77599f2bed98660258d87a4626bf6)) by @chitrank2050- Implement DTO factory methods and update tenant module to return typed responses ([cef7291](cef7291505bbd5849f5104a55b962f2932c1b2e7)) by @chitrank2050- Add Swagger response DTOs and error schemas to Auth and Users controllers ([2df7061](2df7061a725e1eb30c95e0f3983c6465c90883cb)) by @chitrank2050
+### 🏗️ Infrastructure- **deps-dev:** Bump @types/node from 22.19.15 to 25.5.2 (#9) Bumps [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) from 22.19.15 to 25.5.2. - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases) - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node) --- updated-dependencies: - dependency-name: "@types/node" dependency-version: 25.5.2 dependency-type: direct:development update-type: version-update:semver-major ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([eca3095](eca309543ce5ba553b0203d501ab232cfaecd80d)) by [dependabot[bot]](https://github.com/apps/dependabot)- **deps:** Bump actions/setup-python in the all-actions group (#3) Bumps the all-actions group with 1 update: [actions/setup-python](https://github.com/actions/setup-python). Updates `actions/setup-python` from 5 to 6 - [Release notes](https://github.com/actions/setup-python/releases) - [Commits](https://github.com/actions/setup-python/compare/v5...v6) --- updated-dependencies: - dependency-name: actions/setup-python dependency-version: '6' dependency-type: direct:production update-type: version-update:semver-major dependency-group: all-actions ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([d73ee26](d73ee26e257354b2ffeba7a980758c813e5fdcbb)) by [dependabot[bot]](https://github.com/apps/dependabot)- **deps-dev:** Bump dotenv in the patch-and-minor group (#8) Bumps the patch-and-minor group with 1 update: [dotenv](https://github.com/motdotla/dotenv). Updates `dotenv` from 17.4.0 to 17.4.1 - [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md) - [Commits](https://github.com/motdotla/dotenv/compare/v17.4.0...v17.4.1) --- updated-dependencies: - dependency-name: dotenv dependency-version: 17.4.1 dependency-type: direct:development update-type: version-update:semver-patch dependency-group: patch-and-minor ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([ed2a7be](ed2a7bea9333b360100fd3a7e4d97b36e41c638c)) by [dependabot[bot]](https://github.com/apps/dependabot)- **deps-dev:** Bump @types/uuid from 10.0.0 to 11.0.0 (#11) Bumps [@types/uuid](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/uuid) from 10.0.0 to 11.0.0. - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases) - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/uuid) --- updated-dependencies: - dependency-name: "@types/uuid" dependency-version: 11.0.0 dependency-type: direct:development update-type: version-update:semver-major ... Signed-off-by: dependabot[bot] <support@github.com> Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> ([8e19a27](8e19a270a4b7ae8eac89dc9bdd17318423b13d9b)) by [dependabot[bot]](https://github.com/apps/dependabot)
+### ⚙️ Maintenance- Centralize prettier endOfLine configuration in .prettierrc and remove from eslint config ([60f6370](60f63703d45645f136ec31352023b0ae23c731f5)) by @chitrank2050- Update dependencies in pnpm-lock.yaml ([97828dc](97828dc5d4c3f77f1d792997627e45cc027ed7f4)) by @chitrank2050
+### 🚜 Refactoring- Optimize membership lookup, update Swagger path, fix Prisma import, and standardize logger ([737cc62](737cc62024d81da30064456c8cf8851bda724ff6)) by @chitrank2050- Centralize authentication error messages in constants and update auth service to use them ([1938e0f](1938e0f7e6121dbf2b6cfd583d47dde3df06e87f)) by @chitrank2050- Migrate to eslint-config-prettier and update configuration structure ([694cbb0](694cbb0d4e8ecd67cbb2ee92ca203fa8268506a8)) by @chitrank2050- Standardize documentation by replacing em-dashes with hyphens across the codebase ([4985382](4985382898c380cbb986bfdd86104c3a01e66bf8)) by @chitrank2050- Add ErrorResponseDto to Swagger API response decorators in tenants controller ([0386406](0386406a482245891b3c32766b2db92a7079f76b)) by @chitrank2050- Implement DTO factory methods for API key and tenant responses to decouple service layer ([3d7c3b3](3d7c3b33963955c4413cec1697af1c254c682c4b)) by @chitrank2050- Remove static DTO factory methods to rely on direct service return types for serialization ([34a8558](34a85581675142646b22af436f4f02a27b499773)) by @chitrank2050
 
 ## [0.3.3] - 2026-04-04
-
-
-### 📚 Documentation
-
-- Add Phase 1 documentation (by @chitrank2050)
-- Add summary of completed Phase 1 features to documentation (by @chitrank2050)
-
-### 🚀 Features
-
-- Add API keys module with Stripe-style key generation, hashing, and revocation (by @chitrank2050)
-- Update seed script with users, memberships, and API keys across tenants (by @chitrank2050)
+### 🚀 Features- Add API keys module with Stripe-style key generation, hashing, and revocation ([00f6c1a](00f6c1a112c393cb03c7691d6c3744f9a9e9c443)) by @chitrank2050- Update seed script with users, memberships, and API keys across tenants ([0e1c217](0e1c217b8d18cc5da8d761fd319521dbcf749320)) by @chitrank2050
+### 📚 Documentation- Add Phase 1 documentation ([d164a5b](d164a5bd8d54a1ef197f103525878fbafd8ab257)) by @chitrank2050- Add summary of completed Phase 1 features to documentation ([b04bea3](b04bea3ccf36b60628cfb36555eb0631806b897b)) by @chitrank2050
 
 ## [0.3.2] - 2026-04-04
-
-
-### ⚙️ Maintenance
-
-- Add Bruno collection with auto-login and environment variables (by @chitrank2050)
-
-### 🚀 Features
-
-- Add custom decorators for CurrentUser, Roles, and TenantId extraction (by @chitrank2050)
-- Implement TenantGuard and RolesGuard for multi-tenant RBAC enforcement (by @chitrank2050)
-- Add protected endpoint to retrieve authenticated tenant context with guard validation (by @chitrank2050)
-- Add guards to tenants and users controllers, RBAC enforcement, tenant-scoped user creation (by @chitrank2050)
+### 🚀 Features- Add custom decorators for CurrentUser, Roles, and TenantId extraction ([4d32acd](4d32acdd385ba6fbd385dff66bcea5a0c4ef67e8)) by @chitrank2050- Implement TenantGuard and RolesGuard for multi-tenant RBAC enforcement ([9bea9bd](9bea9bd3600f4b82ab43e465e1c44b4a54601eec)) by @chitrank2050- Add protected endpoint to retrieve authenticated tenant context with guard validation ([d4d3ab2](d4d3ab26301d74caa03c95bf6c200f5e0a6e7f21)) by @chitrank2050- Add guards to tenants and users controllers, RBAC enforcement, tenant-scoped user creation ([fbb6bea](fbb6bea203531ca584c0e92c1fd486181ad4ab74)) by @chitrank2050
+### ⚙️ Maintenance- Add Bruno collection with auto-login and environment variables ([cca55bc](cca55bc47624c6618565b4469bd47132e004e7af)) by @chitrank2050
 
 ## [0.3.1] - 2026-04-04
-
-
-### 🏗️ Build
-
-- Bump the patch-and-minor group across 1 directory with 12 updates (by [dependabot[bot]](https://github.com/apps/dependabot))
-
-### 🚀 Features
-
-- Add DTOs for token refresh and password management flows (by @chitrank2050)
-- Implement full authentication lifecycle including refresh tokens, password management (by @chitrank2050)
-- Add complete auth flow with dual JWT tokens, password reset, and token rotation (by @chitrank2050)
+### 🚀 Features- Add DTOs for token refresh and password management flows ([9aa9faa](9aa9faa07254648359ea15c75f263e5b46a300cc)) by @chitrank2050- Implement full authentication lifecycle including refresh tokens, password management ([0089b18](0089b18ee8b5bd1e02b9c5a76fef37919cf3e767)) by @chitrank2050- Add complete auth flow with dual JWT tokens, password reset, and token rotation ([25d3dfc](25d3dfcbd874f07f13e08607f9f091fd4b1e257e)) by @chitrank2050
+### 💾 Database & Schema- **deps:** Bump the patch-and-minor group across 1 directory with 12 updates Bumps the patch-and-minor group with 12 updates in the / directory: | Package | From | To | | --- | --- | --- | | [@nestjs/common](https://github.com/nestjs/nest/tree/HEAD/packages/common) | `11.1.17` | `11.1.18` | | [@nestjs/core](https://github.com/nestjs/nest/tree/HEAD/packages/core) | `11.1.17` | `11.1.18` | | [@nestjs/platform-express](https://github.com/nestjs/nest/tree/HEAD/packages/platform-express) | `11.1.17` | `11.1.18` | | [@scalar/nestjs-api-reference](https://github.com/scalar/scalar/tree/HEAD/integrations/nestjs) | `1.1.5` | `1.1.6` | | [@nestjs/cli](https://github.com/nestjs/nest-cli) | `11.0.16` | `11.0.17` | | [@nestjs/schematics](https://github.com/nestjs/schematics) | `11.0.9` | `11.0.10` | | [@nestjs/testing](https://github.com/nestjs/nest/tree/HEAD/packages/testing) | `11.1.17` | `11.1.18` | | [dotenv](https://github.com/motdotla/dotenv) | `17.3.1` | `17.4.0` | | [prisma](https://github.com/prisma/prisma/tree/HEAD/packages/cli) | `7.5.0` | `7.6.0` | | [ts-jest](https://github.com/kulshekhar/ts-jest) | `29.4.6` | `29.4.9` | | [ts-loader](https://github.com/TypeStrong/ts-loader) | `9.5.4` | `9.5.7` | | [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/tree/HEAD/packages/typescript-eslint) | `8.57.1` | `8.58.0` | Updates `@nestjs/common` from 11.1.17 to 11.1.18 - [Release notes](https://github.com/nestjs/nest/releases) - [Commits](https://github.com/nestjs/nest/commits/v11.1.18/packages/common) Updates `@nestjs/core` from 11.1.17 to 11.1.18 - [Release notes](https://github.com/nestjs/nest/releases) - [Commits](https://github.com/nestjs/nest/commits/v11.1.18/packages/core) Updates `@nestjs/platform-express` from 11.1.17 to 11.1.18 - [Release notes](https://github.com/nestjs/nest/releases) - [Commits](https://github.com/nestjs/nest/commits/v11.1.18/packages/platform-express) Updates `@scalar/nestjs-api-reference` from 1.1.5 to 1.1.6 - [Release notes](https://github.com/scalar/scalar/releases) - [Changelog](https://github.com/scalar/scalar/blob/main/integrations/nestjs/CHANGELOG.md) - [Commits](https://github.com/scalar/scalar/commits/HEAD/integrations/nestjs) Updates `@nestjs/cli` from 11.0.16 to 11.0.17 - [Release notes](https://github.com/nestjs/nest-cli/releases) - [Commits](https://github.com/nestjs/nest-cli/compare/11.0.16...11.0.17) Updates `@nestjs/schematics` from 11.0.9 to 11.0.10 - [Release notes](https://github.com/nestjs/schematics/releases) - [Commits](https://github.com/nestjs/schematics/compare/11.0.9...11.0.10) Updates `@nestjs/testing` from 11.1.17 to 11.1.18 - [Release notes](https://github.com/nestjs/nest/releases) - [Commits](https://github.com/nestjs/nest/commits/v11.1.18/packages/testing) Updates `dotenv` from 17.3.1 to 17.4.0 - [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md) - [Commits](https://github.com/motdotla/dotenv/compare/v17.3.1...v17.4.0) Updates `prisma` from 7.5.0 to 7.6.0 - [Release notes](https://github.com/prisma/prisma/releases) - [Commits](https://github.com/prisma/prisma/commits/7.6.0/packages/cli) Updates `ts-jest` from 29.4.6 to 29.4.9 - [Release notes](https://github.com/kulshekhar/ts-jest/releases) - [Changelog](https://github.com/kulshekhar/ts-jest/blob/main/CHANGELOG.md) - [Commits](https://github.com/kulshekhar/ts-jest/compare/v29.4.6...v29.4.9) Updates `ts-loader` from 9.5.4 to 9.5.7 - [Release notes](https://github.com/TypeStrong/ts-loader/releases) - [Changelog](https://github.com/TypeStrong/ts-loader/blob/main/CHANGELOG.md) - [Commits](https://github.com/TypeStrong/ts-loader/compare/v9.5.4...v9.5.7) Updates `typescript-eslint` from 8.57.1 to 8.58.0 - [Release notes](https://github.com/typescript-eslint/typescript-eslint/releases) - [Changelog](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/typescript-eslint/CHANGELOG.md) - [Commits](https://github.com/typescript-eslint/typescript-eslint/commits/v8.58.0/packages/typescript-eslint) --- updated-dependencies: - dependency-name: "@nestjs/common" dependency-version: 11.1.18 dependency-type: direct:production update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: "@nestjs/core" dependency-version: 11.1.18 dependency-type: direct:production update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: "@nestjs/platform-express" dependency-version: 11.1.18 dependency-type: direct:production update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: "@scalar/nestjs-api-reference" dependency-version: 1.1.6 dependency-type: direct:production update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: "@nestjs/cli" dependency-version: 11.0.17 dependency-type: direct:development update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: "@nestjs/schematics" dependency-version: 11.0.10 dependency-type: direct:development update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: "@nestjs/testing" dependency-version: 11.1.18 dependency-type: direct:development update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: dotenv dependency-version: 17.4.0 dependency-type: direct:development update-type: version-update:semver-minor dependency-group: patch-and-minor - dependency-name: prisma dependency-version: 7.6.0 dependency-type: direct:development update-type: version-update:semver-minor dependency-group: patch-and-minor - dependency-name: ts-jest dependency-version: 29.4.9 dependency-type: direct:development update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: ts-loader dependency-version: 9.5.7 dependency-type: direct:development update-type: version-update:semver-patch dependency-group: patch-and-minor - dependency-name: typescript-eslint dependency-version: 8.58.0 dependency-type: direct:development update-type: version-update:semver-minor dependency-group: patch-and-minor ... Signed-off-by: dependabot[bot] <support@github.com> ([cf236af](cf236af756a05f3c190bc08271360f11f115e9fb)) by [dependabot[bot]](https://github.com/apps/dependabot)
 
 ## [0.3.0] - 2026-04-04
-
-
-### ⚙️ Maintenance
-
-- Add project governance, security policy, and contribution templates (by @chitrank2050)
-- Rename commit-lint (by @chitrank2050)
-- Update pnpm overrides for hono, path-to-regexp, and picomatch (by @chitrank2050)
-
-### 🎨 Styling
-
-- Standardize configuration files by converting double quotes to single quotes (by @chitrank2050)
-
-### 🏗️ Build
-
-- Bump picomatch in the npm_and_yarn group across 1 directory (by [dependabot[bot]](https://github.com/apps/dependabot))
-- Bump brace-expansion (by [dependabot[bot]](https://github.com/apps/dependabot))
-
-### 🐛 Bug Fixes
-
-- Patch handlebars transitive dependency (CVE injection via AST) (by @chitrank2050)
-- Patch hono transitive dependency (static file access bypass) (by @chitrank2050)
-- Patch effect transitive dependency (ALS context leak) (by @chitrank2050)
-- Patch @hono/node-server transitive dependency (static path bypass) (by @chitrank2050)
-
-### 👷 Continuous Integration
-
-- Refactor CI pipeline, update dependencies, and upgrade Python and Node.js versions (by @chitrank2050)
-
-### 📚 Documentation
-
-- Update project documentation in README.md (by @chitrank2050)
-- Add phase 1 ERD and placeholder docs (by @chitrank2050)
-
-### 🚀 Features
-
-- Add User, Membership, and ApiKey models to Prisma schema (by @chitrank2050)
-- Add CreateTenantDto and UpdateTenantDto for tenant management validation (by @chitrank2050)
-- Implement TenantsService and update DTO metadata types with path aliases (by @chitrank2050)
-- Add centralized error message constants for consistent application-wide error handling (by @chitrank2050)
-- Add tenants CRUD module with pagination and validation (by @chitrank2050)
-- Add bcryptjs dependency and implement user creation and update DTOs (by @chitrank2050)
-- Implement UsersModule with CRUD operations and bcrypt password hashing (by @chitrank2050)
-- Add JWT authentication support and environment configuration (by @chitrank2050)
-- Implement AuthModule with JWT authentication and user registration flow (by @chitrank2050)
-- Add PasswordResetToken model and database migration for secure password resets (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Replace hardcoded tenant error messages with centralized constants (by @chitrank2050)
+### 🚀 Features- Add User, Membership, and ApiKey models to Prisma schema ([25f9a32](25f9a329ffa25874952cb393e89395328de4323e)) by @chitrank2050- Add CreateTenantDto and UpdateTenantDto for tenant management validation ([cbc7ea2](cbc7ea2da5eb8014944406776bca0fab0fe3cb09)) by @chitrank2050- Implement TenantsService and update DTO metadata types with path aliases ([cc3d9ee](cc3d9ee9ff8acdbf9651b7e97dd64710fb735712)) by @chitrank2050- Add centralized error message constants for consistent application-wide error handling ([d14eec8](d14eec89b3387d7a4bf364ac3427f41da3eb4801)) by @chitrank2050- Add tenants CRUD module with pagination and validation ([d60a8b6](d60a8b6e37d2c2807cc1b6cc2bba1a71a1766deb)) by @chitrank2050- Add bcryptjs dependency and implement user creation and update DTOs ([1d33b58](1d33b58d6d0e64c4f59faaa96c0206207b254968)) by @chitrank2050- Implement UsersModule with CRUD operations and bcrypt password hashing ([0cc1ffa](0cc1ffabac9995fa091bf5fb25c0542f3b263a5b)) by @chitrank2050- Add JWT authentication support and environment configuration ([173a04e](173a04ebe28ea0b521fd3e8f501aac2cae8c4d61)) by @chitrank2050- Implement AuthModule with JWT authentication and user registration flow ([d624929](d62492930f48bbaf11a38f377934212020cabea5)) by @chitrank2050- Add PasswordResetToken model and database migration for secure password resets ([0a19a97](0a19a97c68aa86da3b54d6b7c058c0c46aea19cb)) by @chitrank2050
+### 🐛 Bug Fixes- Patch handlebars transitive dependency (CVE injection via AST) ([3a8b582](3a8b58213a08d143a327b32afd4b3ab3b2a7732e)) by @chitrank2050- Patch hono transitive dependency (static file access bypass) ([3999c07](3999c071a4b2eec09b9df4e1a0258cc043f77bbc)) by @chitrank2050- Patch effect transitive dependency (ALS context leak) ([b0d3212](b0d3212cfe8f29cf93df662377651253e32e1358)) by @chitrank2050- Patch @hono/node-server transitive dependency (static path bypass) ([ec76f87](ec76f8780c401099bccd3bd3c92f6706957f3c8d)) by @chitrank2050
+### 🏗️ Infrastructure- **deps:** Bump picomatch in the npm_and_yarn group across 1 directory Bumps the npm_and_yarn group with 1 update in the / directory: [picomatch](https://github.com/micromatch/picomatch). Updates `picomatch` from 2.3.1 to 2.3.2 - [Release notes](https://github.com/micromatch/picomatch/releases) - [Changelog](https://github.com/micromatch/picomatch/blob/master/CHANGELOG.md) - [Commits](https://github.com/micromatch/picomatch/compare/2.3.1...2.3.2) --- updated-dependencies: - dependency-name: picomatch dependency-version: 2.3.2 dependency-type: indirect dependency-group: npm_and_yarn ... Signed-off-by: dependabot[bot] <support@github.com> ([2158dd3](2158dd3585564f3ee216e7d78d96d4b71398ba05)) by [dependabot[bot]](https://github.com/apps/dependabot)- **deps:** Bump brace-expansion Bumps the npm_and_yarn group with 1 update in the / directory: [brace-expansion](https://github.com/juliangruber/brace-expansion). Updates `brace-expansion` from 1.1.12 to 1.1.13 - [Release notes](https://github.com/juliangruber/brace-expansion/releases) - [Commits](https://github.com/juliangruber/brace-expansion/compare/v1.1.12...v1.1.13) --- updated-dependencies: - dependency-name: brace-expansion dependency-version: 1.1.13 dependency-type: indirect dependency-group: npm_and_yarn ... Signed-off-by: dependabot[bot] <support@github.com> ([e83aec8](e83aec8ac1724bbb6ceb6b3df41594f4e298ceb3)) by [dependabot[bot]](https://github.com/apps/dependabot)
+### 👷 CI/CD- Refactor CI pipeline, update dependencies, and upgrade Python and Node.js versions ([b24209a](b24209af9b1bca72dfefa0357a1e322eb5a15cb4)) by @chitrank2050
+### ⚙️ Maintenance- Add project governance, security policy, and contribution templates ([9727a65](9727a658c5ba1f51b67a4fbcba62145129540e33)) by @chitrank2050- Rename commit-lint ([945118e](945118ec83c0a1354bc110698a6e0ce36a4e03b6)) by @chitrank2050- Update pnpm overrides for hono, path-to-regexp, and picomatch ([9c4154a](9c4154ac2724413a5e731341b23350eca6cb3046)) by @chitrank2050
+### 🚜 Refactoring- Replace hardcoded tenant error messages with centralized constants ([b4e7e6e](b4e7e6ee4b2691d8af4d557355f26814b808f945)) by @chitrank2050
+### 📚 Documentation- Update project documentation in README.md ([dc631c4](dc631c4b58fd2281264132fac9ee1b4982ac3136)) by @chitrank2050- Add phase 1 ERD and placeholder docs ([969c9b9](969c9b96f6b541e3d8c43006c5160db4ba7354f0)) by @chitrank2050
+### 🎨 Styling- Standardize configuration files by converting double quotes to single quotes ([7a0bf60](7a0bf60787da9be120a1e2db6058af2a7f677b06)) by @chitrank2050
 
 ## [0.2.1] - 2026-03-29
-
-
-### ⚙️ Maintenance
-
-- Remove explicit pnpm version specification from CI workflows (by @chitrank2050)
-- Update contents permission to write in docs workflow (by @chitrank2050)
-- Update docs workflow to include changelog tracking, git configuration, and dependency caching (by @chitrank2050)
-- Remove pip cache from docs workflow and delete unused e2e test file (by @chitrank2050)
-- Restrict prettier check to src directory in CI workflow (by @chitrank2050)
-
-### 📚 Documentation
-
-- Add phase 0 architecture diagram to documentation (by @chitrank2050)
-
-### 🚀 Features
-
-- Add git-tag and git-release npm scripts (by @chitrank2050)
-- Replace Swagger UI with Scalar API reference and update CSP configuration (by @chitrank2050)
-
-### 🚜 Refactoring
-
-- Restrict prettier formatting scope to src directory in package.json (by @chitrank2050)
+### 🚀 Features- Add git-tag and git-release npm scripts ([ef39da2](ef39da2d0cdb8f5b74480578414ad2fd0c42a410)) by @chitrank2050- Replace Swagger UI with Scalar API reference and update CSP configuration ([e292766](e292766f7935dfe00dffd9a4bad4b2eca00753cf)) by @chitrank2050
+### ⚙️ Maintenance- Remove explicit pnpm version specification from CI workflows ([b4f36fa](b4f36fa600984cfde63fe920b70b2fd5a5b9f24b)) by @chitrank2050- Update contents permission to write in docs workflow ([7e20877](7e208775ef9e6c343126b285f82ed97330d36afb)) by @chitrank2050- Update docs workflow to include changelog tracking, git configuration, and dependency caching ([663086d](663086de1362bc925d691c54ecaf8321a13d0ba0)) by @chitrank2050- Remove pip cache from docs workflow and delete unused e2e test file ([8f9c077](8f9c077c30bf8c9c5493a9c98988e9746e7642ed)) by @chitrank2050
+### 📡 API & Communication- Restrict prettier formatting scope to src directory in package.json ([76bf8a7](76bf8a79b453d7962dd38f99e8552af87cbec2d5)) by @chitrank2050- Restrict prettier check to src directory in CI workflow ([2fec923](2fec9230aea922fc1e19301f70faa67352be6ac2)) by @chitrank2050
+### 📚 Documentation- Add phase 0 architecture diagram to documentation ([1d4a63a](1d4a63aecc2049f9ad8edc6f0dba3a6cc4364644)) by @chitrank2050
 
 ## [0.2.0] - 2026-03-29
+### 🚀 Features- Initialize project with Prisma ORM, remove NestJS boilerplate, and configure core tooling and metadata. ([c231291](c231291c7e6025f639921aa061a73cd859dc1910)) by @chitrank2050- Set up local development environment with Docker Compose for core services and configure Prisma 7 database connection via `prisma.config.ts`. ([e7277c0](e7277c0a9fc06d7e4b7857532b2b14e717352ee9)) by @chitrank2050- Implement robust environment variable validation and comprehensive global application bootstrapping with security, CORS, API versioning, and Swagger. ([ab713f4](ab713f449d3d9a7fc767285d55625bf5256bb824)) by @chitrank2050- Implement global PrismaModule and PrismaService for lifecycle-managed database connectivity ([3f7568b](3f7568be92d747520724999477403ada19935431)) by @chitrank2050- Implement health check endpoint with Prisma connectivity monitoring and add Bruno API collection ([46fe263](46fe2634b438a1d1974da8ef83086552dc763bd5)) by @chitrank2050- Modularize health check service and configure version-neutral endpoint ([35baacb](35baacb934ed103786cc080c0f1820f679bef67f)) by @chitrank2050- Implement global exception filter and request tracing middleware for consistent error handling and logging ([aa81360](aa81360393d9a1e72f716a383be9761218831a58)) by @chitrank2050- Implement Tenant model with initial migration and database seeding script ([59af51f](59af51fd39cfcca3e0ad15e56fedf67eb0392f81)) by @chitrank2050- Add git-cliff configuration and release automation scripts with version bump to 0.2.0 ([1e754cb](1e754cb82fd6705cb94a057266d5a2112c889d30)) by @chitrank2050- Copy root CHANGELOG.md to docs directory during CI build for MkDocs inclusion ([3aa9ca9](3aa9ca9cfc64efdaea75a9982e8bdac6adb19ead)) by @chitrank2050
+### 🐛 Bug Fixes- Update middleware route pattern to include wildcard path parameter ([5a413b6](5a413b67d4eb5022807330634d089a623260f911)) by @chitrank2050
+### ⚙️ Maintenance- Upgrade to Prisma 7 with driver adapter and CJS module configuration ([71c55e3](71c55e3fd38f76ee4325cbacbe7da63b13c627b9)) by @chitrank2050- Add MIT license and update project documentation ([8d147a5](8d147a5d9321c87c2cebf56fed81a727ea635407)) by @chitrank2050- Implement husky git hooks, commitlint, and project documentation with MkDocs ([b8de1e9](b8de1e927f768b8949c9bb58ccb5a713b4d18e41)) by @chitrank2050- Setup CI/CD pipelines, Dependabot, funding, and update project documentation ([133b255](133b255bb6a393119c84033e9a03ea5f151625ea)) by @chitrank2050- Add read permissions to CI workflow for contents access ([7f142de](7f142de28786758d732dc2ae479ad2469bb3018c)) by @chitrank2050
+### ⚙️ Miscellaneous Tasks- Initialize NestJS project with basic application structure, configurations, and testing setup. ([979e5ae](979e5ae29b0edadaba81880f25917ec5422ae0fc)) by @chitrank2050
+### 💾 Database & Schema- Format prisma schema generator block and add newline to app module. ([5e6c495](5e6c49507c812d3ed500d5a98bb9055ddb57a4de)) by @chitrank2050
+### 📚 Documentation- Initialize project documentation including development setup, architecture overview, and phase logs ([acbf8d3](acbf8d39ddfb549d66bbdbed96905acbc88c0e02)) by @chitrank2050
 
-
-### ⚙️ Maintenance
-
-- Upgrade to Prisma 7 with driver adapter and CJS module configuration (by @chitrank2050)
-- Add MIT license and update project documentation (by @chitrank2050)
-- Implement husky git hooks, commitlint, and project documentation with MkDocs (by @chitrank2050)
-- Setup CI/CD pipelines, Dependabot, funding, and update project documentation (by @chitrank2050)
-- Add read permissions to CI workflow for contents access (by @chitrank2050)
-
-### ⚙️ Miscellaneous Tasks
-
-- Initialize NestJS project with basic application structure, configurations, and testing setup. (by @chitrank2050)
-
-### 🎨 Styling
-
-- Format prisma schema generator block and add newline to app module. (by @chitrank2050)
-
-### 🐛 Bug Fixes
-
-- Update middleware route pattern to include wildcard path parameter (by @chitrank2050)
-
-### 📚 Documentation
-
-- Initialize project documentation including development setup, architecture overview, and phase logs (by @chitrank2050)
-
-### 🚀 Features
-
-- Initialize project with Prisma ORM, remove NestJS boilerplate, and configure core tooling and metadata. (by @chitrank2050)
-- Set up local development environment with Docker Compose for core services and configure Prisma 7 database connection via `prisma.config.ts`. (by @chitrank2050)
-- Implement robust environment variable validation and comprehensive global application bootstrapping with security, CORS, API versioning, and Swagger. (by @chitrank2050)
-- Implement global PrismaModule and PrismaService for lifecycle-managed database connectivity (by @chitrank2050)
-- Implement health check endpoint with Prisma connectivity monitoring and add Bruno API collection (by @chitrank2050)
-- Modularize health check service and configure version-neutral endpoint (by @chitrank2050)
-- Implement global exception filter and request tracing middleware for consistent error handling and logging (by @chitrank2050)
-- Implement Tenant model with initial migration and database seeding script (by @chitrank2050)
-- Add git-cliff configuration and release automation scripts with version bump to 0.2.0 (by @chitrank2050)
-- Copy root CHANGELOG.md to docs directory during CI build for MkDocs inclusion (by @chitrank2050)
-
-
+<!-- generated by git-cliff -->
