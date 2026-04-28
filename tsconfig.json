@@ -75,7 +75,6 @@
     "generated/**/*",
     "prisma/**/*",
     "prisma.config.ts",
-    "commitlint.config.js",
     "vitest.config.ts",
     "vitest.config.e2e.ts",
     "scripts/**/*",

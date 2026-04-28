@@ -120,8 +120,6 @@
   "devDependencies": {
     "@chitrank2050/git-hygiene": "^0.4.11",
     "@clack/prompts": "^1.2.0",
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^10.0.0",
     "@nestjs/cli": "^11.0.17",
     "@nestjs/schematics": "^11.0.10",
@@ -169,9 +167,6 @@
     }
   },
   "git-hygiene": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
     "types": [
       "feat",
       "fix",

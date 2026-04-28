@@ -35,7 +35,7 @@ pre-commit:
       run: if command -v zizmor > /dev/null; then zizmor {staged_files}; else echo "zizmor not found, skipping actions lint. Install with 'brew install zizmor'"; fi
 
 # ─── commit-msg ──────────────────────────────────────────────
-# Enforces Conventional Commits format via commitlint.
+# Enforces Conventional Commits format via git-hygiene.
 commit-msg:
   commands:
     # Enforce Conventional Commits via git-hygiene
