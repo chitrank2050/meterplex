@@ -161,7 +161,7 @@ jobs:
                 or (.conclusion != "SUCCESS" and .conclusion != "NEUTRAL" and .conclusion != "SKIPPED")
               ))
             | map(.name // .context // "Unknown")
-            | map(select(. | test("Auto-Approve|Auto-Merge|Enable Auto-Merge") | not))
+            | map(select(. | test("Auto-Approve|Auto-Merge|Enable Auto-Merge|Build & Deploy Docs|Hygiene|Labeler|Workflow Lint") | not))
             | .[]
           ' || true)
 
