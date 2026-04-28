@@ -181,6 +181,11 @@ jobs:
         run: |
           set -euo pipefail
 
+          gh pr review "$PR_NUMBER" \
+            --repo "$GITHUB_REPOSITORY" \
+            --approve \
+            --body "🤖 Approved by automation — CI is green and source is verified."
+
           gh pr merge "$PR_NUMBER" \
             --repo "$GITHUB_REPOSITORY" \
             --auto \
