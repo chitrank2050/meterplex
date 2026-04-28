@@ -18,6 +18,7 @@ on:
       - 'CI & Security Analysis ⚡️'
     branches:
       - 'renovate/**'
+      - 'chore/release-*'
       - 'chore/changelog-*'
       - 'maintenance/*'
     types:
@@ -109,7 +110,7 @@ jobs:
           if [[ "$PR_AUTHOR" == *"renovate"* ]] || [[ "$PR_BRANCH" == renovate/* ]]; then
             IS_RENOVATE=true
           fi
-          if [[ "$PR_BRANCH" == chore/changelog-* ]]; then
+          if [[ "$PR_BRANCH" == chore/changelog-* ]] || [[ "$PR_BRANCH" == chore/release-* ]]; then
             IS_RELEASE=true
           fi
           if [[ "$PR_BRANCH" == maintenance/* ]]; then

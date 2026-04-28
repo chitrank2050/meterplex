@@ -46,6 +46,7 @@ jobs:
 
       - name: Get Recommended Bump 🌊
         id: bump
+        if: github.event.inputs.tag_name == ''
         uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
         with:
           command: 'bump'
@@ -125,7 +126,7 @@ jobs:
             <!-- autofill-start -->
             - chore(release): update CHANGELOG.md
             - chore(release): bump version to ${{ steps.vars.outputs.tag_name }}
-            - chore(release): bump recommendation from git-hygiene (${{ steps.bump.outputs.releaseType }})
+            - chore(release): bump strategy: ${{ github.event.inputs.tag_name != '' && 'Manual Override' || format('git-hygiene recommendation ({0})', steps.bump.outputs.releaseType) }}
             <!-- autofill-end -->
           labels: |
             chore
