@@ -38,14 +38,22 @@ pre-commit:
 # Enforces Conventional Commits format via commitlint.
 commit-msg:
   commands:
-    commitlint:
-      run: npx --no-install commitlint --edit {1}
+    # Enforce Conventional Commits via git-hygiene
+    git-hygiene:
+      run: npx git-hygiene commit {1}
 
 # ─── pre-push ────────────────────────────────────────────────
 # Runs unit tests before any push reaches the remote.
 pre-push:
+  parallel: true
   commands:
     tests:
       run: pnpm test --passWithNoTests
+
+    # Ensure branch naming follows standards
     branch-name:
-      run: pnpm lint:branch
+      run: npx git-hygiene branch
+
+    # Scan for dependency vulnerabilities
+    audit:
+      run: if command -v osv-scanner > /dev/null; then osv-scanner --lockfile pnpm-lock.yaml; else echo "osv-scanner not found, skipping audit. Install with 'brew install osv-scanner'"; fi
