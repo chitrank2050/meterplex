@@ -108,10 +108,18 @@ jobs:
 
       - name: Update CHANGELOG.md 📝
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
-        id: git-cliff
         with:
           config: cliff.toml
-          args: --tag ${{ steps.vars.outputs.tag_name }} --output CHANGELOG.md
+          args: --unreleased --tag ${{ steps.vars.outputs.tag_name }} --prepend CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Generate PR Body 📝
+        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        id: git-cliff-pr
+        with:
+          config: cliff.toml
+          args: --unreleased --tag ${{ steps.vars.outputs.tag_name }} --strip header
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
@@ -122,16 +130,19 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           commit-message: 'chore(release): bump version to ${{ steps.vars.outputs.tag_name }}'
           title: 'chore(release): 🚀 ${{ steps.vars.outputs.tag_name }}'
+          branch: 'chore/release-${{ steps.vars.outputs.tag_name }}'
           body: |
             <!-- autofill-start -->
-            - chore(release): update CHANGELOG.md
-            - chore(release): bump version to ${{ steps.vars.outputs.tag_name }}
-            - chore(release): bump strategy: ${{ github.event.inputs.tag_name != '' && 'Manual Override' || format('git-hygiene recommendation ({0})', steps.bump.outputs.releaseType) }}
+            ## 📦 Release ${{ steps.vars.outputs.tag_name }}
+
+            ${{ steps.git-cliff-pr.outputs.content }}
+
+            ---
+            - **Bump Strategy**: ${{ github.event.inputs.tag_name != '' && 'Manual Override' || format('git-hygiene recommendation ({0})', steps.bump.outputs.releaseType) }}
             <!-- autofill-end -->
           labels: |
             chore
             release
-          branch: 'chore/release-${{ steps.vars.outputs.tag_name }}'
           base: main
           delete-branch: true
           assignees: chitrank2050
