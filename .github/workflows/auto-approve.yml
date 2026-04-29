@@ -5,7 +5,7 @@
 # release, or maintenance branches once CI passes.
 #
 # Branch protection is configured to allow chitrank-bot to
-# bypass approval requirements, so no review step is needed —
+# bypass approval requirements, so no review step is needed -
 # only auto-merge enablement.
 # =============================================================
 
@@ -69,7 +69,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          # 1. Find PR number — try event payload first, fall back to API lookup.
+          # 1. Find PR number - try event payload first, fall back to API lookup.
           PR_NUMBER="$EVENT_PR_NUMBER"
 
           if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
@@ -88,7 +88,7 @@ jobs:
             exit 0
           fi
 
-          # 2. Fetch authoritative PR data — don't trust workflow_run event fields.
+          # 2. Fetch authoritative PR data - don't trust workflow_run event fields.
           PR_DATA=$(gh pr view "$PR_NUMBER" \
             --repo "$GITHUB_REPOSITORY" \
             --json author,headRefName,state)
@@ -98,7 +98,7 @@ jobs:
           PR_STATE=$(echo "$PR_DATA" | jq -r '.state')
 
           if [ "$PR_STATE" != "OPEN" ]; then
-            echo "ℹ️ PR #$PR_NUMBER is $PR_STATE — skipping."
+            echo "ℹ️ PR #$PR_NUMBER is $PR_STATE - skipping."
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -194,13 +194,13 @@ jobs:
             gh pr review "$PR_NUMBER" \
               --repo "$GITHUB_REPOSITORY" \
               --approve \
-              --body "🤖 Approved by $BOT_USER — CI is green and source is verified."
+              --body "🤖 Approved by $BOT_USER - CI is green and source is verified."
           else
             echo "📝 PR created by $BOT_USER. Approving as github-actions[bot]..."
             GH_TOKEN="${{ secrets.GITHUB_TOKEN }}" gh pr review "$PR_NUMBER" \
               --repo "$GITHUB_REPOSITORY" \
               --approve \
-              --body "🤖 Approved by github-actions[bot] — Verified custom bot release."
+              --body "🤖 Approved by github-actions[bot] - Verified custom bot release."
           fi
 
           # 5. Enable Auto-Merge
@@ -208,6 +208,6 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --auto \
             --squash \
-            --body "🤖 Auto-merge enabled — will merge once all checks are green."
+            --body "🤖 Auto-merge enabled - will merge once all checks are green."
 
           echo "✅ Auto-merge enabled for PR #$PR_NUMBER"
