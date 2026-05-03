@@ -187,7 +187,7 @@ jobs:
           # 4. Handle Approval (Bot Switching Logic)
           # - If PR created by someone else (Renovate): Approve using the Custom Bot.
           # - If PR created by Custom Bot (Release): Approve using the built-in github-actions[bot].
-          BOT_USER=$(gh api /app --jq '.slug + "[bot]"' 2>/dev/null || echo "chitrank-actions[bot]")
+          BOT_USER="chitrank-actions[bot]"
 
           if [ "$PR_AUTHOR" != "$BOT_USER" ]; then
             echo "📝 PR created by $PR_AUTHOR. Approving as $BOT_USER..."
