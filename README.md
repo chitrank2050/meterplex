@@ -6,31 +6,33 @@
   <p>
     <!-- Project Health & Status -->
     <a href="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml">
-      <img src="https://github.com/chitrank2050/meterplex/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+      <img src="https://img.shields.io/github/actions/workflow/status/chitrank2050/meterplex/ci.yml?style=for-the-badge" alt="CI Status">
     </a>
-      <a href="https://scorecard.dev/viewer/?uri=github.com/chitrank2050/meterplex">
-      <img src="https://api.scorecard.dev/projects/github.com/chitrank2050/meterplex/badge" alt="OpenSSF Scorecard">
+    <a href="https://scorecard.dev/viewer/?uri=github.com/chitrank2050/meterplex">
+      <img src="https://img.shields.io/ossf-scorecard/github.com/chitrank2050/meterplex?style=for-the-badge" alt="OpenSSF Scorecard">
     </a>
     <a href="https://bestpractices.coreinfrastructure.org/projects/1">
-      <img src="https://bestpractices.coreinfrastructure.org/projects/1/badge" alt="Best Practices">
+      <img src="https://img.shields.io/cii/level/1?style=for-the-badge" alt="Best Practices">
     </a>
     <a href="https://codecov.io/gh/chitrank2050/meterplex">
-      <img src="https://codecov.io/gh/chitrank2050/meterplex/branch/main/graph/badge.svg" alt="Code Coverage"/>
+      <img src="https://img.shields.io/codecov/c/github/chitrank2050/meterplex/main?style=for-the-badge" alt="Code Coverage"/>
     </a>
-    <img src="https://img.shields.io/badge/Security-Gitleaks-success" alt="Security: Gitleaks">
-    <img src="https://img.shields.io/badge/Hooks-Lefthook-blueviolet" alt="Hooks: Lefthook">
+    <img src="https://img.shields.io/badge/Security-Gitleaks-success?style=for-the-badge" alt="Security: Gitleaks">
+    <img src="https://img.shields.io/badge/Hooks-Lefthook-blueviolet?style=for-the-badge" alt="Hooks: Lefthook">
     <a href="https://chitrank2050.github.io/meterplex/">
-      <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white" alt="Documentation">
+      <img src="https://img.shields.io/badge/Docs-Live-success?logo=github&logoColor=white&style=for-the-badge" alt="Documentation">
     </a>
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
-    <img src="https://img.shields.io/badge/Node-24-success" alt="Node: 24">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="MIT License">
+    <img src="https://img.shields.io/badge/Node-24-success?style=for-the-badge" alt="Node: 24">
+    <br/>
+    <br/>
+    <a href="https://ko-fi.com/D1D71U581P" target="_blank">
+      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Buy me a coffee at ko-fi.com">
+    </a>
     <br/>
     <br/>
     <a href="./CONTRIBUTING.md"><b>Contributing</b></a> •
-    <a href="./SECURITY.md"><b>Security</b></a> •
-      <a href="https://ko-fi.com/D1D71U581P" target="_blank">
-      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Buy me a coffee at ko-fi.com">
-    </a>
+    <a href="./SECURITY.md"><b>Security</b></a>
   </p>
 </div>
 
