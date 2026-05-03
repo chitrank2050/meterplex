@@ -84,7 +84,7 @@ jobs:
           branch: maintenance/prune-overrides
           delete-branch: true
           assignees: chitrank2050
-          title: '🧹 Prune redundant dependency overrides'
+          title: 'chore(deps): prune redundant dependency overrides 🧹'
           body: |
             The weekly maintenance check has detected that your `pnpm.overrides` are no longer necessary.
 
