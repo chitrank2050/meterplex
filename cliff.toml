@@ -18,9 +18,17 @@ body = """
 {% for group, commits in commits | group_by(attribute="group") %}
 ### {{ group | striptags | trim | upper_first }}
 {% for commit in commits %}
-- {% if commit.scope %}**{{ commit.scope }}:** {% endif %}{{ commit.message | trim | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/chitrank2050/meterplex/commit/{{ commit.id }})) by {% set user = commit.remote.username | default(value=commit.author.name) %}{% if user is ending_with("[bot]") %}[{{ user }}](https://github.com/apps/{{ user | split(pat="[") | first }}){% else %}[@{{ user }}](https://github.com/{{ user }}){% endif %}\
+- {% if commit.scope %}**{{ commit.scope }}:** {% endif %}{{ commit.message | trim | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/chitrank2050/meterplex/commit/{{ commit.id }}))\
+{% set user = commit.remote.username | default(value=commit.author.name) %}\
+{% if user != "chitrank2050" %} by {% if user is ending_with("[bot]") %}[{{ user }}](https://github.com/apps/{{ user | split(pat="[") | first }}){% else %}[@{{ user }}](https://github.com/{{ user }}){% endif %}{% endif %}\
 {% endfor %}
-{% endfor %}\n
+{% endfor %}\
+{% if github.contributors | length > 0 %}
+### 👥 Contributors
+{% for contributor in github.contributors %}
+- [@{{ contributor.username }}](https://github.com/{{ contributor.username }})
+{%- endfor %}
+{% endif %}\
 """
 # remove the leading and trailing whitespace from the template
 trim = true
