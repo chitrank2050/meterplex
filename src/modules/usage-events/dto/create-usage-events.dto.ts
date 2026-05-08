@@ -118,7 +118,7 @@ export class UsageEventInputDto {
   })
   @IsOptional()
   @IsObject()
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export class CreateUsageEventsDto {

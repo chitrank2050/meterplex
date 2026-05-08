@@ -143,7 +143,7 @@ export class UsageEventsService {
               featureLookupKey: event.feature,
               amount: event.amount,
               timestamp: new Date(event.timestamp),
-              metadata: event.metadata ?? {},
+              metadata: (event.metadata ?? {}) as any,
             },
             select: { id: true, eventId: true },
           });
@@ -163,7 +163,7 @@ export class UsageEventsService {
                 feature: event.feature,
                 amount: event.amount,
                 timestamp: event.timestamp,
-                metadata: event.metadata ?? {},
+                metadata: (event.metadata ?? {}) as any,
               },
             },
           });
