@@ -140,4 +140,16 @@ export const ERRORS = {
     FEATURE_NOT_IN_PLAN: (featureKey: string) =>
       `Feature "${featureKey}" is not included in your current plan`,
   },
+  /**
+   * Usage event related error messages
+   */
+  USAGE_EVENT: {
+    NO_ACTIVE_SUBSCRIPTION: 'No active subscription found for this tenant',
+    FEATURE_NOT_ENTITLED: (feature: string) =>
+      `Feature "${feature}" is not included in your current plan`,
+    TIMESTAMP_IN_FUTURE:
+      'Event timestamp is too far in the future (max 5 minutes drift)',
+    TIMESTAMP_TOO_OLD: 'Event timestamp is too old (max 7 days)',
+    DUPLICATE_EVENT_ID: 'Event with this eventId already exists',
+  },
 } as const;

@@ -86,6 +86,7 @@ const PATH_TO_RESOURCE: Record<string, string> = {
   features: 'feature',
   entitlements: 'entitlement',
   subscriptions: 'subscription',
+  usage: 'usage_event',
 };
 
 /**
