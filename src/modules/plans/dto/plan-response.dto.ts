@@ -10,7 +10,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 import { BillingInterval, PlanStatus } from '@prisma/client';
 
-class PlanPriceResponseDto {
+class PlanPriceSummaryDto {
   @ApiProperty({ example: 'a1b2c3d4-...' })
   id!: string;
 
@@ -61,8 +61,8 @@ export class PlanResponseDto {
   @ApiProperty({ example: '2026-04-10T12:00:00.000Z' })
   updatedAt!: Date;
 
-  @ApiPropertyOptional({ type: [PlanPriceResponseDto] })
-  prices?: PlanPriceResponseDto[];
+  @ApiPropertyOptional({ type: [PlanPriceSummaryDto] })
+  prices?: PlanPriceSummaryDto[];
 }
 
 export class PlanListResponseDto {
