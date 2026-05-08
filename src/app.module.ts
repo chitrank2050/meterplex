@@ -8,12 +8,15 @@
  *   4. Feature modules - tenants, billing, usage, etc.
  */
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { ApiKeysModule } from '@modules/api-keys';
 import { AuthModule } from '@modules/auth';
 import { EntitlementCheckModule } from '@modules/entitlement-check';
 import { EntitlementsModule } from '@modules/entitlements';
 import { FeaturesModule } from '@modules/features';
+import { KafkaModule } from '@modules/kafka';
+import { OutboxModule } from '@modules/outbox';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
 import { SubscriptionsModule } from '@modules/subscriptions';
@@ -39,6 +42,11 @@ import { PrismaModule } from './prisma';
     // PrismaModule makes PrismaService available for injection
     // in any service across the entire app without re-importing.
     PrismaModule,
+    // enables @Cron decorators
+    ScheduleModule,
+    // global, provides KafkaProducerService & KafkaConsumerService
+    KafkaModule,
+    ScheduleModule.forRoot(),
     // HealthModule - readiness/liveness checks
     HealthModule,
     // Feature modules
@@ -53,6 +61,7 @@ import { PrismaModule } from './prisma';
     SubscriptionsModule,
     EntitlementCheckModule,
     UsageEventsModule,
+    OutboxModule,
   ],
   controllers: [],
   providers: [
