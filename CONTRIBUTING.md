@@ -38,7 +38,7 @@ By participating in this project, you agree to abide by our Code of Conduct (sta
 We enforce strict branch naming via CI. Please use the following format:
 `type/description` (e.g., `feat/add-api-key-auth`)
 
-Allowed types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`.
+Allowed types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `revert`, `maintenance`, `renovate`.
 
 ### 🧪 Testing & Linting
 
