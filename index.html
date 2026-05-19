@@ -746,13 +746,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#commit-standards" class="md-nav__link">
+  <a href="#commit-branch-standards" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Commit Standards
+        Commit &amp; Branch Standards
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Commit &amp; Branch Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#allowed-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1977,13 +1994,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#commit-standards" class="md-nav__link">
+  <a href="#commit-branch-standards" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Commit Standards
+        Commit &amp; Branch Standards
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Commit &amp; Branch Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#allowed-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2524,13 +2558,25 @@
 <li><strong>Security</strong>: Gitleaks for secrets and Zizmor for GitHub Actions.</li>
 <li><strong>Testing</strong>: Vitest for relevant unit tests.</li>
 </ul>
-<h3 id="commit-standards">Commit Standards<a class="headerlink" href="#commit-standards" title="Permanent link">&para;</a></h3>
-<p>We follow <a href="https://www.conventionalcommits.org/">Conventional Commits</a>. This allows us to generate automated changelogs and manage versions easily.</p>
+<h3 id="commit-branch-standards">Commit &amp; Branch Standards<a class="headerlink" href="#commit-branch-standards" title="Permanent link">&para;</a></h3>
+<p>We enforce <a href="https://www.conventionalcommits.org/">Conventional Commits</a> and strict branch naming conventions using our custom package <strong><a href="https://github.com/chitranklabs/git-hygiene">@chitrank2050/git-hygiene</a></strong>.</p>
 <ul>
-<li><code>feat:</code> for new features.</li>
-<li><code>fix:</code> for bug fixes.</li>
-<li><code>chore:</code> for maintenance or dependencies.</li>
-<li><code>docs:</code> for documentation changes.</li>
+<li><strong>Commit Format Validation</strong>: Enforced via a <code>commit-msg</code> git hook running <code>npx git-hygiene commit</code> to check format compliance.</li>
+<li><strong>Branch Verification</strong>: Enforced via a <code>pre-push</code> git hook running <code>npx git-hygiene branch</code> to check branch naming rules before pushing to remote.</li>
+</ul>
+<h4 id="allowed-types">Allowed Types<a class="headerlink" href="#allowed-types" title="Permanent link">&para;</a></h4>
+<p>Allowed type prefixes (defined in <code>package.json</code>) include:</p>
+<ul>
+<li><code>feat</code> — New features.</li>
+<li><code>fix</code> — Bug fixes.</li>
+<li><code>chore</code> — Routine chore/configuration updates.</li>
+<li><code>docs</code> — Documentation additions/updates.</li>
+<li><code>refactor</code> — Code refactoring without functionality changes.</li>
+<li><code>perf</code> — Performance enhancements.</li>
+<li><code>test</code> — Testing setups or changes.</li>
+<li><code>maintenance</code> — Code hygiene, cleanup, and security tasks.</li>
+<li><code>renovate</code> — Automated dependency upgrades.</li>
+<li><code>style</code>, <code>build</code>, <code>ci</code>, <code>revert</code></li>
 </ul>
 <h3 id="automated-releases">Automated Releases<a class="headerlink" href="#automated-releases" title="Permanent link">&para;</a></h3>
 <p>Pushing a tag (e.g., <code>git tag v0.5.3 &amp;&amp; git push --tags</code>) triggers the <strong>Release Workflow</strong>, which:</p>
