@@ -22,6 +22,7 @@ import { PlansModule } from '@modules/plans';
 import { SubscriptionsModule } from '@modules/subscriptions';
 import { TenantsModule } from '@modules/tenants';
 import { UsageEventsModule } from '@modules/usage-events';
+import { UsagePipelineModule } from '@modules/usage-pipeline';
 import { UsersModule } from '@modules/users';
 
 import {
@@ -61,6 +62,7 @@ import { PrismaModule } from './prisma';
     EntitlementCheckModule,
     UsageEventsModule,
     OutboxModule,
+    UsagePipelineModule,
   ],
   controllers: [],
   providers: [
