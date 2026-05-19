@@ -43,10 +43,9 @@ import { PrismaModule } from './prisma';
     // in any service across the entire app without re-importing.
     PrismaModule,
     // enables @Cron decorators
-    ScheduleModule,
+    ScheduleModule.forRoot(),
     // global, provides KafkaProducerService & KafkaConsumerService
     KafkaModule,
-    ScheduleModule.forRoot(),
     // HealthModule - readiness/liveness checks
     HealthModule,
     // Feature modules
