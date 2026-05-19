@@ -703,6 +703,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#phase-2-plans-entitlements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 - Plans &amp; Entitlements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-usage-ingestion-kafka-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 - Usage Ingestion &amp; Kafka Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1687,6 +1709,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#phase-2-plans-entitlements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 - Plans &amp; Entitlements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-usage-ingestion-kafka-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 - Usage Ingestion &amp; Kafka Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1873,6 +1917,18 @@
 <h2 id="phase-1-data-model">Phase 1 - Data model<a class="headerlink" href="#phase-1-data-model" title="Permanent link">&para;</a></h2>
 <p><img alt="Phase 1 ERD" src="../phase-1-erd.png" /></p>
 <p>Four tables: <code>tenants</code> (organizations), <code>users</code> (global accounts), <code>memberships</code> (join table with roles), and <code>api_keys</code> (server-to-server authentication). A user can belong to multiple tenants with different roles via the memberships table.</p>
+<h2 id="phase-2-plans-entitlements">Phase 2 - Plans &amp; Entitlements<a class="headerlink" href="#phase-2-plans-entitlements" title="Permanent link">&para;</a></h2>
+<p><img alt="Phase 2 ERD" src="../phase-2-erd.png" /></p>
+<p>Phase 2 adds plans, pricing, features, entitlements, subscriptions, and entitlement snapshots to define access rules and map customer organizations to subscription tiers.</p>
+<h2 id="phase-3-usage-ingestion-kafka-pipeline">Phase 3 - Usage Ingestion &amp; Kafka Pipeline<a class="headerlink" href="#phase-3-usage-ingestion-kafka-pipeline" title="Permanent link">&para;</a></h2>
+<p><img alt="Phase 3 ERD" src="../phase-3-erd.jpg" /></p>
+<p>Phase 3 introduces four new tables to support transactional event ingestion, outbox-driven Kafka publishing, high-performance counting, and robust error/dead-letter auditing:</p>
+<ul>
+<li><code>usage_events</code>: Immutable event log of raw submissions.</li>
+<li><code>outbox_events</code>: Transactional outbox for guaranteed Kafka publishing.</li>
+<li><code>usage_aggregates</code>: Rolled-up counters per tenant, feature, and billing period (cached in Redis).</li>
+<li><code>dead_letter_events</code>: Operational record for failed events requiring administrative triage.</li>
+</ul>
 
 
 

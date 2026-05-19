@@ -2011,7 +2011,7 @@
 <li><strong>usage_aggregates</strong> - rolled-up counters per tenant, feature, and period. Replaces the in-memory <code>Map&lt;&gt;</code>. Atomically updated via <code>INSERT ... ON CONFLICT DO UPDATE SET amount = amount + N</code>.</li>
 <li><strong>dead_letter_events</strong> - failed events with original payload, failure reason, failure stage. The operational dashboard for billing investigation.</li>
 </ul>
-<p>See <a href="../architecture/phase-3-usage-pipeline.md">Usage Pipeline architecture</a> for the full schema, design decisions, and flow diagrams.</p>
+<p>See <a href="../../architecture/phase-3-usage-pipeline/">Usage Pipeline architecture</a> for the full schema, design decisions, and flow diagrams.</p>
 <h3 id="the-pipeline-6-stations">The pipeline (6 stations)<a class="headerlink" href="#the-pipeline-6-stations" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Client SDK → POST /usage/events (API key auth)
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  → usage_events + outbox_events (single Postgres transaction)
