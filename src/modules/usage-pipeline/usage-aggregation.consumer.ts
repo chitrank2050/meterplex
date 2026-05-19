@@ -2,10 +2,12 @@
  * UsageAggregationConsumer - Reads usage.validated, updates usage_aggregates.
  *
  * For each validated event:
+ * For each validated event:
  *   1. Determine the period key from the event timestamp + feature reset period
  *   2. Upsert the usage_aggregates row:
- *      INSERT ... ON CONFLICT DO UPDATE SET amount = amount + new_amount
- *   3. Mark the usage_event as AGGREGATED
+ *      INSERT ... ON CONFLICT DO UPDATE SET amount = amount + EXCLUDED.amount
+ *   3. Update Redis cache with atomic INCRBY (sub-millisecond read path)
+ *   4. Mark the usage_event as AGGREGATED
  *
  * The upsert is atomic - Postgres guarantees no lost increments
  * even under concurrent writes from multiple consumers.
@@ -26,6 +28,7 @@ import {
   KafkaConsumerBase,
   KafkaProducerService,
 } from '@modules/kafka';
+import { RedisService } from '@modules/redis';
 
 /** Shape of a validated usage event from the validation consumer. */
 interface ValidatedUsageEvent {
@@ -49,6 +52,7 @@ export class UsageAggregationConsumer extends KafkaConsumerBase {
   constructor(
     private readonly prisma: PrismaService,
     private readonly kafkaProducer: KafkaProducerService,
+    private readonly redis: RedisService,
   ) {
     super();
   }
@@ -98,6 +102,25 @@ export class UsageAggregationConsumer extends KafkaConsumerBase {
         periodEnd,
         eventDate,
       );
+
+      // Update Redis cache - atomic increment mirrors the Postgres upsert.
+      // EntitlementCheckService reads from Redis for sub-millisecond response.
+      // If Redis is down, Postgres is the fallback.
+      try {
+        const cacheKey = this.buildCacheKey(
+          event.tenantId,
+          event.feature,
+          periodKey,
+        );
+        await this.redis.incrBy(cacheKey, event.amount);
+        await this.redis.expire(cacheKey, this.calculateTtl(periodEnd));
+      } catch (redisError) {
+        // Redis failure is non-critical - Postgres has the data.
+        // Log and continue. Step 9's read path falls back to Postgres on cache miss.
+        this.logger.warn(
+          `Redis cache update failed: ${redisError instanceof Error ? redisError.message : String(redisError)}`,
+        );
+      }
 
       // Mark the usage event as aggregated
       await this.prisma.usageEvent.update({
@@ -188,5 +211,29 @@ export class UsageAggregationConsumer extends KafkaConsumerBase {
           periodEnd: new Date(Date.UTC(year, month + 1, 1)),
         };
     }
+  }
+
+  /**
+   * Build the Redis cache key for a usage aggregate.
+   * Format: usage:{tenantId}:{featureLookupKey}:{periodKey}
+   *
+   * Same format used by EntitlementCheckService to read.
+   */
+  private buildCacheKey(
+    tenantId: string,
+    feature: string,
+    periodKey: string,
+  ): string {
+    return `usage:${tenantId}:${feature}:${periodKey}`;
+  }
+
+  /**
+   * Calculate TTL in seconds until the period ends.
+   * Ensures cache keys auto-expire when the billing period resets.
+   */
+  private calculateTtl(periodEnd: Date): number {
+    const remaining = Math.floor((periodEnd.getTime() - Date.now()) / 1000);
+    // Minimum 60s, maximum 35 days (covers monthly + buffer)
+    return Math.max(60, Math.min(remaining, 35 * 24 * 60 * 60));
   }
 }

@@ -19,6 +19,7 @@ import { KafkaModule } from '@modules/kafka';
 import { OutboxModule } from '@modules/outbox';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
+import { RedisModule } from '@modules/redis';
 import { SubscriptionsModule } from '@modules/subscriptions';
 import { TenantsModule } from '@modules/tenants';
 import { UsageEventsModule } from '@modules/usage-events';
@@ -47,6 +48,8 @@ import { PrismaModule } from './prisma';
     ScheduleModule.forRoot(),
     // global, provides KafkaProducerService & KafkaConsumerService
     KafkaModule,
+    // global, provides RedisService
+    RedisModule,
     // HealthModule - readiness/liveness checks
     HealthModule,
     // Feature modules
