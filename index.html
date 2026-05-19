@@ -610,12 +610,12 @@
   <a href="#phase-2-plans-and-entitlements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 2 Plans and Entitlements
+        Phase 2 - Plans and Entitlements
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Phase 2 Plans and Entitlements">
+    <nav class="md-nav" aria-label="Phase 2 - Plans and Entitlements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -678,6 +678,34 @@
     <span class="md-ellipsis">
       
         Entitlement Checks (the hot path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-usage-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 - Usage Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3 - Usage Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Events
       
     </span>
   </a>
@@ -888,6 +916,34 @@
     
   
     Plans & Entitlements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/phase-3-usage-event-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Event Pipeline
   
 
     
@@ -1418,6 +1474,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="phases/phase-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3: Usage Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1757,12 +1841,12 @@
   <a href="#phase-2-plans-and-entitlements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 2 Plans and Entitlements
+        Phase 2 - Plans and Entitlements
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Phase 2 Plans and Entitlements">
+    <nav class="md-nav" aria-label="Phase 2 - Plans and Entitlements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1825,6 +1909,34 @@
     <span class="md-ellipsis">
       
         Entitlement Checks (the hot path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-usage-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 - Usage Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3 - Usage Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Events
       
     </span>
   </a>
@@ -2005,12 +2117,12 @@
 <tr>
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Usage ingestion, outbox pattern, Kafka pipeline</td>
-<td style="text-align: left;">🔜 Next</td>
+<td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr>
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Billing ledger and invoices</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">🔜 Next</td>
 </tr>
 <tr>
 <td style="text-align: left;">5</td>
@@ -2190,7 +2302,7 @@
 </tbody>
 </table>
 <hr />
-<h3 id="phase-2-plans-and-entitlements">Phase 2 Plans and Entitlements<a class="headerlink" href="#phase-2-plans-and-entitlements" title="Permanent link">&para;</a></h3>
+<h3 id="phase-2-plans-and-entitlements">Phase 2 - Plans and Entitlements<a class="headerlink" href="#phase-2-plans-and-entitlements" title="Permanent link">&para;</a></h3>
 <h4 id="plans">Plans<a class="headerlink" href="#plans" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -2380,6 +2492,25 @@
 <td style="text-align: left;">POST</td>
 <td style="text-align: left;"><code>/api/v1/entitlements/:featureKey/consume</code></td>
 <td style="text-align: left;">Consume units of feature</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="phase-3-usage-pipeline">Phase 3 - Usage Pipeline<a class="headerlink" href="#phase-3-usage-pipeline" title="Permanent link">&para;</a></h3>
+<h4 id="usage-events">Usage Events<a class="headerlink" href="#usage-events" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">POST</td>
+<td style="text-align: left;"><code>/api/v1/usage/events</code></td>
+<td style="text-align: left;">Submit batch of usage events (API key auth)</td>
 </tr>
 </tbody>
 </table>

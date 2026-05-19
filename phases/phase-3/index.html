@@ -12,13 +12,13 @@
         <meta name="author" content="Chitrank Agnihotri">
       
       
-        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/phases/phase-1/">
+        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/phases/phase-3/">
       
       
-        <link rel="prev" href="../phase-0/">
+        <link rel="prev" href="../phase-2/">
       
       
-        <link rel="next" href="../phase-2/">
+        <link rel="next" href="../../maintenance/ci-cd/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Phase 1: Identity & Access - Meterplex</title>
+        <title>Phase 3: Usage Pipeline - Meterplex</title>
       
     
     
@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#phase-1-multi-tenant-identity-and-access" class="md-skip">
+        <a href="#phase-3-usage-ingestion-outbox-pattern-and-kafka-pipeline" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +128,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 1: Identity & Access
+              Phase 3: Usage Pipeline
             
           </span>
         </div>
@@ -1119,6 +1119,62 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1: Identity & Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2: Plans & Entitlements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1138,7 +1194,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1: Identity & Access
+    Phase 3: Usage Pipeline
   
 
     
@@ -1156,7 +1212,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1: Identity & Access
+    Phase 3: Usage Pipeline
   
 
     
@@ -1216,10 +1272,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
+  <a href="#the-pipeline-6-stations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authentication
+        The pipeline (6 stations)
       
     </span>
   </a>
@@ -1227,10 +1283,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authorization-rbac" class="md-nav__link">
+  <a href="#transactional-outbox-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authorization (RBAC)
+        Transactional outbox pattern
       
     </span>
   </a>
@@ -1238,10 +1294,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenant-isolation" class="md-nav__link">
+  <a href="#three-layer-idempotency" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tenant isolation
+        Three-layer idempotency
       
     </span>
   </a>
@@ -1249,10 +1305,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#password-management" class="md-nav__link">
+  <a href="#entitlement-check-migration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Password management
+        Entitlement check migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kafka-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kafka infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-checks-8-total" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation checks (8 total)
       
     </span>
   </a>
@@ -1277,10 +1355,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#auth-public" class="md-nav__link">
+  <a href="#usage-events-api-key-auth-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (public)
+        Usage Events (API key auth only)
       
     </span>
   </a>
@@ -1288,43 +1366,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#auth-protected" class="md-nav__link">
+  <a href="#entitlement-checks-updated-now-backed-by-real-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (protected)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tenants-protected" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tenants (protected)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#users-protected" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Users (protected)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-keys-protected" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Keys (protected)
+        Entitlement Checks (updated - now backed by real data)
       
     </span>
   </a>
@@ -1370,30 +1415,24 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-phase-1-audit-log-interceptor" class="md-nav__link">
+  <a href="#infrastructure-added" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Post-Phase 1: Audit Log Interceptor
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Post-Phase 1: Audit Log Interceptor">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Migration
+        Infrastructure added
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#limitations-carried-into-next-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations carried into next phases
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1401,62 +1440,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../phase-2/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 2: Plans & Entitlements
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../phase-3/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 3: Usage Pipeline
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1743,10 +1726,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
+  <a href="#the-pipeline-6-stations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authentication
+        The pipeline (6 stations)
       
     </span>
   </a>
@@ -1754,10 +1737,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#authorization-rbac" class="md-nav__link">
+  <a href="#transactional-outbox-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authorization (RBAC)
+        Transactional outbox pattern
       
     </span>
   </a>
@@ -1765,10 +1748,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tenant-isolation" class="md-nav__link">
+  <a href="#three-layer-idempotency" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tenant isolation
+        Three-layer idempotency
       
     </span>
   </a>
@@ -1776,10 +1759,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#password-management" class="md-nav__link">
+  <a href="#entitlement-check-migration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Password management
+        Entitlement check migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kafka-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kafka infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-checks-8-total" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation checks (8 total)
       
     </span>
   </a>
@@ -1804,10 +1809,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#auth-public" class="md-nav__link">
+  <a href="#usage-events-api-key-auth-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (public)
+        Usage Events (API key auth only)
       
     </span>
   </a>
@@ -1815,43 +1820,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#auth-protected" class="md-nav__link">
+  <a href="#entitlement-checks-updated-now-backed-by-real-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Auth (protected)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tenants-protected" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tenants (protected)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#users-protected" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Users (protected)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-keys-protected" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Keys (protected)
+        Entitlement Checks (updated - now backed by real data)
       
     </span>
   </a>
@@ -1897,30 +1869,24 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-phase-1-audit-log-interceptor" class="md-nav__link">
+  <a href="#infrastructure-added" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Post-Phase 1: Audit Log Interceptor
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Post-Phase 1: Audit Log Interceptor">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Migration
+        Infrastructure added
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#limitations-carried-into-next-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations carried into next phases
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2018,104 +1984,114 @@
   
 
 
-<h1 id="phase-1-multi-tenant-identity-and-access">Phase 1 - Multi-tenant identity and access<a class="headerlink" href="#phase-1-multi-tenant-identity-and-access" title="Permanent link">&para;</a></h1>
-<p><strong>Goal:</strong> Support organizations using the platform with authentication, authorization, and tenant isolation.</p>
+<h1 id="phase-3-usage-ingestion-outbox-pattern-and-kafka-pipeline">Phase 3 - Usage Ingestion, Outbox Pattern, and Kafka Pipeline<a class="headerlink" href="#phase-3-usage-ingestion-outbox-pattern-and-kafka-pipeline" title="Permanent link">&para;</a></h1>
+<p><strong>Goal:</strong> Replace Phase 2's in-memory usage counters with a production-grade event streaming pipeline. Usage events survive restarts, scale across instances, and support replay.</p>
 <p><strong>Status:</strong> ✅ Complete</p>
 <hr />
 <h2 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<p>Phase 1 is complete. Here's what you built:</p>
+<p>Phase 3 is complete. Here's what you built:</p>
 <ul>
-<li>Multi-tenant user model with RBAC (4 roles)</li>
-<li>JWT authentication with access + refresh token rotation</li>
-<li>Password reset and change flows</li>
-<li>Stripe-style API keys with hash-only storage</li>
-<li>Tenant isolation proven at every layer (query, guard, API)</li>
-<li>Seed script with 5 users across 3 tenants with different roles</li>
-<li>All endpoints properly guarded</li>
+<li>Usage events API with batch ingestion, per-event validation, and mixed response</li>
+<li>Transactional outbox pattern solving the dual-write problem (DB + Kafka atomicity)</li>
+<li>Kafka producer/consumer infrastructure with topic management</li>
+<li>Validation consumer that re-checks tenant/subscription/feature state</li>
+<li>Aggregation consumer with atomic Postgres upsert + Redis cache write</li>
+<li>Dead letter queue handler for failed event investigation</li>
+<li>Three-layer idempotency (Redis SETNX → Postgres UNIQUE → Kafka consumer dedup)</li>
+<li>EntitlementCheckService migrated from in-memory Map to Redis + Postgres</li>
+<li>Atomic HARD limit enforcement via Redis Lua script (no race conditions)</li>
+<li>Realistic seed data for demo scenarios</li>
 </ul>
 <h2 id="what-was-built">What was built<a class="headerlink" href="#what-was-built" title="Permanent link">&para;</a></h2>
 <h3 id="data-model">Data model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
-<p><img alt="Phase 1 ERD" src="../../architecture/phase-1-erd.png" /></p>
-<p>Four new tables added to the Tenant model from Phase 0:</p>
+<p>Four new tables:</p>
 <ul>
-<li><strong>users</strong> - global accounts with bcrypt-hashed passwords</li>
-<li><strong>memberships</strong> - join table connecting users to tenants with roles</li>
-<li><strong>api_keys</strong> - server-to-server authentication tokens (SHA-256 hashed)</li>
-<li><strong>refresh_tokens</strong> - stateful token tracking for session management</li>
-<li><strong>password_reset_tokens</strong> - single-use tokens for forgot-password flow</li>
+<li><strong>usage_events</strong> - immutable event log. Every usage event ever submitted. Append-only, indexed by tenant + feature + timestamp. Status tracks pipeline progression (PENDING → VALIDATED → AGGREGATED or REJECTED).</li>
+<li><strong>outbox_events</strong> - transactional outbox for guaranteed Kafka publishing. Written in the same Postgres transaction as usage_events. Background worker drains to Kafka with retry + exponential backoff.</li>
+<li><strong>usage_aggregates</strong> - rolled-up counters per tenant, feature, and period. Replaces the in-memory <code>Map&lt;&gt;</code>. Atomically updated via <code>INSERT ... ON CONFLICT DO UPDATE SET amount = amount + N</code>.</li>
+<li><strong>dead_letter_events</strong> - failed events with original payload, failure reason, failure stage. The operational dashboard for billing investigation.</li>
 </ul>
-<h3 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h3>
-<p>Two authentication mechanisms for two audiences:</p>
+<p>See <a href="../architecture/phase-3-usage-pipeline.md">Usage Pipeline architecture</a> for the full schema, design decisions, and flow diagrams.</p>
+<h3 id="the-pipeline-6-stations">The pipeline (6 stations)<a class="headerlink" href="#the-pipeline-6-stations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Client SDK → POST /usage/events (API key auth)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  → usage_events + outbox_events (single Postgres transaction)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  → Outbox Publisher (1s polling) → Kafka: usage.raw
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  → Validation Consumer → Kafka: usage.validated (or usage.dead-letter)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  → Aggregation Consumer → usage_aggregates + Redis cache
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  → EntitlementCheckService reads from Redis (fast) or Postgres (fallback)
+</code></pre></div>
+<p>The client gets <code>202 Accepted</code> immediately. Everything after that is async, completing in under 2 seconds.</p>
+<h3 id="transactional-outbox-pattern">Transactional outbox pattern<a class="headerlink" href="#transactional-outbox-pattern" title="Permanent link">&para;</a></h3>
+<p>Solves the dual-write problem. Without it:</p>
 <ul>
-<li><strong>JWT (access + refresh tokens)</strong> - for dashboard/admin users via browser</li>
-<li>Access token: 15 min, stateless, no DB lookup per request</li>
-<li>Refresh token: 7 days, stateful (hashed in DB), token rotation on each refresh</li>
-<li>Separate signing secrets for access and refresh tokens</li>
-<li><strong>API keys</strong> - for server-to-server access (Stripe-style <code>mp_live_...</code> keys)</li>
-<li>Raw key shown once at creation, SHA-256 hash stored</li>
-<li>Key prefix stored for identification without exposure</li>
-<li>Supports expiration and revocation</li>
+<li>DB succeeds → Kafka fails → event lost, customer never billed</li>
+<li>Kafka succeeds → DB fails → billing disagrees with records</li>
 </ul>
-<h3 id="authorization-rbac">Authorization (RBAC)<a class="headerlink" href="#authorization-rbac" title="Permanent link">&para;</a></h3>
-<p>Four roles enforced via guards:</p>
+<p>With the outbox: both writes are in one Postgres transaction. The outbox publisher drains to Kafka with at-least-once delivery and exponential backoff. After 5 retries, failed events go to the dead letter table.</p>
+<h3 id="three-layer-idempotency">Three-layer idempotency<a class="headerlink" href="#three-layer-idempotency" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Redis SETNX at ingestion</strong> - <code>usage:event:{eventId}</code> with 24h TTL. Catches retries instantly without hitting Postgres.</li>
+<li><strong>Postgres UNIQUE constraint</strong> - <code>usage_events.event_id</code> is unique. Catches any retry that slips past Redis (Redis down, TTL expired).</li>
+<li><strong>Kafka validation consumer</strong> - checks <code>usage_events.status</code>. Skips events already validated/aggregated.</li>
+</ol>
+<h3 id="entitlement-check-migration">Entitlement check migration<a class="headerlink" href="#entitlement-check-migration" title="Permanent link">&para;</a></h3>
+<p>Phase 2's in-memory <code>Map&lt;string, number&gt;</code> replaced with:</p>
+<ul>
+<li><strong>Read path (cache-aside):</strong> Redis GET → cache miss → Postgres query → seed Redis with 60s TTL</li>
+<li><strong>Write path (HARD quota):</strong> Atomic check-and-increment via Redis Lua script - impossible to exceed limit even under concurrent requests</li>
+<li><strong>Write path (SOFT/METERED):</strong> Redis INCRBY - always succeeds, flags overage</li>
+<li><strong>Fallback:</strong> If Redis is down, Postgres is the degraded read path (slower but correct)</li>
+</ul>
+<h3 id="kafka-infrastructure">Kafka infrastructure<a class="headerlink" href="#kafka-infrastructure" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Role</th>
-<th style="text-align: left;">Manage users</th>
-<th style="text-align: left;">Manage billing</th>
-<th style="text-align: left;">Use APIs</th>
-<th style="text-align: left;">Delete tenant</th>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: left;">Producer</th>
+<th style="text-align: left;">Consumer</th>
+<th style="text-align: left;">Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">OWNER</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">✅</td>
+<td style="text-align: left;"><code>usage.raw</code></td>
+<td style="text-align: left;">Outbox Publisher</td>
+<td style="text-align: left;">Validation Consumer</td>
+<td style="text-align: left;">Raw events pending validation</td>
 </tr>
 <tr>
-<td style="text-align: left;">ADMIN</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">❌</td>
+<td style="text-align: left;"><code>usage.validated</code></td>
+<td style="text-align: left;">Validation Consumer</td>
+<td style="text-align: left;">Aggregation Consumer</td>
+<td style="text-align: left;">Validated events ready for counting</td>
 </tr>
 <tr>
-<td style="text-align: left;">DEVELOPER</td>
-<td style="text-align: left;">❌</td>
-<td style="text-align: left;">❌</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">❌</td>
+<td style="text-align: left;"><code>usage.dead-letter</code></td>
+<td style="text-align: left;">Validation/Aggregation</td>
+<td style="text-align: left;">Dead Letter Handler</td>
+<td style="text-align: left;">Failed events for investigation</td>
 </tr>
 <tr>
-<td style="text-align: left;">BILLING</td>
-<td style="text-align: left;">❌</td>
-<td style="text-align: left;">✅</td>
-<td style="text-align: left;">❌</td>
-<td style="text-align: left;">❌</td>
+<td style="text-align: left;"><code>usage.duplicates</code></td>
+<td style="text-align: left;">Validation Consumer</td>
+<td style="text-align: left;">(monitoring)</td>
+<td style="text-align: left;">Duplicate events detected</td>
 </tr>
 </tbody>
 </table>
-<h3 id="tenant-isolation">Tenant isolation<a class="headerlink" href="#tenant-isolation" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Users see only tenants they belong to (query-level filtering)</li>
-<li><code>TenantGuard</code> validates <code>x-tenant-id</code> header + membership on every scoped request</li>
-<li><code>RolesGuard</code> checks user's role within the specific tenant</li>
-<li>API keys are scoped to a single tenant - no cross-tenant access</li>
-</ul>
-<h3 id="password-management">Password management<a class="headerlink" href="#password-management" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Registration</strong> - creates user + tenant + OWNER membership in one transaction</li>
-<li><strong>Login</strong> - validates credentials, returns access + refresh tokens</li>
-<li><strong>Forgot password</strong> - generates crypto-random reset token (15 min, single-use)</li>
-<li><strong>Reset password</strong> - validates token, updates password, revokes all sessions</li>
-<li><strong>Change password</strong> - requires current password, revokes other sessions</li>
-</ul>
+<h3 id="validation-checks-8-total">Validation checks (8 total)<a class="headerlink" href="#validation-checks-8-total" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Required fields present (id, tenantId, feature, amount)</li>
+<li>eventId is valid UUID format</li>
+<li>Tenant exists and is ACTIVE (not SUSPENDED/CANCELLED)</li>
+<li>Timestamp within acceptable window (not &gt;5min future, not &gt;7 days old)</li>
+<li>Not a duplicate (status != PENDING means already processed)</li>
+<li>Tenant has active subscription including this feature</li>
+<li>Feature type is consumable (QUOTA or METERED, not BOOLEAN)</li>
+<li>Amount is a positive integer</li>
+</ol>
 <h2 id="api-endpoints">API endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
-<h3 id="auth-public">Auth (public)<a class="headerlink" href="#auth-public" title="Permanent link">&para;</a></h3>
+<h3 id="usage-events-api-key-auth-only">Usage Events (API key auth only)<a class="headerlink" href="#usage-events-api-key-auth-only" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2127,32 +2103,23 @@
 <tbody>
 <tr>
 <td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/register</td>
-<td style="text-align: left;">Create user + tenant, return tokens</td>
-</tr>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/login</td>
-<td style="text-align: left;">Validate credentials, return tokens</td>
-</tr>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/refresh</td>
-<td style="text-align: left;">Exchange refresh token for new pair</td>
-</tr>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/forgot-password</td>
-<td style="text-align: left;">Generate reset token</td>
-</tr>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/reset-password</td>
-<td style="text-align: left;">Reset password with token</td>
+<td style="text-align: left;">/usage/events</td>
+<td style="text-align: left;">Submit batch of usage events (1-1000 per request)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="auth-protected">Auth (protected)<a class="headerlink" href="#auth-protected" title="Permanent link">&para;</a></h3>
+<p>Response: <code>202 Accepted</code> with per-event status:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;accepted&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;rejected&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;eventId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accepted&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;eventId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xyz&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rejected&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>Per-event statuses: <code>accepted</code>, <code>duplicate</code>, <code>rejected</code>.</p>
+<h3 id="entitlement-checks-updated-now-backed-by-real-data">Entitlement Checks (updated - now backed by real data)<a class="headerlink" href="#entitlement-checks-updated-now-backed-by-real-data" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2164,140 +2131,13 @@
 <tbody>
 <tr>
 <td style="text-align: left;">GET</td>
-<td style="text-align: left;">/auth/me</td>
-<td style="text-align: left;">Current user profile</td>
+<td style="text-align: left;">/entitlements/:featureKey/check</td>
+<td style="text-align: left;">Check access + show real usage from aggregates</td>
 </tr>
 <tr>
 <td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/change-password</td>
-<td style="text-align: left;">Change password</td>
-</tr>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/logout</td>
-<td style="text-align: left;">Revoke refresh token</td>
-</tr>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/auth/logout-all</td>
-<td style="text-align: left;">Revoke all sessions</td>
-</tr>
-</tbody>
-</table>
-<h3 id="tenants-protected">Tenants (protected)<a class="headerlink" href="#tenants-protected" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Method</th>
-<th style="text-align: left;">Path</th>
-<th style="text-align: left;">Guards</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/tenants</td>
-<td style="text-align: left;">JWT</td>
-<td style="text-align: left;">Create tenant (user becomes OWNER)</td>
-</tr>
-<tr>
-<td style="text-align: left;">GET</td>
-<td style="text-align: left;">/tenants</td>
-<td style="text-align: left;">JWT</td>
-<td style="text-align: left;">List user's tenants</td>
-</tr>
-<tr>
-<td style="text-align: left;">GET</td>
-<td style="text-align: left;">/tenants/slug/:slug</td>
-<td style="text-align: left;">JWT</td>
-<td style="text-align: left;">Look up by slug</td>
-</tr>
-<tr>
-<td style="text-align: left;">GET</td>
-<td style="text-align: left;">/tenants/:id</td>
-<td style="text-align: left;">JWT + Tenant</td>
-<td style="text-align: left;">Get tenant details</td>
-</tr>
-<tr>
-<td style="text-align: left;">PATCH</td>
-<td style="text-align: left;">/tenants/:id</td>
-<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
-<td style="text-align: left;">Update tenant</td>
-</tr>
-<tr>
-<td style="text-align: left;">DELETE</td>
-<td style="text-align: left;">/tenants/:id</td>
-<td style="text-align: left;">JWT + Tenant + OWNER</td>
-<td style="text-align: left;">Cancel tenant</td>
-</tr>
-</tbody>
-</table>
-<h3 id="users-protected">Users (protected)<a class="headerlink" href="#users-protected" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Method</th>
-<th style="text-align: left;">Path</th>
-<th style="text-align: left;">Guards</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/users</td>
-<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
-<td style="text-align: left;">Create user in tenant</td>
-</tr>
-<tr>
-<td style="text-align: left;">GET</td>
-<td style="text-align: left;">/users/me</td>
-<td style="text-align: left;">JWT</td>
-<td style="text-align: left;">Own profile</td>
-</tr>
-<tr>
-<td style="text-align: left;">GET</td>
-<td style="text-align: left;">/users/:id</td>
-<td style="text-align: left;">JWT</td>
-<td style="text-align: left;">User by ID</td>
-</tr>
-<tr>
-<td style="text-align: left;">PATCH</td>
-<td style="text-align: left;">/users/:id</td>
-<td style="text-align: left;">JWT</td>
-<td style="text-align: left;">Update profile</td>
-</tr>
-</tbody>
-</table>
-<h3 id="api-keys-protected">API Keys (protected)<a class="headerlink" href="#api-keys-protected" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Method</th>
-<th style="text-align: left;">Path</th>
-<th style="text-align: left;">Guards</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">POST</td>
-<td style="text-align: left;">/api-keys</td>
-<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
-<td style="text-align: left;">Create key (shown once)</td>
-</tr>
-<tr>
-<td style="text-align: left;">GET</td>
-<td style="text-align: left;">/api-keys</td>
-<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
-<td style="text-align: left;">List keys</td>
-</tr>
-<tr>
-<td style="text-align: left;">DELETE</td>
-<td style="text-align: left;">/api-keys/:id</td>
-<td style="text-align: left;">JWT + Tenant + OWNER/ADMIN</td>
-<td style="text-align: left;">Revoke key</td>
+<td style="text-align: left;">/entitlements/:featureKey/consume</td>
+<td style="text-align: left;">Atomic consume via Redis Lua (HARD) or INCRBY (SOFT)</td>
 </tr>
 </tbody>
 </table>
@@ -2311,110 +2151,143 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">Multi-tenant users (one login, many orgs)</td>
-<td style="text-align: left;">Matches Slack/GitHub model, more flexible than single-tenant</td>
+<td style="text-align: left;">Transactional outbox over direct Kafka publish</td>
+<td style="text-align: left;">Eliminates dual-write data loss</td>
 </tr>
 <tr>
-<td style="text-align: left;">Memberships as join table</td>
-<td style="text-align: left;">Users can have different roles in different tenants</td>
+<td style="text-align: left;">Kafka over RabbitMQ/SQS</td>
+<td style="text-align: left;">Replay, multiple consumers, ordering, throughput</td>
 </tr>
 <tr>
-<td style="text-align: left;">Fixed roles (enum) over dynamic RBAC</td>
-<td style="text-align: left;">Four roles is sufficient for a billing platform, no over-engineering</td>
+<td style="text-align: left;">1-second outbox polling over CDC/Debezium</td>
+<td style="text-align: left;">Simpler infrastructure, acceptable latency</td>
 </tr>
 <tr>
-<td style="text-align: left;">Dual JWT tokens (access + refresh)</td>
-<td style="text-align: left;">Short-lived access limits stolen token damage, refresh enables session management</td>
+<td style="text-align: left;">SKIP LOCKED on outbox queries</td>
+<td style="text-align: left;">Safe horizontal scaling of publisher workers</td>
 </tr>
 <tr>
-<td style="text-align: left;">Separate secrets for access and refresh</td>
-<td style="text-align: left;">Compromising one doesn't compromise the other</td>
+<td style="text-align: left;">Re-validate at Kafka consumer (not just API)</td>
+<td style="text-align: left;">State changes between ingestion and processing</td>
 </tr>
 <tr>
-<td style="text-align: left;">Token rotation on refresh</td>
-<td style="text-align: left;">Detects stolen refresh tokens via reuse detection</td>
+<td style="text-align: left;">Atomic Postgres upsert for aggregation</td>
+<td style="text-align: left;">No lost increments under concurrent writes</td>
 </tr>
 <tr>
-<td style="text-align: left;">API keys as SHA-256 hashes</td>
-<td style="text-align: left;">Same pattern as Stripe - database breach doesn't expose keys</td>
+<td style="text-align: left;">Redis Lua for HARD limits</td>
+<td style="text-align: left;">Atomic check-and-increment, no race conditions</td>
 </tr>
 <tr>
-<td style="text-align: left;">Soft-delete on tenants</td>
-<td style="text-align: left;">Billing compliance requires data retention</td>
+<td style="text-align: left;">Cache-aside with 60s TTL</td>
+<td style="text-align: left;">Balances freshness vs Redis load</td>
 </tr>
 <tr>
-<td style="text-align: left;">Password reset via DB tokens (not JWT)</td>
-<td style="text-align: left;">Audit trail, single-use enforcement, explicit revocation</td>
+<td style="text-align: left;">Three-layer idempotency</td>
+<td style="text-align: left;">Belt and suspenders - no double-billing</td>
 </tr>
 <tr>
-<td style="text-align: left;">x-tenant-id header over URL param</td>
-<td style="text-align: left;">Keeps routes clean, matches Stripe's Connected Accounts pattern</td>
+<td style="text-align: left;">Direct INSERT for seed usage data</td>
+<td style="text-align: left;">Pipeline already proven; seed is dev convenience</td>
+</tr>
+<tr>
+<td style="text-align: left;">Per-event mixed response</td>
+<td style="text-align: left;">Don't reject 99 valid events because 1 is bad</td>
+</tr>
+<tr>
+<td style="text-align: left;">API key auth only for usage events</td>
+<td style="text-align: left;">Server-to-server; JWT doesn't map to real use case</td>
+</tr>
+<tr>
+<td style="text-align: left;">Batch-only API (array always)</td>
+<td style="text-align: left;">Matches Stripe/AWS pattern; one contract to maintain</td>
 </tr>
 </tbody>
 </table>
 <h2 id="seed-data">Seed data<a class="headerlink" href="#seed-data" title="Permanent link">&para;</a></h2>
-<p>All passwords: <code>DevPass123</code></p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">User</th>
-<th style="text-align: left;">Acme Corp</th>
-<th style="text-align: left;">Globex</th>
-<th style="text-align: left;">Stark</th>
+<th style="text-align: left;">Tenant</th>
+<th style="text-align: left;">Plan</th>
+<th style="text-align: left;">api_calls</th>
+<th style="text-align: left;">Storage</th>
+<th style="text-align: left;">Demo scenario</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#108;&#105;&#99;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#97;&#108;&#105;&#99;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td style="text-align: left;">OWNER</td>
-<td style="text-align: left;">ADMIN</td>
-<td style="text-align: left;">-</td>
+<td style="text-align: left;">Acme Corp</td>
+<td style="text-align: left;">Pro</td>
+<td style="text-align: left;">35,000 / 50,000 (70%)</td>
+<td style="text-align: left;">7 GB / 10 GB</td>
+<td style="text-align: left;">Healthy usage</td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#111;&#98;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#98;&#111;&#98;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td style="text-align: left;">DEVELOPER</td>
-<td style="text-align: left;">OWNER</td>
-<td style="text-align: left;">-</td>
+<td style="text-align: left;">Globex Industries</td>
+<td style="text-align: left;">Starter</td>
+<td style="text-align: left;">950 / 1,000 (95%)</td>
+<td style="text-align: left;">1 GB / 1 GB</td>
+<td style="text-align: left;">Near HARD limit</td>
 </tr>
 <tr>
-<td style="text-align: left;"><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#99;&#97;&#114;&#111;&#108;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#99;&#97;&#114;&#111;&#108;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td style="text-align: left;">BILLING</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">OWNER</td>
-</tr>
-<tr>
-<td style="text-align: left;"><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#97;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#100;&#97;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td style="text-align: left;">DEVELOPER</td>
-<td style="text-align: left;">DEVELOPER</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: left;"><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;">&#101;&#118;&#101;&#64;&#109;&#101;&#116;&#101;&#114;&#112;&#108;&#101;&#120;&#46;&#100;&#101;&#118;</a></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">BILLING</td>
-<td style="text-align: left;">ADMIN</td>
+<td style="text-align: left;">Stark Enterprises</td>
+<td style="text-align: left;">Enterprise</td>
+<td style="text-align: left;">50,000 / 500,000 (10%)</td>
+<td style="text-align: left;">25 GB / 100 GB</td>
+<td style="text-align: left;">Low utilization</td>
 </tr>
 </tbody>
 </table>
 <h2 id="gotchas-encountered">Gotchas encountered<a class="headerlink" href="#gotchas-encountered" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>JWT hash collision</strong> - two tokens signed at the same second with identical payload produce the same hash. Fixed by adding <code>jti</code> (JWT ID) claim with random bytes.</li>
-<li><strong><code>@nestjs/jwt</code> type mismatch</strong> - <code>expiresIn</code> accepts <code>string | number</code> at runtime but TypeScript overloads reject strings. Fixed by converting duration to seconds.</li>
-<li><strong>Route ordering matters</strong> - <code>/tenants/me/context</code> must be defined before <code>/tenants/:id</code> or NestJS interprets "me" as a UUID parameter.</li>
-<li><strong>Guard chain order</strong> - <code>JwtAuthGuard</code> must run before <code>TenantGuard</code> and <code>RolesGuard</code> because they depend on <code>request.user</code> being set.</li>
+<li><strong>Kafka group coordinator not available on startup</strong> - transient race condition when consumers start before Kafka finishes setting up the coordinator. Auto-recovers within 300ms via kafkajs retry. Normal in dev.</li>
+<li><strong>Non-UUID eventId rejected by validation consumer</strong> - adding UUID format check at the validation layer caught <code>redis-test-001</code> from earlier testing. Ingestion doesn't validate UUID format (Stripe allows any string as idempotency key), but validation does. Design choice.</li>
+<li><strong>Redis cache mismatch after adding Redis mid-phase</strong> - events aggregated before Redis was added had counters in Postgres but not Redis. The <code>ensureCacheSeeded</code> function handles this by reading from Postgres and seeding Redis on first access.</li>
+<li><strong>Stale API keys after database re-seed</strong> - re-seeding changes tenant UUIDs, invalidating previously created API keys. Need to create fresh keys after re-seed.</li>
+<li><strong>TimeoutNegativeWarning from kafkajs</strong> - Node.js warning about negative timeout values in kafkajs timer handling. Known issue, doesn't affect functionality.</li>
+<li><strong>Shell variable expansion in redis-cli</strong> - <code>$ACME_ID</code> doesn't expand inside <code>docker compose exec redis redis-cli GET "usage:$ACME_ID:..."</code>. Use the full UUID string directly.</li>
 </ol>
-<h2 id="post-phase-1-audit-log-interceptor">Post-Phase 1: Audit Log Interceptor<a class="headerlink" href="#post-phase-1-audit-log-interceptor" title="Permanent link">&para;</a></h2>
-<p>Added as a cross-cutting concern before Phase 2 begins. Every mutation (POST, PATCH, PUT, DELETE) is recorded to an immutable <code>audit_logs</code> table in Postgres.</p>
-<p><strong>What it captures:</strong> actor (user or API key), action (create/update/delete), resource type and ID, tenant, JSONB changes payload, IP address, user agent, and correlation ID.</p>
-<p><strong>What it skips:</strong> GET requests, health checks, auth endpoints, and routes with <code>@SkipAudit()</code>.</p>
-<p><strong>How it works:</strong> Global NestJS interceptor using RxJS <code>tap()</code>. Runs after the handler completes. Fire-and-forget - audit failures are logged to stdout but never block the response.</p>
-<p><strong>Sensitive fields stripped:</strong> passwords, tokens, key material are automatically sanitized from the changes payload before storage.</p>
-<p>See <a href="../../architecture/audit-log/">Audit Log documentation</a> for the full schema, query examples, and extension guide.</p>
-<h3 id="migration">Migration<a class="headerlink" href="#migration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- 20260409103239_add_audit_logs</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="ss">&quot;audit_logs&quot;</span><span class="w"> </span><span class="p">(...)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">-- Indexes: tenant_id, actor_id, (resource, resource_id), created_at</span>
-</code></pre></div>
+<h2 id="infrastructure-added">Infrastructure added<a class="headerlink" href="#infrastructure-added" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Technology</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">KafkaModule</td>
+<td style="text-align: left;">kafkajs</td>
+<td style="text-align: left;">Producer service, consumer base class</td>
+</tr>
+<tr>
+<td style="text-align: left;">RedisModule</td>
+<td style="text-align: left;">ioredis</td>
+<td style="text-align: left;">Cache, atomic counters, dedup keys</td>
+</tr>
+<tr>
+<td style="text-align: left;">OutboxModule</td>
+<td style="text-align: left;">@nestjs/schedule</td>
+<td style="text-align: left;">1s polling, SKIP LOCKED, exponential backoff</td>
+</tr>
+<tr>
+<td style="text-align: left;">UsagePipelineModule</td>
+<td style="text-align: left;">KafkaConsumerBase</td>
+<td style="text-align: left;">Validation + Aggregation + Dead Letter consumers</td>
+</tr>
+</tbody>
+</table>
+<h2 id="limitations-carried-into-next-phases">Limitations carried into next phases<a class="headerlink" href="#limitations-carried-into-next-phases" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No consumer lag monitoring</strong> - can't detect when aggregation falls behind validation. Phase 7 adds observability.</li>
+<li><strong>No outbox cleanup</strong> - PUBLISHED rows accumulate forever. Needs a cron to delete rows older than 7 days.</li>
+<li><strong>Billing period boundaries use UTC</strong> - but <code>getResetDate()</code> uses local server time. Needs explicit UTC handling for production.</li>
+<li><strong>No admin API for dead letter events</strong> - events are persisted but only queryable via SQL. Phase 6 adds <code>GET/POST/DELETE /admin/dead-letter</code>.</li>
+<li><strong>No platform admin guard</strong> - usage events endpoint uses API key auth (correct), but plans/features/entitlements endpoints still lack platform admin restriction.</li>
+</ul>
 
 
 
