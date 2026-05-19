@@ -16,7 +16,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 Meterplex is built for speed and developer happiness. You can get a full production-grade development environment running in seconds using our **Interactive Setup Wizard**.
 
@@ -161,11 +161,11 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 
 ---
 
-## Developer Workflow 🛠️
+## Developer Workflow
 
 Meterplex uses a modern, high-performance developer workflow to ensure code quality and automated releases.
 
-### 🥊 Git Hooks (Lefthook)
+### Git Hooks (Lefthook)
 
 We use [Lefthook](https://github.com/evilmartians/lefthook) for lightning-fast pre-commit checks. It automatically runs:
 
@@ -173,7 +173,7 @@ We use [Lefthook](https://github.com/evilmartians/lefthook) for lightning-fast p
 - **Security**: Gitleaks for secrets and Zizmor for GitHub Actions.
 - **Testing**: Vitest for relevant unit tests.
 
-### 📝 Commit Standards
+### Commit Standards
 
 We follow [Conventional Commits](https://www.conventionalcommits.org/). This allows us to generate automated changelogs and manage versions easily.
 
@@ -182,7 +182,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/). This all
 - `chore:` for maintenance or dependencies.
 - `docs:` for documentation changes.
 
-### 🏷️ Automated Releases
+### Automated Releases
 
 Pushing a tag (e.g., `git tag v0.5.3 && git push --tags`) triggers the **Release Workflow**, which:
 
@@ -193,7 +193,7 @@ Pushing a tag (e.g., `git tag v0.5.3 && git push --tags`) triggers the **Release
 
 ---
 
-## Automated Maintenance 🤖
+## Automated Maintenance
 
 To save developer time, the project includes several automated maintenance tasks:
 

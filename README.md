@@ -128,7 +128,7 @@ Deep-dive technical documentation is organized across:
 - 📖 **[Architecture Guides](docs/architecture/overview.md)** — Core design principles, ER diagrams, and data flow.
 - 🛠️ **[Development Guide](docs/development/setup.md)** — Custom configuration, local troubleshooting, and code conventions.
 - 📡 **[API Reference](docs/index.md#api-endpoints-phase-1)** — Request/Response structures and routing details.
-- 🔄 **[Release & Changelog](docs/index.md#developer-workflow-)** — Git hygiene, conventional commits, and automated release pipelines.
+- 🔄 **[Release & Changelog](docs/index.md#developer-workflow)** — Git hygiene, conventional commits, and automated release pipelines.
 
 ---
 
