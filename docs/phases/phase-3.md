@@ -1,4 +1,4 @@
-# Phase 3 — Usage Ingestion, Outbox Pattern, and Kafka Pipeline
+# Phase 3 - Usage Ingestion, Outbox Pattern, and Kafka Pipeline
 
 **Goal:** Replace Phase 2's in-memory usage counters with a production-grade event streaming pipeline. Usage events survive restarts, scale across instances, and support replay.
 
@@ -27,10 +27,10 @@ Phase 3 is complete. Here's what you built:
 
 Four new tables:
 
-- **usage_events** — immutable event log. Every usage event ever submitted. Append-only, indexed by tenant + feature + timestamp. Status tracks pipeline progression (PENDING → VALIDATED → AGGREGATED or REJECTED).
-- **outbox_events** — transactional outbox for guaranteed Kafka publishing. Written in the same Postgres transaction as usage_events. Background worker drains to Kafka with retry + exponential backoff.
-- **usage_aggregates** — rolled-up counters per tenant, feature, and period. Replaces the in-memory `Map<>`. Atomically updated via `INSERT ... ON CONFLICT DO UPDATE SET amount = amount + N`.
-- **dead_letter_events** — failed events with original payload, failure reason, failure stage. The operational dashboard for billing investigation.
+- **usage_events** - immutable event log. Every usage event ever submitted. Append-only, indexed by tenant + feature + timestamp. Status tracks pipeline progression (PENDING → VALIDATED → AGGREGATED or REJECTED).
+- **outbox_events** - transactional outbox for guaranteed Kafka publishing. Written in the same Postgres transaction as usage_events. Background worker drains to Kafka with retry + exponential backoff.
+- **usage_aggregates** - rolled-up counters per tenant, feature, and period. Replaces the in-memory `Map<>`. Atomically updated via `INSERT ... ON CONFLICT DO UPDATE SET amount = amount + N`.
+- **dead_letter_events** - failed events with original payload, failure reason, failure stage. The operational dashboard for billing investigation.
 
 See [Usage Pipeline architecture](../architecture/phase-3-usage-pipeline.md) for the full schema, design decisions, and flow diagrams.
 
@@ -58,17 +58,17 @@ With the outbox: both writes are in one Postgres transaction. The outbox publish
 
 ### Three-layer idempotency
 
-1. **Redis SETNX at ingestion** — `usage:event:{eventId}` with 24h TTL. Catches retries instantly without hitting Postgres.
-2. **Postgres UNIQUE constraint** — `usage_events.event_id` is unique. Catches any retry that slips past Redis (Redis down, TTL expired).
-3. **Kafka validation consumer** — checks `usage_events.status`. Skips events already validated/aggregated.
+1. **Redis SETNX at ingestion** - `usage:event:{eventId}` with 24h TTL. Catches retries instantly without hitting Postgres.
+2. **Postgres UNIQUE constraint** - `usage_events.event_id` is unique. Catches any retry that slips past Redis (Redis down, TTL expired).
+3. **Kafka validation consumer** - checks `usage_events.status`. Skips events already validated/aggregated.
 
 ### Entitlement check migration
 
 Phase 2's in-memory `Map<string, number>` replaced with:
 
 - **Read path (cache-aside):** Redis GET → cache miss → Postgres query → seed Redis with 60s TTL
-- **Write path (HARD quota):** Atomic check-and-increment via Redis Lua script — impossible to exceed limit even under concurrent requests
-- **Write path (SOFT/METERED):** Redis INCRBY — always succeeds, flags overage
+- **Write path (HARD quota):** Atomic check-and-increment via Redis Lua script - impossible to exceed limit even under concurrent requests
+- **Write path (SOFT/METERED):** Redis INCRBY - always succeeds, flags overage
 - **Fallback:** If Redis is down, Postgres is the degraded read path (slower but correct)
 
 ### Kafka infrastructure
@@ -114,7 +114,7 @@ Response: `202 Accepted` with per-event status:
 
 Per-event statuses: `accepted`, `duplicate`, `rejected`.
 
-### Entitlement Checks (updated — now backed by real data)
+### Entitlement Checks (updated - now backed by real data)
 
 | Method | Path                              | Description                                          |
 | :----- | :-------------------------------- | :--------------------------------------------------- |
@@ -133,7 +133,7 @@ Per-event statuses: `accepted`, `duplicate`, `rejected`.
 | Atomic Postgres upsert for aggregation         | No lost increments under concurrent writes           |
 | Redis Lua for HARD limits                      | Atomic check-and-increment, no race conditions       |
 | Cache-aside with 60s TTL                       | Balances freshness vs Redis load                     |
-| Three-layer idempotency                        | Belt and suspenders — no double-billing              |
+| Three-layer idempotency                        | Belt and suspenders - no double-billing              |
 | Direct INSERT for seed usage data              | Pipeline already proven; seed is dev convenience     |
 | Per-event mixed response                       | Don't reject 99 valid events because 1 is bad        |
 | API key auth only for usage events             | Server-to-server; JWT doesn't map to real use case   |
@@ -149,12 +149,12 @@ Per-event statuses: `accepted`, `duplicate`, `rejected`.
 
 ## Gotchas encountered
 
-1. **Kafka group coordinator not available on startup** — transient race condition when consumers start before Kafka finishes setting up the coordinator. Auto-recovers within 300ms via kafkajs retry. Normal in dev.
-2. **Non-UUID eventId rejected by validation consumer** — adding UUID format check at the validation layer caught `redis-test-001` from earlier testing. Ingestion doesn't validate UUID format (Stripe allows any string as idempotency key), but validation does. Design choice.
-3. **Redis cache mismatch after adding Redis mid-phase** — events aggregated before Redis was added had counters in Postgres but not Redis. The `ensureCacheSeeded` function handles this by reading from Postgres and seeding Redis on first access.
-4. **Stale API keys after database re-seed** — re-seeding changes tenant UUIDs, invalidating previously created API keys. Need to create fresh keys after re-seed.
-5. **TimeoutNegativeWarning from kafkajs** — Node.js warning about negative timeout values in kafkajs timer handling. Known issue, doesn't affect functionality.
-6. **Shell variable expansion in redis-cli** — `$ACME_ID` doesn't expand inside `docker compose exec redis redis-cli GET "usage:$ACME_ID:..."`. Use the full UUID string directly.
+1. **Kafka group coordinator not available on startup** - transient race condition when consumers start before Kafka finishes setting up the coordinator. Auto-recovers within 300ms via kafkajs retry. Normal in dev.
+2. **Non-UUID eventId rejected by validation consumer** - adding UUID format check at the validation layer caught `redis-test-001` from earlier testing. Ingestion doesn't validate UUID format (Stripe allows any string as idempotency key), but validation does. Design choice.
+3. **Redis cache mismatch after adding Redis mid-phase** - events aggregated before Redis was added had counters in Postgres but not Redis. The `ensureCacheSeeded` function handles this by reading from Postgres and seeding Redis on first access.
+4. **Stale API keys after database re-seed** - re-seeding changes tenant UUIDs, invalidating previously created API keys. Need to create fresh keys after re-seed.
+5. **TimeoutNegativeWarning from kafkajs** - Node.js warning about negative timeout values in kafkajs timer handling. Known issue, doesn't affect functionality.
+6. **Shell variable expansion in redis-cli** - `$ACME_ID` doesn't expand inside `docker compose exec redis redis-cli GET "usage:$ACME_ID:..."`. Use the full UUID string directly.
 
 ## Infrastructure added
 
@@ -167,8 +167,8 @@ Per-event statuses: `accepted`, `duplicate`, `rejected`.
 
 ## Limitations carried into next phases
 
-- **No consumer lag monitoring** — can't detect when aggregation falls behind validation. Phase 7 adds observability.
-- **No outbox cleanup** — PUBLISHED rows accumulate forever. Needs a cron to delete rows older than 7 days.
-- **Billing period boundaries use UTC** — but `getResetDate()` uses local server time. Needs explicit UTC handling for production.
-- **No admin API for dead letter events** — events are persisted but only queryable via SQL. Phase 6 adds `GET/POST/DELETE /admin/dead-letter`.
-- **No platform admin guard** — usage events endpoint uses API key auth (correct), but plans/features/entitlements endpoints still lack platform admin restriction.
+- **No consumer lag monitoring** - can't detect when aggregation falls behind validation. Phase 7 adds observability.
+- **No outbox cleanup** - PUBLISHED rows accumulate forever. Needs a cron to delete rows older than 7 days.
+- **Billing period boundaries use UTC** - but `getResetDate()` uses local server time. Needs explicit UTC handling for production.
+- **No admin API for dead letter events** - events are persisted but only queryable via SQL. Phase 6 adds `GET/POST/DELETE /admin/dead-letter`.
+- **No platform admin guard** - usage events endpoint uses API key auth (correct), but plans/features/entitlements endpoints still lack platform admin restriction.

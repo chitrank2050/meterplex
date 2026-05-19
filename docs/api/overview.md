@@ -68,7 +68,7 @@ Content-Type: application/json
 }
 ```
 
-Returns `202 Accepted` with per-event status. Events are processed asynchronously through the Kafka pipeline. Client-generated `eventId` provides idempotency — retrying the same event ID is a no-op.
+Returns `202 Accepted` with per-event status. Events are processed asynchronously through the Kafka pipeline. Client-generated `eventId` provides idempotency - retrying the same event ID is a no-op.
 
 ### Role-Based Access Control (RBAC)
 

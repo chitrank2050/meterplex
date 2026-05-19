@@ -151,7 +151,7 @@ App runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs
 
 ---
 
-### Phase 3 — Usage Pipeline
+### Phase 3 - Usage Pipeline
 
 #### Usage Events
 
