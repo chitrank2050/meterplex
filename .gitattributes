@@ -1,0 +1,14 @@
+# Set default behavior to automatically handle line endings for text files
+* text=auto eol=lf
+
+# Force LF line endings for shell scripts (critical for Windows + Docker compatibility)
+*.sh text eol=lf
+
+# Treat configuration and JSON files as text
+*.json text
+*.yml text
+*.yaml text
+*.md text
+
+# Exclude generated/lockfiles from cluttering GitHub statistics and PR diffs
+pnpm-lock.yaml linguist-generated=true
