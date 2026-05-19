@@ -183,6 +183,69 @@ All environment variables are documented in `.env.example`. The app validates ev
 
 See `src/config/env.validation.ts` for the validation schema.
 
+## Project Structure
+
+This directory map outlines the organization of the codebase, modules, and configurations:
+
+```text
+meterplex/
+├── .github/             # GitHub Actions workflows & templates
+│   ├── workflows/       # CI/CD, Security, & Maintenance pipelines
+│   └── ISSUE_TEMPLATE/  # Standardized issue templates
+├── src/
+│   ├── common/              # Cross-cutting concerns (decorators, guards, filters, correlation ID)
+│   ├── config/              # Environment schema validation and configurations
+│   ├── prisma/              # PrismaService and PrismaModule providers
+│   ├── health/              # Ingress health check endpoints
+│   └── modules/
+│       ├── tenants/         # Tenant CRUD, context, and tenant-scoped queries
+│       ├── users/           # User profiles and membership management
+│       ├── auth/            # JWT, Passport strategies, password resets, refresh tokens
+│       ├── usage-events/    # Usage event ingestion batch endpoint (API key authorized)
+│       ├── usage-pipeline/  # Kafka validation, aggregation, and DLQ consumers
+│       ├── kafka/           # Kafka client wrapper, producer, and topic configuration
+│       ├── redis/           # Redis database wrapper and connection adapter
+│       ├── outbox/          # Transactional outbox pattern scheduler
+│       └── api-keys/        # Key creation, hashing, and token authorization guard
+├── prisma/
+│   ├── schema.prisma        # Prisma Database Schema (single source of truth)
+│   ├── seed.ts              # Local database development seed scripts
+│   └── migrations/          # Schema version history
+├── bruno/                   # API testing collections
+├── docs/                    # MkDocs documentation source
+├── assets/                  # Logos and static assets
+├── lefthook.yml             # Lefthook pre-commit git-hook definitions
+├── cliff.toml               # Git-cliff automated changelog configuration
+├── package.json             # NPM dependencies & scripts definition
+├── pnpm-lock.yaml           # Deterministic lockfile
+└── docker-compose.yml       # Postgres, Redis, and Apache Kafka cluster config
+```
+
+## Available Scripts
+
+| Category        | Script                | Description                                                |
+| :-------------- | :-------------------- | :--------------------------------------------------------- |
+| **Core**        | `pnpm start:dev`      | Start NestJS in watch mode with hot reload                 |
+|                 | `pnpm build`          | Compile the NestJS TypeScript application                  |
+|                 | `pnpm start:prod`     | Run the compiled production bundle (`dist/main.js`)        |
+| **Hygiene**     | `pnpm lint`           | Run TS ESLint, Markdownlint, knip, and actions linters     |
+|                 | `pnpm format`         | Run Prettier formatter across the codebase                 |
+|                 | `pnpm lint:knip`      | Detect dead code, unused files, and redundant packages     |
+| **Testing**     | `pnpm test`           | Execute the unit and integration test suite via Vitest     |
+|                 | `pnpm test:cov`       | Run tests and generate code coverage reports               |
+|                 | `pnpm test:e2e`       | Run end-to-end integration tests                           |
+| **Database**    | `pnpm db:generate`    | Regenerate the typed Prisma client                         |
+|                 | `pnpm db:migrate:dev` | Generate and apply schema migrations (development)         |
+|                 | `pnpm db:seed`        | Run database seed script to populate mock tenants          |
+|                 | `pnpm db:studio`      | Open the graphical Prisma Studio database explorer         |
+| **Docker**      | `pnpm docker:up`      | Boot up PostgreSQL, Redis, and Kafka in the background     |
+|                 | `pnpm docker:down`    | Tear down containers and wipe local volumes                |
+|                 | `pnpm docker:ui`      | Boot up Kafka UI debug tools (debug profile only)          |
+| **Maintenance** | `pnpm dev:init`       | Open the interactive console configuration wizard          |
+|                 | `pnpm setup:fresh`    | Hard reset database, reinstall node_modules, re-run wizard |
+
+---
+
 ## Conventions
 
 ### File Naming

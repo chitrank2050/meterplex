@@ -38,13 +38,55 @@
 
 ---
 
-## What is this?
+## What is Meterplex?
 
-> Meterplex is the backend that powers a SaaS or AI API company. It defines plans and entitlements, decides whether a tenant can use a feature, tracks usage events, enforces quotas and rate limits, calculates billable usage, handles payments and webhooks, and provides auditability with replay and reconciliation. Every mutation is recorded to an immutable audit log for compliance and forensics.
+> Meterplex is a high-performance, developer-first billing engine that manages plans, tracks usage events, enforces quotas in real time, and maintains auditability. Designed as a modular monolith, it allows you to easily scale from a simple SaaS application to an event-driven microservices architecture.
+
+---
+
+## Key Features
+
+- 👤 **Multi-Tenant Identity & Access** — Secure JWT authentication, tenant isolation, and Stripe-like API keys (using hashed storage and constant-time comparison).
+- 🏷️ **Plans & Entitlements** — Programmable features (boolean flags, reset quotas, metered features) with snapshotted entitlements to protect existing contracts.
+- ⚡ **Usage Ingestion Pipeline** — Guaranteed, idempotent event delivery using the **Transactional Outbox Pattern** and **Kafka** event streams with concurrency safety (`SKIP LOCKED`).
+- 🔢 **Atomic Aggregations** — Concurrent real-time usage tracking using Postgres raw SQL upserts and atomic **Redis** caching with auto-expiring TTLs.
+- 📋 **Audit-Ready Ledgers** — Append-only transactional database logs and built-in dead-letter auditing to triage and reprocess failed billing events.
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+Make sure you have **Node.js >= 24**, **pnpm >= 9**, and **Docker** installed.
+
+### 1. Clone & Initialize
+
+Run the Interactive Setup Wizard to automatically install dependencies, start containers, and seed the database in a single step:
+
+```bash
+git clone https://github.com/chitrank2050/meterplex.git
+cd meterplex
+pnpm dev:init
+```
+
+### 2. Verify Installation
+
+```bash
+# Health check (should return status: ok)
+curl http://localhost:3000/health
+
+# Open API Swagger / Scalar Documentation
+# http://localhost:3000/api/docs
+```
+
+*For custom configs, manual setups, or daily commands, refer to the [Development Setup Guide](docs/development/setup.md).*
+
+---
 
 ## Architecture
 
-Modular monolith - one deployable unit with strict module boundaries. Each domain (tenants, billing, usage, payments) is a self-contained NestJS module that can be extracted into a microservice when scale demands it.
+Meterplex is structured as a **modular monolith** to combine the operational simplicity of a single deployable unit with strict domain boundary isolation.
 
 ```text
 ┌─────────────────────────────────────────────────────┐
@@ -65,152 +107,34 @@ Modular monolith - one deployable unit with strict module boundaries. Each domai
 └─────────────────────────────────────────────────────┘
 ```
 
-### 🛠️ Tech Stack
+| Domain | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Backend** | [NestJS 11](https://nestjs.com/) | Modular application framework |
+| **Language** | [TypeScript 6.0](https://www.typescriptlang.org/) | Type-safe business logic |
+| **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Data persistence & transactional outbox |
+| **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Async event-driven processing |
+| **Caching** | [Redis 8](https://redis.io/) | Distributed caching & real-time quotas |
 
-| Domain         | Technology                                                                                      | Purpose                                     |
-| :------------- | :---------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| **Backend**    | [NestJS 11](https://nestjs.com/)                                                                | Modular backend architecture                |
-| **Language**   | [TypeScript 6.0](https://www.typescriptlang.org/)                                               | Type-safe development                       |
-| **Database**   | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/)               | Persistent storage & ORM                    |
-| **Messaging**  | [Apache Kafka 4.2](https://kafka.apache.org/)                                                   | Event-driven async processing               |
-| **Caching**    | [Redis 8](https://redis.io/)                                                                    | Distributed caching & rate limiting         |
-| **DevOps**     | [GitHub Actions](https://github.com/features/actions), [Renovate](https://docs.renovatebot.com) | 2027-standard security & automation         |
-| **Automation** | [Chitrank Action](https://github.com/chitrank2050)                                              | Centralized, hardened bot-driven governance |
-| **Quality**    | [Vitest](https://vitest.dev/), [Lefthook](https://github.com/evilmartians/lefthook)             | Unit testing & high-performance git hooks   |
-| **Docs**       | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)                                 | Technical documentation & changelog         |
-| **API Tools**  | [Bruno](https://usebruno.com/), [Swagger](https://swagger.io/), [Scalar](https://scalar.com/)   | API testing & documentation                 |
+*Learn more about our design decisions in the [Architecture Overview](docs/architecture/overview.md).*
 
-## Quick Start
-
-**Prerequisites**: Node.js >= 24, pnpm >= 9, Docker
-
-### ⚡ Quick Start
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/chitrank2050/meterplex.git
-
-# 2. Enter the project
-cd meterplex
-
-# 3. One-command setup (installs deps, starts docker, seeds DB)
-pnpm dev:init
-```
-
-### 🛠️ Development Scripts
-
-| Command            | Description                                                             |
-| :----------------- | :---------------------------------------------------------------------- |
-| `pnpm dev:init`    | **Interactive Wizard**: Multi-select setup, maintenance, and deep clean |
-| `pnpm setup:all`   | Standard setup: install deps + start infrastructure + seed DB           |
-| `pnpm setup:fresh` | **Hard Reset**: Wipes all data/deps and performs a fresh setup          |
-| `pnpm start:dev`   | Starts the NestJS application in watch mode                             |
-| `pnpm test`        | Runs the full test suite via Vitest                                     |
-| `pnpm docker:up`   | Starts Postgres, Kafka, and Redis in the background                     |
-| `pnpm db:studio`   | Opens Prisma Studio to visualize your database                          |
-| `pnpm lint`        | Runs TypeScript, Markdown, and GitHub Action linters                    |
-
-The app runs at `http://localhost:3000`. API docs at `http://localhost:3000/api/docs`. Health check at `http://localhost:3000/health`.
-
-## Project Structure
-
-```text
-meterplex/
-├── .github/             # GitHub Actions workflows & templates
-│   ├── workflows/       # CI/CD, Security, & Maintenance pipelines
-│   └── ISSUE_TEMPLATE/  # Standardized issue templates
-├── src/
-│   ├── common/              # Cross-cutting concerns
-│   │   ├── constants/       # Error codes, app constants
-│   │   ├── decorators/      # @CurrentUser, @TenantId, @Roles
-│   │   ├── dto/             # Shared DTOs (error response, pagination)
-│   │   ├── filters/         # Global exception filter
-│   │   ├── guards/          # TenantGuard, RolesGuard
-│   │   ├── interceptors/    # (Phase 2) Audit log interceptor
-│   │   ├── middleware/       # Correlation ID, request logging
-│   │   ├── pipes/           # (future) Custom validation pipes
-│   │   ├── interfaces/      # (future) Shared TypeScript types
-│   │   └── utils/           # Prisma error helpers
-│   ├── config/              # Environment validation and ConfigModule
-│   ├── prisma/              # PrismaService and PrismaModule
-│   ├── health/              # Health check endpoint
-│   └── modules/
-│       ├── tenants/         # Tenant CRUD, tenant-scoped queries
-│       ├── users/           # User management, tenant membership
-│       ├── auth/            # JWT, Passport, refresh tokens, password reset
-│       ├── usage-events/    # Usage event ingestion API (API key auth)
-│       ├── usage-pipeline/  # Kafka consumers (validation, aggregation, dead letter)
-│       ├── kafka/           # Kafka producer, consumer base, topic constants
-│       ├── redis/           # Redis connection and cache operations
-│       ├── outbox/          # Outbox publisher worker (drains to Kafka)
-│       └── api-keys/        # Server-to-server key management + auth guard
-├── prisma/
-│   ├── schema.prisma        # Database schema (single source of truth)
-│   ├── seed.ts              # Development seed data
-│   └── migrations/          # Prisma migration history
-├── bruno/                   # API testing collections
-├── docs/                    # MkDocs documentation source
-├── assets/                  # Logos and static assets
-├── lefthook.yml             # High-performance Git hooks
-├── cliff.toml               # Automated changelog configuration
-├── package.json             # Scripts & dependencies
-├── pnpm-lock.yaml           # Deterministic lockfile
-└── docker-compose.yml       # Postgres, Kafka, Redis
-```
-
-## Available Scripts
-
-| Script                   | Description                        |
-| :----------------------- | :--------------------------------- |
-| `pnpm start:dev`         | Start with hot reload              |
-| `pnpm start:prod`        | Start production build             |
-| `pnpm build`             | Compile TypeScript                 |
-| `pnpm test`              | Run unit tests                     |
-| `pnpm test:e2e`          | Run end-to-end tests               |
-| `pnpm lint`              | Lint and fix code                  |
-| `pnpm db:generate`       | Regenerate Prisma client           |
-| `pnpm db:migrate:dev`    | Create and apply migration         |
-| `pnpm db:migrate:deploy` | Apply migrations (CI/prod)         |
-| `pnpm db:seed`           | Seed development data              |
-| `pnpm db:studio`         | Open Prisma data browser           |
-| `pnpm docker:up`         | Start Docker containers            |
-| `pnpm docker:down`       | Stop containers and remove volumes |
-| `pnpm docker:logs`       | Tail container logs                |
-
-## API Endpoints
-
-| Method | Path        | Description                   |
-| :----- | :---------- | :---------------------------- |
-| GET    | `/health`   | Infrastructure health check   |
-| -      | `/api/docs` | Swagger UI (development only) |
-
-_More endpoints are added with each phase._
+---
 
 ## Documentation
 
 🚀 **Live Docs:** [chitrank2050.github.io/meterplex](https://chitrank2050.github.io/meterplex/)
 
-Detailed documentation is available in the [`docs/`](./docs) folder and on GitHub Pages:
+Deep-dive technical documentation is organized across:
 
-- **[Architecture](./docs/architecture/overview.md)** - System design, module boundaries, data flow
-- **[Development](./docs/development/setup.md)** - Setup guide, conventions, workflow
-- **[API](./docs/api/overview.md)** - API design decisions, versioning, error format
-- **[Phases](./docs/phases/phase-0.md)** - Build log for each development phase
+- 📖 **[Architecture Guides](docs/architecture/overview.md)** — Core design principles, ER diagrams, and data flow.
+- 🛠️ **[Development Guide](docs/development/setup.md)** — Custom configuration, local troubleshooting, and code conventions.
+- 📡 **[API Reference](docs/index.md#api-endpoints-phase-1)** — Request/Response structures and routing details.
+- 🔄 **[Release & Changelog](docs/index.md#developer-workflow-)** — Git hygiene, conventional commits, and automated release pipelines.
 
-## Development Phases
-
-| Phase | Focus                                      | Status      |
-| :---- | :----------------------------------------- | :---------- |
-| 0     | Project setup, infrastructure, foundations | ✅ Complete |
-| 1     | Auth, tenants, users, plans, subscriptions | ✅ Complete |
-| 2     | Entitlements and usage tracking            | 🔜 Next     |
-| 3     | Billing, invoices, payments                | -           |
-| 4     | Kafka event pipeline, async processing     | -           |
-| 5     | Observability, rate limiting, hardening    | -           |
+---
 
 ## License
 
-MIT - see [LICENSE](LICENSE) for details.
+Meterplex is licensed under the [MIT License](LICENSE).
 
 If you use Meterplex in your project, a star or credit is appreciated.
 
