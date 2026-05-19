@@ -17,7 +17,7 @@
  */
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
 import { CORRELATION_ID_HEADER } from '@common/constants';
 

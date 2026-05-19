@@ -19,7 +19,7 @@
  */
 import { Injectable, NestMiddleware } from '@nestjs/common';
 
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
 
 import { CORRELATION_ID_HEADER } from '@common/constants';

@@ -49,7 +49,7 @@ import {
 import { Reflector } from '@nestjs/core';
 
 import { PrismaService } from '@app-prisma/prisma.service';
-import { Request } from 'express';
+import type { Request } from 'express';
 import { Observable, tap } from 'rxjs';
 
 import { CORRELATION_ID_HEADER } from '@common/constants';

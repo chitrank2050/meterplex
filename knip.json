@@ -1,14 +1,23 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "entry": ["src/main.ts", "src/**/*.module.ts"],
-  "project": ["src/**/*.ts"],
-  "ignore": [
-    "src/**/*.spec.ts",
-    "src/**/*.e2e-spec.ts",
-    "test/**",
-    "prisma/**",
-    "scripts/**"
+  "entry": [
+    "src/main.ts",
+    "src/**/*.module.ts",
+    "src/common/constants/app.ts",
+    "src/common/decorators/skip-audit.decorator.ts",
+    "src/common/utils/prisma-errors.ts"
   ],
-  "ignoreDependencies": ["source-map-support", "ts-loader", "tsconfig-paths"],
+  "project": ["src/**/*.ts"],
+  "ignoreDependencies": [
+    "source-map-support",
+    "ts-loader",
+    "tsconfig-paths",
+    "pg",
+    "@types/pg",
+    "@nestjs/testing",
+    "supertest",
+    "@types/supertest"
+  ],
+  "ignoreBinaries": ["zizmor"],
   "ignoreExportsUsedInFile": true
 }

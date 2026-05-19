@@ -27,7 +27,7 @@ import {
 } from '@nestjs/common';
 
 import { PrismaService } from '@app-prisma/prisma.service';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 import { Membership } from '@prisma/client';
 
