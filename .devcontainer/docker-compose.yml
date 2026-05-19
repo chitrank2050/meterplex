@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # The devcontainer workspace service
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-24-bookworm
+    container_name: meterplex-devcontainer
+    volumes:
+      # Mount the project folder to the container workspace
+      - ..:/workspace:cached
+      # Keep shell/history persistent across container rebuilds
+      - devcontainer-bash-history:/home/node/.history
+    environment:
+      # Re-route local service hostnames to their Docker Compose service names
+      DATABASE_URL: postgresql://meterplex:meterplex_dev@postgres:5432/meterplex?schema=public
+      KAFKA_BROKERS: kafka:29092
+      REDIS_HOST: redis
+      HISTFILE: /home/node/.history/.bash_history
+    # Allow terminal interaction
+    tty: true
+    stdin_open: true
+    # Connect to the primary internal network
+    networks:
+      - meterplex-net
+    # Ensure backend infrastructure is ready before devcontainer shell boots
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+volumes:
+  devcontainer-bash-history:

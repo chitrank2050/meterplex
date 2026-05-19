@@ -1,0 +1,67 @@
+{
+  "name": "Meterplex Dev Workspace ⚡",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.yml"],
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true,
+      "upgradePackages": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "vitest.enable": true,
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "prisma.prisma",
+        "vitest.explorer",
+        "redhat.vscode-yaml",
+        "evilmartians.lefthook",
+        "humao.rest-client",
+        "christian-kohler.path-intellisense",
+        "usernamehw.errorlens"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 5432, 6379, 9092, 9000],
+  "portsAttributes": {
+    "3000": {
+      "label": "NestJS API Server",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL Database",
+      "onAutoForward": "ignore"
+    },
+    "6379": {
+      "label": "Redis Cache & Quotas",
+      "onAutoForward": "ignore"
+    },
+    "9092": {
+      "label": "Kafka Broker",
+      "onAutoForward": "ignore"
+    },
+    "9000": {
+      "label": "Kafka UI Debugger",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "pnpm install && pnpm db:generate && npx lefthook install",
+  "remoteUser": "node"
+}
