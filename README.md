@@ -46,11 +46,11 @@
 
 ## Key Features
 
-- 👤 **Multi-Tenant Identity & Access** — Secure JWT authentication, tenant isolation, and Stripe-like API keys (using hashed storage and constant-time comparison).
-- 🏷️ **Plans & Entitlements** — Programmable features (boolean flags, reset quotas, metered features) with snapshotted entitlements to protect existing contracts.
-- ⚡ **Usage Ingestion Pipeline** — Guaranteed, idempotent event delivery using the **Transactional Outbox Pattern** and **Kafka** event streams with concurrency safety (`SKIP LOCKED`).
-- 🔢 **Atomic Aggregations** — Concurrent real-time usage tracking using Postgres raw SQL upserts and atomic **Redis** caching with auto-expiring TTLs.
-- 📋 **Audit-Ready Ledgers** — Append-only transactional database logs and built-in dead-letter auditing to triage and reprocess failed billing events.
+- 👤 **Multi-Tenant Identity & Access** - Secure JWT authentication, tenant isolation, and Stripe-like API keys (using hashed storage and constant-time comparison).
+- 🏷️ **Plans & Entitlements** - Programmable features (boolean flags, reset quotas, metered features) with snapshotted entitlements to protect existing contracts.
+- ⚡ **Usage Ingestion Pipeline** - Guaranteed, idempotent event delivery using the **Transactional Outbox Pattern** and **Kafka** event streams with concurrency safety (`SKIP LOCKED`).
+- 🔢 **Atomic Aggregations** - Concurrent real-time usage tracking using Postgres raw SQL upserts and atomic **Redis** caching with auto-expiring TTLs.
+- 📋 **Audit-Ready Ledgers** - Append-only transactional database logs and built-in dead-letter auditing to triage and reprocess failed billing events.
 
 ---
 
@@ -125,10 +125,10 @@ Meterplex is structured as a **modular monolith** to combine the operational sim
 
 Deep-dive technical documentation is organized across:
 
-- 📖 **[Architecture Guides](docs/architecture/overview.md)** — Core design principles, ER diagrams, and data flow.
-- 🛠️ **[Development Guide](docs/development/setup.md)** — Custom configuration, local troubleshooting, and code conventions.
-- 📡 **[API Reference](docs/index.md#api-endpoints-phase-1)** — Request/Response structures and routing details.
-- 🔄 **[Release & Changelog](docs/index.md#developer-workflow)** — Git hygiene, conventional commits, and automated release pipelines.
+- 📖 **[Architecture Guides](docs/architecture/overview.md)** - Core design principles, ER diagrams, and data flow.
+- 🛠️ **[Development Guide](docs/development/setup.md)** - Custom configuration, local troubleshooting, and code conventions.
+- 📡 **[API Reference](docs/index.md#api-endpoints-phase-1)** - Request/Response structures and routing details.
+- 🔄 **[Release & Changelog](docs/index.md#developer-workflow)** - Git hygiene, conventional commits, and automated release pipelines.
 
 ---
 

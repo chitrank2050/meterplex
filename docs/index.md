@@ -184,15 +184,15 @@ We enforce [Conventional Commits](https://www.conventionalcommits.org/) and stri
 
 Allowed type prefixes (defined in `package.json`) include:
 
-- `feat` — New features.
-- `fix` — Bug fixes.
-- `chore` — Routine chore/configuration updates.
-- `docs` — Documentation additions/updates.
-- `refactor` — Code refactoring without functionality changes.
-- `perf` — Performance enhancements.
-- `test` — Testing setups or changes.
-- `maintenance` — Code hygiene, cleanup, and security tasks.
-- `renovate` — Automated dependency upgrades.
+- `feat` - New features.
+- `fix` - Bug fixes.
+- `chore` - Routine chore/configuration updates.
+- `docs` - Documentation additions/updates.
+- `refactor` - Code refactoring without functionality changes.
+- `perf` - Performance enhancements.
+- `test` - Testing setups or changes.
+- `maintenance` - Code hygiene, cleanup, and security tasks.
+- `renovate` - Automated dependency upgrades.
 - `style`, `build`, `ci`, `revert`
 
 ### Automated Releases
