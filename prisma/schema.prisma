@@ -1090,7 +1090,7 @@ model UsageEvent {
 //
 //   With outbox:
 //     1. INSERT into usage_events     ┐
-//     2. INSERT into outbox            │ ← single Postgres transaction
+//     2. INSERT into outbox           │ ← single Postgres transaction
 //                                     ┘   both commit or both rollback
 //     3. Background worker drains outbox to Kafka with retry
 //     Result: GUARANTEED at-least-once delivery
