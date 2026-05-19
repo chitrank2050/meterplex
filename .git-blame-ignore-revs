@@ -1,0 +1,16 @@
+# ==============================================================================
+# Git Blame Ignore Revs
+#
+# Commits listed here will be ignored by 'git blame'. This is useful for large
+# styling, formatting, or refactoring commits that touch many lines without
+# altering the underlying business logic.
+#
+# GitHub automatically detects and uses this file for the blame UI.
+#
+# To configure Git locally to respect this file, run:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+# ==============================================================================
+
+# Example Format:
+# # chore: reformat codebase with Prettier
+# 1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
