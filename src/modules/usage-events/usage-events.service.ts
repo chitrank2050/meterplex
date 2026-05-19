@@ -120,7 +120,7 @@ export class UsageEventsService {
     const rejected: UsageEventResultDto[] = [];
 
     for (const event of dto.events) {
-      // Fast dedup via Redis SETNX — catches retries before hitting Postgres.
+      // Fast dedup via Redis SETNX - catches retries before hitting Postgres.
       // Key: usage:event:{eventId}, TTL: 24h. If key exists → duplicate.
       // This is the first dedup layer (fast). Postgres UNIQUE is the second (authoritative).
       try {
@@ -136,7 +136,7 @@ export class UsageEventsService {
           continue;
         }
       } catch {
-        // Redis down — skip fast dedup, fall through to Postgres UNIQUE constraint.
+        // Redis down - skip fast dedup, fall through to Postgres UNIQUE constraint.
         // Slightly slower but still correct.
       }
 

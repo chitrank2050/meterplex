@@ -9,6 +9,9 @@
  *   - 5 users with different roles across tenants
  *   - Memberships linking users to tenants with roles
  *   - 1 active API key per tenant
+ *   - 3 plans (Starter, Pro, Enterprise) with prices and entitlements
+ *   - 3 subscriptions (one per tenant) with entitlement snapshots
+ *   - Realistic usage data for demo/testing scenarios
  *
  * IDEMPOTENT: Uses upsert for users and tenants, checks existence
  * for memberships and keys. Safe to run multiple times.
@@ -941,6 +944,157 @@ async function main(): Promise<void> {
   }
 
   // =========================================================
+  // USAGE DATA
+  //
+  // Seed realistic usage events and aggregates for dev tenants.
+  // Direct INSERT into usage_events (status=AGGREGATED) and
+  // usage_aggregates (via atomic upsert) for instant availability.
+  //
+  // The pipeline is already proven end-to-end. Seed data doesn't
+  // need to re-prove it - it exists to make demos tangible:
+  //   Acme (Pro):        35,000 api_calls (70% of 50k), 7 GB storage
+  //   Globex (Starter):  950 api_calls (95% of 1k HARD limit), 0.8 GB storage
+  //   Stark (Enterprise): 50,000 api_calls (10% of 500k), 25 GB storage
+  //
+  // Idempotent: uses eventId-based upsert on usage_events and
+  // atomic upsert on usage_aggregates. Safe to re-run.
+  // =========================================================
+
+  console.log('\n--- Usage Data ---');
+
+  // Get active subscriptions for each tenant (needed for FK)
+  const subscriptionMap = new Map<string, string>(); // tenantId → subscriptionId
+  for (const tenantId of [acme.id, globex.id, stark.id]) {
+    const sub = await prisma.subscription.findFirst({
+      where: { tenantId, status: { in: ['ACTIVE', 'TRIALING'] } },
+      select: { id: true },
+    });
+    if (sub) subscriptionMap.set(tenantId, sub.id);
+  }
+
+  // Period calculation (current month)
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth();
+  const periodKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+  const periodStart = new Date(Date.UTC(year, month, 1));
+  const periodEnd = new Date(Date.UTC(year, month + 1, 1));
+
+  type UsageSeedDef = {
+    tenantId: string;
+    tenantLabel: string;
+    feature: string;
+    amount: number;
+    label: string;
+  };
+
+  const usageDefs: UsageSeedDef[] = [
+    // Acme (Pro): 70% of 50k api_calls, 7 GB storage
+    {
+      tenantId: acme.id,
+      tenantLabel: 'Acme',
+      feature: 'api_calls',
+      amount: 35000,
+      label: '35,000 api_calls (70% of 50k)',
+    },
+    {
+      tenantId: acme.id,
+      tenantLabel: 'Acme',
+      feature: 'storage',
+      amount: 7,
+      label: '7 GB storage',
+    },
+    // Globex (Starter): 95% of 1k api_calls (near HARD limit), 0.8 GB storage
+    {
+      tenantId: globex.id,
+      tenantLabel: 'Globex',
+      feature: 'api_calls',
+      amount: 950,
+      label: '950 api_calls (95% of 1k HARD)',
+    },
+    {
+      tenantId: globex.id,
+      tenantLabel: 'Globex',
+      feature: 'storage',
+      amount: 1,
+      label: '0.8 GB storage (rounded to 1)',
+    },
+    // Stark (Enterprise): 10% of 500k api_calls, 25 GB storage
+    {
+      tenantId: stark.id,
+      tenantLabel: 'Stark',
+      feature: 'api_calls',
+      amount: 50000,
+      label: '50,000 api_calls (10% of 500k)',
+    },
+    {
+      tenantId: stark.id,
+      tenantLabel: 'Stark',
+      feature: 'storage',
+      amount: 25,
+      label: '25 GB storage',
+    },
+  ];
+
+  for (const u of usageDefs) {
+    const subscriptionId = subscriptionMap.get(u.tenantId);
+    if (!subscriptionId) {
+      console.log(`  SKIP ${u.tenantLabel}: no active subscription`);
+      continue;
+    }
+
+    const seedEventId = `seed-${u.tenantLabel.toLowerCase()}-${u.feature}-${periodKey}`;
+
+    // Upsert usage_event (idempotent via eventId uniqueness)
+    const existingEvent = await prisma.usageEvent.findUnique({
+      where: { eventId: seedEventId },
+    });
+
+    if (!existingEvent) {
+      await prisma.usageEvent.create({
+        data: {
+          eventId: seedEventId,
+          tenantId: u.tenantId,
+          subscriptionId,
+          featureLookupKey: u.feature,
+          amount: u.amount,
+          timestamp: new Date(),
+          status: 'AGGREGATED',
+          metadata: { source: 'seed', description: u.label },
+        },
+      });
+    }
+
+    // Atomic upsert on usage_aggregates
+    // Uses raw SQL because Prisma doesn't support ON CONFLICT DO UPDATE with increment
+    await prisma.$executeRawUnsafe(
+      `INSERT INTO usage_aggregates (
+        id, tenant_id, subscription_id, feature_lookup_key,
+        period_key, amount, period_start, period_end,
+        last_event_at, created_at, updated_at
+      ) VALUES (
+        gen_random_uuid(), $1, $2, $3,
+        $4, $5, $6, $7,
+        NOW(), NOW(), NOW()
+      )
+      ON CONFLICT (tenant_id, feature_lookup_key, period_key, subscription_id)
+      DO UPDATE SET
+        amount = $5,
+        last_event_at = NOW(),
+        updated_at = NOW()`,
+      u.tenantId,
+      subscriptionId,
+      u.feature,
+      periodKey,
+      u.amount,
+      periodStart,
+      periodEnd,
+    );
+
+    console.log(`  ${u.tenantLabel} → ${u.feature}: ${u.label}`);
+  }
+
+  // =========================================================
   // SUMMARY
   // =========================================================
 
@@ -955,6 +1109,8 @@ async function main(): Promise<void> {
     prisma.entitlement.count(),
     prisma.subscription.count(),
     prisma.entitlementSnapshot.count(),
+    prisma.usageEvent.count(),
+    prisma.usageAggregate.count(),
   ]);
 
   console.log(`
@@ -969,6 +1125,8 @@ async function main(): Promise<void> {
     Entitlements:         ${counts[7]}
     Subscriptions:        ${counts[8]}
     Entitlement Snapshots: ${counts[9]}
+    Usage Events:         ${counts[10]}
+    Usage Aggregates:     ${counts[11]}
 
   Dev login credentials (all passwords: ${DEV_PASSWORD}):
     alice@meterplex.dev  → OWNER of Acme, ADMIN of Globex
@@ -981,6 +1139,11 @@ async function main(): Promise<void> {
     Acme Corp         → Pro (monthly)
     Globex Industries → Starter (monthly)
     Stark Enterprises → Enterprise (annual)
+
+  Dev usage (current period: ${periodKey}):
+    Acme (Pro):        35,000 api_calls (70%), 7 GB storage
+    Globex (Starter):  950 api_calls (95% near HARD limit), 1 GB storage
+    Stark (Enterprise): 50,000 api_calls (10%), 25 GB storage
 `);
 }
 
