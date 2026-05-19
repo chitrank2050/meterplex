@@ -35,6 +35,5 @@ runs:
       with:
         client-id: ${{ inputs.client-id }}
         private-key: ${{ inputs.private-key }}
-        repositories: ${{ github.repository }}
         permission-contents: write
         permission-pull-requests: write
