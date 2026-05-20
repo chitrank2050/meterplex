@@ -115,8 +115,12 @@ export class InvoicesController {
   /**
    * POST /api/v1/invoices/generate
    *
-   * Manually trigger invoice generation for the tenant's active subscription.
-   * Creates a DRAFT invoice with line items.
+   * Manually trigger invoice generation for the tenant's subscription.
+   * Automatically detects the subscription state:
+   *   - Active subscription → full-period invoice
+   *   - Cancelled subscription → prorated invoice (days used / total days)
+   *
+   * The frontend calls this one endpoint. The backend handles the logic.
    * OWNER/ADMIN only.
    */
   @Post('generate')
@@ -125,15 +129,15 @@ export class InvoicesController {
   @ApiBearerAuth()
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Generate invoice for current billing period' })
+  @ApiOperation({ summary: 'Generate invoice (auto-detects full or prorated)' })
   @ApiResponse({ status: 201, description: 'Invoice generated' })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async generate(@TenantId() tenantId: string) {
-    // Find active subscription with plan + price
+    // Find the most recent subscription (active or cancelled)
     const subscription = await this.prisma.subscription.findFirst({
       where: {
         tenantId,
-        status: { in: ['ACTIVE', 'TRIALING'] },
+        status: { in: ['ACTIVE', 'TRIALING', 'CANCELLED'] },
       },
       select: {
         id: true,
@@ -144,17 +148,31 @@ export class InvoicesController {
         currentPeriodStart: true,
         currentPeriodEnd: true,
         billingAnchor: true,
+        cancelledAt: true,
         plan: { select: { id: true, name: true, slug: true } },
         price: {
           select: { id: true, interval: true, amount: true, currency: true },
         },
       },
+      orderBy: { createdAt: 'desc' },
     });
 
     if (!subscription) {
-      return { statusCode: 404, message: 'No active subscription found' };
+      return { statusCode: 404, message: 'No subscription found' };
     }
 
+    // Cancelled mid-cycle → prorated invoice
+    if (
+      subscription.cancelledAt &&
+      subscription.cancelledAt < subscription.currentPeriodEnd
+    ) {
+      return this.invoiceGeneration.generateProrated(
+        subscription,
+        subscription.cancelledAt,
+      );
+    }
+
+    // Active/trialing → full-period invoice
     return this.invoiceGeneration.generate(subscription);
   }
 
