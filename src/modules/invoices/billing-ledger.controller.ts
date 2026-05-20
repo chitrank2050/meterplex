@@ -5,11 +5,12 @@
  *   GET /api/v1/billing/ledger   → List ledger entries for tenant
  *   GET /api/v1/billing/balance  → Get current balance
  */
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiHeader,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -32,21 +33,56 @@ export class BillingLedgerController {
   /**
    * GET /api/v1/billing/ledger
    *
-   * List all ledger entries for the tenant, newest first.
+   * List ledger entries for the tenant, newest first. Paginated.
+   * Optionally filter by type (CHARGE, PAYMENT, CREDIT, REFUND, ADJUSTMENT).
    */
   @Get('ledger')
   @UseGuards(JwtAuthGuard, TenantGuard)
   @ApiBearerAuth()
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'List billing ledger entries' })
-  @ApiResponse({ status: 200, description: 'Ledger entries' })
-  async getLedger(@TenantId() tenantId: string) {
-    const entries = await this.prisma.billingLedgerEntry.findMany({
-      where: { tenantId },
-      orderBy: { createdAt: 'desc' },
-    });
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
+  @ApiQuery({
+    name: 'type',
+    required: false,
+    enum: ['CHARGE', 'PAYMENT', 'CREDIT', 'REFUND', 'ADJUSTMENT'],
+  })
+  @ApiResponse({ status: 200, description: 'Paginated ledger entries' })
+  async getLedger(
+    @TenantId() tenantId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('type') type?: string,
+  ) {
+    const pageNum = Math.max(1, page ?? 1);
+    const pageSize = Math.min(100, Math.max(1, limit ?? 20));
+    const skip = (pageNum - 1) * pageSize;
 
-    return { data: entries };
+    const where = {
+      tenantId,
+      ...(type && { type: type as any }),
+    };
+
+    const [entries, total] = await Promise.all([
+      this.prisma.billingLedgerEntry.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: pageSize,
+      }),
+      this.prisma.billingLedgerEntry.count({ where }),
+    ]);
+
+    return {
+      data: entries,
+      meta: {
+        total,
+        page: pageNum,
+        limit: pageSize,
+        totalPages: Math.ceil(total / pageSize),
+      },
+    };
   }
 
   /**
