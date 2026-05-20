@@ -62,6 +62,7 @@
     "paths": {
       "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
+      "@infra/*": ["src/infra/*"],
       "@modules/*": ["src/modules/*"],
       "@app-prisma/*": ["src/prisma/*"]
     },

@@ -3,6 +3,9 @@
   "extends": [
     "config:recommended",
     ":timezone(Asia/Kolkata)",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMajorReleases",
     "mergeConfidence:all-badges",
     "helpers:pinGitHubActionDigests"
   ],
@@ -65,11 +68,27 @@
       "pinDigests": true
     }
   ],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "vulnerability"]
+  },
+  "osvVulnerabilityAlerts": true,
   "dependencyDashboard": true,
   "prConcurrentLimit": 10,
   "prHourlyLimit": 2,
-  "vulnerabilityAlerts": {
-    "enabled": true
-  },
-  "platformAutomerge": true
+  "platformAutomerge": true,
+  "branchPrefix": "renovate/",
+  "commitMessagePrefix": "chore: ",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageAction": "Update",
+  "ignoreDeps": [],
+  "ignorePaths": ["**/node_modules/**", "**/dist/**", "**/build/**"],
+  "enabledManagers": ["npm", "dockerfile", "github-actions"],
+  "npmrc": "auto-detect",
+  "updateNotScheduled": false,
+  "rangeStrategy": "bump"
 }

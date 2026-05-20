@@ -10,16 +10,17 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 
+import { CacheModule } from '@infra/cache';
+import { MessagingModule } from '@infra/messaging';
+import { OutboxModule } from '@infra/outbox';
+
 import { ApiKeysModule } from '@modules/api-keys';
 import { AuthModule } from '@modules/auth';
 import { EntitlementCheckModule } from '@modules/entitlement-check';
 import { EntitlementsModule } from '@modules/entitlements';
 import { FeaturesModule } from '@modules/features';
-import { KafkaModule } from '@modules/kafka';
-import { OutboxModule } from '@modules/outbox';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
-import { RedisModule } from '@modules/redis';
 import { SubscriptionsModule } from '@modules/subscriptions';
 import { TenantsModule } from '@modules/tenants';
 import { UsageEventsModule } from '@modules/usage-events';
@@ -47,9 +48,9 @@ import { PrismaModule } from './prisma';
     // enables @Cron decorators
     ScheduleModule.forRoot(),
     // global, provides KafkaProducerService & KafkaConsumerService
-    KafkaModule,
+    MessagingModule,
     // global, provides RedisService
-    RedisModule,
+    CacheModule,
     // HealthModule - readiness/liveness checks
     HealthModule,
     // Feature modules

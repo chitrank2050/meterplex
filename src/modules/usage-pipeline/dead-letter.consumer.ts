@@ -27,7 +27,7 @@ import {
   KAFKA_CONSUMER_GROUPS,
   KAFKA_TOPICS,
   KafkaConsumerBase,
-} from '@modules/kafka';
+} from '@infra/messaging';
 
 import { Prisma } from '@prisma/client';
 

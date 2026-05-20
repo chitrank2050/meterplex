@@ -32,7 +32,7 @@ import {
   Logger,
 } from '@nestjs/common';
 
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 
 import { CORRELATION_ID_HEADER } from '@common/constants';
 

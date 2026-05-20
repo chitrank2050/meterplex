@@ -49,7 +49,7 @@ import {
 import { Reflector } from '@nestjs/core';
 
 import { PrismaService } from '@app-prisma/prisma.service';
-import { Request } from 'express';
+import type { Request } from 'express';
 import { Observable, tap } from 'rxjs';
 
 import { CORRELATION_ID_HEADER } from '@common/constants';
@@ -87,6 +87,8 @@ const PATH_TO_RESOURCE: Record<string, string> = {
   entitlements: 'entitlement',
   subscriptions: 'subscription',
   usage: 'usage_event',
+  invoices: 'invoice',
+  billing: 'billing_ledger',
 };
 
 /**

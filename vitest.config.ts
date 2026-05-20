@@ -33,6 +33,7 @@ export default defineConfig({
     alias: {
       '@common': resolve(__dirname, './src/common'),
       '@config': resolve(__dirname, './src/config'),
+      '@infra': resolve(__dirname, './src/infra'),
       '@modules': resolve(__dirname, './src/modules'),
       '@app-prisma': resolve(__dirname, './src/prisma'),
     },

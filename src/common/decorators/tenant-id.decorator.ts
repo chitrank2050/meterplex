@@ -19,7 +19,7 @@
  */
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 
-import { Request } from 'express';
+import type { Request } from 'express';
 
 export const TenantId = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext): string => {

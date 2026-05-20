@@ -28,7 +28,7 @@ import {
   KAFKA_TOPICS,
   KafkaConsumerBase,
   KafkaProducerService,
-} from '@modules/kafka';
+} from '@infra/messaging';
 
 import { SubscriptionStatus } from '@prisma/client';
 

@@ -46,11 +46,11 @@
 
 ## Key Features
 
-- 👤 **Multi-Tenant Identity & Access** — Secure JWT authentication, tenant isolation, and Stripe-like API keys (using hashed storage and constant-time comparison).
-- 🏷️ **Plans & Entitlements** — Programmable features (boolean flags, reset quotas, metered features) with snapshotted entitlements to protect existing contracts.
-- ⚡ **Usage Ingestion Pipeline** — Guaranteed, idempotent event delivery using the **Transactional Outbox Pattern** and **Kafka** event streams with concurrency safety (`SKIP LOCKED`).
-- 🔢 **Atomic Aggregations** — Concurrent real-time usage tracking using Postgres raw SQL upserts and atomic **Redis** caching with auto-expiring TTLs.
-- 📋 **Audit-Ready Ledgers** — Append-only transactional database logs and built-in dead-letter auditing to triage and reprocess failed billing events.
+- 👤 **Multi-Tenant Identity & Access** - Secure JWT authentication, tenant isolation, and Stripe-like API keys (using hashed storage and constant-time comparison).
+- 🏷️ **Plans & Entitlements** - Programmable features (boolean flags, reset quotas, metered features) with snapshotted entitlements to protect existing contracts.
+- ⚡ **Usage Ingestion Pipeline** - Guaranteed, idempotent event delivery using the **Transactional Outbox Pattern** and **Kafka** event streams with concurrency safety (`SKIP LOCKED`).
+- 🔢 **Atomic Aggregations** - Concurrent real-time usage tracking using Postgres raw SQL upserts and atomic **Redis** caching with auto-expiring TTLs.
+- 📋 **Audit-Ready Ledgers** - Append-only transactional database logs and built-in dead-letter auditing to triage and reprocess failed billing events.
 
 ---
 
@@ -80,7 +80,7 @@ curl http://localhost:3000/health
 # http://localhost:3000/api/docs
 ```
 
-*For custom configs, manual setups, or daily commands, refer to the [Development Setup Guide](docs/development/setup.md).*
+_For custom configs, manual setups, or daily commands, refer to the [Development Setup Guide](docs/development/setup.md)._
 
 ---
 
@@ -107,15 +107,15 @@ Meterplex is structured as a **modular monolith** to combine the operational sim
 └─────────────────────────────────────────────────────┘
 ```
 
-| Domain | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Backend** | [NestJS 11](https://nestjs.com/) | Modular application framework |
-| **Language** | [TypeScript 6.0](https://www.typescriptlang.org/) | Type-safe business logic |
-| **Database** | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Data persistence & transactional outbox |
-| **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/) | Async event-driven processing |
-| **Caching** | [Redis 8](https://redis.io/) | Distributed caching & real-time quotas |
+| Domain        | Technology                                                                        | Purpose                                 |
+| :------------ | :-------------------------------------------------------------------------------- | :-------------------------------------- |
+| **Backend**   | [NestJS 11](https://nestjs.com/)                                                  | Modular application framework           |
+| **Language**  | [TypeScript 6.0](https://www.typescriptlang.org/)                                 | Type-safe business logic                |
+| **Database**  | [PostgreSQL 18](https://www.postgresql.org/) + [Prisma 7](https://www.prisma.io/) | Data persistence & transactional outbox |
+| **Messaging** | [Apache Kafka 4.2](https://kafka.apache.org/)                                     | Async event-driven processing           |
+| **Caching**   | [Redis 8](https://redis.io/)                                                      | Distributed caching & real-time quotas  |
 
-*Learn more about our design decisions in the [Architecture Overview](docs/architecture/overview.md).*
+_Learn more about our design decisions in the [Architecture Overview](docs/architecture/overview.md)._
 
 ---
 
@@ -125,10 +125,10 @@ Meterplex is structured as a **modular monolith** to combine the operational sim
 
 Deep-dive technical documentation is organized across:
 
-- 📖 **[Architecture Guides](docs/architecture/overview.md)** — Core design principles, ER diagrams, and data flow.
-- 🛠️ **[Development Guide](docs/development/setup.md)** — Custom configuration, local troubleshooting, and code conventions.
-- 📡 **[API Reference](docs/index.md#api-endpoints-phase-1)** — Request/Response structures and routing details.
-- 🔄 **[Release & Changelog](docs/index.md#developer-workflow)** — Git hygiene, conventional commits, and automated release pipelines.
+- 📖 **[Architecture Guides](docs/architecture/overview.md)** - Core design principles, ER diagrams, and data flow.
+- 🛠️ **[Development Guide](docs/development/setup.md)** - Custom configuration, local troubleshooting, and code conventions.
+- 📡 **[API Reference](docs/index.md#api-endpoints-phase-1)** - Request/Response structures and routing details.
+- 🔄 **[Release & Changelog](docs/index.md#developer-workflow)** - Git hygiene, conventional commits, and automated release pipelines.
 
 ---
 
@@ -136,7 +136,7 @@ Deep-dive technical documentation is organized across:
 
 Meterplex is licensed under the [MIT License](LICENSE).
 
-⭐ *If you use **Meterplex** in your project, a star or credit is appreciated.*
+⭐ _If you use **Meterplex** in your project, a star or credit is appreciated._
 
 ---
 

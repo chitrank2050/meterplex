@@ -25,7 +25,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { PrismaService } from '@app-prisma/prisma.service';
 
-import { KafkaProducerService } from '@modules/kafka';
+import { KafkaProducerService } from '@infra/messaging';
 
 /** Max outbox rows to process per tick. */
 const BATCH_SIZE = 100;

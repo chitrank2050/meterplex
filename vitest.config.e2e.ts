@@ -14,6 +14,7 @@ export default defineConfig({
       '@common': resolve(__dirname, './src/common'),
       '@config': resolve(__dirname, './src/config'),
       '@modules': resolve(__dirname, './src/modules'),
+      '@infra': resolve(__dirname, './src/infra'),
       '@prisma': resolve(__dirname, './src/prisma'),
       '@generated': resolve(__dirname, './generated'),
     },
