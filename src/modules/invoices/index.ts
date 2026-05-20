@@ -4,3 +4,4 @@ export { InvoiceLifecycleService } from './invoice-lifecycle.service';
 export { InvoiceNumberService } from './invoice-number.service';
 export { BillingPeriodService } from './billing-period.service';
 export { calculateOverage } from './overage-calculator';
+export { BillingCronService } from './billing-cron.service';

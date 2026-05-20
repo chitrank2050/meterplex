@@ -8,9 +8,11 @@
  *   - BillingPeriodService: period detection and advancement
  *   - InvoicesController: invoice CRUD + lifecycle endpoints
  *   - BillingLedgerController: ledger + balance endpoints
+ *   - BillingCronService: automated billing cycle processing
  */
 import { Module } from '@nestjs/common';
 
+import { BillingCronService } from './billing-cron.service';
 import { BillingLedgerController } from './billing-ledger.controller';
 import { BillingPeriodService } from './billing-period.service';
 import { InvoiceGenerationService } from './invoice-generation.service';
@@ -25,6 +27,7 @@ import { InvoicesController } from './invoices.controller';
     InvoiceLifecycleService,
     InvoiceNumberService,
     BillingPeriodService,
+    BillingCronService,
   ],
   exports: [
     InvoiceGenerationService,
