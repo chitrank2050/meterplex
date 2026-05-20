@@ -22,6 +22,8 @@ import { TenantGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
+import { BalanceResponseDto, LedgerListResponseDto } from './dto';
+
 @ApiTags('Billing')
 @Controller({
   path: 'billing',
@@ -48,7 +50,11 @@ export class BillingLedgerController {
     required: false,
     enum: ['CHARGE', 'PAYMENT', 'CREDIT', 'REFUND', 'ADJUSTMENT'],
   })
-  @ApiResponse({ status: 200, description: 'Paginated ledger entries' })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated ledger entries',
+    type: LedgerListResponseDto,
+  })
   async getLedger(
     @TenantId() tenantId: string,
     @Query('page') page?: number,
@@ -97,7 +103,11 @@ export class BillingLedgerController {
   @ApiBearerAuth()
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'Get tenant billing balance' })
-  @ApiResponse({ status: 200, description: 'Current balance' })
+  @ApiResponse({
+    status: 200,
+    description: 'Current balance',
+    type: BalanceResponseDto,
+  })
   async getBalance(@TenantId() tenantId: string) {
     const result = await this.prisma.billingLedgerEntry.aggregate({
       where: { tenantId },

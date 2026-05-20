@@ -44,6 +44,11 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { MembershipRole } from '@prisma/client';
 
+import {
+  InvoiceLineItemListResponseDto,
+  InvoiceListResponseDto,
+  InvoiceResponseDto,
+} from './dto';
 import { InvoiceGenerationService } from './invoice-generation.service';
 import { InvoiceLifecycleService } from './invoice-lifecycle.service';
 
@@ -77,7 +82,11 @@ export class InvoicesController {
     required: false,
     enum: ['DRAFT', 'FINALIZED', 'PAID', 'VOID'],
   })
-  @ApiResponse({ status: 200, description: 'Paginated invoice list' })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated invoice list',
+    type: InvoiceListResponseDto,
+  })
   @ApiResponse({ status: 401, type: ErrorResponseDto })
   async findAll(
     @TenantId() tenantId: string,
@@ -131,7 +140,11 @@ export class InvoicesController {
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'Get invoice line items only' })
   @ApiParam({ name: 'id', description: 'Invoice UUID' })
-  @ApiResponse({ status: 200, description: 'Line items list' })
+  @ApiResponse({
+    status: 200,
+    description: 'Line items list',
+    type: InvoiceLineItemListResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async findLineItems(
     @Param('id', ParseUUIDPipe) id: string,
@@ -166,7 +179,11 @@ export class InvoicesController {
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'Get invoice with line items' })
   @ApiParam({ name: 'id', description: 'Invoice UUID' })
-  @ApiResponse({ status: 200, description: 'Invoice details' })
+  @ApiResponse({
+    status: 200,
+    description: 'Invoice details',
+    type: InvoiceResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async findById(
     @Param('id', ParseUUIDPipe) id: string,
@@ -204,7 +221,11 @@ export class InvoicesController {
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Generate invoice (auto-detects full or prorated)' })
-  @ApiResponse({ status: 201, description: 'Invoice generated' })
+  @ApiResponse({
+    status: 201,
+    description: 'Invoice generated',
+    type: InvoiceResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async generate(@TenantId() tenantId: string) {
     // Find the most recent subscription (active or cancelled)
@@ -262,7 +283,11 @@ export class InvoicesController {
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'Finalize a draft invoice' })
   @ApiParam({ name: 'id', description: 'Invoice UUID' })
-  @ApiResponse({ status: 200, description: 'Invoice finalized' })
+  @ApiResponse({
+    status: 200,
+    description: 'Invoice finalized',
+    type: InvoiceResponseDto,
+  })
   @ApiResponse({ status: 400, type: ErrorResponseDto })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async finalize(
@@ -285,7 +310,11 @@ export class InvoicesController {
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'Mark invoice as paid' })
   @ApiParam({ name: 'id', description: 'Invoice UUID' })
-  @ApiResponse({ status: 200, description: 'Invoice marked paid' })
+  @ApiResponse({
+    status: 200,
+    description: 'Invoice marked paid',
+    type: InvoiceResponseDto,
+  })
   @ApiResponse({ status: 400, type: ErrorResponseDto })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async markPaid(
@@ -307,7 +336,11 @@ export class InvoicesController {
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'Void an invoice' })
   @ApiParam({ name: 'id', description: 'Invoice UUID' })
-  @ApiResponse({ status: 200, description: 'Invoice voided' })
+  @ApiResponse({
+    status: 200,
+    description: 'Invoice voided',
+    type: InvoiceResponseDto,
+  })
   @ApiResponse({ status: 400, type: ErrorResponseDto })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   async voidInvoice(
