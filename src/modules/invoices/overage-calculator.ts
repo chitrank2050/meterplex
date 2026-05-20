@@ -13,7 +13,9 @@
  *   - unitPriceMicroCents: integer (price per unit)
  *   - totalCents: integer (final line item amount)
  *
- * Conversion: totalCents = Math.round(overageUnits × overagePrice / 10000)
+ * Conversion: totalCents = Math.round(overageUnits × overagePrice / 100)
+ * Because: $1.00 = 10,000 micro-cents, $0.01 = 100 micro-cents
+ * So micro-cents / 100 = cents
  *
  * The only rounding happens at the final conversion to cents.
  * This matches Stripe's approach: accumulate in smallest unit, round once.
@@ -53,7 +55,7 @@ export function calculateOverage(
 
   // All integer math until the final division
   const totalMicroCents = overageUnits * unitPrice;
-  const totalCents = Math.round(totalMicroCents / 10000);
+  const totalCents = Math.round(totalMicroCents / 100);
 
   return {
     overageUnits,
