@@ -30,6 +30,7 @@ export interface BillableSubscription {
   currentPeriodStart: Date;
   currentPeriodEnd: Date;
   billingAnchor: number;
+  cancelledAt?: Date | null;
   plan: { id: string; name: string; slug: string };
   price: { id: string; interval: string; amount: number; currency: string };
 }
@@ -149,5 +150,94 @@ export class BillingPeriodService {
       next.setMonth(next.getMonth() + 1);
     }
     return next;
+  }
+
+  /**
+   * Calculate proration factor for a mid-cycle cancellation.
+   *
+   * Returns a value between 0 and 1 representing the fraction
+   * of the billing period that was used.
+   *
+   * Example:
+   *   30-day period, cancelled on day 15 → 0.5 (50%)
+   *   30-day period, cancelled on day 30 → 1.0 (100%, no proration)
+   *   30-day period, cancelled on day 1  → 0.033 (~3%)
+   *
+   * @param periodStart - When the billing period started
+   * @param periodEnd - When the billing period was scheduled to end
+   * @param cancelledAt - When the tenant actually cancelled
+   * @returns Proration factor (0 to 1)
+   */
+  calculateProration(
+    periodStart: Date,
+    periodEnd: Date,
+    cancelledAt: Date,
+  ): number {
+    const totalMs = periodEnd.getTime() - periodStart.getTime();
+    if (totalMs <= 0) return 1; // Edge case: invalid period
+
+    const usedMs = cancelledAt.getTime() - periodStart.getTime();
+    if (usedMs <= 0) return 0; // Cancelled before period started
+    if (usedMs >= totalMs) return 1; // Cancelled after period ended (full charge)
+
+    return usedMs / totalMs;
+  }
+
+  /**
+   * Find cancelled subscriptions that need a final prorated invoice.
+   *
+   * These are subscriptions where:
+   *   - cancelledAt is set (tenant requested cancellation)
+   *   - No invoice exists for the current (partial) period
+   *   - The subscription is still within its current period
+   *     (cancelledAt < currentPeriodEnd)
+   */
+  async findCancelledSubscriptionsNeedingInvoice(): Promise<
+    Array<BillableSubscription & { cancelledAt: Date }>
+  > {
+    const subscriptions = await this.prisma.subscription.findMany({
+      where: {
+        cancelledAt: { not: null },
+        status: { in: ['ACTIVE', 'CANCELLED'] },
+      },
+      select: {
+        id: true,
+        tenantId: true,
+        planId: true,
+        priceId: true,
+        status: true,
+        currentPeriodStart: true,
+        currentPeriodEnd: true,
+        billingAnchor: true,
+        cancelledAt: true,
+        plan: { select: { id: true, name: true, slug: true } },
+        price: {
+          select: { id: true, interval: true, amount: true, currency: true },
+        },
+      },
+    });
+
+    const needsInvoice: Array<BillableSubscription & { cancelledAt: Date }> =
+      [];
+
+    for (const sub of subscriptions) {
+      if (!sub.cancelledAt) continue;
+
+      // Check if a prorated invoice already exists for this period
+      const existingInvoice = await this.prisma.invoice.findFirst({
+        where: {
+          subscriptionId: sub.id,
+          periodStart: sub.currentPeriodStart,
+          notes: { contains: 'prorated' },
+        },
+        select: { id: true },
+      });
+
+      if (existingInvoice) continue;
+
+      needsInvoice.push(sub as BillableSubscription & { cancelledAt: Date });
+    }
+
+    return needsInvoice;
   }
 }
