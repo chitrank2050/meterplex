@@ -37,7 +37,7 @@ import { PrismaService } from '@app-prisma/prisma.service';
 
 import { ERRORS } from '@common/constants';
 
-import { RedisService } from '@modules/redis';
+import { RedisService } from '@infra/cache';
 
 import { FeatureType, ResetPeriod, SubscriptionStatus } from '@prisma/client';
 

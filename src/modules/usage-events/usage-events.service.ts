@@ -39,7 +39,7 @@ import { PrismaService } from '@app-prisma/prisma.service';
 import { ERRORS } from '@common/constants';
 import { isUniqueConstraintError } from '@common/utils/prisma-errors';
 
-import { RedisService } from '@modules/redis';
+import { RedisService } from '@infra/cache';
 
 import { SubscriptionStatus } from '@prisma/client';
 
