@@ -19,6 +19,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -26,6 +27,7 @@ import {
   ApiHeader,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -40,7 +42,6 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { MembershipRole } from '@prisma/client';
 
-import { BillingPeriodService } from './billing-period.service';
 import { InvoiceGenerationService } from './invoice-generation.service';
 import { InvoiceLifecycleService } from './invoice-lifecycle.service';
 
@@ -54,31 +55,102 @@ export class InvoicesController {
     private readonly prisma: PrismaService,
     private readonly invoiceGeneration: InvoiceGenerationService,
     private readonly invoiceLifecycle: InvoiceLifecycleService,
-    private readonly billingPeriod: BillingPeriodService,
   ) {}
 
   /**
    * GET /api/v1/invoices
    *
-   * List all invoices for the tenant, newest first.
+   * List invoices for the tenant, newest first. Paginated.
+   * Optionally filter by status (DRAFT, FINALIZED, PAID, VOID).
    */
   @Get()
   @UseGuards(JwtAuthGuard, TenantGuard)
   @ApiBearerAuth()
   @ApiHeader({ name: 'x-tenant-id', required: true })
   @ApiOperation({ summary: 'List invoices for tenant' })
-  @ApiResponse({ status: 200, description: 'Invoice list' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    enum: ['DRAFT', 'FINALIZED', 'PAID', 'VOID'],
+  })
+  @ApiResponse({ status: 200, description: 'Paginated invoice list' })
   @ApiResponse({ status: 401, type: ErrorResponseDto })
-  async findAll(@TenantId() tenantId: string) {
-    const invoices = await this.prisma.invoice.findMany({
-      where: { tenantId },
-      include: {
-        lineItems: { orderBy: { sortOrder: 'asc' } },
+  async findAll(
+    @TenantId() tenantId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('status') status?: string,
+  ) {
+    const pageNum = Math.max(1, page ?? 1);
+    const pageSize = Math.min(100, Math.max(1, limit ?? 20));
+    const skip = (pageNum - 1) * pageSize;
+
+    const where = {
+      tenantId,
+      ...(status && { status: status as any }),
+    };
+
+    const [invoices, total] = await Promise.all([
+      this.prisma.invoice.findMany({
+        where,
+        include: {
+          lineItems: { orderBy: { sortOrder: 'asc' } },
+        },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: pageSize,
+      }),
+      this.prisma.invoice.count({ where }),
+    ]);
+
+    return {
+      data: invoices,
+      meta: {
+        total,
+        page: pageNum,
+        limit: pageSize,
+        totalPages: Math.ceil(total / pageSize),
       },
-      orderBy: { createdAt: 'desc' },
+    };
+  }
+
+  /**
+   * GET /api/v1/invoices/:id/line-items
+   *
+   * Get line items only for an invoice. Lighter payload than
+   * the full invoice endpoint when the frontend only needs
+   * the breakdown table.
+   */
+  @Get(':id/line-items')
+  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ApiBearerAuth()
+  @ApiHeader({ name: 'x-tenant-id', required: true })
+  @ApiOperation({ summary: 'Get invoice line items only' })
+  @ApiParam({ name: 'id', description: 'Invoice UUID' })
+  @ApiResponse({ status: 200, description: 'Line items list' })
+  @ApiResponse({ status: 404, type: ErrorResponseDto })
+  async findLineItems(
+    @Param('id', ParseUUIDPipe) id: string,
+    @TenantId() tenantId: string,
+  ) {
+    // Verify invoice belongs to tenant
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id, tenantId },
+      select: { id: true },
     });
 
-    return { data: invoices };
+    if (!invoice) {
+      return { statusCode: 404, message: 'Invoice not found' };
+    }
+
+    const lineItems = await this.prisma.invoiceLineItem.findMany({
+      where: { invoiceId: id },
+      orderBy: { sortOrder: 'asc' },
+    });
+
+    return { data: lineItems };
   }
 
   /**
