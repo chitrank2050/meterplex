@@ -85,11 +85,15 @@ model Tenant {
   /// JSONB in Postgres = indexed, queryable, no schema enforcement.
   metadata Json @default("{}") @db.JsonB
 
-  createdAt     DateTime       @default(now()) @map("created_at")
-  updatedAt     DateTime       @updatedAt @map("updated_at")
-  memberships   Membership[]
-  apiKeys       ApiKey[]
-  subscriptions Subscription[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  memberships          Membership[]
+  apiKeys              ApiKey[]
+  subscriptions        Subscription[]
+  billingLedgerEntries BillingLedgerEntry[]
+  invoices             Invoice[]
 
   @@map("tenants")
 }
@@ -1310,4 +1314,254 @@ model DeadLetterEvent {
   @@index([failureStage])
   @@index([firstFailedAt])
   @@map("dead_letter_events")
+}
+
+// =============================================================
+// Phase 4 Enums - Billing and Invoicing
+// =============================================================
+
+/// Lifecycle of an invoice.
+/// DRAFT:     Being prepared. Editable. Not visible to tenant.
+/// FINALIZED: Locked. Visible to tenant. Ledger CHARGE created.
+/// PAID:      Payment received. Ledger PAYMENT created.
+/// VOID:      Cancelled. Ledger CREDIT reversal created.
+enum InvoiceStatus {
+  DRAFT
+  FINALIZED
+  PAID
+  VOID
+
+  @@map("invoice_status")
+}
+
+/// Type of billing ledger entry.
+/// CHARGE:     Invoice finalized - tenant owes money.
+/// PAYMENT:    Payment received - tenant paid.
+/// CREDIT:     Credit issued - reduces balance (void, promo, etc.)
+/// REFUND:     Money returned to tenant.
+/// ADJUSTMENT: Manual correction by admin.
+enum LedgerEntryType {
+  CHARGE
+  PAYMENT
+  CREDIT
+  REFUND
+  ADJUSTMENT
+
+  @@map("ledger_entry_type")
+}
+
+// =============================================================
+// Invoice - A bill for a tenant's usage during a billing period.
+//
+// One invoice per tenant per billing period. Generated when the
+// billing period closes (cron or manual trigger).
+//
+// Lifecycle:
+//   DRAFT → FINALIZED → PAID
+//                     → VOID
+//   DRAFT → VOID (cancel before sending)
+//
+// Design decisions:
+//   - invoiceNumber is assigned at FINALIZE, not creation.
+//     Prevents gaps in the sequence from voided drafts.
+//   - subtotal and total in cents (integer). No floats.
+//   - currency from the subscription's price.
+//   - periodStart/periodEnd from the subscription's billing period.
+//   - No FK to subscription - uses plain UUID. Invoice must
+//     survive subscription cancellation for billing records.
+//   - Immutable after FINALIZED. Corrections via VOID + new invoice.
+// =============================================================
+
+model Invoice {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The tenant being billed.
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  /// The subscription this invoice covers.
+  /// Plain UUID, not FK - survives subscription changes.
+  subscriptionId String @map("subscription_id") @db.Uuid
+
+  /// Human-readable invoice number. Assigned at FINALIZE.
+  /// Format: INV-{YEAR}-{SEQUENCE}. Null while DRAFT.
+  invoiceNumber String? @unique @map("invoice_number") @db.VarChar(20)
+
+  /// Current lifecycle status.
+  status InvoiceStatus @default(DRAFT)
+
+  /// ISO 4217 currency code. From the subscription's price.
+  currency String @default("usd") @db.VarChar(3)
+
+  /// Sum of all line item amounts before tax. In cents.
+  subtotal Int @default(0)
+
+  /// Final amount due. In cents. (= subtotal for now, tax added later)
+  total Int @default(0)
+
+  /// Start of the billing period this invoice covers.
+  periodStart DateTime @map("period_start")
+
+  /// End of the billing period this invoice covers.
+  periodEnd DateTime @map("period_end")
+
+  /// When payment is expected. Set at FINALIZE.
+  /// Typically periodEnd + grace period (e.g., 30 days).
+  dueDate DateTime? @map("due_date")
+
+  /// When the invoice was finalized (locked, visible to tenant).
+  finalizedAt DateTime? @map("finalized_at")
+
+  /// When payment was received.
+  paidAt DateTime? @map("paid_at")
+
+  /// When the invoice was voided (cancelled).
+  voidedAt DateTime? @map("voided_at")
+
+  /// Optional notes or memo on the invoice.
+  notes String? @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Relations
+  lineItems     InvoiceLineItem[]
+  ledgerEntries BillingLedgerEntry[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([subscriptionId])
+  @@map("invoices")
+}
+
+// =============================================================
+// InvoiceLineItem - Individual charges on an invoice.
+//
+// Each line represents one billable component:
+//   - Base subscription fee: "Pro plan - monthly" × 1 = $99.00
+//   - Feature overage: "API Calls overage" × 5,000 = $5.00
+//   - Feature usage: "Storage" × 5 GB = $0.10
+//
+// Design decisions:
+//   - quantity and unitPrice give full transparency.
+//     Customers see "5,000 calls × $0.001 = $5.00", not just "$5.00".
+//   - unitPrice in micro-cents (from entitlement snapshots).
+//     amount (line total) in cents. Conversion happens here.
+//   - featureLookupKey links to the feature for UI rendering.
+//     Null for the base subscription fee line.
+//   - sortOrder controls display order on the invoice.
+//     Base fee first (0), then features alphabetically.
+//   - description is pre-rendered text. The invoice is a snapshot -
+//     even if the feature name changes later, the line item
+//     preserves what was billed.
+// =============================================================
+
+model InvoiceLineItem {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The invoice this line belongs to.
+  invoiceId String  @map("invoice_id") @db.Uuid
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  /// Human-readable description. Pre-rendered at generation time.
+  /// Examples:
+  ///   "Pro plan - monthly"
+  ///   "API Calls overage (35,000 used, 50,000 included)"
+  ///   "Storage (7 GB used, 10 GB included)"
+  description String @db.VarChar(500)
+
+  /// Feature this line item relates to. Null for base subscription fee.
+  featureLookupKey String? @map("feature_lookup_key") @db.VarChar(100)
+
+  /// Number of units billed. 1 for base fee. Overage units for features.
+  quantity Int
+
+  /// Price per unit in micro-cents (from entitlement snapshot).
+  /// For base fee: price in cents × 10000 (to keep consistent units).
+  /// Example: $99.00 base = 990000 micro-cents. $0.001/call = 10 micro-cents.
+  unitPriceMicroCents Int @map("unit_price_micro_cents")
+
+  /// Line total in cents. = Math.round(quantity × unitPriceMicroCents / 10000)
+  /// This is what appears on the invoice and sums to the subtotal.
+  amount Int
+
+  /// Controls display order. Base fee = 0, features sorted after.
+  sortOrder Int @default(0) @map("sort_order")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([invoiceId])
+  @@map("invoice_line_items")
+}
+
+// =============================================================
+// BillingLedgerEntry - Immutable financial record.
+//
+// Every monetary event creates a ledger entry:
+//   CHARGE:     Invoice finalized → tenant owes $99.00
+//   PAYMENT:    Payment received → tenant paid $99.00
+//   CREDIT:     Invoice voided → reverses $99.00 charge
+//   REFUND:     Money returned → $50.00 back to tenant
+//   ADJUSTMENT: Manual fix → +/- arbitrary amount
+//
+// Balance calculation:
+//   balance = SUM(debit) - SUM(credit)
+//   CHARGE adds to debit (tenant owes more)
+//   PAYMENT adds to credit (tenant owes less)
+//   Positive balance = tenant owes money
+//   Negative balance = tenant has credit
+//
+// Design decisions:
+//   - Append-only. No updates, no deletes. Ever.
+//     To correct a mistake, add an ADJUSTMENT entry.
+//   - Both debit and credit on every entry (double-entry style).
+//     A CHARGE has debit=9900, credit=0.
+//     A PAYMENT has debit=0, credit=9900.
+//   - invoiceId links to the source document (nullable for
+//     manual adjustments not tied to an invoice).
+//   - description is human-readable for the ledger view.
+//   - All amounts in cents (integer).
+// =============================================================
+
+model BillingLedgerEntry {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The tenant this entry belongs to.
+  tenantId String @map("tenant_id") @db.Uuid
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  /// The invoice this entry relates to (if applicable).
+  invoiceId String?  @map("invoice_id") @db.Uuid
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+
+  /// Type of monetary event.
+  type LedgerEntryType
+
+  /// Human-readable description.
+  /// "Invoice INV-2026-0001 finalized", "Payment received via Stripe", etc.
+  description String @db.VarChar(500)
+
+  /// Debit amount in cents. Increases what tenant owes.
+  debit Int @default(0)
+
+  /// Credit amount in cents. Decreases what tenant owes.
+  credit Int @default(0)
+
+  /// Currency. Should match the invoice currency.
+  currency String @default("usd") @db.VarChar(3)
+
+  /// Optional reference to external system (Stripe payment ID, etc.)
+  externalReference String? @map("external_reference") @db.VarChar(255)
+
+  /// Immutable. No updatedAt - ledger entries are never modified.
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([tenantId])
+  @@index([invoiceId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("billing_ledger_entries")
 }

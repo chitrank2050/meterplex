@@ -87,6 +87,8 @@ const PATH_TO_RESOURCE: Record<string, string> = {
   entitlements: 'entitlement',
   subscriptions: 'subscription',
   usage: 'usage_event',
+  invoices: 'invoice',
+  billing: 'billing_ledger',
 };
 
 /**
