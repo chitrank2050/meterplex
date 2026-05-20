@@ -1,5 +1,5 @@
 /**
- * RedisModule - Global Redis connection.
+ * CacheModule - Global Redis connection.
  *
  * Same pattern as PrismaModule and MessagingModule:
  * Global singleton, available everywhere without explicit imports.
@@ -13,4 +13,4 @@ import { RedisService } from './redis.service';
   providers: [RedisService],
   exports: [RedisService],
 })
-export class RedisModule {}
+export class CacheModule {}

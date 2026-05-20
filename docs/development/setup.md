@@ -260,6 +260,7 @@ meterplex/
 | :----------- | :-------------- |
 | `@common/*`  | `src/common/*`  |
 | `@config/*`  | `src/config/*`  |
+| `@infra/*`   | `src/infra/*`   |
 | `@modules/*` | `src/modules/*` |
 
 ### Database Conventions

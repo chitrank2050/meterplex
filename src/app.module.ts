@@ -10,7 +10,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import { MessagingModule } from 'src/infra/messaging';
+import { CacheModule } from '@infra/cache';
+import { MessagingModule } from '@infra/messaging';
 
 import { ApiKeysModule } from '@modules/api-keys';
 import { AuthModule } from '@modules/auth';
@@ -20,7 +21,6 @@ import { FeaturesModule } from '@modules/features';
 import { OutboxModule } from '@modules/outbox';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
-import { RedisModule } from '@modules/redis';
 import { SubscriptionsModule } from '@modules/subscriptions';
 import { TenantsModule } from '@modules/tenants';
 import { UsageEventsModule } from '@modules/usage-events';
@@ -50,7 +50,7 @@ import { PrismaModule } from './prisma';
     // global, provides KafkaProducerService & KafkaConsumerService
     MessagingModule,
     // global, provides RedisService
-    RedisModule,
+    CacheModule,
     // HealthModule - readiness/liveness checks
     HealthModule,
     // Feature modules
