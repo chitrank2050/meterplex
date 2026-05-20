@@ -12,13 +12,13 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { CacheModule } from '@infra/cache';
 import { MessagingModule } from '@infra/messaging';
+import { OutboxModule } from '@infra/outbox';
 
 import { ApiKeysModule } from '@modules/api-keys';
 import { AuthModule } from '@modules/auth';
 import { EntitlementCheckModule } from '@modules/entitlement-check';
 import { EntitlementsModule } from '@modules/entitlements';
 import { FeaturesModule } from '@modules/features';
-import { OutboxModule } from '@modules/outbox';
 import { PlanPricesModule } from '@modules/plan-prices';
 import { PlansModule } from '@modules/plans';
 import { SubscriptionsModule } from '@modules/subscriptions';
