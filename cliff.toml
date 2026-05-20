@@ -21,12 +21,6 @@ body = """
 {% if user != "chitrank2050" %} by {% if user is ending_with("[bot]") %}[{{ user }}](https://github.com/apps/{{ user | split(pat="[") | first }}){% else %}[@{{ user }}](https://github.com/{{ user }}){% endif %}{% endif %}\
 {% endfor %}
 {% endfor %}\
-{% if github.contributors | length > 0 %}
-### 👥 Contributors
-{% for contributor in github.contributors %}
-- [@{{ contributor.username }}](https://github.com/{{ contributor.username }})
-{%- endfor %}
-{% endif %}\
 """
 # remove the leading and trailing whitespace from the template
 trim = true
