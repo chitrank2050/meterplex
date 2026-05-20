@@ -50,9 +50,7 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": [
-      "vitest/globals"
-    ],
+    "types": ["vitest/globals"],
     /* --- Path aliases ---
      * Without:  import { Something } from '../../../common/filters/something';
      * With:     import { Something } from '@common/filters/something';
@@ -62,21 +60,11 @@
      */
     "baseUrl": "./",
     "paths": {
-      "@common/*": [
-        "src/common/*"
-      ],
-      "@config/*": [
-        "src/config/*"
-      ],
-      "@infra/*": [
-        "src/infra/*"
-      ],
-      "@modules/*": [
-        "src/modules/*"
-      ],
-      "@app-prisma/*": [
-        "src/prisma/*"
-      ]
+      "@common/*": ["src/common/*"],
+      "@config/*": ["src/config/*"],
+      "@infra/*": ["src/infra/*"],
+      "@modules/*": ["src/modules/*"],
+      "@app-prisma/*": ["src/prisma/*"]
     },
     "skipLibCheck": true
   },
@@ -94,8 +82,5 @@
     "scripts/**/*",
     "scripts/**/*.mjs"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

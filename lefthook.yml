@@ -2,6 +2,8 @@
 # Replaces Husky + lint-staged.
 # Docs: https://lefthook.dev/configuration/
 
+glob_matcher: doublestar
+
 # ─── pre-commit ──────────────────────────────────────────────
 # Runs in sequence: secrets scan first, then per-file linting.
 pre-commit:

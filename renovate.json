@@ -9,26 +9,12 @@
     "mergeConfidence:all-badges",
     "helpers:pinGitHubActionDigests"
   ],
-  "labels": [
-    "dependencies",
-    "renovate"
-  ],
-  "assignees": [
-    "chitrank2050"
-  ],
+  "labels": ["dependencies", "renovate"],
+  "assignees": ["chitrank2050"],
   "gitAuthor": "Chitrank Agnihotri <chitrank2050@gmail.com>",
-  "baseBranchPatterns": [
-    "main"
-  ],
-  "schedule": [
-    "every weekend"
-  ],
-  "prBodyColumns": [
-    "Package",
-    "Change",
-    "Age",
-    "Confidence"
-  ],
+  "baseBranchPatterns": ["main"],
+  "schedule": ["every weekend"],
+  "prBodyColumns": ["Package", "Change", "Age", "Confidence"],
   "packageRules": [
     {
       "matchPackageNames": [
@@ -43,25 +29,16 @@
       "groupName": "linting & formatting"
     },
     {
-      "matchPackageNames": [
-        "typescript"
-      ],
+      "matchPackageNames": ["typescript"],
       "groupName": "typescript core",
       "versioning": "npm"
     },
     {
-      "matchPackageNames": [
-        "/@nestjs\//",
-        "@nestjs/cli",
-        "@nestjs/schematics"
-      ],
+      "matchPackageNames": ["/@nestjs\//", "@nestjs/cli", "@nestjs/schematics"],
       "groupName": "nestjs ecosystem"
     },
     {
-      "matchPackageNames": [
-        "prisma",
-        "/@prisma\//"
-      ],
+      "matchPackageNames": ["prisma", "/@prisma\//"],
       "groupName": "prisma & database"
     },
     {
@@ -74,31 +51,19 @@
       "groupName": "testing ecosystem"
     },
     {
-      "matchPackageNames": [
-        "/@types\//"
-      ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
+      "matchPackageNames": ["/@types\//"],
+      "matchUpdateTypes": ["patch", "minor"],
       "groupName": "definitely typed (non-major)",
       "automerge": true
     },
     {
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
-      "matchPackageNames": [
-        "*"
-      ],
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchPackageNames": ["*"],
       "groupName": "non-major dependencies",
       "automerge": true
     },
     {
-      "matchManagers": [
-        "github-actions"
-      ],
+      "matchManagers": ["github-actions"],
       "groupName": "github-actions dependencies",
       "pinDigests": true
     }
@@ -108,10 +73,7 @@
   },
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": [
-      "security",
-      "vulnerability"
-    ]
+    "labels": ["security", "vulnerability"]
   },
   "osvVulnerabilityAlerts": true,
   "dependencyDashboard": true,
@@ -124,16 +86,8 @@
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageAction": "Update",
   "ignoreDeps": [],
-  "ignorePaths": [
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/build/**"
-  ],
-  "enabledManagers": [
-    "npm",
-    "dockerfile",
-    "github-actions"
-  ],
+  "ignorePaths": ["**/node_modules/**", "**/dist/**", "**/build/**"],
+  "enabledManagers": ["npm", "dockerfile", "github-actions"],
   "npmrc": "auto-detect",
   "updateNotScheduled": false,
   "rangeStrategy": "bump"
