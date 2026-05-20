@@ -1565,3 +1565,20 @@ model BillingLedgerEntry {
   @@index([createdAt])
   @@map("billing_ledger_entries")
 }
+
+// =============================================================
+// InvoiceSequence - Counter for sequential invoice numbers.
+//
+// One row per year. Atomically incremented via upsert.
+// Ensures globally unique, gap-free invoice numbers.
+// =============================================================
+
+model InvoiceSequence {
+  /// Year this sequence covers. Primary key.
+  year Int @id
+
+  /// Last assigned sequence number for this year.
+  lastValue Int @default(0) @map("last_value")
+
+  @@map("invoice_sequences")
+}

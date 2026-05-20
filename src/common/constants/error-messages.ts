@@ -152,4 +152,13 @@ export const ERRORS = {
     TIMESTAMP_TOO_OLD: 'Event timestamp is too old (max 7 days)',
     DUPLICATE_EVENT_ID: 'Event with this eventId already exists',
   },
+  /**
+   * Invoice related error messages
+   */
+  INVOICE: {
+    NOT_FOUND: 'Invoice not found or does not belong to this tenant',
+    INVALID_TRANSITION: (from: string, to: string) =>
+      `Cannot transition invoice from ${from} to ${to}`,
+    ALREADY_EXISTS: 'Invoice already exists for this billing period',
+  },
 } as const;
