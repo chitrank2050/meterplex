@@ -1,7 +1,7 @@
 /**
  * RedisModule - Global Redis connection.
  *
- * Same pattern as PrismaModule and KafkaModule:
+ * Same pattern as PrismaModule and MessagingModule:
  * Global singleton, available everywhere without explicit imports.
  */
 import { Global, Module } from '@nestjs/common';

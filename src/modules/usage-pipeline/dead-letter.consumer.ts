@@ -22,12 +22,11 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '@app-prisma/prisma.service';
-
 import {
   KAFKA_CONSUMER_GROUPS,
   KAFKA_TOPICS,
   KafkaConsumerBase,
-} from '@modules/kafka';
+} from 'src/infra/messaging';
 
 import { Prisma } from '@prisma/client';
 

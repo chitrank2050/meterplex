@@ -1,4 +1,4 @@
-export { KafkaModule } from './kafka.module';
+export { MessagingModule } from './messaging.module';
 export { KafkaProducerService } from './kafka-producer.service';
 export { KafkaConsumerBase } from './kafka-consumer.base';
 export {

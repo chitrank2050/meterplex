@@ -21,13 +21,13 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '@app-prisma/prisma.service';
-
 import {
   KAFKA_CONSUMER_GROUPS,
   KAFKA_TOPICS,
   KafkaConsumerBase,
   KafkaProducerService,
-} from '@modules/kafka';
+} from 'src/infra/messaging';
+
 import { RedisService } from '@modules/redis';
 
 /** Shape of a validated usage event from the validation consumer. */

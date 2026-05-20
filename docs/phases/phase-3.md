@@ -160,7 +160,7 @@ Per-event statuses: `accepted`, `duplicate`, `rejected`.
 
 | Component           | Technology        | Purpose                                          |
 | :------------------ | :---------------- | :----------------------------------------------- |
-| KafkaModule         | kafkajs           | Producer service, consumer base class            |
+| MessagingModule     | kafkajs           | Producer service, consumer base class            |
 | RedisModule         | ioredis           | Cache, atomic counters, dedup keys               |
 | OutboxModule        | @nestjs/schedule  | 1s polling, SKIP LOCKED, exponential backoff     |
 | UsagePipelineModule | KafkaConsumerBase | Validation + Aggregation + Dead Letter consumers |
