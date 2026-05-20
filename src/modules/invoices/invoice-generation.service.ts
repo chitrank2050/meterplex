@@ -2,8 +2,8 @@
  * InvoiceGenerationService - Turns usage aggregates into invoices.
  *
  * Two generation modes:
- *   generate() — Full-period invoice (normal billing cycle close)
- *   generateProrated() — Partial-period invoice (mid-cycle cancellation)
+ *   generate() - Full-period invoice (normal billing cycle close)
+ *   generateProrated() - Partial-period invoice (mid-cycle cancellation)
  *
  * Full-period flow:
  *   1. Creates a DRAFT invoice
@@ -187,7 +187,7 @@ export class InvoiceGenerationService {
    * The base fee is multiplied by the proration factor:
    *   30-day period, cancelled on day 15 → base fee × 0.5
    *
-   * Usage-based charges (overage) are NOT prorated — the tenant
+   * Usage-based charges (overage) are NOT prorated - the tenant
    * is billed for exactly what they used, regardless of when
    * they cancelled. Only the base subscription fee is prorated.
    *
@@ -251,7 +251,7 @@ export class InvoiceGenerationService {
     );
 
     lineItems.push({
-      description: `${plan.name} plan — ${price.interval.toLowerCase()} (prorated: ${daysUsed}/${totalDays} days)`,
+      description: `${plan.name} plan - ${price.interval.toLowerCase()} (prorated: ${daysUsed}/${totalDays} days)`,
       featureLookupKey: null,
       quantity: 1,
       unitPriceMicroCents: proratedAmount * 10000,
@@ -259,7 +259,7 @@ export class InvoiceGenerationService {
       sortOrder: 0,
     });
 
-    // Usage-based line items — NOT prorated, billed for actual usage
+    // Usage-based line items - NOT prorated, billed for actual usage
     let sortOrder = 1;
     for (const snapshot of snapshots) {
       if (snapshot.featureType === 'BOOLEAN') continue;
@@ -306,7 +306,7 @@ export class InvoiceGenerationService {
           total,
           periodStart,
           periodEnd: cancelledAt, // Prorated period ends at cancellation
-          notes: `Prorated invoice — cancelled on ${cancelledAt.toISOString().split('T')[0]} (${daysUsed}/${totalDays} days used)`,
+          notes: `Prorated invoice - cancelled on ${cancelledAt.toISOString().split('T')[0]} (${daysUsed}/${totalDays} days used)`,
         },
       });
 
