@@ -8,7 +8,7 @@ The billing system turns usage aggregates into money. It generates invoices, tra
 
 Phase 3 answers "how much did Acme use?" Phase 4 answers "how much does Acme owe?"
 
-Without a billing layer, Meterplex knows Acme used 35,000 API calls but can't tell them they owe $99 (base fee, no overage since they're under the 50,000 limit). The billing ledger is the financial source of truth — every dollar in, every dollar out, traceable to a source document.
+Without a billing layer, Meterplex knows Acme used 35,000 API calls but can't tell them they owe $99 (base fee, no overage since they're under the 50,000 limit). The billing ledger is the financial source of truth - every dollar in, every dollar out, traceable to a source document.
 
 ---
 
@@ -273,9 +273,9 @@ Positive balance = tenant owes money. Negative balance = tenant has credit (over
 
 Ledger entries have:
 
-- `created_at` — when the entry was created
-- No `updated_at` — entries are never modified
-- No delete method — entries are never removed
+- `created_at` - when the entry was created
+- No `updated_at` - entries are never modified
+- No delete method - entries are never removed
 
 To correct a mistake: add an ADJUSTMENT entry. The original wrong entry stays for audit trail.
 
@@ -332,12 +332,12 @@ Same endpoint, auto-detected when `subscription.cancelledAt < currentPeriodEnd`:
    Billed for actual consumption regardless of cancellation date
 
 4. Invoice period_end set to cancelledAt (not original period end)
-5. Notes: "Prorated invoice — cancelled on 2026-05-20 (7/31 days used)"
+5. Notes: "Prorated invoice - cancelled on 2026-05-20 (7/31 days used)"
 ```
 
 ### Why usage is not prorated
 
-If a tenant uses 950 API calls in 7 days and cancels, they owe for 950 calls — not `950 × (7/31) = 215 calls`. They actually consumed those resources. The base fee covers the right to access the platform; usage charges cover actual consumption.
+If a tenant uses 950 API calls in 7 days and cancels, they owe for 950 calls - not `950 × (7/31) = 215 calls`. They actually consumed those resources. The base fee covers the right to access the platform; usage charges cover actual consumption.
 
 This matches how AWS, GCP, and Stripe handle prorated billing: subscription fees are prorated, usage charges are not.
 
@@ -382,7 +382,7 @@ for (const subscription of billable) {
   } catch (error) {
     failed++;
     logger.error(`Failed to bill ${subscription.id}: ${error.message}`);
-    // Continue to next — don't block other tenants
+    // Continue to next - don't block other tenants
   }
 }
 ```
