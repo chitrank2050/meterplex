@@ -80,6 +80,7 @@ nav:
       - Audit Log: architecture/audit-log.md
       - Plans & Entitlements: architecture/phase-2-plans-and-entitlements.md
       - Usage Event Pipeline: architecture/phase-3-usage-event-pipeline.md
+      - Billing & Invoices: architecture/phase-4-billing-ledger.md
   - Development:
       - Setup Guide: development/setup.md
   - API Reference:
