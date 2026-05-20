@@ -16,6 +16,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -34,6 +35,7 @@ import {
 
 import { PrismaService } from '@app-prisma/prisma.service';
 
+import { ERRORS } from '@common/constants';
 import { Roles, TenantId } from '@common/decorators';
 import { ErrorResponseDto } from '@common/dto';
 import { RolesGuard, TenantGuard } from '@common/guards';
@@ -142,7 +144,7 @@ export class InvoicesController {
     });
 
     if (!invoice) {
-      return { statusCode: 404, message: 'Invoice not found' };
+      throw new NotFoundException(ERRORS.INVOICE.NOT_FOUND);
     }
 
     const lineItems = await this.prisma.invoiceLineItem.findMany({
@@ -178,7 +180,7 @@ export class InvoicesController {
     });
 
     if (!invoice) {
-      return { statusCode: 404, message: 'Invoice not found' };
+      throw new NotFoundException(ERRORS.INVOICE.NOT_FOUND);
     }
 
     return invoice;
