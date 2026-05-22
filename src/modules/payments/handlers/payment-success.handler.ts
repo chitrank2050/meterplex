@@ -8,6 +8,13 @@
  *   4. Advance the subscription to the next billing period
  *
  * Idempotent: if invoice is already PAID, skip silently.
+ *
+ * Transaction note: markPaid uses its own Prisma transaction internally.
+ * advancePeriod is a separate call — if it fails, the invoice is still
+ * PAID (correct state) and the billing cron catches un-advanced periods
+ * on the next daily tick. This is an acceptable trade-off vs forcing
+ * all operations into a single transaction (which would require
+ * refactoring markPaid to accept a transaction client).
  */
 import { Injectable, Logger } from '@nestjs/common';
 
@@ -82,20 +89,29 @@ export class PaymentSuccessHandler {
     );
 
     // Advance subscription to next billing period
-    const subscription = await this.prisma.subscription.findUnique({
-      where: { id: attempt.invoice.subscriptionId },
-      select: {
-        id: true,
-        currentPeriodEnd: true,
-        price: { select: { interval: true } },
-      },
-    });
+    // Wrapped in try/catch — if this fails, invoice is still PAID (correct)
+    // and the billing cron will catch the un-advanced period on the next tick.
+    try {
+      const subscription = await this.prisma.subscription.findUnique({
+        where: { id: attempt.invoice.subscriptionId },
+        select: {
+          id: true,
+          currentPeriodEnd: true,
+          price: { select: { interval: true } },
+        },
+      });
 
-    if (subscription) {
-      await this.billingPeriod.advancePeriod(
-        subscription.id,
-        subscription.currentPeriodEnd,
-        subscription.price.interval,
+      if (subscription) {
+        await this.billingPeriod.advancePeriod(
+          subscription.id,
+          subscription.currentPeriodEnd,
+          subscription.price.interval,
+        );
+      }
+    } catch (error) {
+      // Non-critical: billing cron retries un-advanced periods daily
+      this.logger.error(
+        `Failed to advance period for invoice ${attempt.invoice.invoiceNumber}: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
 
