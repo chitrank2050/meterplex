@@ -203,6 +203,11 @@ async function bootstrap(): Promise<void> {
         'Draft generation, lifecycle, and invoice item details',
       )
       .addTag('Billing', 'Tenant double-entry ledger and balance querying')
+      .addTag('Payments', 'Payment processing and invoice payment attempts')
+      .addTag(
+        'Webhooks',
+        'Payment provider webhook events (Stripe, fake, etc.)',
+      )
       .addTag('Health', 'System uptime and dependency checks')
       .build();
 

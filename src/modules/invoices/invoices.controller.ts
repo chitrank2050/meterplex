@@ -301,7 +301,7 @@ export class InvoicesController {
   ) {
     const result = await this.invoiceLifecycle.finalize(id, tenantId);
 
-    // Create payment intent — fire-and-forget (don't block the response)
+    // Create payment intent - fire-and-forget (don't block the response)
     this.paymentIntentService
       .createForInvoice(id, tenantId, result.total, result.currency)
       .then((attempt) => {

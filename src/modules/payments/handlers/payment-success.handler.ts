@@ -10,7 +10,7 @@
  * Idempotent: if invoice is already PAID, skip silently.
  *
  * Transaction note: markPaid uses its own Prisma transaction internally.
- * advancePeriod is a separate call — if it fails, the invoice is still
+ * advancePeriod is a separate call - if it fails, the invoice is still
  * PAID (correct state) and the billing cron catches un-advanced periods
  * on the next daily tick. This is an acceptable trade-off vs forcing
  * all operations into a single transaction (which would require
@@ -89,7 +89,7 @@ export class PaymentSuccessHandler {
     );
 
     // Advance subscription to next billing period
-    // Wrapped in try/catch — if this fails, invoice is still PAID (correct)
+    // Wrapped in try/catch - if this fails, invoice is still PAID (correct)
     // and the billing cron will catch the un-advanced period on the next tick.
     try {
       const subscription = await this.prisma.subscription.findUnique({
