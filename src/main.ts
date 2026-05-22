@@ -36,6 +36,7 @@ async function bootstrap(): Promise<void> {
 
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger(getWinstonConfig(ENV)),
+    rawBody: true,
   });
 
   // =============================================================
