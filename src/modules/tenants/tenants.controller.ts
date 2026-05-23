@@ -270,6 +270,7 @@ export class TenantsController {
     if (id !== tenantId) {
       throw new ForbiddenException(ERRORS.TENANT.ID_MISMATCH);
     }
+
     return this.tenantsService.update(id, dto);
   }
 
@@ -308,7 +309,14 @@ export class TenantsController {
     description: 'Tenant not found',
     type: ErrorResponseDto,
   })
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @TenantId() tenantId: string,
+  ) {
+    if (id !== tenantId) {
+      throw new ForbiddenException(ERRORS.TENANT.ID_MISMATCH);
+    }
+
     return this.tenantsService.remove(id);
   }
 }
