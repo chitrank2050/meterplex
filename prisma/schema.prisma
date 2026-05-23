@@ -131,6 +131,10 @@ model User {
   /// Soft-disable flag. Set to false to block login without deleting data.
   isActive Boolean @default(true) @map("is_active")
 
+  /// Platform-level admin flag. Grants access to global catalog mutations
+  /// (plans, features, entitlements, prices). Default false.
+  isPlatformAdmin Boolean @default(false) @map("is_platform_admin")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

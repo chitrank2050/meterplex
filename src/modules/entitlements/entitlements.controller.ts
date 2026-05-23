@@ -10,7 +10,6 @@
  *   PATCH  /api/v1/plans/:planId/entitlements/:id   → Update entitlement rules
  *   DELETE /api/v1/plans/:planId/entitlements/:id   → Remove feature from plan
  */
-// TODO: Add platform admin guard
 import {
   Body,
   Controller,
@@ -33,6 +32,7 @@ import {
 } from '@nestjs/swagger';
 
 import { ErrorResponseDto } from '@common/dto';
+import { PlatformAdminGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
@@ -59,7 +59,7 @@ export class EntitlementsController {
    * The request shape depends on the feature type (BOOLEAN/QUOTA/METERED).
    */
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Add a feature to a plan with access rules' })
@@ -151,7 +151,7 @@ export class EntitlementsController {
    * Changes do NOT affect existing subscribers (they use snapshots).
    */
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update entitlement access rules' })
   @ApiParam({ name: 'planId', description: 'Plan UUID' })
@@ -191,7 +191,7 @@ export class EntitlementsController {
    * just mappings. Existing subscribers are NOT affected.
    */
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Remove a feature from a plan' })
   @ApiParam({ name: 'planId', description: 'Plan UUID' })

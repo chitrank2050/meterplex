@@ -14,14 +14,13 @@
  * Authorization:
  *   - Creating and updating plans requires authentication (JWT).
  *   - Reading plans is public (no authentication required for basic listing).
- *   - TODO: Implement PlatformAdminGuard to restrict modification to platform owners.
+ *   - PlatformAdminGuard to restrict modification to platform owners.
  *
  * Response strategy:
  *   The service layer handles field filtering via Prisma select.
  *   Plans include active prices by default (no separate fetch needed).
  *   Response DTOs exist purely for Swagger documentation.
  */
-// TODO: Implement PlatformAdminGuard to restrict modification to platform owners.
 import {
   Body,
   Controller,
@@ -45,6 +44,7 @@ import {
 } from '@nestjs/swagger';
 
 import { ErrorResponseDto } from '@common/dto';
+import { PlatformAdminGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
@@ -76,7 +76,7 @@ export class PlansController {
    * Protected: requires JWT authentication.
    */
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new billing plan (Authenticated Users)' })
@@ -188,7 +188,7 @@ export class PlansController {
    * Protected: requires JWT authentication.
    */
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a plan (Authenticated Users)' })
   @ApiParam({ name: 'id', description: 'Plan UUID' })

@@ -48,6 +48,7 @@ const USER_SELECT = {
   firstName: true,
   lastName: true,
   isActive: true,
+  isPlatformAdmin: true,
   createdAt: true,
   updatedAt: true,
 } as const;
