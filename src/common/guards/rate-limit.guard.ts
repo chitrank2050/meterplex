@@ -117,11 +117,7 @@ export class RateLimitGuard implements CanActivate {
         response.setHeader('Retry-After', Math.max(1, retryAfter));
 
         throw new HttpException(
-          {
-            statusCode: HttpStatus.TOO_MANY_REQUESTS,
-            message: `Rate limit exceeded. Retry after ${Math.max(1, retryAfter)} seconds.`,
-            error: 'Too Many Requests',
-          },
+          `Rate limit exceeded. Retry after ${Math.max(1, retryAfter)} seconds.`,
           HttpStatus.TOO_MANY_REQUESTS,
         );
       }
