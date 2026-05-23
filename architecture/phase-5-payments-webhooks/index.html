@@ -926,7 +926,7 @@
   <a href="#webhooks-no-auth-signature-is-the-auth" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Webhooks (no auth — signature is the auth)
+        Webhooks (no auth - signature is the auth)
       
     </span>
   </a>
@@ -2049,7 +2049,7 @@
   <a href="#webhooks-no-auth-signature-is-the-auth" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Webhooks (no auth — signature is the auth)
+        Webhooks (no auth - signature is the auth)
       
     </span>
   </a>
@@ -2177,7 +2177,7 @@
 <p>The payment system collects money for invoices. It integrates with payment providers via an adapter pattern, processes webhook events idempotently, and handles failure retries with exponential backoff.</p>
 <hr />
 <h2 id="why-this-exists">Why this exists<a class="headerlink" href="#why-this-exists" title="Permanent link">&para;</a></h2>
-<p>Phase 4 generates invoices and tracks what tenants owe. But <code>mark-paid</code> was manual — someone had to call an endpoint to confirm payment. Phase 5 automates this: finalize an invoice → create a payment intent → provider charges the card → webhook confirms → invoice marked PAID → billing period advances.</p>
+<p>Phase 4 generates invoices and tracks what tenants owe. But <code>mark-paid</code> was manual - someone had to call an endpoint to confirm payment. Phase 5 automates this: finalize an invoice → create a payment intent → provider charges the card → webhook confirms → invoice marked PAID → billing period advances.</p>
 <hr />
 <h2 id="schema-overview">Schema overview<a class="headerlink" href="#schema-overview" title="Permanent link">&para;</a></h2>
 <p>Two new tables:</p>
@@ -2220,7 +2220,7 @@
 <ul>
 <li><strong>Invoice → PaymentAttempts:</strong> one-to-many. One invoice can have multiple attempts (retries after failure).</li>
 <li><strong>Tenant → PaymentAttempts:</strong> one-to-many. Denormalized <code>tenant_id</code> for filtering without JOIN.</li>
-<li><strong>WebhookEvents:</strong> standalone. Not FK'd to anything — the provider event ID is the deduplication key.</li>
+<li><strong>WebhookEvents:</strong> standalone. Not FK'd to anything - the provider event ID is the deduplication key.</li>
 </ul>
 <hr />
 <h2 id="payment-adapter-pattern">Payment adapter pattern<a class="headerlink" href="#payment-adapter-pattern" title="Permanent link">&para;</a></h2>
@@ -2258,7 +2258,7 @@
 </tr>
 </tbody>
 </table>
-<p>The adapter is injected via <code>PAYMENT_PROVIDER</code> token. Swapping providers requires zero code changes — just change the env var.</p>
+<p>The adapter is injected via <code>PAYMENT_PROVIDER</code> token. Swapping providers requires zero code changes - just change the env var.</p>
 <h3 id="why-an-adapter-and-not-direct-stripe-calls">Why an adapter and not direct Stripe calls<a class="headerlink" href="#why-an-adapter-and-not-direct-stripe-calls" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Testing:</strong> fake adapter runs in CI without Stripe credentials.</li>
@@ -2321,7 +2321,7 @@
 </ol>
 <h3 id="how-meterplex-handles-each">How Meterplex handles each<a class="headerlink" href="#how-meterplex-handles-each" title="Permanent link">&para;</a></h3>
 <p><strong>Duplicates:</strong> The <code>provider_event_id</code> column on <code>webhook_events</code> has a UNIQUE constraint. Before processing, we check if the event already exists. If it does and status is PROCESSED, skip. This is the deduplication gate.</p>
-<p><strong>Out-of-order:</strong> The <code>PaymentSuccessHandler</code> looks up the payment attempt by <code>provider_payment_id</code>. If the attempt doesn't exist yet (race condition), the handler logs a warning and returns — the event is marked PROCESSED to prevent retries. The payment attempt creation will handle the success state independently since the fake adapter returns the final status synchronously.</p>
+<p><strong>Out-of-order:</strong> The <code>PaymentSuccessHandler</code> looks up the payment attempt by <code>provider_payment_id</code>. If the attempt doesn't exist yet (race condition), the handler logs a warning and returns - the event is marked PROCESSED to prevent retries. The payment attempt creation will handle the success state independently since the fake adapter returns the final status synchronously.</p>
 <p><strong>Timeouts:</strong> The webhook endpoint returns 200 immediately, then processes asynchronously. The provider sees success and doesn't retry. Processing happens in the background.</p>
 <h3 id="webhook-processing-flow">Webhook processing flow<a class="headerlink" href="#webhook-processing-flow" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST /api/v1/webhooks/stripe
@@ -2360,7 +2360,7 @@
 </code></pre></div>
 <hr />
 <h2 id="api-endpoints">API endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
-<h3 id="webhooks-no-auth-signature-is-the-auth">Webhooks (no auth — signature is the auth)<a class="headerlink" href="#webhooks-no-auth-signature-is-the-auth" title="Permanent link">&para;</a></h3>
+<h3 id="webhooks-no-auth-signature-is-the-auth">Webhooks (no auth - signature is the auth)<a class="headerlink" href="#webhooks-no-auth-signature-is-the-auth" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>

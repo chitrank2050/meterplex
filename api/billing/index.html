@@ -2108,7 +2108,7 @@
 
 
 <h1 id="billing-api">Billing API<a class="headerlink" href="#billing-api" title="Permanent link">&para;</a></h1>
-<p>The Billing API provides access to ledger entries, balance, and payment history. All endpoints are tenant-scoped — they require a valid JWT and <code>x-tenant-id</code> header.</p>
+<p>The Billing API provides access to ledger entries, balance, and payment history. All endpoints are tenant-scoped - they require a valid JWT and <code>x-tenant-id</code> header.</p>
 <hr />
 <h2 id="get-billing-ledger">Get Billing Ledger<a class="headerlink" href="#get-billing-ledger" title="Permanent link">&para;</a></h2>
 <p>Returns paginated ledger entries for the tenant, newest first.</p>
@@ -2139,7 +2139,7 @@
 <tr>
 <td style="text-align: left;"><code>type</code></td>
 <td style="text-align: left;">string</td>
-<td style="text-align: left;">—</td>
+<td style="text-align: left;">-</td>
 <td style="text-align: left;">Filter by type: CHARGE, PAYMENT, CREDIT, REFUND, ADJUSTMENT</td>
 </tr>
 </tbody>
@@ -2209,7 +2209,7 @@
 <tr>
 <td style="text-align: left;"><code>status</code></td>
 <td style="text-align: left;">string</td>
-<td style="text-align: left;">—</td>
+<td style="text-align: left;">-</td>
 <td style="text-align: left;">Filter: PENDING, SUCCEEDED, FAILED, CANCELLED, REQUIRES_ACTION</td>
 </tr>
 </tbody>
@@ -2297,7 +2297,7 @@
 </table>
 <hr />
 <h2 id="webhook-endpoints">Webhook Endpoints<a class="headerlink" href="#webhook-endpoints" title="Permanent link">&para;</a></h2>
-<p>These endpoints receive events from payment providers. They have NO authentication guard — the provider's signature is the authentication.</p>
+<p>These endpoints receive events from payment providers. They have NO authentication guard - the provider's signature is the authentication.</p>
 <h3 id="stripe-webhook">Stripe Webhook<a class="headerlink" href="#stripe-webhook" title="Permanent link">&para;</a></h3>
 <p><strong>Endpoint:</strong> <code>POST /api/v1/webhooks/stripe</code></p>
 <p>Requires <code>stripe-signature</code> header. Returns 200 immediately; processes asynchronously.</p>
