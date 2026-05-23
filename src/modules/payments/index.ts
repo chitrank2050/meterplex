@@ -15,4 +15,4 @@ export {
   PaymentAttemptResponseDto,
   PaymentAttemptListResponseDto,
 } from './dto';
-// export { WebhookEventResponseDto } from './dto';
+export { WebhookEventResponseDto } from './dto';
