@@ -6,12 +6,13 @@
  *   GET    /api/v1/plans/:planId/prices        → List prices
  *   PATCH  /api/v1/plans/:planId/prices/:id    → Deactivate a price
  *
+ * - All routes are protected and require authentication (JWT).
+ * - PlatformAdminGuard is required for all routes except GET /plans/:planId/prices.
+ *
  * Nested routing follows REST conventions for sub-resources.
  * The planId in the URL ensures prices are always accessed
  * in the context of their parent plan.
  */
-// TODO: Add platform admin guard (isPlatformAdmin on User model)
-// Currently any authenticated user can create/modify prices.
 import {
   Body,
   Controller,
@@ -35,6 +36,7 @@ import {
 } from '@nestjs/swagger';
 
 import { ErrorResponseDto } from '@common/dto';
+import { PlatformAdminGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
@@ -60,7 +62,7 @@ export class PlanPricesController {
    * unit (cents for USD). One active price per (plan, interval, currency).
    */
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Add a price to a plan' })
@@ -136,7 +138,7 @@ export class PlanPricesController {
    * Existing subscriptions using this price are NOT affected.
    */
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Deactivate a price' })
   @ApiParam({ name: 'planId', description: 'Plan UUID' })

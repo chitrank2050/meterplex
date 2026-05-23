@@ -39,6 +39,7 @@ import {
 } from '@nestjs/swagger';
 
 import { ErrorResponseDto } from '@common/dto';
+import { PlatformAdminGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
@@ -67,7 +68,7 @@ export class FeaturesController {
    * Protected: requires JWT authentication.
    */
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new feature' })
@@ -174,7 +175,7 @@ export class FeaturesController {
    * Protected: requires JWT authentication.
    */
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PlatformAdminGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update a feature (lookup_key and type are immutable)',
