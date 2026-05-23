@@ -23,7 +23,9 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
+  Headers,
   HttpCode,
   HttpStatus,
   Param,
@@ -41,6 +43,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { ERRORS } from '@common/constants';
 import { CurrentUser, Roles, TenantId } from '@common/decorators';
 import { ErrorResponseDto } from '@common/dto';
 import { RolesGuard, TenantGuard } from '@common/guards';
@@ -177,25 +180,34 @@ export class UsersController {
   /**
    * PATCH /api/v1/users/:id
    *
-   * Updates a user's profile. Users can update their own profile.
-   * OWNER and ADMIN can update other users' profiles within
-   * their tenant (e.g., disabling an account with isActive: false).
+   * Updates a user's profile with authorization:
+   *   - Self-update: user can always update their own profile
+   *   - Admin-in-tenant: OWNER/ADMIN of a shared tenant can update
+   *     members of that tenant (requires x-tenant-id header)
+   *   - isActive changes require OWNER role in a shared tenant
    *
-   * TODO: Add authorization check - currently any authenticated user
-   * can update any profile. In Phase 2, add ownership check:
-   * "is this my profile OR am I an ADMIN in a shared tenant?"
-   *
-   * Guard chain: JwtAuthGuard only (ownership check TODO).
+   * Guard chain: JwtAuthGuard only (authorization logic is inline
+   * because the rules differ based on self vs admin context).
    */
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @ApiHeader({
+    name: 'x-tenant-id',
+    description: 'Tenant UUID (required when updating another user)',
+    required: false,
+  })
   @ApiOperation({ summary: 'Update user profile' })
   @ApiParam({ name: 'id', description: 'User UUID' })
   @ApiResponse({
     status: 200,
     description: 'User updated',
     type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Not authorized to update this user',
+    type: ErrorResponseDto,
   })
   @ApiResponse({
     status: 404,
@@ -209,8 +221,31 @@ export class UsersController {
   })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser('id') currentUserId: string,
+    @Headers('x-tenant-id') tenantId: string | undefined,
     @Body() dto: UpdateUserDto,
   ) {
+    // Self-update: always allowed (but not isActive on yourself)
+    if (id === currentUserId) {
+      if (dto.isActive !== undefined) {
+        throw new ForbiddenException(ERRORS.USER.CANNOT_DEACTIVATE_SELF);
+      }
+      return this.usersService.update(id, dto);
+    }
+
+    // Admin update: requires tenant context
+    if (!tenantId) {
+      throw new ForbiddenException(ERRORS.USER.UPDATE_REQUIRES_TENANT);
+    }
+
+    // Verify caller is OWNER or ADMIN in this tenant, and target is also a member
+    await this.usersService.assertCallerCanUpdateUser(
+      currentUserId,
+      id,
+      tenantId,
+      dto,
+    );
+
     return this.usersService.update(id, dto);
   }
 }
