@@ -34,6 +34,7 @@ import {
 import type { Request } from 'express';
 
 import { ErrorResponseDto } from '@common/dto';
+import { RATE_LIMITS, RateLimit } from '@common/guards';
 
 import { ApiKeyAuthGuard } from '@modules/api-keys/guards/api-key-auth.guard';
 
@@ -65,6 +66,7 @@ export class UsageEventsController {
    *   rejected  - validation failed, reason provided
    */
   @Post()
+  @RateLimit(RATE_LIMITS.USAGE)
   @UseGuards(ApiKeyAuthGuard)
   @ApiBearerAuth()
   @ApiHeader({

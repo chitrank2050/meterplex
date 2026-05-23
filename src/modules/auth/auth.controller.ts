@@ -38,6 +38,7 @@ import {
 } from '@nestjs/swagger';
 
 import { ErrorResponseDto } from '@common/dto';
+import { RATE_LIMITS, RateLimit } from '@common/guards';
 
 import { AuthService } from './auth.service';
 import {
@@ -86,6 +87,7 @@ export class AuthController {
    * logged in after registration.
    */
   @Post('register')
+  @RateLimit(RATE_LIMITS.AUTH_STRICT)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Register a new user and tenant' })
   @ApiResponse({
@@ -115,6 +117,7 @@ export class AuthController {
    * Same error for wrong email and wrong password (anti-enumeration).
    */
   @Post('login')
+  @RateLimit(RATE_LIMITS.AUTH)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login with email and password' })
   @ApiResponse({
@@ -170,6 +173,7 @@ export class AuthController {
    * This prevents attackers from discovering registered emails.
    */
   @Post('forgot-password')
+  @RateLimit(RATE_LIMITS.AUTH_STRICT)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Request a password reset token' })
   @ApiResponse({

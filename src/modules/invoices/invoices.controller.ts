@@ -39,7 +39,12 @@ import { PrismaService } from '@app-prisma/prisma.service';
 import { ERRORS } from '@common/constants';
 import { Roles, TenantId } from '@common/decorators';
 import { ErrorResponseDto } from '@common/dto';
-import { RolesGuard, TenantGuard } from '@common/guards';
+import {
+  RATE_LIMITS,
+  RateLimit,
+  RolesGuard,
+  TenantGuard,
+} from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { PaymentIntentService } from '@modules/payments/payment-intent.service';
@@ -220,6 +225,7 @@ export class InvoicesController {
    * OWNER/ADMIN only.
    */
   @Post('generate')
+  @RateLimit(RATE_LIMITS.INVOICE)
   @UseGuards(JwtAuthGuard, TenantGuard, RolesGuard)
   @Roles(MembershipRole.OWNER, MembershipRole.ADMIN)
   @ApiBearerAuth()
