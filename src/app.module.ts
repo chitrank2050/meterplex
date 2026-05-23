@@ -8,7 +8,10 @@
  *   4. Feature modules - tenants, billing, usage, etc.
  */
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
+
+import { RateLimitGuard } from '@common/guards';
 
 import { CacheModule } from '@infra/cache';
 import { MessagingModule } from '@infra/messaging';
@@ -77,6 +80,10 @@ import { PrismaModule } from './prisma';
     // Global audit log interceptor - registered here so DI resolves
     // PrismaService and Reflector automatically. Applied globally in main.ts.
     AuditLogInterceptor,
+    {
+      provide: APP_GUARD,
+      useClass: RateLimitGuard,
+    },
   ],
 })
 export class AppModule implements NestModule {
