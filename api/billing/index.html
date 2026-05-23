@@ -12,13 +12,13 @@
         <meta name="author" content="Chitrank Agnihotri">
       
       
-        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/maintenance/ci-cd/">
+        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/api/billing/">
       
       
-        <link rel="prev" href="../../phases/phase-5/">
+        <link rel="prev" href="../api-keys/">
       
       
-        <link rel="next" href="../../code-of-conduct/">
+        <link rel="next" href="../../phases/phase-0/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>CI/CD & Automation - Meterplex</title>
+        <title>Billing - Meterplex</title>
       
     
     
@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cicd-automated-maintenance" class="md-skip">
+        <a href="#billing-api" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +128,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CI/CD & Automation
+              Billing
             
           </span>
         </div>
@@ -295,11 +295,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../api/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
           
   
   
@@ -345,13 +347,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../maintenance/ci-cd/" class="md-tabs__link">
           
   
   
@@ -802,28 +802,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -841,7 +844,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -859,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -887,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/auth/" class="md-nav__link">
+      <a href="../auth/" class="md-nav__link">
         
   
   
@@ -915,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/users/" class="md-nav__link">
+      <a href="../users/" class="md-nav__link">
         
   
   
@@ -943,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/tenants/" class="md-nav__link">
+      <a href="../tenants/" class="md-nav__link">
         
   
   
@@ -971,7 +974,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/plans/" class="md-nav__link">
+      <a href="../plans/" class="md-nav__link">
         
   
   
@@ -999,7 +1002,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/api-keys/" class="md-nav__link">
+      <a href="../api-keys/" class="md-nav__link">
         
   
   
@@ -1024,10 +1027,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../api/billing/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Billing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1043,6 +1073,232 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#get-billing-ledger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Billing Ledger
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get Billing Ledger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Balance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get Balance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#list-payment-attempts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List Payment Attempts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="List Payment Attempts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-payment-attempt-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Payment Attempt Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get Payment Attempt Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#path-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Responses
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhook-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhook Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stripe-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stripe Webhook
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fake-webhook-devtest-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fake Webhook (dev/test only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulating-a-payment-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulating a payment webhook
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1350,31 +1606,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -1392,7 +1645,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1407,37 +1660,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    CI/CD & Automation
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../maintenance/ci-cd/" class="md-nav__link">
         
   
   
@@ -1453,203 +1679,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#security-layers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🛡️ Security Layers
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🛡️ Security Layers">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-egress-control-harden-runner" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Egress Control (Harden Runner)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-openssf-scorecard" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. OpenSSF Scorecard
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-build-provenance-attestations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Build Provenance &amp; Attestations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-access-control-environments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Access Control (Environments)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-secret-scanning-gitleaks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Secret Scanning (Gitleaks)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#6-dependency-auditing-osv-scanner" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Dependency Auditing (OSV-Scanner)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#7-zombie-code-detection-knip" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Zombie Code Detection (Knip)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extreme-performance-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🏎️ Extreme Performance Architecture
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#automated-maintenance-governance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🤖 Automated Maintenance &amp; Governance
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🤖 Automated Maintenance &amp; Governance">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#two-step-automated-releases" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Two-Step Automated Releases 🚀
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dependency-management-renovate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Management (Renovate)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#smart-auto-approval" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Smart Auto-Approval
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#workflow-catalog" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📋 Workflow Catalog
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2027-automation-standards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🏗️ 2027 Automation Standards
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1805,22 +1834,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#security-layers" class="md-nav__link">
+  <a href="#get-billing-ledger" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🛡️ Security Layers
+        Get Billing Ledger
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🛡️ Security Layers">
+    <nav class="md-nav" aria-label="Get Billing Ledger">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-egress-control-harden-runner" class="md-nav__link">
+  <a href="#query-parameters" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Egress Control (Harden Runner)
+        Query Parameters
       
     </span>
   </a>
@@ -1828,65 +1857,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-openssf-scorecard" class="md-nav__link">
+  <a href="#response" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. OpenSSF Scorecard
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-build-provenance-attestations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Build Provenance &amp; Attestations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-access-control-environments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Access Control (Environments)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-secret-scanning-gitleaks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Secret Scanning (Gitleaks)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#6-dependency-auditing-osv-scanner" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Dependency Auditing (OSV-Scanner)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#7-zombie-code-detection-knip" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Zombie Code Detection (Knip)
+        Response
       
     </span>
   </a>
@@ -1899,55 +1873,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extreme-performance-architecture" class="md-nav__link">
+  <a href="#get-balance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏎️ Extreme Performance Architecture
+        Get Balance
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#automated-maintenance-governance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🤖 Automated Maintenance &amp; Governance
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🤖 Automated Maintenance &amp; Governance">
+    <nav class="md-nav" aria-label="Get Balance">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#two-step-automated-releases" class="md-nav__link">
+  <a href="#response_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two-Step Automated Releases 🚀
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dependency-management-renovate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Management (Renovate)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#smart-auto-approval" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Smart Auto-Approval
+        Response
       
     </span>
   </a>
@@ -1960,24 +1901,141 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#workflow-catalog" class="md-nav__link">
+  <a href="#list-payment-attempts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📋 Workflow Catalog
+        List Payment Attempts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="List Payment Attempts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Parameters
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2027-automation-standards" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#response_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🏗️ 2027 Automation Standards
+        Response
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-payment-attempt-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Payment Attempt Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get Payment Attempt Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#path-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Responses
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhook-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhook Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stripe-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stripe Webhook
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fake-webhook-devtest-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fake Webhook (dev/test only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulating-a-payment-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulating a payment webhook
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2024,10 +2082,10 @@
     
     
       <li class="md-path__item">
-        <a href="./" class="md-path__link">
+        <a href="../overview/" class="md-path__link">
           
   <span class="md-ellipsis">
-    Maintenance
+    API Reference
   </span>
 
         </a>
@@ -2049,170 +2107,213 @@
   
 
 
-<h1 id="cicd-automated-maintenance">CI/CD &amp; Automated Maintenance<a class="headerlink" href="#cicd-automated-maintenance" title="Permanent link">&para;</a></h1>
-<p>Meterplex uses a state-of-the-art CI/CD infrastructure designed for <strong>Zero-Trust security</strong> and <strong>automated supply chain health</strong>. This document explains our security layers and automated workflows.</p>
-<h2 id="security-layers">🛡️ Security Layers<a class="headerlink" href="#security-layers" title="Permanent link">&para;</a></h2>
-<h3 id="1-egress-control-harden-runner">1. Egress Control (Harden Runner)<a class="headerlink" href="#1-egress-control-harden-runner" title="Permanent link">&para;</a></h3>
-<p>Every workflow job starts with <strong>Step Security's Harden Runner</strong>. This provides runtime security for the GitHub Actions runner.</p>
-<ul>
-<li><strong>What it does</strong>: It monitors all outbound network traffic during the build process.</li>
-<li><strong>Why it's there</strong>: To prevent "phoning home" attacks where a compromised dependency attempts to steal <code>GITHUB_TOKEN</code> or other secrets and send them to an external server.</li>
-<li><strong>Status</strong>: Currently in <code>audit</code> mode. Once the list of required endpoints is finalized, it will be switched to <code>block</code> mode for maximum security.</li>
-</ul>
-<h3 id="2-openssf-scorecard">2. OpenSSF Scorecard<a class="headerlink" href="#2-openssf-scorecard" title="Permanent link">&para;</a></h3>
-<p>We use the <strong>OpenSSF Scorecard</strong> to track the overall security health of the repository.</p>
-<ul>
-<li><strong>What it does</strong>: It scans the repo for 19+ security best practices, including branch protection, use of dangerous workflows, and dependency pinning.</li>
-<li><strong>How to view</strong>: Check the "Security" tab in GitHub or click the Scorecard badge in the <a href="../../README.md">README</a>.</li>
-<li><strong>Automation</strong>: Runs automatically on every push to <code>main</code> and on a weekly schedule.</li>
-</ul>
-<h3 id="3-build-provenance-attestations">3. Build Provenance &amp; Attestations<a class="headerlink" href="#3-build-provenance-attestations" title="Permanent link">&para;</a></h3>
-<p>We use <strong>GitHub Actions Build Provenance</strong> (<code>actions/attest-build-provenance</code>) to cryptographically sign our releases.</p>
-<ul>
-<li><strong>What it does</strong>: It generates a non-forgeable attestation that links the published release directly to the specific GitHub Actions run and commit that produced it.</li>
-<li><strong>Why it's there</strong>: It provides downstream users with high-assurance verification that the release artifact was not tampered with and actually originated from this repository.</li>
-</ul>
-<h3 id="4-access-control-environments">4. Access Control (Environments)<a class="headerlink" href="#4-access-control-environments" title="Permanent link">&para;</a></h3>
-<p>We use the <strong><code>production</code></strong> GitHub Environment to isolate release-specific permissions and provide deployment tracking.</p>
-<ul>
-<li><strong>What it does</strong>: It creates a dedicated logical space for the release workflow.</li>
-<li><strong>Approval Gate</strong>: This environment is configured to require <strong>manual approval</strong> before a release can be published, providing a human-in-the-loop safety check for production changes.</li>
-<li><strong>Deployment URL</strong>: Each release automatically links back to the published tag on GitHub for easy traceability.</li>
-</ul>
-<h3 id="5-secret-scanning-gitleaks">5. Secret Scanning (Gitleaks)<a class="headerlink" href="#5-secret-scanning-gitleaks" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Local</strong>: Integrated into <code>lefthook</code> to prevent secrets from ever being committed.</li>
-<li><strong>CI</strong>: A dedicated job in <code>ci.yml</code> perform <strong>incremental scans</strong> of only the new commits in a PR, ensuring near-instant feedback as the repository grows.</li>
-</ul>
-<h3 id="6-dependency-auditing-osv-scanner">6. Dependency Auditing (OSV-Scanner)<a class="headerlink" href="#6-dependency-auditing-osv-scanner" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Scans our <code>pnpm-lock.yaml</code> against Google's Open Source Vulnerabilities (OSV) database.</li>
-<li>Blocks the PR if a known vulnerability is found in our dependencies.</li>
-</ul>
-<h3 id="7-zombie-code-detection-knip">7. Zombie Code Detection (Knip)<a class="headerlink" href="#7-zombie-code-detection-knip" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>What it does</strong>: Scans the entire project for unused files, exports, and dependencies.</li>
-<li><strong>Why it's there</strong>: To keep the codebase lean and prevent "code rot." It ensures that every line of code in the repo actually serves a purpose.</li>
-<li><strong>CI</strong>: Integrated into the main hygiene job. If a PR introduces unused code, the build fails.</li>
-</ul>
+<h1 id="billing-api">Billing API<a class="headerlink" href="#billing-api" title="Permanent link">&para;</a></h1>
+<p>The Billing API provides access to ledger entries, balance, and payment history. All endpoints are tenant-scoped — they require a valid JWT and <code>x-tenant-id</code> header.</p>
 <hr />
-<h2 id="extreme-performance-architecture">🏎️ Extreme Performance Architecture<a class="headerlink" href="#extreme-performance-architecture" title="Permanent link">&para;</a></h2>
-<p>Our CI pipeline is optimized for speed and cost-efficiency (Free-tier friendly):</p>
-<ol>
-<li><strong>Parallel Hygiene</strong>: Code linting, formatting checks, and markdown audits run in parallel jobs. This provides developer feedback 3x faster than sequential runs.</li>
-<li><strong>Smart Caching</strong>:</li>
-<li><strong>pnpm Store</strong>: Global cache for dependency resolution.</li>
-<li><strong>Prisma Client</strong>: The generated Prisma client is cached and only rebuilt when <code>schema.prisma</code> changes, saving ~20s per build.</li>
-<li><strong>Pip</strong>: Python dependencies for documentation are cached.</li>
-<li><strong>Trigger Lockdown</strong>: To save Actions minutes, workflows <strong>only</strong> run on the <code>main</code> branch or within a Pull Request targeting <code>main</code>. Intermediate pushes to feature branches do not trigger CI, encouraging local testing via <code>lefthook</code>.</li>
-</ol>
-<hr />
-<h2 id="automated-maintenance-governance">🤖 Automated Maintenance &amp; Governance<a class="headerlink" href="#automated-maintenance-governance" title="Permanent link">&para;</a></h2>
-<p>To keep the codebase healthy without manual toil, we have several automated maintenance cycles:</p>
-<h3 id="two-step-automated-releases">Two-Step Automated Releases 🚀<a class="headerlink" href="#two-step-automated-releases" title="Permanent link">&para;</a></h3>
-<p>We use a high-control, two-workflow release system:</p>
-<ol>
-<li><strong>Step 1: Preparation (Manual)</strong>: The owner triggers <code>Release 1 - Prepare PR</code>. This bumps the <code>package.json</code> version, updates the <code>CHANGELOG.md</code>, and opens a dedicated <strong>Release PR</strong>.</li>
-<li><strong>Step 2: Review (Human)</strong>: The owner reviews the PR. This is the "Control Point" where final edits can be made to the changelog before tagging.</li>
-<li><strong>Step 3: Finalization (Auto)</strong>: Once the owner <strong>merges</strong> the PR, the <code>Release 2 - Finalize Tag</code> workflow wakes up. It pushes a <strong>Verified Tag</strong>, creates the <strong>GitHub Release</strong>, and generates the <strong>SLSA Attestation</strong> in a single sequence.</li>
-</ol>
-<h3 id="dependency-management-renovate">Dependency Management (Renovate)<a class="headerlink" href="#dependency-management-renovate" title="Permanent link">&para;</a></h3>
-<p>We use <strong>Renovate</strong> to keep our dependencies up to date. Unlike standard tools, Renovate is configured to group updates and provide clear release notes.</p>
-<h3 id="smart-auto-approval">Smart Auto-Approval<a class="headerlink" href="#smart-auto-approval" title="Permanent link">&para;</a></h3>
-<p>To maintain velocity while following strict branch protection rules:</p>
-<ul>
-<li><strong>Patch/Minor</strong>: Automated PRs for minor/patch updates are automatically approved by a dedicated workflow (<code>auto-approve.yml</code>) once CI passes.</li>
-<li><strong>Unblocking</strong>: If a review was explicitly requested from the owner, the bot automatically <strong>removes the reviewer request</strong> before approving, ensuring the PR isn't stuck behind a manual "Review Required" lock.</li>
-</ul>
-<hr />
-<h2 id="workflow-catalog">📋 Workflow Catalog<a class="headerlink" href="#workflow-catalog" title="Permanent link">&para;</a></h2>
+<h2 id="get-billing-ledger">Get Billing Ledger<a class="headerlink" href="#get-billing-ledger" title="Permanent link">&para;</a></h2>
+<p>Returns paginated ledger entries for the tenant, newest first.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/billing/ledger</code></p>
+<h3 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Workflow</th>
-<th style="text-align: left;">File</th>
-<th style="text-align: left;">Purpose</th>
-<th style="text-align: left;">Trigger</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>CI &amp; Security</strong></td>
-<td style="text-align: left;"><code>ci.yml</code></td>
-<td style="text-align: left;">Validates code quality, runs tests, and audits security.</td>
-<td style="text-align: left;">PR / Push to main</td>
+<td style="text-align: left;"><code>page</code></td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Page number</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Action Linting</strong></td>
-<td style="text-align: left;"><code>workflow-lint.yml</code></td>
-<td style="text-align: left;">Audits GitHub Actions for security flaws using <code>zizmor</code>.</td>
-<td style="text-align: left;">Changes to workflows</td>
+<td style="text-align: left;"><code>limit</code></td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;">Results per page (max 100)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>PR Autofill</strong></td>
-<td style="text-align: left;"><code>pr-autofill.yml</code></td>
-<td style="text-align: left;">Populates PR descriptions based on commit history.</td>
-<td style="text-align: left;">PR to main</td>
+<td style="text-align: left;"><code>type</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Filter by type: CHARGE, PAYMENT, CREDIT, REFUND, ADJUSTMENT</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;tenantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;invoiceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CHARGE&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invoice INV-2026-0001 finalized&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">&quot;debit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9900</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">&quot;credit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usd&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">      </span><span class="nt">&quot;externalReference&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-22T10:00:00Z&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;page&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;totalPages&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="get-balance">Get Balance<a class="headerlink" href="#get-balance" title="Permanent link">&para;</a></h2>
+<p>Returns the tenant's current billing balance.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/billing/balance</code></p>
+<h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;tenantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usd&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;balance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">&quot;totalCharged&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9900</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">&quot;totalPaid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9900</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cents&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">&quot;asOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-22T10:00:00Z&quot;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>Balance = SUM(debit) - SUM(credit). Positive means the tenant owes money. Zero means fully paid.</p>
+<hr />
+<h2 id="list-payment-attempts">List Payment Attempts<a class="headerlink" href="#list-payment-attempts" title="Permanent link">&para;</a></h2>
+<p>Returns paginated payment attempts for the tenant, newest first.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/billing/payments</code></p>
+<h3 id="query-parameters_1">Query Parameters<a class="headerlink" href="#query-parameters_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>page</code></td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Page number</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Auto-Approve</strong></td>
-<td style="text-align: left;"><code>auto-approve.yml</code></td>
-<td style="text-align: left;">Approves safe automated updates &amp; unblocks reviews.</td>
-<td style="text-align: left;">CI finish on bot branches</td>
+<td style="text-align: left;"><code>limit</code></td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;">Results per page (max 100)</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Release 1</strong></td>
-<td style="text-align: left;"><code>release-prepare.yml</code></td>
-<td style="text-align: left;">Bumps version and opens a Release PR.</td>
-<td style="text-align: left;">Manual (Owner Only)</td>
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Filter: PENDING, SUCCEEDED, FAILED, CANCELLED, REQUIRES_ACTION</td>
 </tr>
+</tbody>
+</table>
+<h3 id="response_2">Response<a class="headerlink" href="#response_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;invoiceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">&quot;invoiceNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INV-2026-0001&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">&quot;tenantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="nt">&quot;providerPaymentId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake_pi_seed_inv20260001&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">      </span><span class="nt">&quot;provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SUCCEEDED&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">      </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9900</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usd&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">      </span><span class="nt">&quot;failureReason&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">      </span><span class="nt">&quot;attemptNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">      </span><span class="nt">&quot;nextRetryAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">      </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-22T10:00:00Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="nt">&quot;updatedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-22T10:00:00Z&quot;</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;page&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;totalPages&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="get-payment-attempt-details">Get Payment Attempt Details<a class="headerlink" href="#get-payment-attempt-details" title="Permanent link">&para;</a></h2>
+<p>Returns a single payment attempt with full provider response.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/billing/payments/:id</code></p>
+<h3 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
 <tr>
-<td style="text-align: left;"><strong>Release 2</strong></td>
-<td style="text-align: left;"><code>release-finalize.yml</code></td>
-<td style="text-align: left;">Pushes tag and creates GitHub Release on PR merge.</td>
-<td style="text-align: left;">PR Merge (Owner Only)</td>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td style="text-align: left;"><strong>Scorecard</strong></td>
-<td style="text-align: left;"><code>scorecard.yml</code></td>
-<td style="text-align: left;">Tracks repo-level security health (OpenSSF).</td>
-<td style="text-align: left;">Weekly / Push to main</td>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;">UUID</td>
+<td style="text-align: left;">Payment attempt UUID</td>
 </tr>
+</tbody>
+</table>
+<h3 id="response_3">Response<a class="headerlink" href="#response_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;invoiceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;invoiceNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INV-2026-0001&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;tenantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">&quot;providerPaymentId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake_pi_seed_inv20260001&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&quot;provider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SUCCEEDED&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9900</span><span class="p">,</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;usd&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">&quot;failureReason&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="nt">&quot;attemptNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="nt">&quot;nextRetryAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="nt">&quot;providerResponse&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;seed&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;succeeded&quot;</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-22T10:00:00Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span><span class="nt">&quot;updatedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-22T10:00:00Z&quot;</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="error-responses">Error Responses<a class="headerlink" href="#error-responses" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
 <tr>
-<td style="text-align: left;"><strong>Docs Deploy</strong></td>
-<td style="text-align: left;"><code>docs.yml</code></td>
-<td style="text-align: left;">Builds and publishes documentation.</td>
-<td style="text-align: left;">Push to main / Manual</td>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td style="text-align: left;"><strong>Maintenance</strong></td>
-<td style="text-align: left;"><code>maintenance.yml</code></td>
-<td style="text-align: left;">Weekly automated cleanup of dependency overrides.</td>
-<td style="text-align: left;">Weekly / Manual</td>
+<td style="text-align: left;">404</td>
+<td style="text-align: left;">Payment attempt not found</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="2027-automation-standards">🏗️ 2027 Automation Standards<a class="headerlink" href="#2027-automation-standards" title="Permanent link">&para;</a></h2>
-<p>All workflows in this repository follow our "2027-standard" for security and performance:</p>
-<ul>
-<li><strong>Node 24 LTS</strong>: The active runtime for all runners and local development.</li>
-<li><strong>True Zero-Noise PRs</strong>: Pull Requests contain zero manual boilerplate. Descriptions are automatically generated and categorized using <code>git-cliff</code>.</li>
-<li><strong>Harden Runner</strong>: Every workflow is isolated using <code>step-security/harden-runner</code>.</li>
-<li><strong>Prisma Client Caching</strong>: Optimized cross-job caching for database types.</li>
-<li>
-<p><strong>Hands-Free Releases</strong>: Automated changelog generation, PR creation, and auto-merging.</p>
-</li>
-<li>
-<p><strong>Centralized Identity</strong>: All automated actions (approvals, labels, releases) use a custom <strong>GitHub App</strong> (<code>chitrank-action</code>) via a centralized setup action. This ensures consistent audit logs and triggers downstream workflows.</p>
-</li>
-<li><strong>Zero-Trust Egress</strong>: Every job includes <code>harden-runner</code> to monitor and restrict network traffic, preventing token exfiltration.</li>
-<li><strong>Immutability (SHA Pinning)</strong>: All third-party actions are pinned to a 40-character commit SHA to prevent "tag moving" supply-chain attacks.</li>
-<li><strong>Credential Security</strong>: <code>persist-credentials: false</code> is used on every checkout to prevent tokens from being stored in the runner's <code>.git</code> directory.</li>
-<li><strong>No Template Injection</strong>: <code>${{ ... }}</code> expansion is NEVER used inside <code>run:</code> scripts. Dynamic data is always passed via environment variables (<code>env</code>).</li>
-<li><strong>Single Checkout Strategy</strong>: Jobs are optimized to perform exactly one repository checkout, saving runner time and bandwidth.</li>
-<li><strong>Unblocked Pipelines</strong>: Required status checks (CI, Linting) run on all PRs to ensure they never block automated merges from Renovate or Release bots.</li>
-</ul>
+<h2 id="webhook-endpoints">Webhook Endpoints<a class="headerlink" href="#webhook-endpoints" title="Permanent link">&para;</a></h2>
+<p>These endpoints receive events from payment providers. They have NO authentication guard — the provider's signature is the authentication.</p>
+<h3 id="stripe-webhook">Stripe Webhook<a class="headerlink" href="#stripe-webhook" title="Permanent link">&para;</a></h3>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/webhooks/stripe</code></p>
+<p>Requires <code>stripe-signature</code> header. Returns 200 immediately; processes asynchronously.</p>
+<h3 id="fake-webhook-devtest-only">Fake Webhook (dev/test only)<a class="headerlink" href="#fake-webhook-devtest-only" title="Permanent link">&para;</a></h3>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/webhooks/fake</code></p>
+<p>Accepts JSON body directly. No signature validation. Use for testing payment flows locally.</p>
+<h3 id="simulating-a-payment-webhook">Simulating a payment webhook<a class="headerlink" href="#simulating-a-payment-webhook" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:3000/api/v1/webhooks/fake<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="s1">    &quot;type&quot;: &quot;payment.succeeded&quot;,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="s1">    &quot;providerPaymentId&quot;: &quot;fake_pi_test_001&quot;,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="s1">    &quot;amount&quot;: 9900,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="s1">    &quot;currency&quot;: &quot;usd&quot;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s1">  }&#39;</span>
+</code></pre></div>
 
 
 

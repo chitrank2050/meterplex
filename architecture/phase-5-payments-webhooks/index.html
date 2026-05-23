@@ -12,13 +12,13 @@
         <meta name="author" content="Chitrank Agnihotri">
       
       
-        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/architecture/phase-2-plans-and-entitlements/">
+        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/architecture/phase-5-payments-webhooks/">
       
       
-        <link rel="prev" href="../audit-log/">
+        <link rel="prev" href="../phase-4-billing-ledger/">
       
       
-        <link rel="next" href="../phase-3-usage-event-pipeline/">
+        <link rel="next" href="../../development/setup/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Plans & Entitlements - Meterplex</title>
+        <title>Payments & Webhooks - Meterplex</title>
       
     
     
@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#phase-2-plans-features-entitlements-and-subscriptions" class="md-skip">
+        <a href="#payments-and-webhook-architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +128,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Plans & Entitlements
+              Payments & Webhooks
             
           </span>
         </div>
@@ -597,37 +597,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Plans & Entitlements
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../phase-2-plans-and-entitlements/" class="md-nav__link">
         
   
   
@@ -643,231 +616,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#data-model-overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data model overview
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Data model overview">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#relationship-map" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship map
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#table-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Table details
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Table details">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#plans" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plans
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#plan_prices" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plan_prices
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        features
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#entitlements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        entitlements
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        subscriptions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#entitlement_snapshots" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        entitlement_snapshots
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#entitlement-check-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Entitlement check flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quota-consumption-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quota consumption flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#seed-data-plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Seed data plan
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Seed data plan">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#plans_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Plans
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#features_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Features
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#entitlements-plan-feature-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Entitlements (Plan × Feature matrix)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions-dev-tenants" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Subscriptions (dev tenants)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-design-decisions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key design decisions
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -933,10 +681,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../phase-5-payments-webhooks/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payments & Webhooks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -952,6 +727,265 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payment-adapter-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment adapter pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Payment adapter pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-an-adapter-and-not-direct-stripe-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why an adapter and not direct Stripe calls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payment-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Payment flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#happy-path-invoice-finalize-paid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Happy path: invoice finalize → paid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-path-retry-with-exponential-backoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure path: retry with exponential backoff
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhook-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhook processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-webhooks-are-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why webhooks are hard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-meterplex-handles-each" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Meterplex handles each
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#webhook-processing-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook processing flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payment-status-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment status lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#webhooks-no-auth-signature-is-the-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhooks (no auth — signature is the auth)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-history-tenant-scoped-jwt-tenant-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment history (tenant-scoped, JWT + Tenant guard)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seed-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seed data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future enhancements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1833,22 +1867,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#data-model-overview" class="md-nav__link">
+  <a href="#why-this-exists" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data model overview
+        Why this exists
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Data model overview">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema overview">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#relationship-map" class="md-nav__link">
+  <a href="#relationships" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship map
+        Relationships
       
     </span>
   </a>
@@ -1861,77 +1906,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#table-details" class="md-nav__link">
+  <a href="#payment-adapter-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Table details
+        Payment adapter pattern
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Table details">
+    <nav class="md-nav" aria-label="Payment adapter pattern">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#plans" class="md-nav__link">
+  <a href="#why-an-adapter-and-not-direct-stripe-calls" class="md-nav__link">
     <span class="md-ellipsis">
       
-        plans
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#plan_prices" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plan_prices
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        features
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#entitlements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        entitlements
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        subscriptions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#entitlement_snapshots" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        entitlement_snapshots
+        Why an adapter and not direct Stripe calls
       
     </span>
   </a>
@@ -1944,44 +1934,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#entitlement-check-flow" class="md-nav__link">
+  <a href="#payment-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Entitlement check flow
+        Payment flow
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quota-consumption-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quota consumption flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#seed-data-plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Seed data plan
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Seed data plan">
+    <nav class="md-nav" aria-label="Payment flow">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#plans_1" class="md-nav__link">
+  <a href="#happy-path-invoice-finalize-paid" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Plans
+        Happy path: invoice finalize → paid
       
     </span>
   </a>
@@ -1989,32 +1957,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features_1" class="md-nav__link">
+  <a href="#failure-path-retry-with-exponential-backoff" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Features
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#entitlements-plan-feature-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Entitlements (Plan × Feature matrix)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions-dev-tenants" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Subscriptions (dev tenants)
+        Failure path: retry with exponential backoff
       
     </span>
   </a>
@@ -2027,10 +1973,132 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-design-decisions" class="md-nav__link">
+  <a href="#webhook-processing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key design decisions
+        Webhook processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhook processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-webhooks-are-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why webhooks are hard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-meterplex-handles-each" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Meterplex handles each
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#webhook-processing-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhook processing flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#payment-status-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment status lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#webhooks-no-auth-signature-is-the-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Webhooks (no auth — signature is the auth)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-history-tenant-scoped-jwt-tenant-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payment history (tenant-scoped, JWT + Tenant guard)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seed-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seed data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future enhancements
       
     </span>
   </a>
@@ -2105,785 +2173,328 @@
   
 
 
-<h1 id="phase-2-plans-features-entitlements-and-subscriptions">Phase 2 - Plans, Features, Entitlements, and Subscriptions<a class="headerlink" href="#phase-2-plans-features-entitlements-and-subscriptions" title="Permanent link">&para;</a></h1>
-<p><strong>Goal:</strong> Decide what a customer is allowed to do. Define plans, map features to plans with access rules, and check entitlements at runtime.</p>
-<p><strong>Status:</strong> In progress</p>
+<h1 id="payments-and-webhook-architecture">Payments and Webhook Architecture<a class="headerlink" href="#payments-and-webhook-architecture" title="Permanent link">&para;</a></h1>
+<p>The payment system collects money for invoices. It integrates with payment providers via an adapter pattern, processes webhook events idempotently, and handles failure retries with exponential backoff.</p>
 <hr />
-<h2 id="data-model-overview">Data model overview<a class="headerlink" href="#data-model-overview" title="Permanent link">&para;</a></h2>
-<p><img alt="Phase 2 ERD" src="../phase-2-erd.png" /></p>
-<p>Phase 2 adds 6 new tables to the existing Phase 1 schema:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Table</th>
-<th style="text-align: left;">Purpose</th>
-<th style="text-align: left;">Relates to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><code>plans</code></td>
-<td style="text-align: left;">What you sell: "Starter", "Pro", "Enterprise"</td>
-<td style="text-align: left;">plan_prices, entitlements, subscriptions</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>plan_prices</code></td>
-<td style="text-align: left;">How much it costs: $99/mo, $948/yr</td>
-<td style="text-align: left;">plans, subscriptions</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>features</code></td>
-<td style="text-align: left;">Global catalog of capabilities: "API Calls", "SSO"</td>
-<td style="text-align: left;">entitlements</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>entitlements</code></td>
-<td style="text-align: left;">Bridge: Plan + Feature = access rule</td>
-<td style="text-align: left;">plans, features</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>subscriptions</code></td>
-<td style="text-align: left;">Tenant → Plan binding with billing period</td>
-<td style="text-align: left;">tenants, plans, plan_prices, entitlement_snapshots</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>entitlement_snapshots</code></td>
-<td style="text-align: left;">Frozen copy of entitlements at subscribe time</td>
-<td style="text-align: left;">subscriptions</td>
-</tr>
-</tbody>
-</table>
-<h3 id="relationship-map">Relationship map<a class="headerlink" href="#relationship-map" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Tenant ──1:N──▶ Subscription ──N:1──▶ Plan ──1:N──▶ PlanPrice
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                     │                   │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                     │                   └──1:N──▶ Entitlement ──N:1──▶ Feature
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                     │
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                     └──1:N──▶ EntitlementSnapshot
-</code></pre></div>
+<h2 id="why-this-exists">Why this exists<a class="headerlink" href="#why-this-exists" title="Permanent link">&para;</a></h2>
+<p>Phase 4 generates invoices and tracks what tenants owe. But <code>mark-paid</code> was manual — someone had to call an endpoint to confirm payment. Phase 5 automates this: finalize an invoice → create a payment intent → provider charges the card → webhook confirms → invoice marked PAID → billing period advances.</p>
 <hr />
-<h2 id="table-details">Table details<a class="headerlink" href="#table-details" title="Permanent link">&para;</a></h2>
-<h3 id="plans">plans<a class="headerlink" href="#plans" title="Permanent link">&para;</a></h3>
-<p>The product identity. Does NOT contain pricing - that's in <code>plan_prices</code>.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">UUID PK</td>
-<td style="text-align: left;">Auto-generated</td>
-</tr>
-<tr>
-<td style="text-align: left;">name</td>
-<td style="text-align: left;">VARCHAR(255)</td>
-<td style="text-align: left;">"Starter", "Pro", "Enterprise"</td>
-</tr>
-<tr>
-<td style="text-align: left;">slug</td>
-<td style="text-align: left;">VARCHAR(100) UNIQUE</td>
-<td style="text-align: left;">URL-safe identifier: "pro" → <code>/api/v1/plans/pro</code></td>
-</tr>
-<tr>
-<td style="text-align: left;">description</td>
-<td style="text-align: left;">TEXT</td>
-<td style="text-align: left;">Optional marketing copy for pricing pages</td>
-</tr>
-<tr>
-<td style="text-align: left;">status</td>
-<td style="text-align: left;">ENUM(ACTIVE, ARCHIVED)</td>
-<td style="text-align: left;">ARCHIVED = no new subscriptions, existing ones continue</td>
-</tr>
-<tr>
-<td style="text-align: left;">is_public</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Show on pricing page? False = hidden/enterprise plans</td>
-</tr>
-<tr>
-<td style="text-align: left;">display_order</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">Sorting on pricing pages. Starter=1, Pro=2, Enterprise=3</td>
-</tr>
-<tr>
-<td style="text-align: left;">metadata</td>
-<td style="text-align: left;">JSONB</td>
-<td style="text-align: left;">Custom attributes: <code>{ "trialDays": 14, "supportTier": "priority" }</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Why separate from pricing?</strong> This mirrors Stripe's Product/Price split. Changing from $99/mo to $119/mo means archiving the old price and creating a new one - the plan identity stays unchanged. Without separation, you'd need a new plan for every price change, breaking references from existing subscriptions.</p>
-<h3 id="plan_prices">plan_prices<a class="headerlink" href="#plan_prices" title="Permanent link">&para;</a></h3>
-<p>Multiple prices per plan. Same plan, different intervals and currencies.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">UUID PK</td>
-<td style="text-align: left;">Auto-generated</td>
-</tr>
-<tr>
-<td style="text-align: left;">plan_id</td>
-<td style="text-align: left;">UUID FK → plans</td>
-<td style="text-align: left;">Which plan this price belongs to</td>
-</tr>
-<tr>
-<td style="text-align: left;">interval</td>
-<td style="text-align: left;">ENUM(MONTHLY, ANNUALLY)</td>
-<td style="text-align: left;">Billing frequency</td>
-</tr>
-<tr>
-<td style="text-align: left;">amount</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">Price in smallest currency unit. $99.00 = 9900 cents</td>
-</tr>
-<tr>
-<td style="text-align: left;">currency</td>
-<td style="text-align: left;">VARCHAR(3)</td>
-<td style="text-align: left;">ISO 4217 lowercase: "usd", "eur", "gbp"</td>
-</tr>
-<tr>
-<td style="text-align: left;">is_active</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Can this price be used for new subscriptions?</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Why store amount in cents (integer)?</strong> Floating-point math produces rounding errors in billing calculations. <code>0.1 + 0.2 = 0.30000000000000004</code> in JavaScript/most languages. Integers don't have this problem. $99.99 = 9999 cents. All arithmetic stays in integers, convert to dollars only at display time.</p>
-<p><strong>Unique constraint:</strong> <code>(plan_id, interval, currency)</code> - one active price per plan per interval per currency.</p>
-<h3 id="features">features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
-<p>The global catalog of things your platform can do. Features exist independently of plans.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">UUID PK</td>
-<td style="text-align: left;">Auto-generated</td>
-</tr>
-<tr>
-<td style="text-align: left;">name</td>
-<td style="text-align: left;">VARCHAR(255)</td>
-<td style="text-align: left;">"API Calls", "SSO", "Storage", "Webhooks"</td>
-</tr>
-<tr>
-<td style="text-align: left;">lookup_key</td>
-<td style="text-align: left;">VARCHAR(100) UNIQUE</td>
-<td style="text-align: left;">Stable code identifier: "api_calls", "sso", "storage"</td>
-</tr>
-<tr>
-<td style="text-align: left;">type</td>
-<td style="text-align: left;">ENUM(BOOLEAN, QUOTA, METERED)</td>
-<td style="text-align: left;">How this feature is gated</td>
-</tr>
-<tr>
-<td style="text-align: left;">unit</td>
-<td style="text-align: left;">VARCHAR(50)</td>
-<td style="text-align: left;">Measurement unit: "calls", "GB", "seats". Null for BOOLEAN</td>
-</tr>
-<tr>
-<td style="text-align: left;">description</td>
-<td style="text-align: left;">TEXT</td>
-<td style="text-align: left;">Documentation/pricing page description</td>
-</tr>
-<tr>
-<td style="text-align: left;">status</td>
-<td style="text-align: left;">ENUM(ACTIVE, ARCHIVED)</td>
-<td style="text-align: left;">ARCHIVED features can't be added to new entitlements</td>
-</tr>
-<tr>
-<td style="text-align: left;">metadata</td>
-<td style="text-align: left;">JSONB</td>
-<td style="text-align: left;">Custom attributes</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Why <code>lookup_key</code> instead of just <code>slug</code>?</strong> This is the Stripe pattern. Your code checks entitlements using the lookup_key, not the UUID:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>GET<span class="w"> </span>/api/v1/entitlements/api_calls/check
+<h2 id="schema-overview">Schema overview<a class="headerlink" href="#schema-overview" title="Permanent link">&para;</a></h2>
+<p>Two new tables:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌───────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│    payment_attempts       │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│───────────────────────────│
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│ id                        │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│ invoice_id          (FK)  │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│ tenant_id           (FK)  │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│ provider_payment_id (UQ)  │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│ provider                  │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│ status                    │
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│ amount (cents)            │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│ currency                  │
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│ failure_reason            │
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│ provider_response   (JSON)│
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│ retry_of                  │
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│ attempt_number            │
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│ next_retry_at             │
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│ created_at                │
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│ updated_at                │
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>└───────────────────────────┘
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>┌───────────────────────────┐
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│    webhook_events         │
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│───────────────────────────│
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│ id                        │
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│ provider_event_id   (UQ)  │
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│ provider                  │
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│ event_type                │
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│ status                    │
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│ raw_payload         (JSON)│
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>│ processing_error          │
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>│ processed_at              │
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>│ created_at                │
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>│ updated_at                │
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>└───────────────────────────┘
 </code></pre></div>
-<p>The lookup_key is immutable after creation - changing it would break all code that references it.</p>
-<p><strong>Feature types explained:</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">What it controls</th>
-<th style="text-align: left;">Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">On/off access</td>
-<td style="text-align: left;">SSO, webhooks, priority support</td>
-</tr>
-<tr>
-<td style="text-align: left;">QUOTA</td>
-<td style="text-align: left;">Numeric limit per period</td>
-<td style="text-align: left;">50,000 API calls/month, 5 team seats</td>
-</tr>
-<tr>
-<td style="text-align: left;">METERED</td>
-<td style="text-align: left;">Usage-based billing</td>
-<td style="text-align: left;">Storage at $0.02/GB, tokens at $0.001/call</td>
-</tr>
-</tbody>
-</table>
-<h3 id="entitlements">entitlements<a class="headerlink" href="#entitlements" title="Permanent link">&para;</a></h3>
-<p>The bridge between Plan and Feature. "The Pro plan grants 50,000 API calls/month."</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">UUID PK</td>
-<td style="text-align: left;">Auto-generated</td>
-</tr>
-<tr>
-<td style="text-align: left;">plan_id</td>
-<td style="text-align: left;">UUID FK → plans</td>
-<td style="text-align: left;">Which plan grants this</td>
-</tr>
-<tr>
-<td style="text-align: left;">feature_id</td>
-<td style="text-align: left;">UUID FK → features</td>
-<td style="text-align: left;">Which feature is granted</td>
-</tr>
-<tr>
-<td style="text-align: left;">value</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">For BOOLEAN features: true=granted, false=denied</td>
-</tr>
-<tr>
-<td style="text-align: left;">limit</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">For QUOTA features: numeric limit per reset period</td>
-</tr>
-<tr>
-<td style="text-align: left;">limit_behavior</td>
-<td style="text-align: left;">ENUM(HARD, SOFT)</td>
-<td style="text-align: left;">HARD=block at limit, SOFT=allow overage + charge</td>
-</tr>
-<tr>
-<td style="text-align: left;">overage_price</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">Per-unit charge beyond limit/included amount (micro-cents)</td>
-</tr>
-<tr>
-<td style="text-align: left;">included_amount</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">For METERED: free units before overage kicks in</td>
-</tr>
-<tr>
-<td style="text-align: left;">reset_period</td>
-<td style="text-align: left;">ENUM(MONTHLY, ANNUALLY, NEVER)</td>
-<td style="text-align: left;">When quota counters reset</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Unique constraint:</strong> <code>(plan_id, feature_id)</code> - one entitlement per feature per plan.</p>
-<p><strong>Why <code>limit_behavior</code> is on the entitlement, not the feature:</strong> The same feature ("API Calls") can be hard-capped on Starter (block at 1,000) and soft-capped on Pro (allow overage beyond 50,000, charge $0.001/call). The behavior depends on the plan, not the feature.</p>
-<p><strong>Overage price in micro-cents:</strong> Sub-cent pricing is common in API billing. $0.001/API call can't be stored as cents (0.1 cents is not an integer). Micro-cents solve this:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Real price</th>
-<th style="text-align: left;">Micro-cents</th>
-<th style="text-align: left;">Calculation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">$0.001/call</td>
-<td style="text-align: left;">10</td>
-<td style="text-align: left;">$0.001 × 10,000 = 10</td>
-</tr>
-<tr>
-<td style="text-align: left;">$0.02/GB</td>
-<td style="text-align: left;">200</td>
-<td style="text-align: left;">$0.02 × 10,000 = 200</td>
-</tr>
-<tr>
-<td style="text-align: left;">$0.50/seat</td>
-<td style="text-align: left;">5000</td>
-<td style="text-align: left;">$0.50 × 10,000 = 5000</td>
-</tr>
-<tr>
-<td style="text-align: left;">$1.00/unit</td>
-<td style="text-align: left;">10000</td>
-<td style="text-align: left;">$1.00 × 10,000 = 10,000</td>
-</tr>
-</tbody>
-</table>
-<p>Formula: <code>micro_cents = real_price_in_dollars × 10,000</code></p>
-<p>All billing math stays in integers. Convert to dollars at display time only.</p>
-<p><strong>Entitlement examples by feature type:</strong></p>
-<p>BOOLEAN - "Pro includes SSO":</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>plan_id: pro, feature_id: sso, value: true
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>(all other fields null)
-</code></pre></div>
-<p>QUOTA (hard limit) - "Starter gets 1,000 API calls/month, blocked at limit":</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>plan_id: starter, feature_id: api_calls
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>limit: 1000, limit_behavior: HARD, reset_period: MONTHLY
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>(overage_price: null, included_amount: null)
-</code></pre></div>
-<p>QUOTA (soft limit) - "Pro gets 50,000 API calls/month, $0.001/call overage":</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>plan_id: pro, feature_id: api_calls
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>limit: 50000, limit_behavior: SOFT, overage_price: 10, reset_period: MONTHLY
-</code></pre></div>
-<p>METERED - "Pro gets 10GB storage free, $0.02/GB after":</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>plan_id: pro, feature_id: storage
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>included_amount: 10, overage_price: 200, reset_period: MONTHLY
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>(limit: null, limit_behavior: null)
-</code></pre></div>
-<h3 id="subscriptions">subscriptions<a class="headerlink" href="#subscriptions" title="Permanent link">&para;</a></h3>
-<p>Binds a tenant to a plan + price. One active subscription per tenant at a time.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">UUID PK</td>
-<td style="text-align: left;">Auto-generated</td>
-</tr>
-<tr>
-<td style="text-align: left;">tenant_id</td>
-<td style="text-align: left;">UUID FK → tenants</td>
-<td style="text-align: left;">Which tenant holds this subscription</td>
-</tr>
-<tr>
-<td style="text-align: left;">plan_id</td>
-<td style="text-align: left;">UUID FK → plans</td>
-<td style="text-align: left;">Which plan they're on</td>
-</tr>
-<tr>
-<td style="text-align: left;">price_id</td>
-<td style="text-align: left;">UUID FK → plan_prices</td>
-<td style="text-align: left;">Which price they're paying</td>
-</tr>
-<tr>
-<td style="text-align: left;">status</td>
-<td style="text-align: left;">ENUM(ACTIVE, TRIALING, PAST_DUE, CANCELLED, PAUSED)</td>
-<td style="text-align: left;">Current lifecycle state</td>
-</tr>
-<tr>
-<td style="text-align: left;">current_period_start</td>
-<td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">Start of current billing period</td>
-</tr>
-<tr>
-<td style="text-align: left;">current_period_end</td>
-<td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">End of current billing period (next charge date)</td>
-</tr>
-<tr>
-<td style="text-align: left;">billing_anchor</td>
-<td style="text-align: left;">INT (1-28)</td>
-<td style="text-align: left;">Day-of-month for recurring charges</td>
-</tr>
-<tr>
-<td style="text-align: left;">trial_ends_at</td>
-<td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">When trial expires. Null if no trial</td>
-</tr>
-<tr>
-<td style="text-align: left;">cancelled_at</td>
-<td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">When cancellation was requested. Null if active</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Why billing_anchor is capped at 28:</strong> February has 28 days. If you anchor on the 31st, what happens in February? Every billing system has this edge case. Capping at 28 eliminates it. Stripe does the same thing.</p>
-<p><strong>Subscription lifecycle:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>TRIALING → ACTIVE → PAST_DUE → CANCELLED
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>                  → PAUSED → ACTIVE
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>                  → CANCELLED
-</code></pre></div>
-<p><strong>Why one active subscription per tenant?</strong> Upgrades/downgrades cancel the old subscription and create a new one. This keeps the audit trail clean - each subscription is a point-in-time contract. The old subscription stays in the database with status=CANCELLED for historical reference.</p>
-<h3 id="entitlement_snapshots">entitlement_snapshots<a class="headerlink" href="#entitlement_snapshots" title="Permanent link">&para;</a></h3>
-<p>Frozen copy of entitlements at the moment a tenant subscribes.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Column</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">UUID PK</td>
-<td style="text-align: left;">Auto-generated</td>
-</tr>
-<tr>
-<td style="text-align: left;">subscription_id</td>
-<td style="text-align: left;">UUID FK → subscriptions</td>
-<td style="text-align: left;">Which subscription this belongs to</td>
-</tr>
-<tr>
-<td style="text-align: left;">feature_lookup_key</td>
-<td style="text-align: left;">VARCHAR(100)</td>
-<td style="text-align: left;">Denormalized from features.lookup_key</td>
-</tr>
-<tr>
-<td style="text-align: left;">feature_type</td>
-<td style="text-align: left;">ENUM(BOOLEAN, QUOTA, METERED)</td>
-<td style="text-align: left;">Denormalized from features.type</td>
-</tr>
-<tr>
-<td style="text-align: left;">value</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Snapshot of entitlement value</td>
-</tr>
-<tr>
-<td style="text-align: left;">limit</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">Snapshot of entitlement limit</td>
-</tr>
-<tr>
-<td style="text-align: left;">limit_behavior</td>
-<td style="text-align: left;">ENUM(HARD, SOFT)</td>
-<td style="text-align: left;">Snapshot of limit behavior</td>
-</tr>
-<tr>
-<td style="text-align: left;">overage_price</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">Snapshot of overage price (micro-cents)</td>
-</tr>
-<tr>
-<td style="text-align: left;">included_amount</td>
-<td style="text-align: left;">INT</td>
-<td style="text-align: left;">Snapshot of included amount</td>
-</tr>
-<tr>
-<td style="text-align: left;">reset_period</td>
-<td style="text-align: left;">ENUM(MONTHLY, ANNUALLY, NEVER)</td>
-<td style="text-align: left;">Snapshot of reset period</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Why snapshot?</strong> When Acme Corp subscribes to Pro with 50,000 API calls/month, we freeze that number. If we later change Pro to 25,000 API calls/month, Acme Corp keeps 50,000 until their subscription renews. The snapshot is their contract.</p>
-<p><strong>Why denormalize <code>feature_lookup_key</code> and <code>feature_type</code>?</strong> The entitlement check service runs on every API request. It needs to look up "does this tenant have <code>api_calls</code> access?" as fast as possible. Denormalizing avoids a JOIN to the features table on every check. The query becomes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">entitlement_snapshots</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">feature_lookup_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="mi">2</span>
-</code></pre></div>
-<p><strong>Unique constraint:</strong> <code>(subscription_id, feature_lookup_key)</code> - one snapshot per feature per subscription.</p>
-<p><strong>Immutable:</strong> No <code>updated_at</code> column. Snapshots are created once when the subscription starts and never modified. When a subscription renews or changes plan, new snapshots are created for the new subscription.</p>
+<h3 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Invoice → PaymentAttempts:</strong> one-to-many. One invoice can have multiple attempts (retries after failure).</li>
+<li><strong>Tenant → PaymentAttempts:</strong> one-to-many. Denormalized <code>tenant_id</code> for filtering without JOIN.</li>
+<li><strong>WebhookEvents:</strong> standalone. Not FK'd to anything — the provider event ID is the deduplication key.</li>
+</ul>
 <hr />
-<h2 id="entitlement-check-flow">Entitlement check flow<a class="headerlink" href="#entitlement-check-flow" title="Permanent link">&para;</a></h2>
-<p>This is the hot path - it runs on every API request that needs authorization.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Client calls: GET /api/v1/entitlements/api_calls/check
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>                 Header: x-tenant-id: &lt;acme-corp-id&gt;
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>2. Service finds tenant&#39;s active subscription
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>   → SELECT * FROM subscriptions
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>     WHERE tenant_id = $1 AND status = &#39;ACTIVE&#39;
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>3. Service finds the entitlement snapshot for this feature
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>   → SELECT * FROM entitlement_snapshots
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>     WHERE subscription_id = $1 AND feature_lookup_key = &#39;api_calls&#39;
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>4. Service evaluates based on feature_type:
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>   BOOLEAN → return { allowed: snapshot.value }
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>   QUOTA   → check usage counter against snapshot.limit
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>   METERED → always allowed, but track for billing
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>5. Response:
-<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>   {
-<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>     &quot;allowed&quot;: true,
-<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>     &quot;feature&quot;: &quot;api_calls&quot;,
-<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>     &quot;limit&quot;: 50000,
-<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>     &quot;used&quot;: 23456,
-<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>     &quot;remaining&quot;: 26544,
-<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>     &quot;resetAt&quot;: &quot;2026-05-01T00:00:00Z&quot;
-<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>   }
+<h2 id="payment-adapter-pattern">Payment adapter pattern<a class="headerlink" href="#payment-adapter-pattern" title="Permanent link">&para;</a></h2>
+<p>All provider interaction goes through <code>PaymentProviderBase</code>, an abstract class with four methods:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">PaymentProviderBase</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="k">abstract</span><span class="w"> </span><span class="nx">createPaymentIntent</span><span class="p">(</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">amount</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">currency</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">metadata</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">CreatePaymentIntentResult</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="k">abstract</span><span class="w"> </span><span class="nx">getPaymentStatus</span><span class="p">(</span><span class="nx">providerPaymentId</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">PaymentStatusResult</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="k">abstract</span><span class="w"> </span><span class="nx">refundPayment</span><span class="p">(</span><span class="nx">providerPaymentId</span><span class="p">,</span><span class="w"> </span><span class="nx">amount</span><span class="o">?</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">RefundResult</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="k">abstract</span><span class="w"> </span><span class="nx">constructWebhookEvent</span><span class="p">(</span><span class="nx">rawBody</span><span class="p">,</span><span class="w"> </span><span class="nx">signature</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">WebhookEvent</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="quota-consumption-flow">Quota consumption flow<a class="headerlink" href="#quota-consumption-flow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>1. Client calls: POST /api/v1/entitlements/api_calls/consume
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>                 Body: { &quot;amount&quot;: 1 }
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>2. Service finds active subscription + snapshot (same as above)
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>3. Service checks current usage against limit:
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>   HARD limit: if (used + amount &gt; limit) → 403 &quot;Quota exceeded&quot;
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>   SOFT limit: if (used + amount &gt; limit) → allow, flag as overage
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>4. Service increments usage counter
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>5. Response:
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>   {
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>     &quot;allowed&quot;: true,
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>     &quot;feature&quot;: &quot;api_calls&quot;,
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>     &quot;consumed&quot;: 1,
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>     &quot;used&quot;: 23457,
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>     &quot;remaining&quot;: 26543,
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>     &quot;overage&quot;: false
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>   }
+<p>Two implementations:</p>
+<table>
+<thead>
+<tr>
+<th>Adapter</th>
+<th>When</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FakePaymentAdapter</code></td>
+<td><code>PAYMENT_PROVIDER=fake</code></td>
+<td>In-memory, no external calls. Configurable success rate.</td>
+</tr>
+<tr>
+<td><code>StripePaymentAdapter</code></td>
+<td><code>PAYMENT_PROVIDER=stripe</code></td>
+<td>Real Stripe API. Signature validation on webhooks.</td>
+</tr>
+</tbody>
+</table>
+<p>The adapter is injected via <code>PAYMENT_PROVIDER</code> token. Swapping providers requires zero code changes — just change the env var.</p>
+<h3 id="why-an-adapter-and-not-direct-stripe-calls">Why an adapter and not direct Stripe calls<a class="headerlink" href="#why-an-adapter-and-not-direct-stripe-calls" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Testing:</strong> fake adapter runs in CI without Stripe credentials.</li>
+<li><strong>Provider migration:</strong> switching from Stripe to another provider means writing one new adapter class, not rewriting the entire payment flow.</li>
+<li><strong>Dev experience:</strong> <code>pnpm db:seed</code> creates fake payment data without touching any external API.</li>
+</ul>
+<hr />
+<h2 id="payment-flow">Payment flow<a class="headerlink" href="#payment-flow" title="Permanent link">&para;</a></h2>
+<h3 id="happy-path-invoice-finalize-paid">Happy path: invoice finalize → paid<a class="headerlink" href="#happy-path-invoice-finalize-paid" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌─────────┐     ┌──────────────┐     ┌──────────┐     ┌─────────────┐
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│ Finalize │────▶│ Create       │────▶│ Provider │────▶│ Webhook     │
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│ Invoice  │     │ PaymentIntent│     │ charges  │     │ received    │
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>└─────────┘     └──────────────┘     └──────────┘     └──────┬──────┘
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>                                                              │
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>                       ┌──────────────────────────────────────┘
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>                       ▼
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>              ┌─────────────────┐     ┌──────────────┐     ┌──────────────┐
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>              │ Dedup check     │────▶│ Update       │────▶│ Mark invoice │
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>              │ (provider       │     │ attempt      │     │ PAID + ledger│
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>              │  event ID)      │     │ SUCCEEDED    │     │ PAYMENT      │
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>              └─────────────────┘     └──────────────┘     └──────┬───────┘
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>                                                                   │
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>                                                                   ▼
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>                                                          ┌──────────────┐
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>                                                          │ Advance      │
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>                                                          │ billing      │
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>                                                          │ period       │
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>                                                          └──────────────┘
+</code></pre></div>
+<ol>
+<li>Invoice finalized → <code>PaymentIntentService.createPaymentIntent()</code> fires (fire-and-forget, doesn't block the finalize response).</li>
+<li>Adapter calls provider → gets back <code>providerPaymentId</code> (e.g., <code>pi_abc123</code> or <code>fake_pi_seed_...</code>).</li>
+<li>A <code>payment_attempts</code> row is created with status PENDING (or SUCCEEDED if the fake adapter auto-resolves).</li>
+<li>Provider sends webhook → <code>WebhookController</code> receives it.</li>
+<li><code>WebhookProcessingService</code> validates signature, checks deduplication, routes to handler.</li>
+<li><code>PaymentSuccessHandler</code> updates attempt to SUCCEEDED, marks invoice PAID, creates ledger PAYMENT, advances billing period.</li>
+</ol>
+<h3 id="failure-path-retry-with-exponential-backoff">Failure path: retry with exponential backoff<a class="headerlink" href="#failure-path-retry-with-exponential-backoff" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Day 0:  Payment fails → attempt #0, status FAILED
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>        Schedule retry → next_retry_at = now + 1 day
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Day 1:  Retry fires → attempt #1, status FAILED
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        Schedule retry → next_retry_at = now + 3 days
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>Day 4:  Retry fires → attempt #2, status FAILED
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        Schedule retry → next_retry_at = now + 7 days
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Day 11: Retry fires → attempt #3, status FAILED
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        Max retries (3) reached → subscription → PAST_DUE
+</code></pre></div>
+<p>Retry intervals: 1 day, 3 days, 7 days. After 3 retries (4 total attempts), the subscription transitions to PAST_DUE. Each retry creates a new <code>payment_attempts</code> row with <code>retry_of</code> pointing to the previous attempt and an incremented <code>attempt_number</code>.</p>
+<hr />
+<h2 id="webhook-processing">Webhook processing<a class="headerlink" href="#webhook-processing" title="Permanent link">&para;</a></h2>
+<h3 id="why-webhooks-are-hard">Why webhooks are hard<a class="headerlink" href="#why-webhooks-are-hard" title="Permanent link">&para;</a></h3>
+<p>Three problems every webhook receiver must solve:</p>
+<ol>
+<li><strong>Duplicates:</strong> Stripe retries on timeout. The same event arrives twice. Without dedup, you'd mark an invoice PAID twice and create two ledger entries.</li>
+<li><strong>Out-of-order:</strong> <code>payment_intent.succeeded</code> might arrive before the <code>payment_attempts</code> row is created (race condition with the create call).</li>
+<li><strong>Timeouts:</strong> If processing takes too long, the provider retries. Now you have concurrent processing of the same event.</li>
+</ol>
+<h3 id="how-meterplex-handles-each">How Meterplex handles each<a class="headerlink" href="#how-meterplex-handles-each" title="Permanent link">&para;</a></h3>
+<p><strong>Duplicates:</strong> The <code>provider_event_id</code> column on <code>webhook_events</code> has a UNIQUE constraint. Before processing, we check if the event already exists. If it does and status is PROCESSED, skip. This is the deduplication gate.</p>
+<p><strong>Out-of-order:</strong> The <code>PaymentSuccessHandler</code> looks up the payment attempt by <code>provider_payment_id</code>. If the attempt doesn't exist yet (race condition), the handler logs a warning and returns — the event is marked PROCESSED to prevent retries. The payment attempt creation will handle the success state independently since the fake adapter returns the final status synchronously.</p>
+<p><strong>Timeouts:</strong> The webhook endpoint returns 200 immediately, then processes asynchronously. The provider sees success and doesn't retry. Processing happens in the background.</p>
+<h3 id="webhook-processing-flow">Webhook processing flow<a class="headerlink" href="#webhook-processing-flow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST /api/v1/webhooks/stripe
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  │
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  ├─ Return 200 immediately (don&#39;t make Stripe wait)
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  │
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  └─ Async processing:
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>       1. Validate signature (adapter.constructWebhookEvent)
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>       2. Check dedup (webhookEvent.findUnique by providerEventId)
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>       3. If exists + PROCESSED → skip
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>       4. Create webhookEvent row (status: PENDING)
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>       5. Update status → PROCESSING
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>       6. Route by event type:
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>          ├─ payment_intent.succeeded → PaymentSuccessHandler
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>          ├─ payment_intent.payment_failed → PaymentFailureHandler
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>          └─ other → mark SKIPPED
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>       7. Update status → PROCESSED (or FAILED with error)
 </code></pre></div>
 <hr />
-<h2 id="seed-data-plan">Seed data plan<a class="headerlink" href="#seed-data-plan" title="Permanent link">&para;</a></h2>
-<p>Three plans with features and entitlements:</p>
-<h3 id="plans_1">Plans<a class="headerlink" href="#plans_1" title="Permanent link">&para;</a></h3>
+<h2 id="payment-status-lifecycle">Payment status lifecycle<a class="headerlink" href="#payment-status-lifecycle" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>PaymentAttempt statuses:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  PENDING ──────────▶ SUCCEEDED
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>     │
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>     └──────────────▶ FAILED ──▶ (new attempt created as retry)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>                        │
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>                        └──▶ after max retries: subscription → PAST_DUE
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>WebhookEvent statuses:
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>  PENDING ──▶ PROCESSING ──▶ PROCESSED
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>                  │
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>                  └──────────▶ FAILED
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>  (unhandled event types) ──▶ SKIPPED
+</code></pre></div>
+<hr />
+<h2 id="api-endpoints">API endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
+<h3 id="webhooks-no-auth-signature-is-the-auth">Webhooks (no auth — signature is the auth)<a class="headerlink" href="#webhooks-no-auth-signature-is-the-auth" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Plan</th>
-<th style="text-align: left;">Slug</th>
-<th style="text-align: left;">Price (monthly)</th>
-<th style="text-align: left;">Price (annual)</th>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">Starter</td>
-<td style="text-align: left;">starter</td>
-<td style="text-align: left;">$29/mo</td>
-<td style="text-align: left;">$278/yr ($23.17/mo)</td>
+<td>POST</td>
+<td>/webhooks/stripe</td>
+<td>Receive Stripe webhook events</td>
 </tr>
 <tr>
-<td style="text-align: left;">Pro</td>
-<td style="text-align: left;">pro</td>
-<td style="text-align: left;">$99/mo</td>
-<td style="text-align: left;">$948/yr ($79/mo)</td>
-</tr>
-<tr>
-<td style="text-align: left;">Enterprise</td>
-<td style="text-align: left;">enterprise</td>
-<td style="text-align: left;">$499/mo</td>
-<td style="text-align: left;">$4,788/yr ($399/mo)</td>
+<td>POST</td>
+<td>/webhooks/fake</td>
+<td>Test endpoint for fake adapter</td>
 </tr>
 </tbody>
 </table>
-<h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
+<h3 id="payment-history-tenant-scoped-jwt-tenant-guard">Payment history (tenant-scoped, JWT + Tenant guard)<a class="headerlink" href="#payment-history-tenant-scoped-jwt-tenant-guard" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Feature</th>
-<th style="text-align: left;">Lookup Key</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Unit</th>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">API Access</td>
-<td style="text-align: left;">api_access</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">-</td>
+<td>GET</td>
+<td>/billing/payments</td>
+<td>List payment attempts (paginated, filterable by status)</td>
 </tr>
 <tr>
-<td style="text-align: left;">API Calls</td>
-<td style="text-align: left;">api_calls</td>
-<td style="text-align: left;">QUOTA</td>
-<td style="text-align: left;">calls</td>
-</tr>
-<tr>
-<td style="text-align: left;">Storage</td>
-<td style="text-align: left;">storage</td>
-<td style="text-align: left;">METERED</td>
-<td style="text-align: left;">GB</td>
-</tr>
-<tr>
-<td style="text-align: left;">SSO</td>
-<td style="text-align: left;">sso</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: left;">Webhooks</td>
-<td style="text-align: left;">webhooks</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: left;">Priority Support</td>
-<td style="text-align: left;">priority_support</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: left;">Team Seats</td>
-<td style="text-align: left;">team_seats</td>
-<td style="text-align: left;">QUOTA</td>
-<td style="text-align: left;">seats</td>
-</tr>
-<tr>
-<td style="text-align: left;">Analytics Export</td>
-<td style="text-align: left;">analytics_export</td>
-<td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="entitlements-plan-feature-matrix">Entitlements (Plan × Feature matrix)<a class="headerlink" href="#entitlements-plan-feature-matrix" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Feature</th>
-<th style="text-align: left;">Starter</th>
-<th style="text-align: left;">Pro</th>
-<th style="text-align: left;">Enterprise</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">API Access</td>
-<td style="text-align: left;">✅ true</td>
-<td style="text-align: left;">✅ true</td>
-<td style="text-align: left;">✅ true</td>
-</tr>
-<tr>
-<td style="text-align: left;">API Calls</td>
-<td style="text-align: left;">1,000/mo HARD</td>
-<td style="text-align: left;">50,000/mo SOFT ($0.001/call)</td>
-<td style="text-align: left;">500,000/mo SOFT ($0.0005/call)</td>
-</tr>
-<tr>
-<td style="text-align: left;">Storage</td>
-<td style="text-align: left;">1 GB included, $0.05/GB</td>
-<td style="text-align: left;">10 GB included, $0.02/GB</td>
-<td style="text-align: left;">100 GB included, $0.01/GB</td>
-</tr>
-<tr>
-<td style="text-align: left;">SSO</td>
-<td style="text-align: left;">❌ false</td>
-<td style="text-align: left;">❌ false</td>
-<td style="text-align: left;">✅ true</td>
-</tr>
-<tr>
-<td style="text-align: left;">Webhooks</td>
-<td style="text-align: left;">❌ false</td>
-<td style="text-align: left;">✅ true</td>
-<td style="text-align: left;">✅ true</td>
-</tr>
-<tr>
-<td style="text-align: left;">Priority Support</td>
-<td style="text-align: left;">❌ false</td>
-<td style="text-align: left;">❌ false</td>
-<td style="text-align: left;">✅ true</td>
-</tr>
-<tr>
-<td style="text-align: left;">Team Seats</td>
-<td style="text-align: left;">3 seats HARD</td>
-<td style="text-align: left;">10 seats SOFT ($10/seat)</td>
-<td style="text-align: left;">50 seats SOFT ($8/seat)</td>
-</tr>
-<tr>
-<td style="text-align: left;">Analytics Export</td>
-<td style="text-align: left;">❌ false</td>
-<td style="text-align: left;">✅ true</td>
-<td style="text-align: left;">✅ true</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscriptions-dev-tenants">Subscriptions (dev tenants)<a class="headerlink" href="#subscriptions-dev-tenants" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Tenant</th>
-<th style="text-align: left;">Plan</th>
-<th style="text-align: left;">Interval</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">Acme Corp</td>
-<td style="text-align: left;">Pro</td>
-<td style="text-align: left;">Monthly</td>
-</tr>
-<tr>
-<td style="text-align: left;">Globex Industries</td>
-<td style="text-align: left;">Starter</td>
-<td style="text-align: left;">Monthly</td>
-</tr>
-<tr>
-<td style="text-align: left;">Stark Enterprises</td>
-<td style="text-align: left;">Enterprise</td>
-<td style="text-align: left;">Annually</td>
+<td>GET</td>
+<td>/billing/payments/:id</td>
+<td>Get payment attempt details with provider response</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="key-design-decisions">Key design decisions<a class="headerlink" href="#key-design-decisions" title="Permanent link">&para;</a></h2>
+<h2 id="key-decisions">Key decisions<a class="headerlink" href="#key-decisions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Decision</th>
-<th style="text-align: left;">Why</th>
+<th>Decision</th>
+<th>Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">Plan/Price separation</td>
-<td style="text-align: left;">Stripe pattern. Change pricing without creating new plans</td>
+<td>Adapter pattern for payment providers</td>
+<td>Swap providers without code changes. Fake adapter for dev/CI.</td>
 </tr>
 <tr>
-<td style="text-align: left;">Features as global catalog</td>
-<td style="text-align: left;">Decouple capabilities from plans. Same feature, different limits per plan</td>
+<td>Fire-and-forget payment intent on finalize</td>
+<td>Don't block the finalize response waiting for Stripe.</td>
 </tr>
 <tr>
-<td style="text-align: left;">Entitlement as the bridge</td>
-<td style="text-align: left;">Single place to define "Plan X gets Feature Y with these rules"</td>
+<td>Return 200 before processing webhook</td>
+<td>Stripe retries on non-2xx. Process async to avoid timeout retries.</td>
 </tr>
 <tr>
-<td style="text-align: left;">Entitlement snapshots</td>
-<td style="text-align: left;">Existing subscribers keep their contracted limits when plan changes</td>
+<td>Dedup by provider_event_id unique constraint</td>
+<td>Database-level guarantee. No application-level race conditions.</td>
 </tr>
 <tr>
-<td style="text-align: left;">Micro-cents for overage pricing</td>
-<td style="text-align: left;">Avoids floating-point math for sub-cent pricing ($0.001/call)</td>
+<td>Denormalized tenant_id on payment_attempts</td>
+<td>Filter by tenant without joining through invoice.</td>
 </tr>
 <tr>
-<td style="text-align: left;">limit_behavior on entitlement</td>
-<td style="text-align: left;">Same feature can be HARD on Starter and SOFT on Pro</td>
+<td>retry_of FK chain on attempts</td>
+<td>Full retry history traceable. Each attempt is its own record.</td>
 </tr>
 <tr>
-<td style="text-align: left;">lookup_key on features</td>
-<td style="text-align: left;">Stable code-facing identifier. Code checks "api_calls", not a UUID</td>
+<td>Exponential backoff (1d, 3d, 7d)</td>
+<td>Gives transient failures time to resolve without spam.</td>
 </tr>
 <tr>
-<td style="text-align: left;">Denormalized snapshots</td>
-<td style="text-align: left;">Avoids JOIN on the hot path (entitlement check per request)</td>
-</tr>
-<tr>
-<td style="text-align: left;">One active subscription per tenant</td>
-<td style="text-align: left;">Clean audit trail. Upgrades create new subscription, cancel old</td>
-</tr>
-<tr>
-<td style="text-align: left;">billing_anchor capped at 28</td>
-<td style="text-align: left;">Avoids February edge case (28/29/30/31 days)</td>
+<td>PAST_DUE after max retries, not CANCELLED</td>
+<td>Gives the tenant a chance to update payment method.</td>
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="seed-data">Seed data<a class="headerlink" href="#seed-data" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tenant</th>
+<th>Invoice</th>
+<th>Payment ID</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Acme</td>
+<td>INV-2026-0001</td>
+<td>fake_pi_seed_inv20260001</td>
+<td>$99.00</td>
+<td>SUCCEEDED</td>
+</tr>
+<tr>
+<td>Globex</td>
+<td>INV-2026-0002</td>
+<td>fake_pi_seed_inv20260002</td>
+<td>$29.00</td>
+<td>SUCCEEDED</td>
+</tr>
+<tr>
+<td>Stark</td>
+<td>INV-2026-0003</td>
+<td>fake_pi_seed_inv20260003</td>
+<td>$4,788.00</td>
+<td>SUCCEEDED</td>
+</tr>
+</tbody>
+</table>
+<p>Each seed invoice has: 1 payment attempt (SUCCEEDED), 1 webhook event (PROCESSED), invoice status PAID, ledger PAYMENT entry.</p>
+<hr />
+<h2 id="future-enhancements">Future enhancements<a class="headerlink" href="#future-enhancements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Stripe integration testing:</strong> real Stripe test-mode keys in CI with webhook forwarding via Stripe CLI.</li>
+<li><strong>Refund endpoint:</strong> <code>POST /billing/payments/:id/refund</code> creates a refund via adapter + ledger REFUND entry.</li>
+<li><strong>Admin webhook events API:</strong> <code>GET /admin/webhook-events</code> for support/debugging (WebhookEventResponseDto is pre-built).</li>
+<li><strong>Payment method management:</strong> store/update cards via Stripe Customer + SetupIntent.</li>
+<li><strong>Dunning emails:</strong> automated emails on payment failure with retry schedule.</li>
+<li><strong>SCA/3DS support:</strong> handle REQUIRES_ACTION status for Strong Customer Authentication.</li>
+</ul>
 
 
 
