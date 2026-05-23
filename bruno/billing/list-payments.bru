@@ -1,0 +1,23 @@
+meta {
+  name: List Payments
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/billing/payments?page=1&limit=20
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
+
+params:query {
+  page: 1
+  limit: 20
+}
