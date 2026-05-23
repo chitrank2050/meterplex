@@ -324,6 +324,11 @@ export class AuthService {
       where: { tokenHash },
     });
 
+    // If the token is not found in the database, it means it's invalid or has been purged.
+    if (!storedToken) {
+      throw new UnauthorizedException(ERRORS.AUTH.REFRESH_TOKEN_INVALID);
+    }
+
     // Step 3: If the token is already revoked, this might be a stolen token
     // being replayed by an attacker. Revoke ALL tokens as a precaution.
     if (storedToken.isRevoked) {

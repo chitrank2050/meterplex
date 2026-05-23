@@ -54,6 +54,7 @@ export const ERRORS = {
     REFRESSH_TOKEN_REVOKED: 'Refresh token has been revoked',
     REFRESH_TOKEN_EXPIRED: 'Refresh token has expired',
     PLATFORM_ADMIN_REQUIRED: 'Platform admin access required',
+    REFRESH_TOKEN_INVALID: 'Refresh token not found or has been purged',
   },
   /**
    * API key related error messages
