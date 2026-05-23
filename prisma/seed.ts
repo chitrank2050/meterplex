@@ -129,6 +129,7 @@ async function main(): Promise<void> {
       passwordHash,
       firstName: 'Alice',
       lastName: 'Johnson',
+      isPlatformAdmin: true,
     },
   });
   console.log(`  User: ${alice.email} (${alice.firstName} ${alice.lastName})`);
