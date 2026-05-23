@@ -1,0 +1,18 @@
+meta {
+  name: Get Payment By ID
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/{{apiPrefix}}/v1/billing/payments/{{paymentId}}
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  x-tenant-id: {{tenantId}}
+}
