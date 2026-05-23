@@ -2,6 +2,23 @@
 
 All notable changes to the Meterplex API and core platform.
 
+## [0.8.0] - 2026-05-23
+
+### ⚙️ Maintenance
+
+- Upgrade pnpm to v11 and migrate configuration to pnpm-workspace.yaml ([65d7cfa](https://github.com/chitrank2050/meterplex/commit/65d7cfae1a5c8f47b3befc11715da0c9483c8155))
+
+### 📚 Documentation
+
+- **phase-5:** Architecture doc, phase log, API reference, and Bruno collection (#186) ([829bab9](https://github.com/chitrank2050/meterplex/commit/829bab9d62ad89c26988e88e34b2e8cfab1940e5))
+
+### 🚀 Features
+
+- **payments:** Payment provider abstract base class + Stripe and Fake adapters (#181) ([4425aef](https://github.com/chitrank2050/meterplex/commit/4425aef36b78c2f96b4d719c563269ac4eb8f4dc))
+- **payments:** Schema for payment attempts and webhook events ([2f58b26](https://github.com/chitrank2050/meterplex/commit/2f58b266ee2c864e390064f062139f696078c5b9))
+- **payments:** Payment + webhook flow (#183) ([8481842](https://github.com/chitrank2050/meterplex/commit/8481842fe6bf8ba98281657d681e62c54c024259))
+- **payments:** Tenant-scoped payment history endpoints (#184) ([6c81380](https://github.com/chitrank2050/meterplex/commit/6c813809e65946c0a2fab4e211741c7ff8e04260))
+- **seed:** Add payment attempts, webhook events, and mark invoices paid (#185) ([78638a7](https://github.com/chitrank2050/meterplex/commit/78638a7b5e5ce85121d3e7035685be3ceadc0797))
 ## [0.7.0] - 2026-05-20
 
 ### ⚙️ Maintenance
