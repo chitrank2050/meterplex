@@ -12,6 +12,7 @@
  */
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   Logger,
   NotFoundException,
@@ -285,6 +286,61 @@ export class UsersService {
         throw new ConflictException(ERRORS.USER.EMAIL_EXISTS(dto.email));
       }
       throw error;
+    }
+  }
+
+  /**
+   * Assert the caller has permission to update the target user.
+   *
+   * Rules:
+   *   - Caller must be OWNER or ADMIN in the specified tenant
+   *   - Target user must also be a member of that tenant
+   *   - isActive changes require OWNER role (not just ADMIN)
+   *
+   * @throws ForbiddenException if any check fails
+   */
+  async assertCallerCanUpdateUser(
+    callerId: string,
+    targetUserId: string,
+    tenantId: string,
+    dto: UpdateUserDto,
+  ): Promise<void> {
+    // Check caller's role in this tenant
+    const callerMembership = await this.prisma.membership.findUnique({
+      where: {
+        userId_tenantId: { userId: callerId, tenantId },
+      },
+    });
+
+    if (!callerMembership) {
+      throw new ForbiddenException(ERRORS.USER.NOT_TENANT_MEMBER);
+    }
+
+    const allowedRoles: MembershipRole[] = [
+      MembershipRole.OWNER,
+      MembershipRole.ADMIN,
+    ];
+    if (!allowedRoles.includes(callerMembership.role)) {
+      throw new ForbiddenException(ERRORS.USER.INSUFFICIENT_ROLE);
+    }
+
+    // isActive changes require OWNER specifically
+    if (
+      dto.isActive !== undefined &&
+      callerMembership.role !== MembershipRole.OWNER
+    ) {
+      throw new ForbiddenException(ERRORS.USER.DEACTIVATE_REQUIRES_OWNER);
+    }
+
+    // Target user must also be a member of this tenant
+    const targetMembership = await this.prisma.membership.findUnique({
+      where: {
+        userId_tenantId: { userId: targetUserId, tenantId },
+      },
+    });
+
+    if (!targetMembership) {
+      throw new ForbiddenException(ERRORS.USER.TARGET_NOT_IN_TENANT);
     }
   }
 }

@@ -29,6 +29,12 @@ export const ERRORS = {
     EMAIL_EXISTS: (email: string) =>
       `User with email "${email}" already exists`,
     NOT_FOUND: (id: string) => `User with ID "${id}" not found`,
+    CANNOT_DEACTIVATE_SELF: 'Cannot change your own active status',
+    UPDATE_REQUIRES_TENANT: 'Updating another user requires x-tenant-id header',
+    NOT_TENANT_MEMBER: 'You are not a member of this tenant',
+    INSUFFICIENT_ROLE: 'Only OWNER or ADMIN can update other users',
+    DEACTIVATE_REQUIRES_OWNER: "Only OWNER can change a user's active status",
+    TARGET_NOT_IN_TENANT: 'Target user is not a member of this tenant',
   },
   /**
    * Authentication related error messages
