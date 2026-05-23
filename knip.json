@@ -19,6 +19,5 @@
     "@types/supertest"
   ],
   "ignoreBinaries": ["zizmor"],
-  "ignoreExportsUsedInFile": true,
-  "ignoreFiles": ["src/modules/payments/dto/webhook-event-response.dto.ts"]
+  "ignoreExportsUsedInFile": true
 }
