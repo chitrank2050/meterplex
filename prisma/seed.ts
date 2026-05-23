@@ -16,6 +16,11 @@
  * IDEMPOTENT: Uses upsert for users and tenants, checks existence
  * for memberships and keys. Safe to run multiple times.
  *
+ * Payment Flow:
+ * - Realistic usage data for demo/testing scenarios
+ * - Payment attempts (SUCCEEDED) + webhook events (PROCESSED)
+ * - Invoices marked PAID with ledger PAYMENT entries
+ *
  * All passwords are "DevPass123" for development convenience.
  * These credentials are documented here intentionally - this is
  * seed data, not production secrets.
@@ -1329,6 +1334,147 @@ async function main(): Promise<void> {
   }
 
   // =========================================================
+  // PAYMENTS + WEBHOOKS
+  //
+  // Complete the billing cycle for each seeded invoice:
+  //   1. Create a PaymentAttempt with status SUCCEEDED
+  //   2. Create a WebhookEvent with status PROCESSED
+  //   3. Mark the invoice as PAID (update status + paidAt)
+  //   4. Add a PAYMENT ledger entry (credit = invoice total)
+  //
+  // Uses fake provider IDs matching the FakePaymentAdapter format.
+  // Idempotent: checks for existing payment attempt before creating.
+  // =========================================================
+
+  console.log('\n--- Payments & Webhooks ---');
+
+  // Find all FINALIZED invoices from seed (created above)
+  const seedInvoices = await prisma.invoice.findMany({
+    where: {
+      tenantId: { in: [acme.id, globex.id, stark.id] },
+      status: { in: ['FINALIZED', 'PAID'] },
+      periodStart: periodStart,
+      periodEnd: periodEnd,
+    },
+    select: {
+      id: true,
+      tenantId: true,
+      invoiceNumber: true,
+      total: true,
+      currency: true,
+      status: true,
+    },
+    orderBy: { invoiceNumber: 'asc' },
+  });
+
+  const tenantLabels = new Map<string, string>([
+    [acme.id, 'Acme'],
+    [globex.id, 'Globex'],
+    [stark.id, 'Stark'],
+  ]);
+
+  for (const invoice of seedInvoices) {
+    const label = tenantLabels.get(invoice.tenantId) ?? 'Unknown';
+
+    // Seeded invoices always have invoice numbers - skip if somehow missing
+    if (!invoice.invoiceNumber) {
+      console.log(`  SKIP ${label}: invoice missing invoiceNumber`);
+      continue;
+    }
+
+    // Deterministic provider IDs for idempotency
+    // Using invoice number to generate consistent fake IDs across re-runs
+    const invoiceSlug = invoice.invoiceNumber
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+    const providerPaymentId = `fake_pi_seed_${invoiceSlug}`;
+    const providerEventId = `fake_evt_seed_${invoiceSlug}`;
+
+    // Check if payment attempt already exists
+    const existingAttempt = await prisma.paymentAttempt.findUnique({
+      where: { providerPaymentId },
+    });
+
+    if (existingAttempt) {
+      console.log(
+        `  ${label} → ${invoice.invoiceNumber}: payment already exists (${providerPaymentId})`,
+      );
+      continue;
+    }
+
+    await prisma.$transaction(async (tx) => {
+      // 1. Create payment attempt - SUCCEEDED
+      await tx.paymentAttempt.create({
+        data: {
+          invoiceId: invoice.id,
+          tenantId: invoice.tenantId,
+          providerPaymentId,
+          provider: 'fake',
+          status: 'SUCCEEDED',
+          amount: invoice.total,
+          currency: invoice.currency,
+          attemptNumber: 0,
+          providerResponse: {
+            source: 'seed',
+            providerPaymentId,
+            status: 'succeeded',
+            amount: invoice.total,
+            currency: invoice.currency,
+          },
+        },
+      });
+
+      // 2. Create webhook event - PROCESSED
+      await tx.webhookEvent.create({
+        data: {
+          providerEventId,
+          provider: 'fake',
+          eventType: 'payment_intent.succeeded',
+          status: 'PROCESSED',
+          rawPayload: {
+            id: providerEventId,
+            type: 'payment_intent.succeeded',
+            providerPaymentId,
+            amount: invoice.total,
+            currency: invoice.currency,
+            source: 'seed',
+          },
+          processedAt: new Date(),
+        },
+      });
+
+      // 3. Mark invoice as PAID (only if still FINALIZED)
+      if (invoice.status === 'FINALIZED') {
+        await tx.invoice.update({
+          where: { id: invoice.id },
+          data: {
+            status: 'PAID',
+            paidAt: new Date(),
+          },
+        });
+
+        // 4. Create ledger PAYMENT entry
+        await tx.billingLedgerEntry.create({
+          data: {
+            tenantId: invoice.tenantId,
+            invoiceId: invoice.id,
+            type: 'PAYMENT',
+            description: `Payment received for invoice ${invoice.invoiceNumber}`,
+            debit: 0,
+            credit: invoice.total,
+            currency: invoice.currency,
+            externalReference: providerPaymentId,
+          },
+        });
+      }
+    });
+
+    console.log(
+      `  ${label} → ${invoice.invoiceNumber}: PAID via ${providerPaymentId} ($${(invoice.total / 100).toFixed(2)})`,
+    );
+  }
+
+  // =========================================================
   // SUMMARY
   // =========================================================
 
@@ -1348,6 +1494,8 @@ async function main(): Promise<void> {
     prisma.invoice.count(),
     prisma.invoiceLineItem.count(),
     prisma.billingLedgerEntry.count(),
+    prisma.paymentAttempt.count(),
+    prisma.webhookEvent.count(),
   ]);
 
   console.log(`
@@ -1367,6 +1515,8 @@ async function main(): Promise<void> {
     Invoices:             ${counts[12]}
     Invoice Line Items:   ${counts[13]}
     Ledger Entries:       ${counts[14]}
+    Payment Attempts:     ${counts[15]}
+    Webhook Events:       ${counts[16]}
 
   Dev login credentials (all passwords: ${DEV_PASSWORD}):
     alice@meterplex.dev  → OWNER of Acme, ADMIN of Globex
@@ -1385,10 +1535,15 @@ async function main(): Promise<void> {
     Globex (Starter):  950 api_calls (95% near HARD limit), 1 GB storage
     Stark (Enterprise): 50,000 api_calls (10%), 25 GB storage
 
-  Dev invoices (FINALIZED):
+  Dev invoices (PAID):
     Acme → INV-${year}-0001: $99.00 (Pro monthly, no overage)
     Globex → INV-${year}-0002: $29.00 (Starter monthly, no overage)
     Stark → INV-${year}-0003: $4,788.00 (Enterprise annual, no overage)
+
+  Dev payments (all SUCCEEDED via fake provider):
+    Acme: fake_pi_seed_inv${year}0001 → $99.00
+    Globex: fake_pi_seed_inv${year}0002 → $29.00
+    Stark: fake_pi_seed_inv${year}0003 → $4,788.00
 `);
 }
 
