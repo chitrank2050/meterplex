@@ -12,13 +12,13 @@
         <meta name="author" content="Chitrank Agnihotri">
       
       
-        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/phases/phase-4/">
+        <link rel="canonical" href="https://chitrank2050.github.io/meterplex/phases/phase-5.5/">
       
       
-        <link rel="prev" href="../phase-3/">
+        <link rel="prev" href="../phase-5/">
       
       
-        <link rel="next" href="../phase-5/">
+        <link rel="next" href="../../maintenance/ci-cd/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Phase 4: Billing & Invoices - Meterplex</title>
+        <title>Phase 5.5: Security Hardening - Meterplex</title>
       
     
     
@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#phase-4-billing-ledger-and-invoice-generation" class="md-skip">
+        <a href="#phase-55-security-hardening-and-audit-fixes" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +128,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 4: Billing & Invoices
+              Phase 5.5: Security Hardening
             
           </span>
         </div>
@@ -1396,37 +1396,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Phase 4: Billing & Invoices
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../phase-4/" class="md-nav__link">
         
   
   
@@ -1442,214 +1415,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tldr" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TLDR
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-was-built" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What was built
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="What was built">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#data-model" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Data model
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#invoice-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Invoice generation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#overage-calculator" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overage calculator
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#invoice-lifecycle" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Invoice lifecycle
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#billing-ledger" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Billing ledger
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#billing-cron" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Billing cron
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#proration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Proration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API endpoints
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API endpoints">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#invoices-tenant-scoped" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Invoices (tenant-scoped)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#billing-tenant-scoped" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Billing (tenant-scoped)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-decisions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key decisions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#seed-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Seed data
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gotchas-encountered" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gotchas encountered
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#limitations-carried-into-next-phases" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Limitations carried into next phases
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1687,10 +1452,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../phase-5.5/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 5.5: Security Hardening
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1706,6 +1498,131 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLDR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-was-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What was fixed
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What was fixed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#critical-pre-production-blockers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Critical (pre-production blockers)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High priority
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#medium-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medium priority
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#low-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low priority
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seed-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seed changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1969,22 +1886,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-was-built" class="md-nav__link">
+  <a href="#what-was-fixed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What was built
+        What was fixed
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What was built">
+    <nav class="md-nav" aria-label="What was fixed">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#data-model" class="md-nav__link">
+  <a href="#critical-pre-production-blockers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data model
+        Critical (pre-production blockers)
       
     </span>
   </a>
@@ -1992,10 +1909,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#invoice-generation" class="md-nav__link">
+  <a href="#high-priority" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Invoice generation
+        High priority
       
     </span>
   </a>
@@ -2003,10 +1920,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#overage-calculator" class="md-nav__link">
+  <a href="#medium-priority" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overage calculator
+        Medium priority
       
     </span>
   </a>
@@ -2014,82 +1931,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#invoice-lifecycle" class="md-nav__link">
+  <a href="#low-priority" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Invoice lifecycle
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#billing-ledger" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Billing ledger
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#billing-cron" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Billing cron
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#proration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Proration
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API endpoints
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API endpoints">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#invoices-tenant-scoped" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Invoices (tenant-scoped)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#billing-tenant-scoped" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Billing (tenant-scoped)
+        Low priority
       
     </span>
   </a>
@@ -2113,10 +1958,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#seed-data" class="md-nav__link">
+  <a href="#schema-changes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Seed data
+        Schema changes
       
     </span>
   </a>
@@ -2124,21 +1969,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gotchas-encountered" class="md-nav__link">
+  <a href="#seed-changes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Gotchas encountered
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#limitations-carried-into-next-phases" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Limitations carried into next phases
+        Seed changes
       
     </span>
   </a>
@@ -2239,227 +2073,28 @@
   
 
 
-<h1 id="phase-4-billing-ledger-and-invoice-generation">Phase 4 - Billing Ledger and Invoice Generation<a class="headerlink" href="#phase-4-billing-ledger-and-invoice-generation" title="Permanent link">&para;</a></h1>
-<p><strong>Goal:</strong> Turn usage aggregates into money. Calculate what each tenant owes, generate line-item invoices, and maintain an immutable billing ledger.</p>
+<h1 id="phase-55-security-hardening-and-audit-fixes">Phase 5.5 - Security Hardening and Audit Fixes<a class="headerlink" href="#phase-55-security-hardening-and-audit-fixes" title="Permanent link">&para;</a></h1>
+<p><strong>Goal:</strong> Fix all security vulnerabilities and technical debt identified in the security audit. This is not a feature phase - it's a quality gate.</p>
 <p><strong>Status:</strong> ✅ Complete</p>
 <hr />
 <h2 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<p>Phase 4 is complete. Here's what you built:</p>
-<ul>
-<li>Invoice generation from usage aggregates + subscription pricing</li>
-<li>Overage calculator with micro-cents precision (all integer math, no floats)</li>
-<li>Invoice lifecycle: DRAFT → FINALIZED → PAID / VOID</li>
-<li>Sequential invoice numbers (INV-2026-0001) assigned at finalization only</li>
-<li>Double-entry billing ledger: CHARGE on finalize, PAYMENT on pay, CREDIT on void</li>
-<li>Billing period cron: auto-closes expired periods daily at 00:05 UTC</li>
-<li>Mid-cycle cancellation proration: base fee × (days used / total days)</li>
-<li>Seed data: 3 invoices, 10 line items, 3 ledger entries</li>
-</ul>
-<h2 id="what-was-built">What was built<a class="headerlink" href="#what-was-built" title="Permanent link">&para;</a></h2>
-<h3 id="data-model">Data model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
-<p>Five new tables/objects:</p>
-<ul>
-<li><strong>invoices</strong> - one per tenant per billing period. Status lifecycle (DRAFT → FINALIZED → PAID → VOID). Links to subscription. Stores totals, invoice number, due date.</li>
-<li><strong>invoice_line_items</strong> - individual charges on an invoice. Base subscription fee, per-feature overage charges. Each line has: description, quantity, unit price (micro-cents), total amount (cents).</li>
-<li><strong>billing_ledger_entries</strong> - double-entry accounting. Every monetary event (CHARGE, PAYMENT, CREDIT, REFUND, ADJUSTMENT) creates an immutable, append-only entry.</li>
-<li><strong>invoice_sequences</strong> - counter table for sequential invoice numbers. One row per year, atomically incremented.</li>
-</ul>
-<h3 id="invoice-generation">Invoice generation<a class="headerlink" href="#invoice-generation" title="Permanent link">&para;</a></h3>
-<p>Two modes, one endpoint. <code>POST /api/v1/invoices/generate</code> auto-detects:</p>
-<ul>
-<li><strong>Active subscription</strong> → full-period invoice with base fee + overage line items</li>
-<li><strong>Cancelled subscription</strong> → prorated invoice with base fee × (days used / total days) + full usage charges</li>
-</ul>
-<p>Line items include:</p>
-<ul>
-<li>Base subscription fee (e.g., "Pro plan - monthly" × 1 = $99.00)</li>
-<li>Per-feature overage (e.g., "API Calls overage (55,000 used, 50,000 included)" × 5,000 = $5.00)</li>
-<li>HARD quota features are excluded (they block at limit, no overage to bill)</li>
-<li>BOOLEAN features are excluded (on/off, nothing to bill)</li>
-</ul>
-<h3 id="overage-calculator">Overage calculator<a class="headerlink" href="#overage-calculator" title="Permanent link">&para;</a></h3>
-<p>Pure function, all integer math:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">overageUnits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">max</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">used</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">includedAmount</span><span class="p">)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">totalMicroCents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">overageUnits</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="nx">overagePriceMicroCents</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">totalCents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nx">totalMicroCents</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100</span><span class="p">)</span>
-</code></pre></div>
-<p>Where: $1.00 = 10,000 micro-cents, $0.01 = 100 micro-cents. Division by 100 converts micro-cents to cents.</p>
-<p>Rounding happens once at the final cents conversion. This matches Stripe's approach - accumulate in the smallest unit, round once at the end.</p>
-<h3 id="invoice-lifecycle">Invoice lifecycle<a class="headerlink" href="#invoice-lifecycle" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>DRAFT → FINALIZED → PAID
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                  → VOID
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>DRAFT → VOID
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Transition</th>
-<th>Side effects</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DRAFT → FINALIZED</td>
-<td>Assigns INV-YYYY-NNNN, sets due date (+30 days), creates ledger CHARGE</td>
-</tr>
-<tr>
-<td>FINALIZED → PAID</td>
-<td>Creates ledger PAYMENT</td>
-</tr>
-<tr>
-<td>FINALIZED → VOID</td>
-<td>Creates ledger CREDIT (reverses the charge)</td>
-</tr>
-<tr>
-<td>DRAFT → VOID</td>
-<td>No ledger entry (nothing was ever charged)</td>
-</tr>
-</tbody>
-</table>
-<p>Invoice numbers are assigned at FINALIZE, not creation. DRAFT invoices don't get numbers - prevents gaps in the sequence from voided drafts.</p>
-<h3 id="billing-ledger">Billing ledger<a class="headerlink" href="#billing-ledger" title="Permanent link">&para;</a></h3>
-<p>Double-entry style, simplified for SaaS billing:</p>
-<table>
-<thead>
-<tr>
-<th>Entry type</th>
-<th>Debit</th>
-<th>Credit</th>
-<th>When</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CHARGE</td>
-<td>$99.00</td>
-<td>$0.00</td>
-<td>Invoice finalized</td>
-</tr>
-<tr>
-<td>PAYMENT</td>
-<td>$0.00</td>
-<td>$99.00</td>
-<td>Payment received</td>
-</tr>
-<tr>
-<td>CREDIT</td>
-<td>$0.00</td>
-<td>$99.00</td>
-<td>Invoice voided</td>
-</tr>
-<tr>
-<td>REFUND</td>
-<td>$0.00</td>
-<td>$50.00</td>
-<td>Money returned (Phase 5)</td>
-</tr>
-<tr>
-<td>ADJUSTMENT</td>
-<td>±amount</td>
-<td>±amount</td>
-<td>Manual correction (Phase 6)</td>
-</tr>
-</tbody>
-</table>
-<p>Balance = SUM(debit) - SUM(credit). Positive = tenant owes money.</p>
-<p>Entries are immutable and append-only. To correct a mistake, add an ADJUSTMENT - never edit or delete existing entries.</p>
-<h3 id="billing-cron">Billing cron<a class="headerlink" href="#billing-cron" title="Permanent link">&para;</a></h3>
-<p><code>BillingCronService</code> runs daily at 00:05 UTC:</p>
-<ol>
-<li>Finds all subscriptions with expired billing periods (<code>currentPeriodEnd &lt;= NOW()</code>)</li>
-<li>Finds all cancelled subscriptions needing prorated invoices</li>
-<li>For each: generate DRAFT → auto-finalize → advance period</li>
-<li>Logs results: "2 invoices generated, 0 failures"</li>
-<li>Each subscription processed independently - one failure doesn't block others</li>
-</ol>
-<h3 id="proration">Proration<a class="headerlink" href="#proration" title="Permanent link">&para;</a></h3>
-<p>When a tenant cancels mid-cycle:</p>
-<ul>
-<li>Base fee is prorated: <code>$29.00 × (7 days used / 31 total days) = $6.55</code></li>
-<li>Usage charges are NOT prorated - billed for actual consumption</li>
-<li>Invoice notes show: "Prorated invoice - cancelled on 2026-05-20 (7/31 days used)"</li>
-</ul>
-<h2 id="api-endpoints">API endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
-<h3 id="invoices-tenant-scoped">Invoices (tenant-scoped)<a class="headerlink" href="#invoices-tenant-scoped" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Path</th>
-<th>Guards</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET</td>
-<td>/invoices</td>
-<td>JWT + Tenant</td>
-<td>List invoices (paginated, filterable by status)</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/invoices/:id</td>
-<td>JWT + Tenant</td>
-<td>Get invoice with line items</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/invoices/:id/line-items</td>
-<td>JWT + Tenant</td>
-<td>Get line items only</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/invoices/generate</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>Generate invoice (auto-detects full/prorated)</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/invoices/:id/finalize</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>DRAFT → FINALIZED</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/invoices/:id/mark-paid</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>FINALIZED → PAID</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/invoices/:id/void</td>
-<td>JWT + Tenant + OWNER/ADMIN</td>
-<td>DRAFT/FINALIZED → VOID</td>
-</tr>
-</tbody>
-</table>
-<h3 id="billing-tenant-scoped">Billing (tenant-scoped)<a class="headerlink" href="#billing-tenant-scoped" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Path</th>
-<th>Guards</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET</td>
-<td>/billing/ledger</td>
-<td>JWT + Tenant</td>
-<td>List ledger entries (paginated, filterable by type)</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/billing/balance</td>
-<td>JWT + Tenant</td>
-<td>Get current balance</td>
-</tr>
-</tbody>
-</table>
+<p>11 issues resolved across authentication, authorization, billing, rate limiting, and code quality. Every finding from the Security Audit v2 (2026-05-20) has been addressed.</p>
+<h2 id="what-was-fixed">What was fixed<a class="headerlink" href="#what-was-fixed" title="Permanent link">&para;</a></h2>
+<h3 id="critical-pre-production-blockers">Critical (pre-production blockers)<a class="headerlink" href="#critical-pre-production-blockers" title="Permanent link">&para;</a></h3>
+<p><strong>#140 - Tenant :id param vs x-tenant-id header mismatch.</strong> An OWNER of Tenant A could modify Tenant B's data by setting <code>x-tenant-id: TenantA</code> but putting Tenant B's UUID in the URL. Fixed with controller-level comparison of <code>@Param('id')</code> against <code>@TenantId()</code>, returning 403 on mismatch. Applied to <code>findById</code>, <code>update</code>, and <code>remove</code> in <code>TenantsController</code>.</p>
+<p><strong>#141 - User update endpoint allows any user to modify any profile.</strong> Any JWT holder could PATCH any user's <code>firstName</code>, <code>lastName</code>, or <code>isActive</code>. Fixed with authorization logic: self-update allowed (except <code>isActive</code>), admin-update requires <code>x-tenant-id</code> + OWNER/ADMIN role + target must be a member of that tenant, <code>isActive</code> changes require OWNER.</p>
+<p><strong>#142 - No PlatformAdminGuard for catalog mutations.</strong> Any registered user could create plans, modify features, and change pricing. Added <code>isPlatformAdmin</code> boolean to User model, created <code>PlatformAdminGuard</code>, applied to all mutating endpoints on plans, features, entitlements, and plan-prices controllers. Read-only endpoints remain public/JWT-only.</p>
+<p><strong>#143 - No rate limiting anywhere.</strong> Auth brute force, usage flooding, and billing DoS were trivial. Implemented Redis-based rate limiting with <code>RateLimitGuard</code> (global, 200/min per user default) and <code>@RateLimit()</code> decorator with <code>RATE_LIMITS</code> presets for tiered limits. Auth: 10/min per IP. Usage: 100/min per tenant. Invoice generation: 5/min per tenant. Standard 429 with <code>Retry-After</code> and <code>X-RateLimit-*</code> headers. Fail-open on Redis errors.</p>
+<h3 id="high-priority">High priority<a class="headerlink" href="#high-priority" title="Permanent link">&para;</a></h3>
+<p><strong>#144 - Refresh token findUniqueOrThrow fails open on purged tokens.</strong> Purged tokens caused a Prisma <code>NotFoundError</code> that bubbled up as 500 instead of 401. Replaced with <code>findUnique</code> + explicit null check throwing <code>UnauthorizedException</code>.</p>
+<h3 id="medium-priority">Medium priority<a class="headerlink" href="#medium-priority" title="Permanent link">&para;</a></h3>
+<p><strong>#145 - Cancel endpoint doesn't set status to CANCELLED.</strong> <code>cancel()</code> set <code>cancelledAt</code> but left <code>status: ACTIVE</code>. Cancelled subscriptions continued passing entitlement checks and generating invoices. Added <code>status: SubscriptionStatus.CANCELLED</code> to the update.</p>
+<p><strong>#146 - Consume endpoint doesn't persist usage events.</strong> Redis counter was ephemeral - flushed Redis means lost usage, never billed. Added transaction writing <code>usage_event</code> + <code>outbox_event</code> after Redis increment. Events flow through the existing pipeline for billing durability.</p>
+<p><strong>#147 - Audit log shallow sanitization + no size limit.</strong> <code>sanitize()</code> only stripped top-level keys. Nested <code>{ user: { password: "secret" } }</code> persisted in plaintext. Replaced with recursive sanitization via <code>WeakSet</code> cycle detection, <code>SENSITIVE_KEYS</code> set with lowercase comparison, <code>toJSON()</code> delegation for Date/Decimal/custom classes, BigInt/Symbol/Function handling, and 10KB payload size limit with <code>_truncated</code> flag.</p>
+<p><strong>#148 - Billing ledger endpoints missing RolesGuard.</strong> Any tenant member including DEVELOPER could view financial data. Added <code>RolesGuard</code> with <code>@Roles(OWNER, ADMIN, BILLING)</code> to all four billing endpoints.</p>
+<h3 id="low-priority">Low priority<a class="headerlink" href="#low-priority" title="Permanent link">&para;</a></h3>
+<p><strong>#149 - Invoices controller has direct Prisma queries.</strong> Created <code>InvoicesService</code> with <code>findAll</code>, <code>findById</code>, <code>findLineItems</code>, <code>generateForTenant</code>. Controller now delegates everything. Also fixed <code>generate()</code> returning inline <code>{ statusCode: 404 }</code> instead of throwing <code>NotFoundException</code>.</p>
+<p><strong>#150 - Misc: process.env.PORT, pagination, duplicate comment.</strong> Replaced <code>process.env.PORT</code> with <code>ConfigService.get('PORT')</code>. Added pagination to subscriptions and API keys list endpoints. Removed duplicate comment in <code>usage-aggregation.consumer.ts</code>.</p>
 <h2 id="key-decisions">Key decisions<a class="headerlink" href="#key-decisions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2470,89 +2105,43 @@
 </thead>
 <tbody>
 <tr>
-<td>Invoice number at FINALIZE only</td>
-<td>No gaps from voided drafts. Legal compliance.</td>
+<td>Controller-level tenant ID check, not middleware</td>
+<td>Only affects routes with both <code>:id</code> param and <code>x-tenant-id</code>. Middleware would run on every request.</td>
 </tr>
 <tr>
-<td>Micro-cents (÷100) not (÷10000)</td>
-<td>$0.01 = 100 micro-cents. Avoids INT overflow on annual plans.</td>
+<td><code>@Headers('x-tenant-id')</code> on user update, not <code>@TenantId()</code></td>
+<td>The decorator assumes header is required (paired with TenantGuard). User self-update doesn't need tenant context.</td>
 </tr>
 <tr>
-<td>HARD quotas excluded from invoices</td>
-<td>They block at limit - no overage exists to bill.</td>
+<td><code>isPlatformAdmin</code> in DB, not env var</td>
+<td>Database-driven is more flexible. Can grant/revoke without restart.</td>
 </tr>
 <tr>
-<td>Usage NOT prorated on cancellation</td>
-<td>Tenant is billed for actual consumption, not estimated.</td>
+<td>Fixed-window rate limiting, not sliding window</td>
+<td>Simpler, sufficient for current scale. Sliding window can be swapped in later - same decorator interface.</td>
 </tr>
 <tr>
-<td>One endpoint auto-detects full/prorated</td>
-<td>Frontend doesn't need to maintain state.</td>
+<td>Fail-open rate limiting on Redis errors</td>
+<td>Availability over security for non-auth endpoints. Auth endpoints should arguably fail-closed - future enhancement.</td>
 </tr>
 <tr>
-<td>Ledger entries append-only</td>
-<td>Corrections via ADJUSTMENT, not edits. Audit-safe.</td>
+<td>Recursive sanitize with <code>toJSON()</code> delegation</td>
+<td>Handles Date, Decimal, any custom class automatically. Future-proof.</td>
 </tr>
 <tr>
-<td>Daily cron at 00:05 UTC</td>
-<td>5-min buffer for late usage events. Simple, sufficient.</td>
-</tr>
-<tr>
-<td>Independent subscription processing</td>
-<td>One billing failure doesn't block others.</td>
+<td>10KB audit payload limit</td>
+<td>Prevents OOM on massive request bodies. <code>_truncated</code> flag preserves auditability.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="seed-data">Seed data<a class="headerlink" href="#seed-data" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Tenant</th>
-<th>Plan</th>
-<th>Invoice</th>
-<th>Total</th>
-<th>Line items</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Acme</td>
-<td>Pro ($99/mo)</td>
-<td>INV-2026-0001</td>
-<td>$99.00</td>
-<td>Base fee + 3 usage (no overage)</td>
-</tr>
-<tr>
-<td>Globex</td>
-<td>Starter ($29/mo)</td>
-<td>INV-2026-0002</td>
-<td>$29.00</td>
-<td>Base fee + 1 usage (no overage)</td>
-</tr>
-<tr>
-<td>Stark</td>
-<td>Enterprise ($4,788/yr)</td>
-<td>INV-2026-0003</td>
-<td>$4,788.00</td>
-<td>Base fee + 3 usage (no overage)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="gotchas-encountered">Gotchas encountered<a class="headerlink" href="#gotchas-encountered" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>INT overflow on <code>unitPriceMicroCents</code></strong> - Enterprise annual base fee ($4,788) at ×10,000 = 4,788,000,000, exceeding Postgres INT max (2,147,483,647). Fixed by using ×100 conversion (cents → micro-cents) instead of ×10,000.</li>
-<li><strong>Missing DTOs</strong> - rushed the invoices module without response DTOs. Inconsistent with Phase 1-3 modules. Fixed: added InvoiceResponseDto, LedgerEntryResponseDto, BalanceResponseDto.</li>
-<li><strong>Inline error returns</strong> - used <code>return { statusCode: 404 }</code> instead of <code>throw new NotFoundException(ERRORS.INVOICE.NOT_FOUND)</code>. Bypassed the global exception filter. Fixed all instances.</li>
-<li><strong>Overage calculator ÷10,000 bug</strong> - micro-cents to cents conversion used ÷10,000 instead of ÷100. Caused 5 GB × $0.02/GB = $0.00 instead of $0.10. Fixed and verified with all 4 test cases.</li>
-<li><strong>Route ordering</strong> - <code>/invoices/:id/line-items</code> must be defined before <code>/invoices/:id</code> or NestJS interprets "line-items" as a UUID.</li>
-</ol>
-<h2 id="limitations-carried-into-next-phases">Limitations carried into next phases<a class="headerlink" href="#limitations-carried-into-next-phases" title="Permanent link">&para;</a></h2>
+<h2 id="schema-changes">Schema changes<a class="headerlink" href="#schema-changes" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>No payment provider integration</strong> - <code>mark-paid</code> is manual. Phase 5 adds Stripe/webhook-based payment confirmation.</li>
-<li><strong>No tax calculation</strong> - <code>total = subtotal</code> always. Tax engine is a future enhancement.</li>
-<li><strong>No PDF generation</strong> - invoices are JSON only. PDF rendering is a future enhancement.</li>
-<li><strong>No admin endpoints for dead letter retry</strong> - dead letter events exist but only queryable via SQL.</li>
-<li><strong>No REFUND or ADJUSTMENT endpoints</strong> - enum values exist, no API to create them yet.</li>
+<li>Added <code>is_platform_admin</code> boolean to <code>users</code> table (default false)</li>
+<li>Migration: <code>add-is-platform-admin</code></li>
+</ul>
+<h2 id="seed-changes">Seed changes<a class="headerlink" href="#seed-changes" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>alice@meterplex.dev</code> marked as <code>isPlatformAdmin: true</code></li>
 </ul>
 
 
