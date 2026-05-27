@@ -27,6 +27,8 @@ import { PrismaService } from '@app-prisma/prisma.service';
 
 import { ERRORS } from '@common/constants';
 
+import { InvoiceStatus, PaymentAttemptStatus } from '@prisma/client';
+
 import { PAYMENT_PROVIDER, PaymentProviderBase } from './payment-provider.base';
 
 /** Max payment retries before giving up. */
@@ -66,7 +68,7 @@ export class PaymentIntentService {
   ) {
     // Verify invoice is FINALIZED
     const invoice = await this.prisma.invoice.findFirst({
-      where: { id: invoiceId, tenantId, status: 'FINALIZED' },
+      where: { id: invoiceId, tenantId, status: InvoiceStatus.FINALIZED },
       select: { id: true, invoiceNumber: true },
     });
 
@@ -76,7 +78,7 @@ export class PaymentIntentService {
 
     // Check for existing successful payment
     const existingSuccess = await this.prisma.paymentAttempt.findFirst({
-      where: { invoiceId, status: 'SUCCEEDED' },
+      where: { invoiceId, status: PaymentAttemptStatus.SUCCEEDED },
       select: { id: true },
     });
 
@@ -108,7 +110,7 @@ export class PaymentIntentService {
 
     // Find the last failed attempt for retry linking
     const lastFailed = await this.prisma.paymentAttempt.findFirst({
-      where: { invoiceId, status: 'FAILED' },
+      where: { invoiceId, status: PaymentAttemptStatus.FAILED },
       orderBy: { createdAt: 'desc' },
       select: { id: true },
     });
@@ -161,7 +163,7 @@ export class PaymentIntentService {
       },
     });
 
-    if (!failed || failed.status !== 'FAILED') return null;
+    if (!failed || failed.status !== PaymentAttemptStatus.FAILED) return null;
 
     const delayMs =
       RETRY_DELAYS_MS[failed.attemptNumber] ??
@@ -184,18 +186,16 @@ export class PaymentIntentService {
   /**
    * Map the provider's initial status to our enum.
    */
-  private mapInitialStatus(
-    providerStatus: string,
-  ): 'PENDING' | 'SUCCEEDED' | 'FAILED' | 'REQUIRES_ACTION' {
+  private mapInitialStatus(providerStatus: string): PaymentAttemptStatus {
     switch (providerStatus) {
       case 'succeeded':
-        return 'SUCCEEDED';
+        return PaymentAttemptStatus.SUCCEEDED;
       case 'failed':
-        return 'FAILED';
+        return PaymentAttemptStatus.FAILED;
       case 'requires_action':
-        return 'REQUIRES_ACTION';
+        return PaymentAttemptStatus.REQUIRES_ACTION;
       default:
-        return 'PENDING';
+        return PaymentAttemptStatus.PENDING;
     }
   }
 }

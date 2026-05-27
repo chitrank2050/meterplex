@@ -40,7 +40,12 @@ import { ERRORS } from '@common/constants';
 
 import { RedisService } from '@infra/cache';
 
-import { FeatureType, ResetPeriod, SubscriptionStatus } from '@prisma/client';
+import {
+  FeatureType,
+  ResetPeriod,
+  SubscriptionStatus,
+  UsageEventStatus,
+} from '@prisma/client';
 
 /**
  * Redis Lua script for atomic HARD limit check-and-increment.
@@ -307,7 +312,7 @@ export class EntitlementCheckService {
             featureLookupKey,
             amount,
             timestamp: new Date(),
-            status: 'PENDING',
+            status: UsageEventStatus.PENDING,
             metadata: { source: 'consume-endpoint' },
           },
         });

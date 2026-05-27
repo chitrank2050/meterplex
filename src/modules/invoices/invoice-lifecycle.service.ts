@@ -22,6 +22,8 @@ import { PrismaService } from '@app-prisma/prisma.service';
 
 import { ERRORS } from '@common/constants';
 
+import { InvoiceStatus } from '@prisma/client';
+
 import { InvoiceNumberService } from './invoice-number.service';
 
 /** Days after finalization before payment is due. */
@@ -83,9 +85,12 @@ export class InvoiceLifecycleService {
   async finalize(invoiceId: string, tenantId: string) {
     const invoice = await this.findInvoiceForTenant(invoiceId, tenantId);
 
-    if (invoice.status !== 'DRAFT') {
+    if (invoice.status !== InvoiceStatus.DRAFT) {
       throw new BadRequestException(
-        ERRORS.INVOICE.INVALID_TRANSITION(invoice.status, 'FINALIZED'),
+        ERRORS.INVOICE.INVALID_TRANSITION(
+          invoice.status,
+          InvoiceStatus.FINALIZED,
+        ),
       );
     }
 
@@ -100,7 +105,7 @@ export class InvoiceLifecycleService {
       const finalized = await tx.invoice.update({
         where: { id: invoiceId },
         data: {
-          status: 'FINALIZED',
+          status: InvoiceStatus.FINALIZED,
           invoiceNumber,
           dueDate,
           finalizedAt: now,
@@ -145,9 +150,9 @@ export class InvoiceLifecycleService {
   ) {
     const invoice = await this.findInvoiceForTenant(invoiceId, tenantId);
 
-    if (invoice.status !== 'FINALIZED') {
+    if (invoice.status !== InvoiceStatus.FINALIZED) {
       throw new BadRequestException(
-        ERRORS.INVOICE.INVALID_TRANSITION(invoice.status, 'PAID'),
+        ERRORS.INVOICE.INVALID_TRANSITION(invoice.status, InvoiceStatus.PAID),
       );
     }
 
@@ -157,7 +162,7 @@ export class InvoiceLifecycleService {
       const paid = await tx.invoice.update({
         where: { id: invoiceId },
         data: {
-          status: 'PAID',
+          status: InvoiceStatus.PAID,
           paidAt: now,
         },
         select: this.defaultSelect,
@@ -197,20 +202,23 @@ export class InvoiceLifecycleService {
   async void(invoiceId: string, tenantId: string) {
     const invoice = await this.findInvoiceForTenant(invoiceId, tenantId);
 
-    if (invoice.status !== 'DRAFT' && invoice.status !== 'FINALIZED') {
+    if (
+      invoice.status !== InvoiceStatus.DRAFT &&
+      invoice.status !== InvoiceStatus.FINALIZED
+    ) {
       throw new BadRequestException(
-        ERRORS.INVOICE.INVALID_TRANSITION(invoice.status, 'VOID'),
+        ERRORS.INVOICE.INVALID_TRANSITION(invoice.status, InvoiceStatus.VOID),
       );
     }
 
     const now = new Date();
-    const wasFinalized = invoice.status === 'FINALIZED';
+    const wasFinalized = invoice.status === InvoiceStatus.FINALIZED;
 
     const result = await this.prisma.$transaction(async (tx) => {
       const voided = await tx.invoice.update({
         where: { id: invoiceId },
         data: {
-          status: 'VOID',
+          status: InvoiceStatus.VOID,
           voidedAt: now,
         },
         select: this.defaultSelect,

@@ -15,6 +15,8 @@ import { PrismaService } from '@app-prisma/prisma.service';
 
 import { ERRORS } from '@common/constants';
 
+import { SubscriptionStatus } from '@prisma/client';
+
 import { InvoiceGenerationService } from './invoice-generation.service';
 
 @Injectable()
@@ -110,7 +112,13 @@ export class InvoicesService {
     const subscription = await this.prisma.subscription.findFirst({
       where: {
         tenantId,
-        status: { in: ['ACTIVE', 'TRIALING', 'CANCELLED'] },
+        status: {
+          in: [
+            SubscriptionStatus.ACTIVE,
+            SubscriptionStatus.TRIALING,
+            SubscriptionStatus.CANCELLED,
+          ],
+        },
       },
       select: {
         id: true,

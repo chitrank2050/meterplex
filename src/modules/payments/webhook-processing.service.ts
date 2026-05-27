@@ -18,6 +18,7 @@ import { PrismaService } from '@app-prisma/prisma.service';
 
 import { isUniqueConstraintError } from '@common/utils/prisma-errors';
 
+import { WebhookEventStatus } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 
 import { PaymentFailureHandler } from './handlers/payment-failure.handler';
@@ -119,7 +120,7 @@ export class WebhookProcessingService {
       // 4. Mark as processed
       await this.prisma.webhookEvent.update({
         where: { id: webhookEventId },
-        data: { status: 'PROCESSED', processedAt: new Date() },
+        data: { status: WebhookEventStatus.PROCESSED, processedAt: new Date() },
       });
 
       this.logger.log(
@@ -132,7 +133,7 @@ export class WebhookProcessingService {
       await this.prisma.webhookEvent.update({
         where: { id: webhookEventId },
         data: {
-          status: 'FAILED',
+          status: WebhookEventStatus.FAILED,
           processingError: errorMessage,
           processedAt: new Date(),
         },

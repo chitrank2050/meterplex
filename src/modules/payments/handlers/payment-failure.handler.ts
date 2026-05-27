@@ -11,7 +11,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { PrismaService } from '@app-prisma/prisma.service';
 
-import { Prisma } from '@prisma/client';
+import { PaymentAttemptStatus, Prisma } from '@prisma/client';
 
 import { PaymentIntentService } from '../payment-intent.service';
 import type { WebhookEvent } from '../payment-provider.base';
@@ -58,7 +58,7 @@ export class PaymentFailureHandler {
     await this.prisma.paymentAttempt.update({
       where: { id: attempt.id },
       data: {
-        status: 'FAILED',
+        status: PaymentAttemptStatus.FAILED,
         failureReason: event.failureReason ?? 'Unknown failure',
         providerResponse: event.rawPayload as unknown as Prisma.InputJsonValue,
       },

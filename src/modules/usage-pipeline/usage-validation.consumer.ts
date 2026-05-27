@@ -30,7 +30,11 @@ import {
   KafkaProducerService,
 } from '@infra/messaging';
 
-import { SubscriptionStatus } from '@prisma/client';
+import {
+  SubscriptionStatus,
+  TenantStatus,
+  UsageEventStatus,
+} from '@prisma/client';
 
 /** Shape of a raw usage event from the outbox. */
 interface RawUsageEvent {
@@ -130,7 +134,7 @@ export class UsageValidationConsumer extends KafkaConsumerBase {
       return;
     }
 
-    if (tenant.status !== 'ACTIVE') {
+    if (tenant.status !== TenantStatus.ACTIVE) {
       await this.sendToDeadLetter(
         event,
         `Tenant ${event.tenantId} is ${tenant.status}, not ACTIVE`,
@@ -177,7 +181,7 @@ export class UsageValidationConsumer extends KafkaConsumerBase {
       select: { status: true },
     });
 
-    if (existingEvent && existingEvent.status !== 'PENDING') {
+    if (existingEvent && existingEvent.status !== UsageEventStatus.PENDING) {
       // Already processed - publish to duplicates topic for monitoring
       await this.kafkaProducer.publish(
         KAFKA_TOPICS.USAGE_DUPLICATES,

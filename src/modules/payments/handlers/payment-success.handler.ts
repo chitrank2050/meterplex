@@ -23,7 +23,7 @@ import { PrismaService } from '@app-prisma/prisma.service';
 import { BillingPeriodService } from '@modules/invoices/billing-period.service';
 import { InvoiceLifecycleService } from '@modules/invoices/invoice-lifecycle.service';
 
-import { Prisma } from '@prisma/client';
+import { InvoiceStatus, PaymentAttemptStatus, Prisma } from '@prisma/client';
 
 import type { WebhookEvent } from '../payment-provider.base';
 
@@ -65,7 +65,7 @@ export class PaymentSuccessHandler {
     }
 
     // Idempotent: if invoice is already PAID, skip
-    if (attempt.invoice.status === 'PAID') {
+    if (attempt.invoice.status === InvoiceStatus.PAID) {
       this.logger.debug(
         `Invoice ${attempt.invoice.invoiceNumber} already PAID - skipping`,
       );
@@ -76,7 +76,7 @@ export class PaymentSuccessHandler {
     await this.prisma.paymentAttempt.update({
       where: { id: attempt.id },
       data: {
-        status: 'SUCCEEDED',
+        status: PaymentAttemptStatus.SUCCEEDED,
         providerResponse: event.rawPayload as unknown as Prisma.InputJsonValue,
       },
     });
