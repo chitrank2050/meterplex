@@ -2,6 +2,39 @@
 
 All notable changes to the Meterplex API and core platform.
 
+## [0.9.0] - 2026-05-27
+
+### ⚙️ Maintenance
+
+- Remove release PR autofill workflow file ([46cebd3](https://github.com/chitrank2050/meterplex/commit/46cebd3646efc9cbcf25819d6f4e8d2f19ed0dec))
+
+### 🐛 Bug Fixes
+
+- **subscriptions:** Set status to CANCELLED on cancel endpoint (#197) ([00e89f3](https://github.com/chitrank2050/meterplex/commit/00e89f3ea4a4ddd583befe1a33f27ed52f4e8073))
+- **entitlements:** Consume endpoint doesn't persist usage events (#198) ([5e82f52](https://github.com/chitrank2050/meterplex/commit/5e82f527ad7f26df970ee11292bab1c9d7dd49b6))
+- **audit:** Recursive sanitization + size limits in audit log interceptor (#199) ([984e0d4](https://github.com/chitrank2050/meterplex/commit/984e0d40acb3866542c0591240d8f351beba364e))
+- **billing:** Add RolesGuard to billing ledger endpoints (#200) ([0ad9501](https://github.com/chitrank2050/meterplex/commit/0ad9501405eda9cb0cbd1aa6c33f997fdc9fc6b8))
+- **invoices:** Refactor controller to delegate to service layer (#202) ([a406d88](https://github.com/chitrank2050/meterplex/commit/a406d88ec8fc22b95e875dcb9b49054d685002e7))
+- **prisma:** Use generated enum references (#201) ([07e0dd2](https://github.com/chitrank2050/meterplex/commit/07e0dd2cee6babf92dfb4068855e293df02295d9)) by [@HAWKZ4](https://github.com/HAWKZ4)
+- **misc:** Use ConfigService for PORT, add pagination, remove duplicate comment (#203) ([77ca59b](https://github.com/chitrank2050/meterplex/commit/77ca59b39d8f75d81df92e53caae703f1bcba6bc))
+- **quality:** Replace hardcoded enum strings with Prisma enum references ([b65e8e1](https://github.com/chitrank2050/meterplex/commit/b65e8e1131f17d4b59bd7f5a67625662350a3e4b))
+
+### 👷 CI/CD & Infra
+
+- Add GITHUB_TOKEN to zizmor action environment variables ([7c3fbe2](https://github.com/chitrank2050/meterplex/commit/7c3fbe271bf72d6562eb274a6cfcdd53d0909772))
+
+### 📚 Documentation
+
+- **security:** Security audit resolution log and phase documentation (#204) ([b09fc4f](https://github.com/chitrank2050/meterplex/commit/b09fc4f921cec9ce16df9ba2a9830808c6bf7735))
+
+### 🚀 Features
+
+- Register Prisma shutdown hooks to ensure clean database connection termination on app exit ([76a2515](https://github.com/chitrank2050/meterplex/commit/76a2515e927ea0dc825f9fa5a792ad2dcbcdf810))
+- Add comprehensive pull request template with categorization and verification sections ([e900a0b](https://github.com/chitrank2050/meterplex/commit/e900a0bf5431a44d86f77525cea5a94785109752))
+
+### 🚜 Refactoring
+
+- Transition maintenance workflow to granular per-override dependency audit & pruning logic ([ef77dce](https://github.com/chitrank2050/meterplex/commit/ef77dceca216d06de2d704e9cbca25c29001a976))
 ## [0.8.2] - 2026-05-23
 
 ### 🐛 Bug Fixes
