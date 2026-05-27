@@ -28,6 +28,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -35,6 +36,7 @@ import {
   ApiHeader,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -111,7 +113,7 @@ export class ApiKeysController {
   /**
    * GET /api/v1/api-keys
    *
-   * Lists all API keys for the tenant.
+   * Lists all API keys for the tenant. Paginated.
    * Returns metadata only - never the raw key or hash.
    * The keyPrefix helps users identify which key is which.
    *
@@ -129,6 +131,8 @@ export class ApiKeysController {
     required: true,
   })
   @ApiOperation({ summary: 'List API keys for tenant' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
   @ApiResponse({
     status: 200,
     description: 'List of API key metadata',
@@ -144,8 +148,16 @@ export class ApiKeysController {
     description: 'Not authenticated',
     type: ErrorResponseDto,
   })
-  async findAll(@TenantId() tenantId: string) {
-    return this.apiKeysService.findAllForTenant(tenantId);
+  async findAll(
+    @TenantId() tenantId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.apiKeysService.findAllForTenant(
+      tenantId,
+      page ?? 1,
+      limit ?? 20,
+    );
   }
 
   /**

@@ -18,6 +18,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -25,6 +26,7 @@ import {
   ApiHeader,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -144,7 +146,7 @@ export class SubscriptionsController {
    * GET /api/v1/subscriptions
    *
    * Lists all subscriptions for the tenant, including cancelled ones.
-   * Ordered by creation date (newest first).
+   * Ordered by creation date (newest first). Paginated.
    */
   @Get()
   @UseGuards(JwtAuthGuard, TenantGuard)
@@ -155,6 +157,8 @@ export class SubscriptionsController {
     required: true,
   })
   @ApiOperation({ summary: 'List all subscriptions for tenant (history)' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
   @ApiResponse({
     status: 200,
     description: 'Subscription history',
@@ -165,8 +169,16 @@ export class SubscriptionsController {
     description: 'Not authenticated',
     type: ErrorResponseDto,
   })
-  async findAll(@TenantId() tenantId: string) {
-    return this.subscriptionsService.findAllForTenant(tenantId);
+  async findAll(
+    @TenantId() tenantId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.subscriptionsService.findAllForTenant(
+      tenantId,
+      page ?? 1,
+      limit ?? 20,
+    );
   }
 
   /**

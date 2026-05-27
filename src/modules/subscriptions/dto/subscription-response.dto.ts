@@ -109,4 +109,14 @@ export class SubscriptionResponseDto {
 export class SubscriptionListResponseDto {
   @ApiProperty({ type: [SubscriptionResponseDto] })
   data!: SubscriptionResponseDto[];
+
+  @ApiProperty({
+    example: { total: 3, page: 1, limit: 20, totalPages: 1 },
+  })
+  meta!: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }

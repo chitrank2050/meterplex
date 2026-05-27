@@ -16,6 +16,7 @@
  * - Validation pipe must be global so no controller can skip it.
  */
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -39,6 +40,8 @@ async function bootstrap(): Promise<void> {
     logger: WinstonModule.createLogger(getWinstonConfig(ENV)),
     rawBody: true,
   });
+
+  const configService = app.get(ConfigService);
 
   // =============================================================
   // Security - Helmet sets HTTP headers that protect against
@@ -68,7 +71,9 @@ async function bootstrap(): Promise<void> {
   //    in production - that's a security hole.
   // =============================================================
   app.enableCors({
-    origin: process.env.CORS_ORIGINS?.split(',') ?? ['http://localhost:3000'],
+    origin: configService.get<string>('CORS_ORIGINS')?.split(',') ?? [
+      'http://localhost:3000',
+    ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
   });
@@ -249,7 +254,7 @@ async function bootstrap(): Promise<void> {
   // =============================================================
   // Start listening
   // =============================================================
-  const port = process.env.PORT ?? 3000;
+  const port = configService.get<number>('PORT', 3000);
   await app.listen(port);
 
   console.log(`

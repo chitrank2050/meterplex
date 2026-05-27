@@ -259,14 +259,31 @@ export class SubscriptionsService {
    * @param tenantId - Tenant UUID
    * @returns Array of subscriptions ordered by creation date (newest first)
    */
-  async findAllForTenant(tenantId: string) {
-    const subscriptions = await this.prisma.subscription.findMany({
-      where: { tenantId },
-      select: this.DEFAULT_SELECT,
-      orderBy: { createdAt: 'desc' },
-    });
+  async findAllForTenant(tenantId: string, page = 1, limit = 20) {
+    const pageNum = Math.max(1, page);
+    const pageSize = Math.min(100, Math.max(1, limit));
+    const skip = (pageNum - 1) * pageSize;
 
-    return { data: subscriptions };
+    const [subscriptions, total] = await Promise.all([
+      this.prisma.subscription.findMany({
+        where: { tenantId },
+        select: this.DEFAULT_SELECT,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: pageSize,
+      }),
+      this.prisma.subscription.count({ where: { tenantId } }),
+    ]);
+
+    return {
+      data: subscriptions,
+      meta: {
+        total,
+        page: pageNum,
+        limit: pageSize,
+        totalPages: Math.ceil(total / pageSize),
+      },
+    };
   }
 
   /**

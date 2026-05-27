@@ -130,30 +130,49 @@ export class ApiKeysService {
    * @param tenantId - The tenant to list keys for
    * @returns Array of API key metadata
    */
-  async findAllForTenant(tenantId: string) {
-    const keys = await this.prisma.apiKey.findMany({
-      where: { tenantId },
-      select: {
-        id: true,
-        name: true,
-        keyPrefix: true,
-        status: true,
-        expiresAt: true,
-        lastUsedAt: true,
-        createdAt: true,
-        createdByUser: {
-          select: {
-            id: true,
-            email: true,
-            firstName: true,
-            lastName: true,
+  async findAllForTenant(tenantId: string, page = 1, limit = 20) {
+    const pageNum = Math.max(1, page);
+    const pageSize = Math.min(100, Math.max(1, limit));
+    const skip = (pageNum - 1) * pageSize;
+
+    const where = { tenantId };
+
+    const [keys, total] = await Promise.all([
+      this.prisma.apiKey.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          keyPrefix: true,
+          status: true,
+          expiresAt: true,
+          lastUsedAt: true,
+          createdAt: true,
+          createdByUser: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+            },
           },
         },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: pageSize,
+      }),
+      this.prisma.apiKey.count({ where }),
+    ]);
 
-    return { data: keys };
+    return {
+      data: keys,
+      meta: {
+        total,
+        page: pageNum,
+        limit: pageSize,
+        totalPages: Math.ceil(total / pageSize),
+      },
+    };
   }
 
   /**
