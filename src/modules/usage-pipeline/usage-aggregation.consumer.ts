@@ -2,7 +2,6 @@
  * UsageAggregationConsumer - Reads usage.validated, updates usage_aggregates.
  *
  * For each validated event:
- * For each validated event:
  *   1. Determine the period key from the event timestamp + feature reset period
  *   2. Upsert the usage_aggregates row:
  *      INSERT ... ON CONFLICT DO UPDATE SET amount = amount + EXCLUDED.amount
