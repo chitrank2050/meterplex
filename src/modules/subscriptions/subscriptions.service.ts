@@ -295,7 +295,10 @@ export class SubscriptionsService {
 
       const cancelled = await this.prisma.subscription.update({
         where: { id },
-        data: { cancelledAt: new Date() },
+        data: {
+          cancelledAt: new Date(),
+          status: SubscriptionStatus.CANCELLED,
+        },
         select: this.DEFAULT_SELECT,
       });
 
