@@ -47,9 +47,10 @@
           - '.github/workflows/workflow-lint.yml'
 
 'area/maintenance':
-  - changed-files:
-      - any-glob-to-any-file:
-          - '.github/workflows/maintenance.yml'
-          - '.github/workflows/auto-approve.yml'
-  - branch:
-      - '^maintenance/.*'
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - '.github/workflows/maintenance.yml'
+              - '.github/workflows/auto-approve.yml'
+      - head-branch:
+          - '^maintenance/.*'
