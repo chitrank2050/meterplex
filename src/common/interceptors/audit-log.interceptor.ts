@@ -327,11 +327,22 @@ export class AuditLogInterceptor implements NestInterceptor {
     seen = new WeakSet<object>(),
   ): Prisma.InputJsonValue | null {
     if (obj === null || obj === undefined) return null;
+
+    // Handle primitives and edge cases
+    if (typeof obj === 'bigint') return obj.toString();
+    if (typeof obj === 'symbol') return obj.toString();
+    if (typeof obj === 'function')
+      return `[Function: ${obj.name || 'anonymous'}]`;
     if (typeof obj !== 'object') return obj as Prisma.InputJsonValue;
 
     // Circular reference detection
     if (seen.has(obj as object)) return '[Circular]' as any;
     seen.add(obj as object);
+
+    // Handle objects with toJSON method (like Date, Prisma.Decimal, etc.)
+    if (typeof (obj as any).toJSON === 'function') {
+      return this.sanitize((obj as any).toJSON(), seen);
+    }
 
     if (Array.isArray(obj)) {
       return obj.map((item) =>
