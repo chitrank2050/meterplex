@@ -328,7 +328,7 @@ export class EntitlementCheckService {
         });
       });
     } catch (error) {
-      // Log but don't fail the consume response — Redis already incremented.
+      // Log but don't fail the consume response - Redis already incremented.
       // The pipeline will reconcile on the next aggregation cycle.
       this.logger.warn(
         `Failed to persist usage event for consume: ${error instanceof Error ? error.message : String(error)}`,
