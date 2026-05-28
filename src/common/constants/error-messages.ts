@@ -186,4 +186,7 @@ export const ERRORS = {
     MAX_RETRIES_EXCEEDED: (invoiceId: string) =>
       `Maximum payment retries exceeded for invoice "${invoiceId}"`,
   },
+  AUDIT: {
+    NOT_FOUND: 'Audit log entry not found',
+  },
 } as const;
