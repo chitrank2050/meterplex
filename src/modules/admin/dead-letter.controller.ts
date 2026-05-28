@@ -34,6 +34,7 @@ import { PlatformAdminGuard } from '@common/guards';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { DeadLetterService } from './dead-letter.service';
+import { DeadLetterListResponseDto, DeadLetterResponseDto } from './dto';
 
 @ApiTags('Admin - Dead Letter')
 @Controller({
@@ -63,7 +64,11 @@ export class DeadLetterController {
     enum: ['INGESTION', 'PUBLISHING', 'VALIDATION', 'AGGREGATION', 'UNKNOWN'],
   })
   @ApiQuery({ name: 'tenantId', required: false, type: String })
-  @ApiResponse({ status: 200, description: 'Paginated dead letter events' })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated dead letter events',
+    type: DeadLetterListResponseDto,
+  })
   @ApiResponse({ status: 403, type: ErrorResponseDto })
   async findAll(
     @Query('page') page?: number,
@@ -89,7 +94,11 @@ export class DeadLetterController {
   @Get(':id')
   @ApiOperation({ summary: 'Get dead letter event details' })
   @ApiParam({ name: 'id', description: 'Dead letter event UUID' })
-  @ApiResponse({ status: 200, description: 'Dead letter event' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dead letter event',
+    type: DeadLetterResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   @ApiResponse({ status: 403, type: ErrorResponseDto })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
@@ -102,7 +111,11 @@ export class DeadLetterController {
   @Post(':id/retry')
   @ApiOperation({ summary: 'Retry a dead letter event' })
   @ApiParam({ name: 'id', description: 'Dead letter event UUID' })
-  @ApiResponse({ status: 200, description: 'Event re-queued' })
+  @ApiResponse({
+    status: 200,
+    description: 'Event re-queued',
+    type: DeadLetterResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   @ApiResponse({ status: 403, type: ErrorResponseDto })
   async retry(
@@ -118,7 +131,11 @@ export class DeadLetterController {
   @Post(':id/discard')
   @ApiOperation({ summary: 'Discard a dead letter event' })
   @ApiParam({ name: 'id', description: 'Dead letter event UUID' })
-  @ApiResponse({ status: 200, description: 'Event discarded' })
+  @ApiResponse({
+    status: 200,
+    description: 'Event discarded',
+    type: DeadLetterResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   @ApiResponse({ status: 403, type: ErrorResponseDto })
   async discard(
