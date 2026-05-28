@@ -10,9 +10,15 @@ import { AuditLogsController } from './audit-logs.controller';
 import { AuditLogsService } from './audit-logs.service';
 import { DeadLetterController } from './dead-letter.controller';
 import { DeadLetterService } from './dead-letter.service';
+import { ReconciliationController } from './reconciliation.controller';
+import { ReconciliationService } from './reconciliation.service';
 
 @Module({
-  controllers: [AuditLogsController, DeadLetterController],
-  providers: [AuditLogsService, DeadLetterService],
+  controllers: [
+    AuditLogsController,
+    DeadLetterController,
+    ReconciliationController,
+  ],
+  providers: [AuditLogsService, DeadLetterService, ReconciliationService],
 })
 export class AdminModule {}
