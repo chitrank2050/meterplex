@@ -4,6 +4,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 import {
+  ReconciliationIssueCategory,
   ReconciliationIssueStatus,
   ReconciliationRunStatus,
 } from '@prisma/client';
@@ -82,10 +83,11 @@ export class ReconciliationIssueResponseDto {
   runId!: string;
 
   @ApiProperty({
-    example: 'usage',
-    description: 'Issue category: usage or subscription_payment',
+    enum: ReconciliationIssueCategory,
+    example: ReconciliationIssueCategory.USAGE,
+    description: 'Issue category',
   })
-  category!: string;
+  category!: ReconciliationIssueCategory;
 
   @ApiProperty({ example: 'f239538d-...' })
   tenantId!: string;

@@ -42,6 +42,7 @@ import { PrismaService } from '@app-prisma/prisma.service';
 import { ERRORS } from '@common/constants';
 
 import {
+  ReconciliationIssueCategory,
   ReconciliationIssueStatus,
   ReconciliationRunStatus,
   SubscriptionStatus,
@@ -169,7 +170,7 @@ export class ReconciliationService {
             await this.prisma.reconciliationIssue.create({
               data: {
                 runId: run.id,
-                category: 'usage',
+                category: ReconciliationIssueCategory.USAGE,
                 tenantId: sub.tenantId,
                 featureLookupKey: row.feature_lookup_key,
                 periodKey,
@@ -196,7 +197,7 @@ export class ReconciliationService {
             await this.prisma.reconciliationIssue.create({
               data: {
                 runId: run.id,
-                category: 'usage',
+                category: ReconciliationIssueCategory.USAGE,
                 tenantId: sub.tenantId,
                 featureLookupKey: agg.featureLookupKey,
                 periodKey,
@@ -305,7 +306,7 @@ export class ReconciliationService {
           expected: inv.total,
           actual: 0,
           difference: inv.total,
-          category: 'subscription_payment',
+          category: ReconciliationIssueCategory.SUBSCRIPTION_PAYMENT,
           status: ReconciliationIssueStatus.OPEN,
           notes: `ACTIVE subscription has unpaid invoice ${inv.invoice_number} past due date`,
         },
@@ -340,7 +341,7 @@ export class ReconciliationService {
           expected: 0,
           actual: 0,
           difference: 0,
-          category: 'subscription_payment',
+          category: ReconciliationIssueCategory.SUBSCRIPTION_PAYMENT,
           status: ReconciliationIssueStatus.OPEN,
           notes: `PAST_DUE subscription has successful payment ${row.provider_payment_id} - should be reactivated`,
         },
@@ -378,7 +379,7 @@ export class ReconciliationService {
           expected: 1,
           actual: 0,
           difference: 1,
-          category: 'subscription_payment',
+          category: ReconciliationIssueCategory.SUBSCRIPTION_PAYMENT,
           status: ReconciliationIssueStatus.OPEN,
           notes: `Cancelled subscription has no prorated invoice after cancellation at ${row.cancelled_at.toISOString()}`,
         },
@@ -421,7 +422,7 @@ export class ReconciliationService {
           expected: row.invoice_total,
           actual: row.ledger_debit,
           difference: row.invoice_total - row.ledger_debit,
-          category: 'subscription_payment',
+          category: ReconciliationIssueCategory.SUBSCRIPTION_PAYMENT,
           status: ReconciliationIssueStatus.OPEN,
           notes: `Invoice ${row.invoice_number} total (${row.invoice_total}) != ledger CHARGE debit (${row.ledger_debit})`,
         },
@@ -483,7 +484,7 @@ export class ReconciliationService {
     runId: string,
     page = 1,
     limit = 50,
-    category?: string,
+    category?: ReconciliationIssueCategory,
   ) {
     const pageNum = Math.max(1, page);
     const pageSize = Math.min(100, Math.max(1, limit));

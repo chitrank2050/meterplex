@@ -47,6 +47,8 @@ import { PlatformAdminGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
+import { ReconciliationIssueCategory } from '@prisma/client';
+
 import {
   ReconciliationIssueListResponseDto,
   ReconciliationIssueResponseDto,
@@ -105,7 +107,7 @@ export class ReconciliationController {
   @ApiQuery({
     name: 'category',
     required: false,
-    enum: ['usage', 'subscription_payment'],
+    enum: ReconciliationIssueCategory,
     description: 'Filter by issue category',
   })
   @ApiResponse({
@@ -118,7 +120,7 @@ export class ReconciliationController {
     @Param('id', ParseUUIDPipe) id: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
-    @Query('category') category?: string,
+    @Query('category') category?: ReconciliationIssueCategory,
   ) {
     return this.reconciliationService.findIssuesByRun(
       id,
