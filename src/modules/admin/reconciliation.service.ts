@@ -169,6 +169,7 @@ export class ReconciliationService {
             await this.prisma.reconciliationIssue.create({
               data: {
                 runId: run.id,
+                category: 'usage',
                 tenantId: sub.tenantId,
                 featureLookupKey: row.feature_lookup_key,
                 periodKey,
@@ -195,6 +196,7 @@ export class ReconciliationService {
             await this.prisma.reconciliationIssue.create({
               data: {
                 runId: run.id,
+                category: 'usage',
                 tenantId: sub.tenantId,
                 featureLookupKey: agg.featureLookupKey,
                 periodKey,
