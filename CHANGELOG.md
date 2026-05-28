@@ -2,6 +2,13 @@
 
 All notable changes to the Meterplex API and core platform.
 
+## [0.9.1] - 2026-05-28
+
+### 🚀 Features
+
+- **admin:** Audit log query API with filters and pagination (#207) ([6f9acd9](https://github.com/chitrank2050/meterplex/commit/6f9acd98aefdafe00d1718179e60561155a744bf))
+- **admin:** Dead letter event management API (#208) ([1f89682](https://github.com/chitrank2050/meterplex/commit/1f896822265162b58dc9ed1c33dbce7204a041f9))
+- **admin:** Reconciliation job - raw usage vs billed usage comparison (#209) ([9408ded](https://github.com/chitrank2050/meterplex/commit/9408ded52e0d80699c5120ca7d7a76f68ff415f4))
 ## [0.9.0] - 2026-05-27
 
 ### ⚙️ Maintenance
