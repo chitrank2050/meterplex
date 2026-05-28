@@ -1,29 +1,38 @@
 /**
- * ReconciliationService - Compares raw usage events against aggregated totals.
+ * ReconciliationService - Billing integrity checks.
  *
  * Why this exists:
  *   Usage events flow through a multi-stage pipeline:
  *   ingestion → outbox → Kafka → validation → aggregation.
  *   At any point, events can be lost, double-counted, or stuck.
+ *   Subscriptions, invoices, and payments can also drift out of sync.
  *   This service detects those discrepancies before they corrupt billing.
  *
- * How it works:
- *   For each tenant with an active subscription:
- *     expected = SUM(usage_events.amount) WHERE status = AGGREGATED
- *     actual   = usage_aggregates.amount
- *   Mismatches are recorded as reconciliation issues for admin review.
+ * Two categories of checks:
+ *
+ *   Usage reconciliation (category: 'usage'):
+ *     For each tenant with an active subscription:
+ *       expected = SUM(usage_events.amount) WHERE status = AGGREGATED
+ *       actual   = usage_aggregates.amount
+ *     Detects:
+ *       1. Under-billed: lost events during aggregation (difference > 0)
+ *       2. Over-billed: duplicate aggregation (difference < 0)
+ *       3. Phantom aggregates: aggregates with no source events
+ *
+ *   Subscription/payment reconciliation (category: 'subscription_payment'):
+ *     Cross-checks subscription state against payment and invoice state.
+ *     Detects:
+ *       1. ACTIVE subscriptions with overdue unpaid invoices
+ *       2. PAST_DUE subscriptions with unprocessed successful payments
+ *       3. CANCELLED subscriptions missing prorated invoices
+ *       4. Ledger CHARGE totals that don't match invoice totals
  *
  * Two run modes:
  *   - Scheduled: daily at 00:30 UTC (after billing cron at 00:05)
  *   - Manual: triggered via POST /admin/reconciliation/run
  *
- * Detects two types of discrepancies:
- *   1. Under-billed: events aggregated in usage_events but not reflected
- *      in usage_aggregates (lost during aggregation). difference > 0.
- *   2. Over-billed: usage_aggregates has a higher amount than the sum
- *      of events (duplicate aggregation). difference < 0.
- *   3. Phantom aggregates: usage_aggregates row exists but no matching
- *      events (e.g., from a direct DB edit or seed data mismatch).
+ * All issues are written to reconciliation_issues with a category
+ * field for filtering in the admin UI.
  */
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
