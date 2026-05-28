@@ -1870,6 +1870,16 @@ model ReconciliationRun {
   @@map("reconciliation_runs")
 }
 
+/// Category of reconciliation issue.
+/// USAGE:                Raw usage events vs aggregated totals mismatch.
+/// SUBSCRIPTION_PAYMENT: Subscription state vs payment/invoice state drift.
+enum ReconciliationIssueCategory {
+  USAGE
+  SUBSCRIPTION_PAYMENT
+
+  @@map("reconciliation_issue_category")
+}
+
 // =============================================================
 // ReconciliationIssue - A single mismatch found during a run.
 //
@@ -1900,6 +1910,9 @@ model ReconciliationIssue {
   /// The reconciliation run that discovered this mismatch.
   runId String @map("run_id") @db.Uuid
   run   ReconciliationRun @relation(fields: [runId], references: [id])
+
+  /// Category of mismatch.
+  category ReconciliationIssueCategory @default(USAGE)
 
   /// Which tenant has the discrepancy.
   tenantId String @map("tenant_id") @db.Uuid
@@ -1932,6 +1945,7 @@ model ReconciliationIssue {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([runId])
+  @@index([category])
   @@index([tenantId])
   @@index([status])
   @@map("reconciliation_issues")

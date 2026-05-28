@@ -47,6 +47,8 @@ import { PlatformAdminGuard } from '@common/guards';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
+import { ReconciliationIssueCategory } from '@prisma/client';
+
 import {
   ReconciliationIssueListResponseDto,
   ReconciliationIssueResponseDto,
@@ -102,6 +104,12 @@ export class ReconciliationController {
   @ApiParam({ name: 'id', description: 'Reconciliation run UUID' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 50 })
+  @ApiQuery({
+    name: 'category',
+    required: false,
+    enum: ReconciliationIssueCategory,
+    description: 'Filter by issue category',
+  })
   @ApiResponse({
     status: 200,
     description: 'Paginated reconciliation issues',
@@ -112,11 +120,13 @@ export class ReconciliationController {
     @Param('id', ParseUUIDPipe) id: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
+    @Query('category') category?: ReconciliationIssueCategory,
   ) {
     return this.reconciliationService.findIssuesByRun(
       id,
       page ?? 1,
       limit ?? 50,
+      category,
     );
   }
 
