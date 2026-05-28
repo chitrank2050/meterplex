@@ -32,6 +32,7 @@ import { PlatformAdminGuard } from '@common/guards';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { AuditLogsService } from './audit-logs.service';
+import { AuditLogListResponseDto, AuditLogResponseDto } from './dto';
 
 @ApiTags('Admin - Audit Logs')
 @Controller({
@@ -75,7 +76,11 @@ export class AuditLogsController {
     type: String,
     example: '2026-05-31',
   })
-  @ApiResponse({ status: 200, description: 'Paginated audit log entries' })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated audit log entries',
+    type: AuditLogListResponseDto,
+  })
   @ApiResponse({ status: 403, type: ErrorResponseDto })
   async findAll(
     @Query('page') page?: number,
@@ -109,7 +114,11 @@ export class AuditLogsController {
   @Get(':id')
   @ApiOperation({ summary: 'Get audit log entry (platform admin only)' })
   @ApiParam({ name: 'id', description: 'Audit log UUID' })
-  @ApiResponse({ status: 200, description: 'Audit log entry' })
+  @ApiResponse({
+    status: 200,
+    description: 'Audit log entry',
+    type: AuditLogResponseDto,
+  })
   @ApiResponse({ status: 404, type: ErrorResponseDto })
   @ApiResponse({ status: 403, type: ErrorResponseDto })
   async findById(@Param('id', ParseUUIDPipe) id: string) {
