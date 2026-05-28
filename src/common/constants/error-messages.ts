@@ -191,7 +191,7 @@ export const ERRORS = {
   },
   DEAD_LETTER: {
     NOT_FOUND: 'Dead letter event not found',
-    ALREADY_RESOLVED: 'Event is already resolved — nothing to retry',
-    ALREADY_DISCARDED: 'Event was discarded — cannot retry',
+    ALREADY_RESOLVED: 'Event is already resolved - nothing to retry',
+    ALREADY_DISCARDED: 'Event was discarded - cannot retry',
   },
 } as const;
