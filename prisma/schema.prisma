@@ -1754,3 +1754,185 @@ model WebhookEvent {
   @@index([createdAt])
   @@map("webhook_events")
 }
+
+// =============================================================
+// Reconciliation - Raw usage vs billed usage comparison.
+//
+// Why reconciliation matters:
+//   Usage events flow through a multi-stage pipeline:
+//   ingestion → outbox → Kafka → validation → aggregation.
+//   At any point, events can be lost, double-counted, or stuck.
+//   Without reconciliation, these discrepancies silently corrupt billing.
+//
+// How it works:
+//   A scheduled job (daily at 00:30 UTC) compares:
+//     expected = SUM(usage_events.amount) WHERE status = AGGREGATED
+//     actual   = usage_aggregates.amount
+//   for every tenant + feature + period combination.
+//   Mismatches are recorded as issues for admin triage.
+//
+// Two tables:
+//   reconciliation_runs   - one row per execution (cron or manual)
+//   reconciliation_issues - one row per mismatch found in a run
+//
+// Design decisions:
+//   - Separate from audit_logs. Audit logs track who did what.
+//     Reconciliation tracks whether the pipeline math is correct.
+//   - Issues have their own lifecycle (OPEN → ACKNOWLEDGED → RESOLVED)
+//     independent of the run status. An admin can acknowledge an
+//     issue without resolving it (e.g., "known off-by-one, investigating").
+//   - triggeredBy stores 'cron' or an admin UUID - tracks whether
+//     the run was automated or manual for audit purposes.
+//   - No FK from issues to tenants or features. Like audit_logs,
+//     reconciliation records must survive entity deletion.
+// =============================================================
+
+/// Status of a reconciliation run.
+/// RUNNING:   Currently executing. Only one run should be RUNNING at a time.
+/// COMPLETED: Finished successfully. Check issuesFound for results.
+/// FAILED:    Crashed mid-execution. Error field has details.
+enum ReconciliationRunStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+
+  @@map("reconciliation_run_status")
+}
+
+/// Status of an individual reconciliation issue.
+/// OPEN:         Mismatch detected, not yet investigated.
+/// ACKNOWLEDGED: Admin has seen it, investigation in progress.
+/// RESOLVED:     Mismatch explained or corrected.
+enum ReconciliationIssueStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+
+  @@map("reconciliation_issue_status")
+}
+
+// =============================================================
+// ReconciliationRun - A single execution of the reconciliation job.
+//
+// One row per run. Tracks timing, scope, and outcome.
+// The admin API lists runs newest-first so the ops team can see
+// "last run: 2 hours ago, 0 issues" at a glance.
+//
+// Design decisions:
+//   - durationMs is nullable because a FAILED run may not complete.
+//   - tenantsChecked counts individual tenant+feature+period
+//     combinations, not unique tenants. This matches what the
+//     job actually iterates over.
+//   - triggeredBy distinguishes automated from manual runs.
+//     'cron' for scheduled, admin UUID for manual triggers.
+//
+// Indexes:
+//   - (ranAt): supports "show me recent runs" queries
+//   - (status): supports "are any runs currently RUNNING?" checks
+// =============================================================
+
+model ReconciliationRun {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// When the run started execution.
+  ranAt DateTime @default(now()) @map("ran_at")
+
+  /// How long the run took, in milliseconds.
+  /// Null if the run is still RUNNING or FAILED before completion.
+  durationMs Int? @map("duration_ms")
+
+  /// Number of tenant+feature+period combinations checked.
+  /// A tenant with 3 features = 3 checks. Not a tenant count.
+  tenantsChecked Int @default(0) @map("tenants_checked")
+
+  /// Number of mismatches found during this run.
+  /// 0 = clean bill of health. > 0 = issues to investigate.
+  issuesFound Int @default(0) @map("issues_found")
+
+  /// Current run status.
+  status ReconciliationRunStatus @default(RUNNING)
+
+  /// Error message if status = FAILED. Null otherwise.
+  error String? @db.Text
+
+  /// Who triggered this run: 'cron' for scheduled, admin UUID for manual.
+  triggeredBy String @default("cron") @map("triggered_by") @db.VarChar(255)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// One run has zero or more issues.
+  issues ReconciliationIssue[]
+
+  @@index([ranAt])
+  @@index([status])
+  @@map("reconciliation_runs")
+}
+
+// =============================================================
+// ReconciliationIssue - A single mismatch found during a run.
+//
+// Records the exact discrepancy: tenant X, feature Y, period Z
+// has expected=35000 but actual=34998, difference=2.
+//
+// The admin investigates: was it a lost Kafka message? A duplicate
+// aggregation? A seed data artifact? They resolve or acknowledge.
+//
+// Design decisions:
+//   - expected and actual are both INT (matching usage_aggregates.amount).
+//   - difference = expected - actual. Positive means under-billed
+//     (lost events). Negative means over-billed (duplicate aggregation).
+//   - notes field for admin to document investigation findings.
+//   - No FK to tenant or feature - plain strings. Must survive
+//     entity deletion for compliance (same pattern as audit_logs).
+//
+// Indexes:
+//   - (runId): "show me all issues from this run"
+//   - (tenantId): "show me all issues for this tenant"
+//   - (status): "show me all unresolved issues"
+// =============================================================
+
+model ReconciliationIssue {
+  /// UUID v4 primary key.
+  id String @id @default(uuid()) @db.Uuid
+
+  /// The reconciliation run that discovered this mismatch.
+  runId String @map("run_id") @db.Uuid
+  run   ReconciliationRun @relation(fields: [runId], references: [id])
+
+  /// Which tenant has the discrepancy.
+  tenantId String @map("tenant_id") @db.Uuid
+
+  /// Which feature's usage doesn't match.
+  featureLookupKey String @map("feature_lookup_key") @db.VarChar(100)
+
+  /// Which billing period: "2026-05" (monthly), "2026" (annual), "lifetime".
+  periodKey String @map("period_key") @db.VarChar(20)
+
+  /// SUM(usage_events.amount) for this tenant + feature + period.
+  /// What the pipeline SHOULD have aggregated.
+  expected Int
+
+  /// usage_aggregates.amount for this tenant + feature + period.
+  /// What was actually recorded in the aggregate table.
+  actual Int
+
+  /// expected - actual.
+  /// Positive = under-billed (lost events). Negative = over-billed (duplicates).
+  difference Int
+
+  /// Issue lifecycle status.
+  status ReconciliationIssueStatus @default(OPEN)
+
+  /// Admin notes documenting investigation and resolution.
+  notes String? @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([runId])
+  @@index([tenantId])
+  @@index([status])
+  @@map("reconciliation_issues")
+}
