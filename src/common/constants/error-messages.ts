@@ -189,4 +189,12 @@ export const ERRORS = {
   AUDIT: {
     NOT_FOUND: 'Audit log entry not found',
   },
+  DEAD_LETTER: {
+    NOT_FOUND: 'Dead letter event not found',
+    ALREADY_RESOLVED: 'Event is already resolved - nothing to retry',
+    ALREADY_DISCARDED: 'Event was discarded - cannot retry',
+  },
+  RECONCILIATION: {
+    ISSUE_NOT_FOUND: 'Reconciliation issue not found',
+  },
 } as const;
