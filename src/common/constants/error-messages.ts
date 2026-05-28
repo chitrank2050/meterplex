@@ -194,4 +194,7 @@ export const ERRORS = {
     ALREADY_RESOLVED: 'Event is already resolved - nothing to retry',
     ALREADY_DISCARDED: 'Event was discarded - cannot retry',
   },
+  RECONCILIATION: {
+    ISSUE_NOT_FOUND: 'Reconciliation issue not found',
+  },
 } as const;

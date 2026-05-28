@@ -25,10 +25,12 @@
  *   3. Phantom aggregates: usage_aggregates row exists but no matching
  *      events (e.g., from a direct DB edit or seed data mismatch).
  */
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 
 import { PrismaService } from '@app-prisma/prisma.service';
+
+import { ERRORS } from '@common/constants';
 
 import {
   ReconciliationIssueStatus,
@@ -305,5 +307,65 @@ export class ReconciliationService {
         totalPages: Math.ceil(total / pageSize),
       },
     };
+  }
+
+  /**
+   * Get a single reconciliation issue by ID.
+   *
+   * @param id - Reconciliation issue UUID
+   * @returns The issue with full details
+   * @throws NotFoundException if issue doesn't exist
+   */
+  async findIssueById(id: string) {
+    const issue = await this.prisma.reconciliationIssue.findUnique({
+      where: { id },
+    });
+
+    if (!issue) {
+      throw new NotFoundException(ERRORS.RECONCILIATION.ISSUE_NOT_FOUND);
+    }
+
+    return issue;
+  }
+
+  /**
+   * Acknowledge a reconciliation issue - admin has seen it,
+   * investigation in progress.
+   *
+   * @param id - Reconciliation issue UUID
+   * @param notes - Optional admin notes
+   * @returns The updated issue
+   * @throws NotFoundException if issue doesn't exist
+   */
+  async acknowledgeIssue(id: string, notes?: string) {
+    await this.findIssueById(id);
+
+    return this.prisma.reconciliationIssue.update({
+      where: { id },
+      data: {
+        status: ReconciliationIssueStatus.ACKNOWLEDGED,
+        ...(notes && { notes }),
+      },
+    });
+  }
+
+  /**
+   * Resolve a reconciliation issue - mismatch explained or corrected.
+   *
+   * @param id - Reconciliation issue UUID
+   * @param notes - Resolution explanation
+   * @returns The updated issue
+   * @throws NotFoundException if issue doesn't exist
+   */
+  async resolveIssue(id: string, notes?: string) {
+    await this.findIssueById(id);
+
+    return this.prisma.reconciliationIssue.update({
+      where: { id },
+      data: {
+        status: ReconciliationIssueStatus.RESOLVED,
+        ...(notes && { notes }),
+      },
+    });
   }
 }
