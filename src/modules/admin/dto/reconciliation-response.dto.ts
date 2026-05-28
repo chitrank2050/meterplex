@@ -81,6 +81,12 @@ export class ReconciliationIssueResponseDto {
   })
   runId!: string;
 
+  @ApiProperty({
+    example: 'usage',
+    description: 'Issue category: usage or subscription_payment',
+  })
+  category!: string;
+
   @ApiProperty({ example: 'f239538d-...' })
   tenantId!: string;
 
