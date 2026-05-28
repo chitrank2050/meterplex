@@ -1901,6 +1901,10 @@ model ReconciliationIssue {
   runId String @map("run_id") @db.Uuid
   run   ReconciliationRun @relation(fields: [runId], references: [id])
 
+  /// Category of mismatch: 'usage' or 'subscription_payment'.
+  /// Allows filtering issues by type in the admin UI.
+  category String @default("usage") @db.VarChar(50)
+
   /// Which tenant has the discrepancy.
   tenantId String @map("tenant_id") @db.Uuid
 
@@ -1932,6 +1936,7 @@ model ReconciliationIssue {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([runId])
+  @@index([category])
   @@index([tenantId])
   @@index([status])
   @@map("reconciliation_issues")
