@@ -17,6 +17,7 @@ import { CacheModule } from '@infra/cache';
 import { MessagingModule } from '@infra/messaging';
 import { OutboxModule } from '@infra/outbox';
 
+import { AdminModule } from '@modules/admin';
 import { ApiKeysModule } from '@modules/api-keys';
 import { AuthModule } from '@modules/auth';
 import { EntitlementCheckModule } from '@modules/entitlement-check';
@@ -74,6 +75,7 @@ import { PrismaModule } from './prisma';
     UsagePipelineModule,
     InvoicesModule,
     PaymentsModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [
