@@ -6,8 +6,6 @@ settings:
 
 overrides:
   '@hono/node-server': '>=1.19.13'
-  hono: '>=4.12.16'
-  fast-uri: '>=3.1.2'
 
 importers:
 
@@ -566,7 +564,7 @@ packages:
     resolution: {integrity: sha512-a0jV+/HRe3G5zjFID3zObAQFdkl6zpxTuqktdDDXS3MJKcrZIkB8OkLpNBlY/WXFqv2HF4a0takPej+aNFczWA==}
     engines: {node: '>=20'}
     peerDependencies:
-      hono: '>=4.12.16'
+      hono: ^4
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
