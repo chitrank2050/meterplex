@@ -1,7 +1,7 @@
 packages:
   - '.'
 overrides:
-  '@hono/node-server': '>=1.19.13'
+  '@hono/node-server': '>=2.0.6'
 publicHoistPattern:
   - '*'
 packageImportMethod: clone-or-copy
