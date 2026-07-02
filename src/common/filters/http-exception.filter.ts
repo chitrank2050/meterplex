@@ -62,8 +62,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (isHttpException) {
       if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
         message = (exceptionResponse as Record<string, unknown>)['message'] as
-          | string
-          | string[];
+          string | string[];
       } else if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
       }
