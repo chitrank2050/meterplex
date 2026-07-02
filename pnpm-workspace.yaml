@@ -2,6 +2,15 @@ packages:
   - '.'
 overrides:
   '@hono/node-server': '>=1.19.13'
+  esbuild: '>=0.28.1'
+  form-data: '>=4.0.6'
+  hono: '>=4.12.25'
+  js-yaml: '>=4.2.0'
+  linkify-it: '>=5.0.1'
+  markdown-it: '>=14.2.0'
+  multer: '>=2.2.0'
+  piscina: '>=4.9.3'
+  vite: '>=8.0.16'
 publicHoistPattern:
   - '*'
 packageImportMethod: clone-or-copy
