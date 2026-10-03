@@ -9,7 +9,7 @@ overrides:
   js-yaml: '>=4.2.0'
   linkify-it: '>=5.0.1'
   markdown-it: '>=14.2.0'
-  multer: '>=2.2.0'
+  multer: '>=2.4.0'
   piscina: '>=4.9.3'
   vite: '>=8.0.16'
 
