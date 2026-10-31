@@ -30,25 +30,25 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
 
       - name: Checkout repository 📥
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Node.js 🟢
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Get Recommended Bump 🌊
         id: bump
         if: github.event.inputs.tag_name == ''
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
+        uses: chitranklabs/git-hygiene@48c2a75c76ae4b3ae0875d2bed55b8047188e66c # v0.5.1
         with:
           command: 'bump'
 
@@ -108,7 +108,7 @@ jobs:
           jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
 
       - name: Update CHANGELOG.md 📝
-        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff # v4.9.1
         with:
           config: cliff.toml
           args: --tag ${{ steps.vars.outputs.tag_name }} --output CHANGELOG.md
@@ -116,7 +116,7 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Generate PR Body 📝
-        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff # v4.9.1
         id: git-cliff-pr
         with:
           config: cliff.toml
