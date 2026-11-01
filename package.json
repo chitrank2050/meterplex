@@ -116,7 +116,7 @@
     "pg": "^8.22.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "stripe": "^22.3.0",
+    "stripe": "^23.1.0",
     "winston": "^3.19.0"
   },
   "devDependencies": {
